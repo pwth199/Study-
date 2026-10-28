@@ -1726,10 +1726,6 @@ function previewPetLive(id){
   render();
   toast('Đang xem linh thú: ' + id);
 }
-  applyGardenTheme();
-  toast('Đã lưu tên & hình ảnh giao diện mới!');
-  render();
-}
 
 /* --- TAB 2: ĐỔI MẬT KHẨU ADMIN --- */
 function vAdminSecurity(){
@@ -3048,57 +3044,6 @@ function saveUserPetName(){
   save();
   render();
   toast('Đã lưu tên linh vật: ' + name);
-}
-        <div class="text-xs font-bold uppercase tracking-wider text-emerald-900 mb-2">Bảo Vật Trang Trí Phòng:</div>
-        <div class="grid grid-cols-3 gap-2">
-          ${ITEMS.map(([e,n,f,r])=>`
-            <div class="rounded-xl p-2.5 text-center border transition ${f()?'bg-white border-emerald-200 shadow-sm':'bg-slate-50 border-slate-200 lock'}">
-              <div class="text-3xl mb-1">${e}</div>
-              <div class="text-xs font-bold text-emerald-950">${n}</div>
-              <div class="text-[10px] text-emerald-700 mt-0.5">${f()?'Đã mở khóa':r}</div>
-            </div>
-          `).join('')}
-        </div>
-      </div>
-
-      <button class="btn y w-full mt-5" onclick="waterPlant()">
-        <span>💧</span> <span>Điểm Danh & Tưới Nước Hôm Nay (+10 Giọt Sương)</span>
-      </button>
-    </section>
-
-    <section class="card border-t-4 border-t-teal-600 flex flex-col justify-between">
-      <div>
-        <div class="flex items-center justify-between mb-2">
-          <h2 class="font-extrabold text-xl text-emerald-950 font-fun flex items-center gap-2">
-            <span>📊</span> <span>Chỉ Số Phát Triển</span>
-          </h2>
-          <span class="text-xs bg-teal-100 text-teal-900 px-2.5 py-1 rounded-full font-bold">5 Chiều</span>
-        </div>
-        <p class="text-xs text-emerald-700 mb-3">Tăng qua việc làm bài tập trắc nghiệm, tự luận, vấn đáp và học bài</p>
-
-        <div class="p-2 bg-gradient-to-b from-emerald-50/50 to-white rounded-2xl border border-emerald-100">
-          ${radar()}
-        </div>
-      </div>
-
-      <div class="mt-6 pt-4 border-t border-emerald-100">
-        <h3 class="font-extrabold text-sm text-emerald-950 mb-1 flex items-center gap-1.5">
-          <span>⏰</span> <span>Nhắc Học Hằng Ngày</span>
-        </h3>
-        <p class="text-xs text-emerald-700 mb-3">Nhận thông báo để duy trì chuỗi ngày liên tục</p>
-        
-        <div class="flex items-center gap-2 flex-wrap">
-          <input type="time" value="${S.remind}" class="!w-auto font-bold text-emerald-900" onchange="S.remind=this.value;save()">
-          <button class="btn g sm" onclick="remind()">🔔 Bật Nhắc Nhở</button>
-        </div>
-
-        <div class="mt-3 text-xs text-emerald-800 flex items-center gap-1.5">
-          <span>${S.last===TODAY()?'🌿 Hôm nay bạn đã học. Giữ chuỗi nhé!':'⚠️ Hôm nay bạn chưa học bài nào.'}</span>
-        </div>
-      </div>
-    </section>
-  </div>
-  `;
 }
 
 function vAscensionMap(){
