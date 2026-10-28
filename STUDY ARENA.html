@@ -189,7 +189,7 @@ header,main,footer,#toast{position:relative;z-index:10}
             <span class="font-bold text-xs text-amber-950 uppercase tracking-wider">🔐 Xác Thực Quản Trị</span>
             <button class="text-slate-400 hover:text-slate-700 font-bold text-sm" onclick="closeAdminPinDropdown()">✕</button>
           </div>
-          <p class="text-xs text-emerald-800 mb-2.5">Nhập mật khẩu (mặc định: <code class="font-bold text-amber-800 bg-amber-50 px-1 py-0.5 rounded">${ADMIN_PIN}</code>):</p>
+          <p class="text-xs text-emerald-800 mb-2.5">Nhập mật khẩu (mặc định: <code id="defaultPinHint" class="font-bold text-amber-800 bg-amber-50 px-1 py-0.5 rounded">admin2026</code>):</p>
           <input id="adminPinInput" type="password" placeholder="Mật khẩu quản trị…" class="text-center font-bold text-sm mb-2" onkeydown="if(event.key==='Enter')verifyAdminPin()">
           <div class="flex gap-1.5">
             <button class="btn sm y flex-1" onclick="verifyAdminPin()">Vào Quản Trị</button>
@@ -621,6 +621,7 @@ function handleAdminNavClick(){
   }else{
     // Nếu chưa xác thực, mở dropdown nhập mã PIN nhanh ngay dưới nút
     const d=$('#adminPinDropdown');if(!d)return;
+    const hint=$('#defaultPinHint');if(hint)hint.textContent=ADMIN_PIN;
     d.classList.toggle('hidden');
     setTimeout(()=>{const inp=$('#adminPinInput');if(inp)inp.focus()},50);
   }
