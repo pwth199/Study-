@@ -124,7 +124,55 @@ input:focus,select:focus,textarea:focus{
 @keyframes pop{50%{transform:scale(1.2)}}
 .pop{animation:pop .45s ease}
 #leafCanvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0}
-header,main,footer,#toast{position:relative;z-index:10}
+header{position:relative;z-index:100}
+main{position:relative;z-index:10}
+footer{position:relative;z-index:10}
+#toast{position:fixed;z-index:99999}
+
+/* POPUP DROPDOWN TRÊN CÙNG (ĐÈ LÊN GIAO DIỆN MỘT CÁCH GỌN GÀNG, KHÔNG BỊ CHE KHUẤT) */
+.popup-dropdown {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  width: 320px;
+  max-width: min(340px, calc(100vw - 32px));
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 16px 18px;
+  box-shadow: 0 20px 45px -10px rgba(15, 56, 44, 0.28), 0 4px 16px rgba(15, 56, 44, 0.08);
+  z-index: 9999;
+  animation: fadeInDown 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.popup-dropdown.admin-dropdown {
+  border: 2px solid #fcd34d;
+}
+.popup-dropdown.auth-dropdown {
+  border: 2px solid #6ee7b7;
+}
+.popup-dropdown::before {
+  content: '';
+  position: absolute;
+  top: -7px;
+  right: 24px;
+  width: 12px;
+  height: 12px;
+  background: #ffffff;
+  transform: rotate(45deg);
+  border-top: 2px solid;
+  border-left: 2px solid;
+  border-color: inherit;
+  z-index: 10000;
+}
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 .admin-badge{
   background:linear-gradient(135deg,#ffb703,#e76f51);
   color:#fff;
@@ -154,11 +202,11 @@ header,main,footer,#toast{position:relative;z-index:10}
 <canvas id="leafCanvas"></canvas>
 
 <!-- THANH HEADER KHU VƯỜN (MỌI TÍNH NĂNG TƯƠNG TÁC ĐỀU NẰM TRỰC TIẾP TẠI CÁC NÚT NÀY) -->
-<header class="max-w-6xl mx-auto px-4 pt-4">
-  <div class="flex items-center justify-between flex-wrap gap-3">
+<header class="max-w-6xl mx-auto px-4 pt-4 relative z-50">
+  <div class="flex items-center justify-between flex-wrap gap-4">
     <!-- LOGO VÀ TÊN HỆ THỐNG -->
-    <div class="flex items-center gap-3 cursor-pointer" onclick="go('learn')">
-      <div id="siteLogoWrap" class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-emerald-600 to-teal-400 flex items-center justify-center text-2xl shadow-lg shadow-emerald-700/20 anim-float overflow-hidden">
+    <div class="flex items-center gap-3 cursor-pointer select-none" onclick="go('learn')">
+      <div id="siteLogoWrap" class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-emerald-600 to-teal-400 flex items-center justify-center text-2xl shadow-lg shadow-emerald-700/20 anim-float overflow-hidden shrink-0">
         <span id="siteLogoIcon">🌿</span>
       </div>
       <div>
@@ -171,54 +219,81 @@ header,main,footer,#toast{position:relative;z-index:10}
     </div>
 
     <!-- KHU VỰC CÁC NÚT ĐIỀU KHIỂN Ở TRÊN CÙNG (HÌNH 1) -->
-    <div class="flex items-center gap-2 flex-wrap">
+    <div class="flex items-center gap-2.5 flex-wrap">
       <!-- 1. NÚT ÂM THANH -->
-      <button class="btn sm outline" onclick="toggleAudio()" id="btnAudio" title="Bật/Tắt âm thanh khu vườn">
+      <button class="btn sm outline shrink-0" onclick="toggleAudio()" id="btnAudio" title="Bật/Tắt âm thanh khu vườn">
         🔊 Âm thanh
       </button>
 
       <!-- 2. NÚT QUẢN TRỊ VƯỜN (TÍCH HỢP XÁC THỰC & MỞ BẢNG ĐIỀU KHIỂN TRỰC TIẾP) -->
-      <div class="relative" id="adminWrap">
+      <div class="relative shrink-0" id="adminWrap">
         <button class="btn sm y" onclick="handleAdminNavClick()" id="btnAdminNav" title="Mở trung tâm quản trị toàn năng">
           <span>⚙️</span> <span>Quản Trị Vườn</span>
         </button>
 
-        <!-- DROPDOWN PIN QUẢN TRỊ NHẸ NHÀNG (KHÔNG MODAL CHE MÀN HÌNH) -->
-        <div id="adminPinDropdown" class="hidden absolute right-0 mt-2 w-80 card p-4 border-2 border-amber-400 shadow-2xl z-50">
-          <div class="flex items-center justify-between mb-2 pb-2 border-b border-amber-200">
-            <span class="font-bold text-xs text-amber-950 uppercase tracking-wider">🔐 Xác Thực Quản Trị</span>
-            <button class="text-slate-400 hover:text-slate-700 font-bold text-sm" onclick="closeAdminPinDropdown()">✕</button>
+        <!-- DROPDOWN PIN QUẢN TRỊ (KHÔNG MODAL, ĐÈ LÊN TRÊN GỌN GÀNG) -->
+        <div id="adminPinDropdown" class="hidden popup-dropdown admin-dropdown">
+          <div class="flex items-center justify-between mb-2.5 pb-2 border-b border-amber-200">
+            <span class="font-bold text-xs text-amber-950 uppercase tracking-wider flex items-center gap-1.5">
+              <span>🔐</span> <span>Xác Thực Quản Trị</span>
+            </span>
+            <button class="text-slate-400 hover:text-slate-700 font-bold text-base p-1 leading-none rounded-lg hover:bg-slate-100" onclick="closeAdminPinDropdown()" title="Đóng">✕</button>
           </div>
-          <p class="text-xs text-emerald-800 mb-2.5">Nhập mật khẩu (mặc định: <code id="defaultPinHint" class="font-bold text-amber-800 bg-amber-50 px-1 py-0.5 rounded">admin2026</code>):</p>
-          <input id="adminPinInput" type="password" placeholder="Mật khẩu quản trị…" class="text-center font-bold text-sm mb-2" onkeydown="if(event.key==='Enter')verifyAdminPin()">
-          <div class="flex gap-1.5">
-            <button class="btn sm y flex-1" onclick="verifyAdminPin()">Vào Quản Trị</button>
-            <button class="btn sm outline flex-1" onclick="$('#adminPinInput').value=ADMIN_PIN;verifyAdminPin()">⚡ 1 Chạm</button>
+          <p class="text-xs text-emerald-800 mb-2 leading-relaxed">Nhập mật khẩu (mặc định: <code id="defaultPinHint" class="font-bold text-amber-800 bg-amber-50 px-1.5 py-0.5 rounded border border-amber-200">admin2026</code>):</p>
+          <input id="adminPinInput" 
+                 type="password" 
+                 autocomplete="new-password" 
+                 autocorrect="off" 
+                 autocapitalize="off" 
+                 spellcheck="false" 
+                 data-lpignore="true" 
+                 placeholder="Mật khẩu quản trị…" 
+                 class="text-center font-bold text-sm mb-2.5 w-full bg-amber-50/40 border border-amber-300 rounded-xl py-2 px-3 focus:outline-none focus:ring-2 focus:ring-amber-400" 
+                 onkeydown="if(event.key==='Enter')verifyAdminPin()">
+          <div class="flex gap-2">
+            <button class="btn sm y flex-1 !py-2" onclick="verifyAdminPin()">Vào Quản Trị</button>
+            <button class="btn sm outline flex-1 !py-2" onclick="$('#adminPinInput').value=ADMIN_PIN;verifyAdminPin()">⚡ 1 Chạm</button>
           </div>
         </div>
       </div>
 
       <!-- 3. NÚT ĐĂNG NHẬP TRỰC TIẾP (TÍCH HỢP LUÔN TẠI NÚT NÀY, KHÔNG MODAL POPUP) -->
-      <div class="relative" id="authWrap">
+      <div class="relative shrink-0" id="authWrap">
         <div id="auth"></div>
 
-        <!-- DROPDOWN ĐĂNG NHẬP NHANH TRỰC TIẾP DƯỚI NÚT -->
-        <div id="authDropdown" class="hidden absolute right-0 mt-2 w-72 card p-4 border-2 border-emerald-300 shadow-2xl z-50">
-          <div class="flex items-center justify-between mb-2 pb-2 border-b border-emerald-100">
-            <span class="font-bold text-xs text-emerald-950 uppercase tracking-wider">🌸 Đăng Nhập Nhanh</span>
-            <button class="text-slate-400 hover:text-slate-700 font-bold text-sm" onclick="closeAuthDropdown()">✕</button>
+        <!-- DROPDOWN ĐĂNG NHẬP NHANH (KHÔNG MODAL, ĐÈ LÊN TRÊN GỌN GÀNG) -->
+        <div id="authDropdown" class="hidden popup-dropdown auth-dropdown">
+          <div class="flex items-center justify-between mb-2.5 pb-2 border-b border-emerald-100">
+            <span class="font-bold text-xs text-emerald-950 uppercase tracking-wider flex items-center gap-1.5">
+              <span>🌸</span> <span>Đăng Nhập Nhanh</span>
+            </span>
+            <button class="text-slate-400 hover:text-slate-700 font-bold text-base p-1 leading-none rounded-lg hover:bg-slate-100" onclick="closeAuthDropdown()" title="Đóng">✕</button>
           </div>
-          <p class="text-xs text-emerald-700 mb-3">Chọn hình thức đăng nhập để lưu giữ tiến độ:</p>
-          <div class="space-y-1.5">
-            <button class="btn sm w-full" onclick="quickLogin('Google')">Tiếp tục với Google</button>
-            <button class="btn sm g w-full" onclick="quickLogin('Facebook')">Tiếp tục với Facebook</button>
-            <button class="btn sm outline w-full" onclick="quickLogin('Khách Vãng Lai')">Học ẩn danh (Khách)</button>
+          <p class="text-xs text-emerald-700 mb-3 leading-relaxed">Chọn hình thức đăng nhập để lưu giữ tiến độ:</p>
+          <div class="space-y-2">
+            <button class="btn sm w-full !justify-start !px-3.5 !py-2.5 gap-2.5 shadow-sm" onclick="quickLogin('Google')">
+              <span class="text-base">🌐</span> <span>Tiếp tục với Google</span>
+            </button>
+            <button class="btn sm g w-full !justify-start !px-3.5 !py-2.5 gap-2.5 shadow-sm" onclick="quickLogin('Facebook')">
+              <span class="text-base">📘</span> <span>Tiếp tục với Facebook</span>
+            </button>
+            <button class="btn sm outline w-full !justify-start !px-3.5 !py-2.5 gap-2.5 shadow-sm" onclick="quickLogin('Khách Vãng Lai')">
+              <span class="text-base">🌿</span> <span>Học ẩn danh (Khách)</span>
+            </button>
           </div>
-          <div class="mt-3 pt-3 border-t border-emerald-100">
-            <label class="text-[11px] font-bold text-emerald-900 block mb-1">Hoặc nhập tên riêng của bạn:</label>
+          <div class="mt-3.5 pt-3 border-t border-emerald-100">
+            <label class="text-[11px] font-bold text-emerald-900 block mb-1.5">Hoặc nhập tên riêng của bạn:</label>
             <div class="flex gap-1.5">
-              <input id="customUserName" placeholder="Ví dụ: Phương Thảo…" class="text-xs font-semibold py-1.5" onkeydown="if(event.key==='Enter')loginWithName()">
-              <button class="btn sm g" onclick="loginWithName()">Vào</button>
+              <input id="customUserName" 
+                     type="text" 
+                     autocomplete="off" 
+                     autocorrect="off" 
+                     autocapitalize="off" 
+                     spellcheck="false" 
+                     placeholder="Ví dụ: Phương Thảo…" 
+                     class="text-xs font-semibold py-2 px-3 border border-emerald-300 rounded-xl flex-1 focus:outline-none focus:ring-2 focus:ring-emerald-400" 
+                     onkeydown="if(event.key==='Enter')loginWithName()">
+              <button class="btn sm g !py-2 !px-4 shrink-0" onclick="loginWithName()">Vào</button>
             </div>
           </div>
         </div>
@@ -227,7 +302,7 @@ header,main,footer,#toast{position:relative;z-index:10}
   </div>
 
   <!-- NAVIGATION TABS & CHIP TIẾN TRÌNH -->
-  <div class="flex flex-wrap items-center gap-3 justify-between mt-4 pb-2 border-b border-emerald-200/60">
+  <div class="flex flex-wrap items-center gap-3 justify-between mt-4 pb-2 border-b border-emerald-200/60 relative z-10">
     <nav class="flex gap-1 bg-white/80 p-1.5 rounded-full shadow-sm border border-emerald-200/70" id="nav"></nav>
     <div id="chip" class="font-bold text-xs sm:text-sm text-emerald-900 bg-emerald-100/90 px-3.5 py-1.5 rounded-full border border-emerald-300 shadow-sm flex items-center gap-2"></div>
   </div>
@@ -385,8 +460,8 @@ let S={
   streak:1,
   last:TODAY(),
   done:1,
-  grade:'Đại học năm 1',
-  subject:'Toán giải tích',
+  grade:'Lớp 9',
+  subject:'Toán học',
   hrs:2,
   files:[],
   focus:[...DEFAULT_KNOW],
@@ -420,6 +495,17 @@ if(!S.remind) S.remind='20:00';
 if(S.xp===undefined||isNaN(S.xp)) S.xp=45;
 if(S.streak===undefined||isNaN(S.streak)) S.streak=1;
 if(!S.focus||!Array.isArray(S.focus)||!S.focus.length) S.focus=[...CONTENT.KNOW];
+
+// Khối lớp hợp lệ (Đã loại bỏ hoàn toàn Lớp 10, 11, 12 theo yêu cầu)
+const VALID_GRADES = [
+  'Lớp 1', 'Lớp 2', 'Lớp 3', 'Lớp 4', 'Lớp 5',
+  'Lớp 6', 'Lớp 7', 'Lớp 8', 'Lớp 9',
+  'Đại học năm 1', 'Đại học năm 2', 'Đại học năm 3', 'Đại học năm 4',
+  'Học viên tự do'
+];
+if (!S.grade || ['Lớp 10', 'Lớp 11', 'Lớp 12'].includes(S.grade) || !VALID_GRADES.includes(S.grade)) {
+  S.grade = 'Lớp 9';
+}
 
 const save=()=>{
   try{
@@ -524,8 +610,8 @@ function head(){
   const authEl=$('#auth');
   if(authEl){
     authEl.innerHTML=S.user?`
-      <button class="btn sm outline" onclick="toggleAuthDropdown()" title="Tài khoản">
-        <span>👤 ${S.user.name}</span> <span class="text-[10px]">▼</span>
+      <button class="btn sm outline max-w-[160px] sm:max-w-xs" onclick="toggleAuthDropdown()" title="Tài khoản: ${S.user.name}">
+        <span class="truncate">👤 ${S.user.name}</span> <span class="text-[10px] shrink-0">▼</span>
       </button>
     `:`
       <button class="btn sm outline" onclick="toggleAuthDropdown()" title="Đăng nhập ngay tại đây">
@@ -553,39 +639,107 @@ function render(){
 }
 
 /* ==================== 8. XỬ LÝ NÚT ĐĂNG NHẬP TRỰC TIẾP TẠI NÚT TRÊN CÙNG ==================== */
-function toggleAuthDropdown(){
+function renderAuthDropdownContent(){
   const d=$('#authDropdown');if(!d)return;
-  closeAdminPinDropdown();
   if(S.user){
-    // Nếu đã đăng nhập, hiển thị tùy chọn thông tin & đăng xuất
+    // Khi đã đăng nhập: hiển thị bảng thông tin học viên & nút đăng xuất
     d.innerHTML=`
-      <div class="flex items-center justify-between mb-2 pb-2 border-b border-emerald-100">
-        <span class="font-bold text-xs text-emerald-950 uppercase tracking-wider">👤 Tài Khoản Học Viên</span>
-        <button class="text-slate-400 hover:text-slate-700 font-bold text-sm" onclick="closeAuthDropdown()">✕</button>
+      <div class="flex items-center justify-between mb-2.5 pb-2 border-b border-emerald-100">
+        <span class="font-bold text-xs text-emerald-950 uppercase tracking-wider flex items-center gap-1.5">
+          <span>👤</span> <span>Tài Khoản Học Viên</span>
+        </span>
+        <button class="text-slate-400 hover:text-slate-700 font-bold text-base p-1 leading-none rounded-lg hover:bg-slate-100" onclick="closeAuthDropdown()" title="Đóng">✕</button>
       </div>
-      <p class="text-xs font-bold text-emerald-900 mb-2">Xin chào: <span class="text-teal-700">${S.user.name}</span></p>
-      <div class="space-y-2">
+      <p class="text-xs font-bold text-emerald-900 mb-2.5">Xin chào: <span class="text-teal-700 font-extrabold">${S.user.name}</span></p>
+      <div class="space-y-3">
         <div>
           <label class="text-[11px] font-bold text-emerald-800 block mb-1">Đổi tên hiển thị:</label>
           <div class="flex gap-1.5">
-            <input id="editUserName" value="${S.user.name}" class="text-xs font-semibold py-1.5" onkeydown="if(event.key==='Enter')renameUser()">
-            <button class="btn sm g" onclick="renameUser()">Lưu</button>
+            <input id="editUserName" 
+                   type="text" 
+                   autocomplete="off" 
+                   autocorrect="off" 
+                   autocapitalize="off" 
+                   spellcheck="false" 
+                   value="${S.user.name}" 
+                   class="text-xs font-semibold py-2 px-3 border border-emerald-300 rounded-xl flex-1 focus:outline-none focus:ring-2 focus:ring-emerald-400" 
+                   onkeydown="if(event.key==='Enter')renameUser()">
+            <button class="btn sm g !py-2 !px-4 shrink-0" onclick="renameUser()">Lưu</button>
           </div>
         </div>
-        <button class="btn sm rose w-full mt-2" onclick="logout()">🚪 Đăng Xuất Khỏi Thiết Bị</button>
+        <button class="btn sm rose w-full !py-2.5 shadow-sm" onclick="logout()">🚪 Đăng Xuất Khỏi Thiết Bị</button>
+      </div>
+    `;
+  } else {
+    // Khi chưa đăng nhập: hiển thị danh sách đăng nhập nhanh
+    d.innerHTML=`
+      <div class="flex items-center justify-between mb-2.5 pb-2 border-b border-emerald-100">
+        <span class="font-bold text-xs text-emerald-950 uppercase tracking-wider flex items-center gap-1.5">
+          <span>🌸</span> <span>Đăng Nhập Nhanh</span>
+        </span>
+        <button class="text-slate-400 hover:text-slate-700 font-bold text-base p-1 leading-none rounded-lg hover:bg-slate-100" onclick="closeAuthDropdown()" title="Đóng">✕</button>
+      </div>
+      <p class="text-xs text-emerald-700 mb-3 leading-relaxed">Chọn hình thức đăng nhập để lưu giữ tiến độ:</p>
+      <div class="space-y-2">
+        <button class="btn sm w-full !justify-start !px-3.5 !py-2.5 gap-2.5 shadow-sm" onclick="quickLogin('Google')">
+          <span class="text-base">🌐</span> <span>Tiếp tục với Google</span>
+        </button>
+        <button class="btn sm g w-full !justify-start !px-3.5 !py-2.5 gap-2.5 shadow-sm" onclick="quickLogin('Facebook')">
+          <span class="text-base">📘</span> <span>Tiếp tục với Facebook</span>
+        </button>
+        <button class="btn sm outline w-full !justify-start !px-3.5 !py-2.5 gap-2.5 shadow-sm" onclick="quickLogin('Khách Vãng Lai')">
+          <span class="text-base">🌿</span> <span>Học ẩn danh (Khách)</span>
+        </button>
+      </div>
+      <div class="mt-3.5 pt-3 border-t border-emerald-100">
+        <label class="text-[11px] font-bold text-emerald-900 block mb-1.5">Hoặc nhập tên riêng của bạn:</label>
+        <div class="flex gap-1.5">
+          <input id="customUserName" 
+                 type="text" 
+                 autocomplete="off" 
+                 autocorrect="off" 
+                 autocapitalize="off" 
+                 spellcheck="false" 
+                 placeholder="Ví dụ: Phương Thảo…" 
+                 class="text-xs font-semibold py-2 px-3 border border-emerald-300 rounded-xl flex-1 focus:outline-none focus:ring-2 focus:ring-emerald-400" 
+                 onkeydown="if(event.key==='Enter')loginWithName()">
+          <button class="btn sm g !py-2 !px-4 shrink-0" onclick="loginWithName()">Vào</button>
+        </div>
       </div>
     `;
   }
-  d.classList.toggle('hidden');
 }
+
+function toggleAuthDropdown(){
+  const d=$('#authDropdown');if(!d)return;
+  const wrap=$('#authWrap');
+  closeAdminPinDropdown();
+  renderAuthDropdownContent();
+  const willOpen=d.classList.contains('hidden');
+  d.classList.toggle('hidden');
+  if(wrap){
+    if(willOpen) wrap.style.zIndex='1000';
+    else wrap.style.zIndex='';
+  }
+  if(willOpen){
+    setTimeout(()=>{
+      const inp = S.user ? $('#editUserName') : $('#customUserName');
+      if(inp) inp.focus();
+    }, 50);
+  }
+}
+
 function closeAuthDropdown(){
   const d=$('#authDropdown');if(d)d.classList.add('hidden');
+  const wrap=$('#authWrap');if(wrap)wrap.style.zIndex='';
 }
+
 function quickLogin(p){
   S.user={name:p==='Khách Vãng Lai'?'Khách Yêu Vườn':`Học viên ${p}`,provider:p};
   save();closeAuthDropdown();
   toast('Đăng nhập thành công: '+S.user.name);head();
 }
+
 function loginWithName(){
   const inp=$('#customUserName');if(!inp)return;
   const name=inp.value.trim();
@@ -594,6 +748,7 @@ function loginWithName(){
   save();closeAuthDropdown();
   toast('Chào mừng '+name+' đến với Vườn Tri Thức!');head();
 }
+
 function renameUser(){
   const inp=$('#editUserName');if(!inp)return;
   const name=inp.value.trim();
@@ -602,6 +757,7 @@ function renameUser(){
   S.user.name=name;save();closeAuthDropdown();
   toast('Đã cập nhật tên: '+name);head();
 }
+
 function logout(){
   S.user=null;save();closeAuthDropdown();
   toast('Đã đăng xuất');head();
@@ -621,14 +777,25 @@ function handleAdminNavClick(){
   }else{
     // Nếu chưa xác thực, mở dropdown nhập mã PIN nhanh ngay dưới nút
     const d=$('#adminPinDropdown');if(!d)return;
+    const wrap=$('#adminWrap');
     const hint=$('#defaultPinHint');if(hint)hint.textContent=ADMIN_PIN;
+    const willOpen=d.classList.contains('hidden');
     d.classList.toggle('hidden');
-    setTimeout(()=>{const inp=$('#adminPinInput');if(inp)inp.focus()},50);
+    if(wrap){
+      if(willOpen) wrap.style.zIndex='1000';
+      else wrap.style.zIndex='';
+    }
+    if(willOpen){
+      setTimeout(()=>{const inp=$('#adminPinInput');if(inp)inp.focus()},50);
+    }
   }
 }
+
 function closeAdminPinDropdown(){
   const d=$('#adminPinDropdown');if(d)d.classList.add('hidden');
+  const wrap=$('#adminWrap');if(wrap)wrap.style.zIndex='';
 }
+
 function verifyAdminPin(){
   const inp=$('#adminPinInput');if(!inp)return;
   const v=inp.value.trim();
@@ -819,17 +986,39 @@ function vAdminSecurity(){
     <div class="text-center mb-4">
       <span class="text-4xl">🔑</span>
       <h4 class="font-extrabold text-base text-emerald-950 font-fun mt-1">Đổi Mật Khẩu Quản Trị Viên</h4>
-      <p class="text-xs text-emerald-700">Mật khẩu hiện tại: <b class="font-mono text-emerald-900">${ADMIN_PIN}</b></p>
+      <p class="text-xs text-emerald-700">Mật khẩu hiện tại: <b class="font-mono text-emerald-900 bg-white/80 px-2 py-0.5 rounded border border-emerald-300">${ADMIN_PIN}</b></p>
     </div>
 
     <div class="space-y-3">
       <div>
         <label class="text-xs font-bold text-emerald-900 block mb-1">Mật khẩu mới:</label>
-        <input id="newAdminPinInput" type="text" placeholder="Nhập mật khẩu mới…" value="${ADMIN_PIN}" class="font-bold text-emerald-950">
+        <input id="newAdminPinInput" 
+               type="password" 
+               autocomplete="new-password" 
+               autocorrect="off" 
+               autocapitalize="off" 
+               spellcheck="false" 
+               data-lpignore="true" 
+               placeholder="Nhập mật khẩu mới…" 
+               value="${ADMIN_PIN}" 
+               class="font-bold text-emerald-950">
       </div>
       <div>
         <label class="text-xs font-bold text-emerald-900 block mb-1">Xác nhận lại mật khẩu mới:</label>
-        <input id="confirmAdminPinInput" type="text" placeholder="Nhập lại mật khẩu mới…" value="${ADMIN_PIN}" class="font-bold text-emerald-950">
+        <input id="confirmAdminPinInput" 
+               type="password" 
+               autocomplete="new-password" 
+               autocorrect="off" 
+               autocapitalize="off" 
+               spellcheck="false" 
+               data-lpignore="true" 
+               placeholder="Nhập lại mật khẩu mới…" 
+               value="${ADMIN_PIN}" 
+               class="font-bold text-emerald-950">
+      </div>
+      <div class="flex items-center gap-2 pt-1">
+        <input type="checkbox" id="toggleShowPass" class="w-4 h-4 accent-emerald-600 rounded cursor-pointer" onchange="toggleAdminPassVisibility(this.checked)">
+        <label for="toggleShowPass" class="text-xs font-semibold text-emerald-800 cursor-pointer select-none">Hiển thị ký tự mật khẩu</label>
       </div>
       <button class="btn y w-full mt-2" onclick="saveAdminPassword()">
         <span>🔒</span> <span>Cập Nhật Mật Khẩu Admin</span>
@@ -837,6 +1026,14 @@ function vAdminSecurity(){
     </div>
   </div>
   `;
+}
+
+function toggleAdminPassVisibility(show){
+  const t = show ? 'text' : 'password';
+  const p1 = $('#newAdminPinInput');
+  const p2 = $('#confirmAdminPinInput');
+  if(p1) p1.type = t;
+  if(p2) p2.type = t;
 }
 
 function saveAdminPassword(){
@@ -1159,12 +1356,22 @@ function vLearn(){
 
       <label class="text-xs font-bold text-emerald-800 uppercase tracking-wider">Khối Lớp / Hệ Đào Tạo</label>
       <select onchange="S.grade=this.value;save()" class="mt-1 font-semibold text-emerald-950">
-        ${['Lớp 10','Lớp 11','Lớp 12','Đại học năm 1','Đại học năm 2','Đại học năm 3','Đại học năm 4'].map(g=>`<option ${g===S.grade?'selected':''}>${g}</option>`).join('')}
+        <optgroup label="Khối Lớp Dưới Cấp 3 (Tiểu học & THCS)">
+          ${['Lớp 1','Lớp 2','Lớp 3','Lớp 4','Lớp 5','Lớp 6','Lớp 7','Lớp 8','Lớp 9'].map(g=>`<option ${g===S.grade?'selected':''}>${g}</option>`).join('')}
+        </optgroup>
+        <optgroup label="Hệ Đại Học & Tự Do">
+          ${['Đại học năm 1','Đại học năm 2','Đại học năm 3','Đại học năm 4','Học viên tự do'].map(g=>`<option ${g===S.grade?'selected':''}>${g}</option>`).join('')}
+        </optgroup>
       </select>
 
       <label class="text-xs font-bold text-emerald-800 uppercase tracking-wider mt-3 block">Môn Học</label>
       <select onchange="S.subject=this.value;save()" class="mt-1 font-semibold text-emerald-950">
-        ${['Toán giải tích','Toán đại số tuyến tính','Xác suất thống kê','Vật lý đại cương','Hóa học đại cương'].map(g=>`<option ${g===S.subject?'selected':''}>${g}</option>`).join('')}
+        <optgroup label="Môn Phổ Thông (Tiểu học & THCS)">
+          ${['Toán học','Ngữ văn / Tiếng Việt','Tiếng Anh','Khoa học tự nhiên','Lịch sử & Địa lý','Tin học'].map(s=>`<option ${s===S.subject?'selected':''}>${s}</option>`).join('')}
+        </optgroup>
+        <optgroup label="Môn Chuyên Sâu & Đại Học">
+          ${['Toán giải tích','Toán đại số tuyến tính','Xác suất thống kê','Vật lý đại cương','Hóa học đại cương'].map(s=>`<option ${s===S.subject?'selected':''}>${s}</option>`).join('')}
+        </optgroup>
       </select>
 
       <label class="text-xs font-bold text-emerald-800 uppercase tracking-wider mt-3 block">
