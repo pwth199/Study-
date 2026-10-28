@@ -320,12 +320,140 @@ const $=s=>document.querySelector(s);
 const $$=s=>document.querySelectorAll(s);
 const TODAY=()=>new Date().toDateString();
 
-/* ==================== 2. CẤU HÌNH GIAO DIỆN & TÊN (ADMIN TÙY BIẾN) ==================== */
+/* ==================== 2. HỆ THỐNG DANH MỤC GIAO DIỆN & KHO LINH VẬT ==================== */
+function fileToBase64(file, callback){
+  if(!file)return;
+  if(file.size > 2 * 1024 * 1024){
+    toast('Ảnh quá lớn (vui lòng chọn ảnh dưới 2MB)');
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = e => callback(e.target.result);
+  reader.readAsDataURL(file);
+}
+
+const DEFAULT_THEMES = [
+  {
+    id: 'morning',
+    name: '🍃 Vườn Ban Mai',
+    desc: 'Tươi mát, dịu êm tràn đầy sức sống của buổi sớm mai',
+    style: 'linear-gradient(135deg, #e8f5e9 0%, #f1faee 50%, #e0f2fe 100%)',
+    bgUrl: ''
+  },
+  {
+    id: 'fairy',
+    name: '✨ Vườn Tiên Cảnh',
+    desc: 'Pastel mộng mơ, lung linh ánh sáng diệu kỳ của xứ thần tiên',
+    style: 'linear-gradient(135deg, #fce7f3 0%, #e0e7ff 50%, #fef3c7 100%)',
+    bgUrl: ''
+  },
+  {
+    id: 'twilight',
+    name: '🌌 Rừng Đom Đóm Đêm',
+    desc: 'Huyền ảo, tĩnh lặng và tập trung cao độ trong màn đêm',
+    style: 'linear-gradient(135deg, #064e3b 0%, #0f172a 50%, #1e1b4b 100%)',
+    bgUrl: ''
+  },
+  {
+    id: 'sakura',
+    name: '🌸 Vườn Hoa Anh Đào',
+    desc: 'Hồng phấn ngọt ngào, cánh hoa đào rơi êm đềm thư thái',
+    style: 'linear-gradient(135deg, #fff1f2 0%, #ffe4e6 50%, #f0fdf4 100%)',
+    bgUrl: ''
+  },
+  {
+    id: 'sunset',
+    name: '🌅 Hoàng Hôn Rực Rỡ',
+    desc: 'Ấm áp, bình yên thư giãn tâm trí sau giờ học căng thẳng',
+    style: 'linear-gradient(135deg, #ffedd5 0%, #fed7aa 40%, #fbcfe8 100%)',
+    bgUrl: ''
+  },
+  {
+    id: 'frost',
+    name: '❄️ Vườn Băng Tuyết',
+    desc: 'Trong trẻo, thanh khiết như sương băng ban đầu đông',
+    style: 'linear-gradient(135deg, #f0fdfa 0%, #e0f2fe 50%, #dbeafe 100%)',
+    bgUrl: ''
+  }
+];
+
+let THEMES_CATALOG = [...DEFAULT_THEMES];
+try {
+  const savedTh = JSON.parse(localStorage.getItem('sa_themes_catalog') || '[]');
+  if (Array.isArray(savedTh) && savedTh.length > 0) THEMES_CATALOG = savedTh;
+} catch (e) {}
+
+function saveThemesCatalog(){
+  try { localStorage.setItem('sa_themes_catalog', JSON.stringify(THEMES_CATALOG)); } catch (e) {}
+}
+
+const DEFAULT_PETS = [
+  {
+    id: 'mochi',
+    name: 'Bé Mầm Mochi',
+    title: 'Linh Thú Khởi Nguyên',
+    desc: 'Hạt mầm xanh đáng yêu, tràn đầy sự tươi mới và hiếu học.',
+    icon: '🌱',
+    avatarUrl: ''
+  },
+  {
+    id: 'bunny',
+    name: 'Thỏ Ngọc Cung Trăng',
+    title: 'Sứ Giả Ánh Trăng',
+    desc: 'Nhanh nhẹn, thông minh, luôn chăm chỉ gõ nhịp học bài.',
+    icon: '🐇',
+    avatarUrl: ''
+  },
+  {
+    id: 'fox',
+    name: 'Hồ Ly Tri Thức',
+    title: 'Bậc Thầy Trí Tuệ',
+    desc: 'Cáo nhỏ lanh lợi với đôi mắt tinh anh thấu suốt tri thức.',
+    icon: '🦊',
+    avatarUrl: ''
+  },
+  {
+    id: 'cat',
+    name: 'Mèo Thần Tài May Mắn',
+    title: 'Hộ Thần May Mắn',
+    desc: 'Vẫy tay chiêu tài kiến thức, đem lại bình tĩnh khi thi cử.',
+    icon: '🐱',
+    avatarUrl: ''
+  },
+  {
+    id: 'dragon',
+    name: 'Thanh Long Linh Giáp',
+    title: 'Thần Thú Bảo Hộ',
+    desc: 'Rồng con oai dũng, tràn đầy sức mạnh vượt qua mọi thử thách.',
+    icon: '🐲',
+    avatarUrl: ''
+  },
+  {
+    id: 'phoenix',
+    name: 'Phượng Hoàng Niết Bàn',
+    title: 'Hỏa Phượng Trùng Sinh',
+    desc: 'Bền bỉ, ý chí kiên định, thắp sáng đam mê học tập không ngừng.',
+    icon: '🦅',
+    avatarUrl: ''
+  }
+];
+
+let PETS_CATALOG = [...DEFAULT_PETS];
+try {
+  const savedP = JSON.parse(localStorage.getItem('sa_pets_catalog') || '[]');
+  if (Array.isArray(savedP) && savedP.length > 0) PETS_CATALOG = savedP;
+} catch (e) {}
+
+function savePetsCatalog(){
+  try { localStorage.setItem('sa_pets_catalog', JSON.stringify(PETS_CATALOG)); } catch (e) {}
+}
+
 const DEFAULT_CFG={
   siteName:'Study Arena',
   siteTag:'Vườn Tri Thức',
-  siteSub:'Nuôi dưỡng linh vật Mochi qua từng bài học',
+  siteSub:'Nuôi dưỡng linh vật tri thức qua từng bài học',
   petName:'Mochi',
+  petId:'mochi',
   bgTheme:'morning',
   customBgUrl:'',
   logoIcon:'🌿',
@@ -507,6 +635,18 @@ if (!S.grade || ['Lớp 10', 'Lớp 11', 'Lớp 12'].includes(S.grade) || !VALID
   S.grade = 'Lớp 9';
 }
 
+// Khởi tạo và kiểm tra tính hợp lệ của Giao diện & Linh vật người dùng
+if (!S.cfg.bgTheme || !THEMES_CATALOG.some(t => t.id === S.cfg.bgTheme)) {
+  S.cfg.bgTheme = THEMES_CATALOG[0] ? THEMES_CATALOG[0].id : 'morning';
+}
+if (!S.cfg.petId || !PETS_CATALOG.some(p => p.id === S.cfg.petId)) {
+  S.cfg.petId = PETS_CATALOG[0] ? PETS_CATALOG[0].id : 'mochi';
+}
+if (!S.cfg.petName) {
+  const pFound = PETS_CATALOG.find(p => p.id === S.cfg.petId);
+  S.cfg.petName = pFound ? pFound.name : 'Mochi';
+}
+
 const save=()=>{
   try{
     localStorage.setItem('mochi_garden',JSON.stringify(S));
@@ -548,11 +688,13 @@ let O={i:0,log:[],tries:0,over:false};
 /* ==================== 6. ÁP DỤNG THEME & HÌNH ẢNH GIAO DIỆN ==================== */
 function applyGardenTheme(){
   const cfg=S.cfg||DEFAULT_CFG;
+  const curP = PETS_CATALOG.find(p=>p.id===(cfg.petId||'mochi')) || PETS_CATALOG[0] || {name:'Mochi',icon:'🌱'};
+  const petNick = cfg.petName || curP.name;
   
   const st=$('#siteTitle'),sg=$('#siteTag'),sb=$('#siteSub');
   if(st) st.textContent=cfg.siteName||'Study Arena';
   if(sg) sg.textContent=cfg.siteTag||'Vườn Tri Thức';
-  if(sb) sb.textContent=cfg.siteSub||'Nuôi dưỡng linh vật Mochi qua từng bài học';
+  if(sb) sb.textContent=cfg.siteSub||`Nuôi dưỡng linh vật ${petNick} qua từng bài học`;
 
   const lw=$('#siteLogoWrap'),li=$('#siteLogoIcon');
   if(lw&&li){
@@ -563,16 +705,22 @@ function applyGardenTheme(){
     }
   }
 
+  // Áp dụng hình nền: ưu tiên hình nền cá nhân của người dùng, nếu không tra cứu từ THEMES_CATALOG
   if(cfg.customBgUrl){
     document.body.style.background=`url('${cfg.customBgUrl}') center/cover fixed no-repeat`;
-  }else if(cfg.bgTheme==='fairy'){
-    document.body.style.background='linear-gradient(135deg, #fce7f3 0%, #e0e7ff 50%, #fef3c7 100%)';
-  }else if(cfg.bgTheme==='twilight'){
-    document.body.style.background='linear-gradient(135deg, #064e3b 0%, #0f172a 50%, #1e1b4b 100%)';
-  }else if(cfg.bgTheme==='sakura'){
-    document.body.style.background='linear-gradient(135deg, #fff1f2 0%, #ffe4e6 50%, #f0fdf4 100%)';
-  }else{
-    document.body.style.background='linear-gradient(135deg, #e8f5e9 0%, #f1faee 50%, #e0f2fe 100%)';
+  } else {
+    const curTheme = THEMES_CATALOG.find(t=>t.id===cfg.bgTheme) || THEMES_CATALOG[0];
+    if(curTheme){
+      if(curTheme.bgUrl){
+        document.body.style.background=`url('${curTheme.bgUrl}') center/cover fixed no-repeat`;
+      } else if(curTheme.style){
+        document.body.style.background=curTheme.style;
+      } else {
+        document.body.style.background='linear-gradient(135deg, #e8f5e9 0%, #f1faee 50%, #e0f2fe 100%)';
+      }
+    } else {
+      document.body.style.background='linear-gradient(135deg, #e8f5e9 0%, #f1faee 50%, #e0f2fe 100%)';
+    }
   }
 }
 
@@ -580,13 +728,16 @@ function applyGardenTheme(){
 function head(){
   applyGardenTheme();
 
+  const curP = PETS_CATALOG.find(p=>p.id===(S.cfg.petId||'mochi')) || PETS_CATALOG[0] || {name:'Mochi',icon:'🌱'};
+  const petNick = S.cfg.petName || curP.name;
+
   // Navigation tabs
   const navEl=$('#nav');
   if(navEl){
     const tabs=[
       ['learn','🌱 Vườn Học Tập'],
       ['exam','⚔️ Đấu Trường Thi'],
-      ['pet',`🏡 Nhà Cây ${S.cfg.petName||'Mochi'}`]
+      ['pet',`🏡 Nhà Cây ${petNick}`]
     ];
     if(S.tab==='admin'){
       tabs.push(['admin','⚙️ Quản Trị Viên']);
@@ -667,6 +818,24 @@ function renderAuthDropdownContent(){
             <button class="btn sm g !py-2 !px-4 shrink-0" onclick="renameUser()">Lưu</button>
           </div>
         </div>
+
+        <!-- PHÍM TẮT ĐỔI GIAO DIỆN & LINH VẬT CÁ NHÂN -->
+        <div class="pt-2 border-t border-emerald-100 space-y-2">
+          <button class="btn sm outline w-full !justify-start !py-2 gap-2 text-xs" onclick="closeAuthDropdown();S.tab='pet';S.petTab='customize';render();">
+            <span>🎨</span> <span>Tùy Chỉnh Giao Diện & Linh Vật</span>
+          </button>
+          <div>
+            <label class="text-[10px] font-bold text-emerald-800 block mb-1">Đổi nhanh chủ đề:</label>
+            <div class="flex gap-1 flex-wrap">
+              ${THEMES_CATALOG.slice(0, 4).map(t => `
+                <button class="px-2 py-0.5 text-[10px] font-bold rounded-lg border transition ${S.cfg.bgTheme===t.id&&!S.cfg.customBgUrl?'bg-teal-700 text-white border-teal-800':'bg-white text-teal-900 border-teal-200 hover:bg-teal-50'}" onclick="setUserTheme('${t.id}')">
+                  ${t.name.split(' ')[0]} ${t.name.split(' ')[1]||''}
+                </button>
+              `).join('')}
+            </div>
+          </div>
+        </div>
+
         <button class="btn sm rose w-full !py-2.5 shadow-sm" onclick="logout()">🚪 Đăng Xuất Khỏi Thiết Bị</button>
       </div>
     `;
@@ -705,6 +874,11 @@ function renderAuthDropdownContent(){
                  onkeydown="if(event.key==='Enter')loginWithName()">
           <button class="btn sm g !py-2 !px-4 shrink-0" onclick="loginWithName()">Vào</button>
         </div>
+      </div>
+      <div class="mt-2.5 pt-2 border-t border-emerald-100">
+        <button class="btn sm outline w-full !justify-start !py-2 gap-2 text-xs" onclick="closeAuthDropdown();S.tab='pet';S.petTab='customize';render();">
+          <span>🎨</span> <span>Tùy Chỉnh Giao Diện & Linh Vật Của Bạn</span>
+        </button>
       </div>
     `;
   }
@@ -846,7 +1020,9 @@ function vAdminView(){
     <!-- MENU CÁC TÍNH NĂNG ADMIN TÍCH HỢP -->
     <div class="flex flex-wrap gap-1.5 p-1.5 bg-emerald-100/70 rounded-2xl mb-5 border border-emerald-200">
       ${[
-        ['theme','🎨 Tên & Ảnh Giao Diện'],
+        ['theme','🏷️ Tên & Logo Website'],
+        ['themes_mgmt','🎨 Quản Lý Giao Diện ('+THEMES_CATALOG.length+')'],
+        ['pets_mgmt','🐾 Kho Linh Vật ('+PETS_CATALOG.length+')'],
         ['security','🔑 Đổi Mật Khẩu Admin'],
         ['mcq','🎯 Trắc Nghiệm ('+CONTENT.MCQ.length+')'],
         ['essay','📝 Tự Luận ('+CONTENT.ESSAY.length+')'],
@@ -855,7 +1031,7 @@ function vAdminView(){
         ['cheats','⚡ Điểm & Cấp Độ'],
         ['json','💾 Soạn JSON / Backup']
       ].map(([k,l])=>`
-        <button class="tab sm flex-1 min-w-[130px] text-center ${ADM_TAB===k?'on':'bg-white/80'}" onclick="ADM_TAB='${k}';render()">${l}</button>
+        <button class="tab sm flex-1 min-w-[125px] text-center ${ADM_TAB===k?'on':'bg-white/80'}" onclick="ADM_TAB='${k}';render()">${l}</button>
       `).join('')}
     </div>
 
@@ -863,6 +1039,8 @@ function vAdminView(){
     <div class="p-1">
       ${{
         theme:vAdminTheme,
+        themes_mgmt:vAdminThemesMgmt,
+        pets_mgmt:vAdminPetsMgmt,
         security:vAdminSecurity,
         mcq:vAdminMcq,
         essay:vAdminEssay,
@@ -876,104 +1054,497 @@ function vAdminView(){
   `;
 }
 
-/* --- TAB 1: ĐỔI TÊN, LOGO & HÌNH ẢNH GIAO DIỆN --- */
+function checkAdminAuth(){
+  if(!ADM){
+    toast('Chỉ Quản trị viên đã xác thực mới có quyền thực hiện thao tác này!');
+    return false;
+  }
+  return true;
+}
+
+/* --- TAB 1: ĐỔI TÊN & THƯƠNG HIỆU WEBSITE (ADMIN) --- */
 function vAdminTheme(){
   const cfg=S.cfg||DEFAULT_CFG;
   return `
   <div class="space-y-5">
     <div class="p-4 bg-emerald-50/90 rounded-2xl border border-emerald-200">
       <h4 class="font-extrabold text-sm text-emerald-950 mb-3 uppercase tracking-wider flex items-center gap-2">
-        <span>✏️</span> <span>Chỉnh Sửa Tên & Thương Hiệu Website</span>
+        <span>✏️</span> <span>Chỉnh Sửa Thương Hiệu Website Toàn Hệ Thống</span>
       </h4>
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <div>
           <label class="text-xs font-bold text-emerald-900 block mb-1">Tên Website / Ứng Dụng:</label>
-          <input id="cfg_siteName" value="${cfg.siteName||''}" placeholder="Ví dụ: Study Arena">
+          <input id="cfg_siteName" value="${cfg.siteName||''}" placeholder="Ví dụ: Study Arena" class="font-bold">
         </div>
         <div>
-          <label class="text-xs font-bold text-emerald-900 block mb-1">Thẻ Phụ / Huy Hiệu:</label>
+          <label class="text-xs font-bold text-emerald-900 block mb-1">Thẻ Phụ / Huy Hiệu Thương Hiệu:</label>
           <input id="cfg_siteTag" value="${cfg.siteTag||''}" placeholder="Ví dụ: Vườn Tri Thức">
         </div>
         <div class="sm:col-span-2">
-          <label class="text-xs font-bold text-emerald-900 block mb-1">Khẩu Hiệu / Mô Tả Dưới Tên:</label>
-          <input id="cfg_siteSub" value="${cfg.siteSub||''}" placeholder="Ví dụ: Nuôi dưỡng linh vật Mochi qua từng bài học">
-        </div>
-        <div>
-          <label class="text-xs font-bold text-emerald-900 block mb-1">Tên Linh Vật Đồng Hành:</label>
-          <input id="cfg_petName" value="${cfg.petName||''}" placeholder="Ví dụ: Mochi, Bé Mầm...">
+          <label class="text-xs font-bold text-emerald-900 block mb-1">Khẩu Hiệu / Mô Tả Mặc Định:</label>
+          <input id="cfg_siteSub" value="${cfg.siteSub||''}" placeholder="Ví dụ: Nuôi dưỡng linh vật tri thức qua từng bài học">
         </div>
         <div>
           <label class="text-xs font-bold text-emerald-900 block mb-1">Icon Logo (Emoji hoặc Ký tự):</label>
-          <input id="cfg_logoIcon" value="${cfg.logoIcon||'🌿'}" placeholder="Ví dụ: 🌿, 🌸, 🍄, 🪴">
+          <input id="cfg_logoIcon" value="${cfg.logoIcon||'🌿'}" placeholder="Ví dụ: 🌿, 🌸, 🍄, 🪴" class="font-bold text-center">
         </div>
-      </div>
-    </div>
-
-    <!-- ĐỔI HÌNH ẢNH & HÌNH NỀN GIAO DIỆN -->
-    <div class="p-4 bg-teal-50/90 rounded-2xl border border-teal-200">
-      <h4 class="font-extrabold text-sm text-teal-950 mb-3 uppercase tracking-wider flex items-center gap-2">
-        <span>🖼️</span> <span>Đổi Ảnh Giao Diện & Hình Nền Khu Vườn</span>
-      </h4>
-
-      <label class="text-xs font-bold text-teal-900 block mb-1.5">Chọn Phối Màu / Nền Sẵn Có:</label>
-      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-3">
-        ${[
-          ['morning','🍃 Vườn Ban Mai (Mặc định)'],
-          ['fairy','✨ Vườn Tiên Cảnh (Pastel)'],
-          ['twilight','🌌 Rừng Đom Đóm Đêm'],
-          ['sakura','🌸 Vườn Hoa Anh Đào']
-        ].map(([k,l])=>`
-          <button class="p-2 text-xs font-bold rounded-xl border text-center transition ${(cfg.bgTheme===k&&!cfg.customBgUrl)?'bg-teal-700 text-white border-teal-800 shadow-sm':'bg-white text-teal-950 border-teal-200 hover:bg-teal-100'}" onclick="setPresetTheme('${k}')">
-            ${l}
-          </button>
-        `).join('')}
-      </div>
-
-      <div class="space-y-3">
         <div>
-          <label class="text-xs font-bold text-teal-900 block mb-1">Hoặc Dán URL Hình Nền Riêng Tùy Chọn:</label>
-          <input id="cfg_customBgUrl" value="${cfg.customBgUrl||''}" placeholder="https://example.com/hinh-nen-khu-vuon.jpg" class="text-xs font-mono">
-          <p class="text-[11px] text-teal-700 mt-0.5">Dán link ảnh trực tiếp từ internet để làm hình nền toàn trang web</p>
-        </div>
-
-        <div>
-          <label class="text-xs font-bold text-teal-900 block mb-1">URL Hình Ảnh Linh Vật Tùy Chọn (Thay cho emoji):</label>
-          <input id="cfg_customPetUrl" value="${cfg.customPetUrl||''}" placeholder="https://example.com/anh-linh-vat.png" class="text-xs font-mono">
-        </div>
-
-        <div>
-          <label class="text-xs font-bold text-teal-900 block mb-1">URL Hình Ảnh Logo Góc Trái (Thay cho icon):</label>
+          <label class="text-xs font-bold text-emerald-900 block mb-1">URL Hình Ảnh Logo Góc Trái (Tùy chọn):</label>
           <input id="cfg_customLogoUrl" value="${cfg.customLogoUrl||''}" placeholder="https://example.com/logo.png" class="text-xs font-mono">
         </div>
       </div>
+      <button class="btn g w-full mt-4" onclick="saveAdminTheme()">
+        <span>💾</span> <span>Lưu Thương Hiệu Website</span>
+      </button>
     </div>
 
-    <button class="btn g w-full" onclick="saveAdminTheme()">
-      <span>💾</span> <span>Lưu Thay Đổi Tên & Ảnh Giao Diện Ngay</span>
-    </button>
+    <!-- HƯỚNG DẪN ĐIỀU HƯỚNG SANG CÁC TAB NÂNG CAO -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <div class="p-3.5 bg-teal-50 rounded-2xl border border-teal-200 flex items-center justify-between">
+        <div>
+          <h5 class="font-bold text-sm text-teal-950">Quản Lý Giao Diện (Themes)</h5>
+          <p class="text-xs text-teal-700">Thêm, sửa, xóa các giao diện cho toàn bộ hệ thống</p>
+        </div>
+        <button class="btn sm g shrink-0" onclick="ADM_TAB='themes_mgmt';render()">Mở Tab 🎨</button>
+      </div>
+      <div class="p-3.5 bg-amber-50 rounded-2xl border border-amber-200 flex items-center justify-between">
+        <div>
+          <h5 class="font-bold text-sm text-amber-950">Kho Linh Vật (Pet Mascot)</h5>
+          <p class="text-xs text-amber-700">Tải ảnh hoặc thêm URL các loại linh thú mới</p>
+        </div>
+        <button class="btn sm y shrink-0" onclick="ADM_TAB='pets_mgmt';render()">Mở Kho 🐾</button>
+      </div>
+    </div>
   </div>
   `;
 }
 
-function setPresetTheme(t){
-  S.cfg.bgTheme=t;
-  S.cfg.customBgUrl='';
-  save();applyGardenTheme();render();
-  toast('Đã chọn hình nền: '+t);
-}
-
 function saveAdminTheme(){
+  if(!checkAdminAuth()) return;
   S.cfg=S.cfg||{};
   S.cfg.siteName=$('#cfg_siteName').value.trim()||'Study Arena';
   S.cfg.siteTag=$('#cfg_siteTag').value.trim()||'Vườn Tri Thức';
-  S.cfg.siteSub=$('#cfg_siteSub').value.trim()||'Nuôi dưỡng linh vật Mochi qua từng bài học';
-  S.cfg.petName=$('#cfg_petName').value.trim()||'Mochi';
+  S.cfg.siteSub=$('#cfg_siteSub').value.trim()||'Nuôi dưỡng linh vật tri thức qua từng bài học';
   S.cfg.logoIcon=$('#cfg_logoIcon').value.trim()||'🌿';
-  S.cfg.customBgUrl=$('#cfg_customBgUrl').value.trim();
-  S.cfg.customPetUrl=$('#cfg_customPetUrl').value.trim();
   S.cfg.customLogoUrl=$('#cfg_customLogoUrl').value.trim();
 
   save();
+  applyGardenTheme();
+  toast('Đã cập nhật thương hiệu website!');
+  render();
+}
+
+/* --- TAB 2: QUẢN LÝ GIAO DIỆN HỆ THỐNG (ADMIN) --- */
+function vAdminThemesMgmt(){
+  return `
+  <div class="space-y-4">
+    <div class="flex items-center justify-between flex-wrap gap-3 pb-3 border-b border-emerald-200">
+      <div>
+        <h4 class="font-extrabold text-base text-emerald-950 uppercase tracking-wider flex items-center gap-2">
+          <span>🎨</span> <span>Quản Lý Danh Mục Giao Diện Toàn Hệ Thống (${THEMES_CATALOG.length})</span>
+        </h4>
+        <p class="text-xs text-emerald-700">Thêm, sửa, xóa giao diện hiển thị cho toàn bộ người dùng trong hệ thống</p>
+      </div>
+      <div class="flex gap-2">
+        <button class="btn sm g" onclick="showAddThemeModal()">+ Thêm Giao Diện Mới</button>
+        <button class="btn sm outline" onclick="resetDefaultThemes()">🔄 Khôi Phục Gốc</button>
+      </div>
+    </div>
+
+    <!-- FORM THÊM / CHỈNH SỬA GIAO DIỆN INLINE -->
+    <div id="adminThemeFormCard" class="hidden card p-4 border-2 border-emerald-400 bg-emerald-50/80 mb-4 shadow-lg">
+      <div class="flex items-center justify-between mb-3 pb-2 border-b border-emerald-200">
+        <h5 id="themeFormTitle" class="font-bold text-sm text-emerald-950 uppercase">Thêm Giao Diện Mới Vào Hệ Thống</h5>
+        <button class="text-slate-400 hover:text-slate-700 font-bold" onclick="$('#adminThemeFormCard').classList.add('hidden')">✕ Đóng</button>
+      </div>
+      <input type="hidden" id="editThemeId" value="">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
+        <div>
+          <label class="text-xs font-bold text-emerald-900 block mb-1">Tên Giao Diện:</label>
+          <input id="themeFormName" placeholder="Ví dụ: 🌌 Rừng Đom Đóm" class="font-semibold text-xs">
+        </div>
+        <div>
+          <label class="text-xs font-bold text-emerald-900 block mb-1">Mã Định Danh (Slug không dấu):</label>
+          <input id="themeFormSlug" placeholder="Ví dụ: firefly-forest" class="font-mono text-xs">
+        </div>
+        <div class="sm:col-span-2">
+          <label class="text-xs font-bold text-emerald-900 block mb-1">Mô Tả Giao Diện:</label>
+          <input id="themeFormDesc" placeholder="Mô tả phong cách giao diện này…" class="text-xs">
+        </div>
+        <div>
+          <label class="text-xs font-bold text-emerald-900 block mb-1">Dải Màu CSS Gradient:</label>
+          <input id="themeFormStyle" placeholder="linear-gradient(135deg, #... 0%, #... 100%)" class="font-mono text-xs">
+          <div class="flex gap-1 flex-wrap mt-1.5">
+            <span class="text-[10px] text-emerald-700 font-semibold self-center">Mẫu:</span>
+            <button type="button" class="px-1.5 py-0.5 text-[10px] bg-white rounded border border-emerald-300" onclick="$('#themeFormStyle').value='linear-gradient(135deg, #fce7f3 0%, #e0e7ff 50%, #fef3c7 100%)'">Pastel</button>
+            <button type="button" class="px-1.5 py-0.5 text-[10px] bg-white rounded border border-emerald-300" onclick="$('#themeFormStyle').value='linear-gradient(135deg, #064e3b 0%, #0f172a 50%, #1e1b4b 100%)'">Đêm Tĩnh</button>
+            <button type="button" class="px-1.5 py-0.5 text-[10px] bg-white rounded border border-emerald-300" onclick="$('#themeFormStyle').value='linear-gradient(135deg, #ffedd5 0%, #fed7aa 50%, #fbcfe8 100%)'">Hoàng Hôn</button>
+            <button type="button" class="px-1.5 py-0.5 text-[10px] bg-white rounded border border-emerald-300" onclick="$('#themeFormStyle').value='linear-gradient(135deg, #ecfdf5 0%, #d1fae5 50%, #a7f3d0 100%)'">Ngọc Bích</button>
+          </div>
+        </div>
+        <div>
+          <label class="text-xs font-bold text-emerald-900 block mb-1">HOẶC Dán URL Ảnh Nền / Tải Ảnh Lên:</label>
+          <input id="themeFormBgUrl" placeholder="https://...link-anh-nen.jpg" class="font-mono text-xs mb-1.5">
+          <div class="flex items-center gap-2">
+            <label class="btn sm outline cursor-pointer text-xs !py-1">
+              <span>📤 Tải Ảnh Từ Máy</span>
+              <input type="file" accept="image/*" class="hidden" onchange="uploadAdminThemeFile(this.files)">
+            </label>
+            <span class="text-[11px] text-emerald-700">Ưu tiên ảnh nền nếu có</span>
+          </div>
+        </div>
+      </div>
+      <div class="flex gap-2">
+        <button class="btn sm g" onclick="saveAdminThemeSubmit()">💾 Lưu Giao Diện</button>
+        <button class="btn sm outline" onclick="$('#adminThemeFormCard').classList.add('hidden')">Hủy</button>
+      </div>
+    </div>
+
+    <!-- DANH SÁCH GIAO DIỆN HIỆN CÓ -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3.5">
+      ${THEMES_CATALOG.map(t => `
+        <div class="card p-3.5 border border-emerald-200 hover:shadow-md transition flex flex-col justify-between">
+          <div>
+            <div class="w-full h-20 rounded-xl mb-2.5 border border-emerald-300 shadow-inner flex items-center justify-center font-bold text-xs" style="${t.bgUrl ? `background: url('${t.bgUrl}') center/cover no-repeat; color: white; text-shadow: 0 1px 3px rgba(0,0,0,0.8);` : (t.style ? `background: ${t.style};` : 'background: #e8f5e9;')}">
+              <span>Mẫu Hiển Thị</span>
+            </div>
+            <div class="flex items-center justify-between gap-1 mb-1">
+              <h5 class="font-extrabold text-sm text-emerald-950 truncate">${t.name}</h5>
+              <code class="text-[10px] text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200">${t.id}</code>
+            </div>
+            <p class="text-xs text-emerald-800 line-clamp-2 mb-2">${t.desc||'Giao diện học tập phong cách'}</p>
+          </div>
+          <div class="flex items-center justify-between gap-1.5 pt-2 border-t border-emerald-100">
+            <button class="btn sm outline !py-1 text-xs" onclick="previewThemeLive('${t.id}')">👁️ Thử Giao Diện</button>
+            <div class="flex gap-1">
+              <button class="btn sm y !py-1 !px-2.5 text-xs" onclick="editAdminTheme('${t.id}')" title="Chỉnh sửa">✏️</button>
+              <button class="btn sm rose !py-1 !px-2.5 text-xs" onclick="deleteAdminTheme('${t.id}')" title="Xóa">🗑️</button>
+            </div>
+          </div>
+        </div>
+      `).join('')}
+    </div>
+  </div>
+  `;
+}
+
+function showAddThemeModal(){
+  if(!checkAdminAuth()) return;
+  const card = $('#adminThemeFormCard');if(!card)return;
+  $('#editThemeId').value = '';
+  $('#themeFormTitle').textContent = 'Thêm Giao Diện Mới Vào Hệ Thống';
+  $('#themeFormName').value = '';
+  $('#themeFormSlug').value = '';
+  $('#themeFormDesc').value = '';
+  $('#themeFormStyle').value = 'linear-gradient(135deg, #e8f5e9 0%, #f1faee 50%, #e0f2fe 100%)';
+  $('#themeFormBgUrl').value = '';
+  card.classList.remove('hidden');
+  $('#themeFormName').focus();
+}
+
+function editAdminTheme(id){
+  if(!checkAdminAuth()) return;
+  const t = THEMES_CATALOG.find(x=>x.id===id);
+  if(!t) return;
+  const card = $('#adminThemeFormCard');if(!card)return;
+  $('#editThemeId').value = t.id;
+  $('#themeFormTitle').textContent = 'Chỉnh Sửa Giao Diện: ' + t.name;
+  $('#themeFormName').value = t.name;
+  $('#themeFormSlug').value = t.id;
+  $('#themeFormDesc').value = t.desc || '';
+  $('#themeFormStyle').value = t.style || '';
+  $('#themeFormBgUrl').value = t.bgUrl || '';
+  card.classList.remove('hidden');
+  $('#themeFormName').focus();
+}
+
+function uploadAdminThemeFile(files){
+  if(!checkAdminAuth()) return;
+  if(!files||!files[0]) return;
+  fileToBase64(files[0], (dataUrl)=>{
+    $('#themeFormBgUrl').value = dataUrl;
+    toast('Đã nạp file ảnh nền vào form!');
+  });
+}
+
+function saveAdminThemeSubmit(){
+  if(!checkAdminAuth()) return;
+  const editId = $('#editThemeId').value.trim();
+  const name = $('#themeFormName').value.trim();
+  let slug = $('#themeFormSlug').value.trim().toLowerCase().replace(/[^a-z0-9_-]/g,'');
+  const desc = $('#themeFormDesc').value.trim();
+  const style = $('#themeFormStyle').value.trim();
+  const bgUrl = $('#themeFormBgUrl').value.trim();
+
+  if(!name){ toast('Vui lòng nhập tên giao diện'); return; }
+  if(!slug) slug = editId || ('theme_' + Date.now().toString(36));
+
+  if(editId){
+    const idx = THEMES_CATALOG.findIndex(x=>x.id===editId);
+    if(idx!==-1){
+      THEMES_CATALOG[idx] = { id: editId, name, desc, style, bgUrl };
+      toast('Đã cập nhật giao diện: ' + name);
+    }
+  } else {
+    if(THEMES_CATALOG.some(x=>x.id===slug)){
+      slug = slug + '_' + Math.floor(Math.random()*1000);
+    }
+    THEMES_CATALOG.push({ id: slug, name, desc, style, bgUrl });
+    toast('Đã thêm giao diện mới vào hệ thống: ' + name);
+  }
+  saveThemesCatalog();
+  applyGardenTheme();
+  render();
+}
+
+function deleteAdminTheme(id){
+  if(!checkAdminAuth()) return;
+  if(THEMES_CATALOG.length <= 1){
+    toast('Không thể xóa giao diện duy nhất còn lại!');
+    return;
+  }
+  const th = THEMES_CATALOG.find(x=>x.id===id);
+  if(!confirm(`Xác nhận xóa giao diện "${th ? th.name : id}" khỏi toàn bộ hệ thống?`)) return;
+
+  THEMES_CATALOG = THEMES_CATALOG.filter(x=>x.id!==id);
+  if(S.cfg.bgTheme === id){
+    S.cfg.bgTheme = THEMES_CATALOG[0].id;
+    save();
+  }
+  saveThemesCatalog();
+  applyGardenTheme();
+  render();
+  toast('Đã xóa giao diện khỏi hệ thống!');
+}
+
+function resetDefaultThemes(){
+  if(!checkAdminAuth()) return;
+  if(!confirm('Khôi phục danh sách giao diện mặc định ban đầu?')) return;
+  THEMES_CATALOG = JSON.parse(JSON.stringify(DEFAULT_THEMES));
+  saveThemesCatalog();
+  applyGardenTheme();
+  render();
+  toast('Đã khôi phục danh mục giao diện gốc!');
+}
+
+function previewThemeLive(id){
+  S.cfg = S.cfg || {};
+  S.cfg.bgTheme = id;
+  S.cfg.customBgUrl = '';
+  save();
+  applyGardenTheme();
+  toast('Đang kích hoạt giao diện: ' + id);
+  render();
+}
+
+/* --- TAB 3: QUẢN LÝ KHO LINH VẬT HỆ THỐNG (ADMIN) --- */
+function vAdminPetsMgmt(){
+  return `
+  <div class="space-y-4">
+    <div class="flex items-center justify-between flex-wrap gap-3 pb-3 border-b border-emerald-200">
+      <div>
+        <h4 class="font-extrabold text-base text-emerald-950 uppercase tracking-wider flex items-center gap-2">
+          <span>🐾</span> <span>Kho Linh Vật Chung Toàn Hệ Thống (${PETS_CATALOG.length})</span>
+        </h4>
+        <p class="text-xs text-emerald-700">Admin có quyền tải ảnh, thêm mới, sửa, xóa linh thú để học viên lựa chọn</p>
+      </div>
+      <div class="flex gap-2">
+        <button class="btn sm g" onclick="showAddPetModal()">+ Thêm Linh Vật Mới</button>
+        <button class="btn sm outline" onclick="resetDefaultPets()">🔄 Khôi Phục Kho Gốc</button>
+      </div>
+    </div>
+
+    <!-- FORM THÊM / CHỈNH SỬA LINH VẬT INLINE -->
+    <div id="adminPetFormCard" class="hidden card p-4 border-2 border-emerald-400 bg-emerald-50/80 mb-4 shadow-lg">
+      <div class="flex items-center justify-between mb-3 pb-2 border-b border-emerald-200">
+        <h5 id="adminPetFormTitle" class="font-bold text-sm text-emerald-950 uppercase">Thêm Linh Vật Mới Vào Kho</h5>
+        <button class="text-slate-400 hover:text-slate-700 font-bold" onclick="$('#adminPetFormCard').classList.add('hidden')">✕ Đóng</button>
+      </div>
+      <input type="hidden" id="editPetId" value="">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
+        <div>
+          <label class="text-xs font-bold text-emerald-900 block mb-1">Tên Loài / Tên Linh Vật:</label>
+          <input id="petFormName" placeholder="Ví dụ: Rồng Con Linh Giáp" class="font-semibold text-xs">
+        </div>
+        <div>
+          <label class="text-xs font-bold text-emerald-900 block mb-1">Mã Định Danh (Slug không dấu):</label>
+          <input id="petFormSlug" placeholder="Ví dụ: baby-dragon" class="font-mono text-xs">
+        </div>
+        <div>
+          <label class="text-xs font-bold text-emerald-900 block mb-1">Danh Hiệu / Chức Vị:</label>
+          <input id="petFormTitle" placeholder="Ví dụ: Thần Thú Hộ Vệ" class="text-xs">
+        </div>
+        <div>
+          <label class="text-xs font-bold text-emerald-900 block mb-1">Icon Emoji Đại Diện:</label>
+          <input id="petFormIcon" placeholder="Ví dụ: 🐲, 🦊, 🐇, 🦅, 🦉" class="text-center font-bold text-sm">
+        </div>
+        <div class="sm:col-span-2">
+          <label class="text-xs font-bold text-emerald-900 block mb-1">Mô Tả Tính Cách / Câu Chuyện Linh Vật:</label>
+          <input id="petFormDesc" placeholder="Lời giới thiệu đáng yêu về bé…" class="text-xs">
+        </div>
+        <div class="sm:col-span-2">
+          <label class="text-xs font-bold text-emerald-900 block mb-1">Hình Ảnh Linh Vật (Tải lên từ máy tính HOẶC dán URL):</label>
+          <div class="flex flex-col sm:flex-row gap-2 items-center">
+            <input id="petFormAvatarUrl" placeholder="https://...link-anh-linh-vat.png" class="font-mono text-xs flex-1">
+            <label class="btn sm outline cursor-pointer shrink-0 text-xs !py-1.5">
+              <span>📤 Tải Ảnh Lên (< 2MB)</span>
+              <input type="file" accept="image/*" class="hidden" onchange="uploadAdminPetFile(this.files)">
+            </label>
+          </div>
+          <div id="petFormAvatarPreview" class="mt-2 text-xs text-emerald-800"></div>
+        </div>
+      </div>
+      <div class="flex gap-2">
+        <button class="btn sm g" onclick="saveAdminPetSubmit()">💾 Lưu Linh Vật Vào Kho</button>
+        <button class="btn sm outline" onclick="$('#adminPetFormCard').classList.add('hidden')">Hủy</button>
+      </div>
+    </div>
+
+    <!-- DANH SÁCH LINH VẬT HIỆN CÓ -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3.5">
+      ${PETS_CATALOG.map(p => `
+        <div class="card p-3.5 border border-emerald-200 hover:shadow-md transition flex flex-col justify-between">
+          <div>
+            <div class="flex items-center gap-3 mb-2.5">
+              <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-emerald-100 to-teal-50 border-2 border-emerald-300 flex items-center justify-center text-3xl shadow-sm shrink-0 overflow-hidden">
+                ${p.avatarUrl ? `<img src="${p.avatarUrl}" class="w-full h-full object-cover">` : p.icon}
+              </div>
+              <div class="min-w-0 flex-1">
+                <h5 class="font-extrabold text-sm text-emerald-950 truncate">${p.name}</h5>
+                <p class="text-[11px] font-bold text-teal-700 truncate">${p.title||'Linh Thú'}</p>
+                <code class="text-[10px] text-emerald-600 bg-emerald-50 px-1 py-0.5 rounded border border-emerald-200">${p.id}</code>
+              </div>
+            </div>
+            <p class="text-xs text-emerald-800 line-clamp-2 mb-2">${p.desc||'Bạn đồng hành chăm chỉ cùng học viên'}</p>
+          </div>
+          <div class="flex items-center justify-between gap-1.5 pt-2 border-t border-emerald-100">
+            <button class="btn sm outline !py-1 text-xs" onclick="previewPetLive('${p.id}')">🐾 Xem Bé</button>
+            <div class="flex gap-1">
+              <button class="btn sm y !py-1 !px-2.5 text-xs" onclick="editAdminPet('${p.id}')" title="Chỉnh sửa">✏️</button>
+              <button class="btn sm rose !py-1 !px-2.5 text-xs" onclick="deleteAdminPet('${p.id}')" title="Xóa">🗑️</button>
+            </div>
+          </div>
+        </div>
+      `).join('')}
+    </div>
+  </div>
+  `;
+}
+
+function showAddPetModal(){
+  if(!checkAdminAuth()) return;
+  const card = $('#adminPetFormCard');if(!card)return;
+  $('#editPetId').value = '';
+  $('#adminPetFormTitle').textContent = 'Thêm Linh Vật Mới Vào Kho';
+  $('#petFormName').value = '';
+  $('#petFormSlug').value = '';
+  $('#petFormTitle').value = '';
+  $('#petFormIcon').value = '🐾';
+  $('#petFormDesc').value = '';
+  $('#petFormAvatarUrl').value = '';
+  $('#petFormAvatarPreview').innerHTML = '';
+  card.classList.remove('hidden');
+  $('#petFormName').focus();
+}
+
+function editAdminPet(id){
+  if(!checkAdminAuth()) return;
+  const p = PETS_CATALOG.find(x=>x.id===id);
+  if(!p) return;
+  const card = $('#adminPetFormCard');if(!card)return;
+  $('#editPetId').value = p.id;
+  $('#adminPetFormTitle').textContent = 'Chỉnh Sửa Linh Vật: ' + p.name;
+  $('#petFormName').value = p.name;
+  $('#petFormSlug').value = p.id;
+  $('#petFormTitle').value = p.title || '';
+  $('#petFormIcon').value = p.icon || '🐾';
+  $('#petFormDesc').value = p.desc || '';
+  $('#petFormAvatarUrl').value = p.avatarUrl || '';
+  if(p.avatarUrl){
+    $('#petFormAvatarPreview').innerHTML = `<img src="${p.avatarUrl}" class="w-12 h-12 object-cover rounded-xl mt-1 border border-emerald-300">`;
+  } else {
+    $('#petFormAvatarPreview').innerHTML = '';
+  }
+  card.classList.remove('hidden');
+  $('#petFormName').focus();
+}
+
+function uploadAdminPetFile(files){
+  if(!checkAdminAuth()) return;
+  if(!files||!files[0]) return;
+  fileToBase64(files[0], (dataUrl)=>{
+    $('#petFormAvatarUrl').value = dataUrl;
+    $('#petFormAvatarPreview').innerHTML = `<img src="${dataUrl}" class="w-12 h-12 object-cover rounded-xl mt-1 border border-emerald-300">`;
+    toast('Đã tải ảnh linh vật lên thành công!');
+  });
+}
+
+function saveAdminPetSubmit(){
+  if(!checkAdminAuth()) return;
+  const editId = $('#editPetId').value.trim();
+  const name = $('#petFormName').value.trim();
+  let slug = $('#petFormSlug').value.trim().toLowerCase().replace(/[^a-z0-9_-]/g,'');
+  const title = $('#petFormTitle').value.trim() || 'Linh Thú Tri Thức';
+  const icon = $('#petFormIcon').value.trim() || '🐾';
+  const desc = $('#petFormDesc').value.trim();
+  const avatarUrl = $('#petFormAvatarUrl').value.trim();
+
+  if(!name){ toast('Vui lòng nhập tên loài / linh vật'); return; }
+  if(!slug) slug = editId || ('pet_' + Date.now().toString(36));
+
+  if(editId){
+    const idx = PETS_CATALOG.findIndex(x=>x.id===editId);
+    if(idx!==-1){
+      PETS_CATALOG[idx] = { id: editId, name, title, icon, desc, avatarUrl };
+      toast('Đã cập nhật thông tin linh vật: ' + name);
+    }
+  } else {
+    if(PETS_CATALOG.some(x=>x.id===slug)){
+      slug = slug + '_' + Math.floor(Math.random()*1000);
+    }
+    PETS_CATALOG.push({ id: slug, name, title, icon, desc, avatarUrl });
+    toast('Đã thêm linh vật mới vào kho chung: ' + name);
+  }
+  savePetsCatalog();
+  render();
+}
+
+function deleteAdminPet(id){
+  if(!checkAdminAuth()) return;
+  if(PETS_CATALOG.length <= 1){
+    toast('Không thể xóa linh vật duy nhất còn lại trong kho!');
+    return;
+  }
+  const p = PETS_CATALOG.find(x=>x.id===id);
+  if(!confirm(`Xác nhận xóa linh vật "${p ? p.name : id}" khỏi kho chung toàn hệ thống?`)) return;
+
+  PETS_CATALOG = PETS_CATALOG.filter(x=>x.id!==id);
+  if(S.cfg.petId === id){
+    S.cfg.petId = PETS_CATALOG[0].id;
+    save();
+  }
+  savePetsCatalog();
+  render();
+  toast('Đã xóa linh vật khỏi kho chung!');
+}
+
+function resetDefaultPets(){
+  if(!checkAdminAuth()) return;
+  if(!confirm('Khôi phục kho linh vật mặc định ban đầu?')) return;
+  PETS_CATALOG = JSON.parse(JSON.stringify(DEFAULT_PETS));
+  savePetsCatalog();
+  render();
+  toast('Đã khôi phục kho linh thú gốc!');
+}
+
+function previewPetLive(id){
+  S.cfg = S.cfg || {};
+  S.cfg.petId = id;
+  S.cfg.customPetUrl = '';
+  save();
+  render();
+  toast('Đang xem linh thú: ' + id);
+}
   applyGardenTheme();
   toast('Đã lưu tên & hình ảnh giao diện mới!');
   render();
@@ -1855,11 +2426,13 @@ const ITEMS=[
 ];
 
 function mood(){
+  const curP = PETS_CATALOG.find(p=>p.id===(S.cfg.petId||'mochi')) || PETS_CATALOG[0] || {name:'Mochi',icon:'🌱'};
+  const petNick = S.cfg.petName || curP.name;
   const d=S.last?Math.floor((new Date(TODAY())-new Date(S.last))/864e5):null;
-  if(d===0)return['😊',`${S.cfg.petName} tự hào về bạn! Hôm nay bạn đã chăm sóc khu vườn chu đáo.`];
-  if(d===null)return['🥰',`${S.cfg.petName} mới nở. Hoàn thành một bài để bắt đầu chuỗi ngày nhé!`];
+  if(d===0)return['😊',`${petNick} tự hào về bạn! Hôm nay bạn đã chăm sóc khu vườn chu đáo.`];
+  if(d===null)return['🥰',`${petNick} mới đến với vườn. Hãy hoàn thành bài học để thắp sáng chuỗi ngày nhé!`];
   if(d===1)return['🥺',`Hôm nay bạn chưa học đó nha. Chuỗi ${S.streak} ngày đang chờ bạn!`];
-  return['😠',`${S.cfg.petName} giận rồi! ${d} ngày không thấy bạn ghé thăm vườn.`];
+  return['😠',`${petNick} giận rồi! Đã ${d} ngày bạn chưa ghé thăm vườn học.`];
 }
 
 function radar(){
@@ -1882,51 +2455,70 @@ function vPet(){
   const curStage=ASCENSION_STAGES[curLvl-1]||ASCENSION_STAGES[0];
   const need=60-(S.xp||0)%60;
 
+  const curPet = PETS_CATALOG.find(p=>p.id===(S.cfg.petId||'mochi')) || PETS_CATALOG[0] || {name:'Mochi',icon:'🌱'};
+  const petNick = S.cfg.petName || curPet.name;
+
   return `
   <div>
     <div class="flex items-center justify-between flex-wrap gap-2 mb-4">
-      <div class="flex gap-2">
+      <div class="flex flex-wrap gap-2">
         <button class="tab ${S.petTab==='garden'?'on':'bg-white/80'}" onclick="S.petTab='garden';render()">
-          🏡 Phòng & Chăm Sóc ${S.cfg.petName}
+          🏡 Phòng & Chăm Sóc ${petNick}
         </button>
         <button class="tab ${S.petTab==='ascend'?'on':'bg-white/80'}" onclick="S.petTab='ascend';render()">
-          🗺️ Lộ Trình Thăng Tiên Khu Vườn (10 Cảnh Giới)
+          🗺️ Lộ Trình Thăng Tiên (10 Cảnh Giới)
+        </button>
+        <button class="tab ${S.petTab==='customize'?'on':'bg-white/80'}" onclick="S.petTab='customize';render()">
+          ✨ Tùy Chỉnh Linh Vật & Giao Diện
         </button>
       </div>
 
-      <div class="text-xs font-bold px-3 py-1 bg-amber-100 text-amber-900 rounded-full border border-amber-300">
-        Cảnh giới: <b>${curStage.realm}</b> (Cấp ${curLvl}/10)
+      <div class="flex items-center gap-2">
+        <button class="btn sm outline !py-1 text-xs" onclick="S.petTab='customize';render()" title="Đổi linh thú hoặc giao diện yêu thích">
+          <span>🎨</span> <span>Đổi Linh Vật / Giao Diện</span>
+        </button>
+        <div class="text-xs font-bold px-3 py-1 bg-amber-100 text-amber-900 rounded-full border border-amber-300">
+          Cảnh giới: <b>${curStage.realm}</b> (${curLvl}/10)
+        </div>
       </div>
     </div>
 
-    ${S.petTab==='ascend'?vAscensionMap():vGardenRoom(m,msg,curStage,need)}
+    ${S.petTab==='ascend' ? vAscensionMap() : (S.petTab==='customize' ? vUserCustomizationView() : vGardenRoom(m,msg,curStage,need))}
   </div>
   `;
 }
 
 function vGardenRoom(m,msg,curStage,need){
   const curLvl=lvl();
+  const curPet = PETS_CATALOG.find(p=>p.id===(S.cfg.petId||'mochi')) || PETS_CATALOG[0] || {name:'Mochi',icon:'🌱'};
+  const petNick = S.cfg.petName || curPet.name;
+  const petImg = S.cfg.customPetUrl || curPet.avatarUrl;
+
   return `
   <div class="grid lg:grid-cols-2 gap-6">
     <section class="card text-center border-t-4 border-t-emerald-600 relative overflow-hidden">
-      <h2 class="font-extrabold text-xl text-emerald-950 font-fun">Nhà Cây Của ${S.cfg.petName}</h2>
+      <div class="flex items-center justify-between mb-1">
+        <span class="text-xs font-bold text-teal-800 bg-teal-50 px-2.5 py-1 rounded-full border border-teal-200">${curPet.title||'Linh Thú'}</span>
+        <button class="btn sm outline !py-1 text-[11px]" onclick="S.petTab='customize';render()">✏️ Đổi Tên / Đổi Bé</button>
+      </div>
+      <h2 class="font-extrabold text-xl text-emerald-950 font-fun">Nhà Cây Của ${petNick}</h2>
       <p class="text-xs text-emerald-700 mt-0.5">Người bạn đồng hành lớn lên cùng sự chăm chỉ của em</p>
 
       <div class="my-5 relative inline-block">
         <div class="w-40 h-40 mx-auto rounded-full bg-gradient-to-tr from-emerald-100 via-teal-50 to-amber-100 border-4 border-emerald-300/80 shadow-inner flex items-center justify-center anim-glow overflow-hidden">
-          ${S.cfg.customPetUrl?`
-            <img src="${S.cfg.customPetUrl}" class="w-full h-full object-cover">
-          `:`
-            <div class="text-7xl anim-float pop cursor-pointer" onclick="gain(5,'px',3);toast('${S.cfg.petName} vui vẻ vẫy lá!')" title="Nhấp để vỗ về ${S.cfg.petName}">
-              ${curStage.icon}
+          ${petImg ? `
+            <img src="${petImg}" class="w-full h-full object-cover">
+          ` : `
+            <div class="text-7xl anim-float pop cursor-pointer" onclick="gain(5,'px',3);toast('${petNick} vui vẻ quấn quýt bên bạn!')" title="Nhấp để vỗ về ${petNick}">
+              ${curPet.icon || curStage.icon}
             </div>
           `}
         </div>
         <span class="absolute bottom-1 right-2 text-3xl filter drop-shadow">${m}</span>
       </div>
 
-      <h3 class="text-lg font-extrabold text-emerald-950 font-fun">${curStage.realm}: ${curStage.name}</h3>
-      <p class="text-xs text-emerald-800 italic mt-0.5">${curStage.desc}</p>
+      <h3 class="text-lg font-extrabold text-emerald-950 font-fun">${curStage.realm}: ${petNick} (${curPet.name})</h3>
+      <p class="text-xs text-emerald-800 italic mt-0.5">${curPet.desc || curStage.desc}</p>
       <div class="p-2.5 mt-2 rounded-xl bg-emerald-50 text-xs font-semibold text-emerald-900 border border-emerald-200">
         ${msg}
       </div>
@@ -1942,6 +2534,331 @@ function vGardenRoom(m,msg,curStage,need){
       </div>
 
       <div class="mt-4 text-left">
+        <div class="text-xs font-bold uppercase tracking-wider text-emerald-900 mb-2">Bảo Vật Trang Trí Phòng:</div>
+        <div class="grid grid-cols-3 gap-2">
+          ${ITEMS.map(([e,n,f,r])=>`
+            <div class="rounded-xl p-2.5 text-center border transition ${f()?'bg-white border-emerald-200 shadow-sm':'bg-slate-50 border-slate-200 lock'}">
+              <div class="text-3xl mb-1">${e}</div>
+              <div class="text-xs font-bold text-emerald-950">${n}</div>
+              <div class="text-[10px] text-emerald-700 mt-0.5">${f()?'Đã mở khóa':r}</div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+
+      <button class="btn y w-full mt-5" onclick="waterPlant()">
+        <span>💧</span> <span>Điểm Danh & Tưới Nước Hôm Nay (+10 Giọt Sương)</span>
+      </button>
+    </section>
+
+    <section class="card border-t-4 border-t-teal-600 flex flex-col justify-between">
+      <div>
+        <div class="flex items-center justify-between mb-2">
+          <h2 class="font-extrabold text-xl text-emerald-950 font-fun flex items-center gap-2">
+            <span>📊</span> <span>Chỉ Số Phát Triển</span>
+          </h2>
+          <span class="text-xs bg-teal-100 text-teal-900 px-2.5 py-1 rounded-full font-bold">5 Chiều</span>
+        </div>
+        <p class="text-xs text-emerald-700 mb-3">Tăng qua việc làm bài tập trắc nghiệm, tự luận, vấn đáp và học bài</p>
+
+        <div class="p-2 bg-gradient-to-b from-emerald-50/50 to-white rounded-2xl border border-emerald-100">
+          ${radar()}
+        </div>
+      </div>
+
+      <div class="mt-6 pt-4 border-t border-emerald-100">
+        <h3 class="font-extrabold text-sm text-emerald-950 mb-1 flex items-center gap-1.5">
+          <span>⏰</span> <span>Nhắc Học Hằng Ngày</span>
+        </h3>
+        <p class="text-xs text-emerald-700 mb-2">Nhận thông báo từ bé khi đến giờ học đã hẹn</p>
+        <div class="flex items-center gap-2">
+          <input type="time" value="${S.remind}" class="!w-auto font-bold text-emerald-900" onchange="S.remind=this.value;save()">
+          <button class="btn g sm" onclick="remind()">⏰ Bật Nhắc Nhở</button>
+        </div>
+      </div>
+    </section>
+  </div>
+  `;
+}
+
+/* ==================== 14. GIAO DIỆN TÙY CHỈNH CÁ NHÂN HÓA DÀNH CHO NGƯỜI DÙNG ==================== */
+function vUserCustomizationView(){
+  const curPet = PETS_CATALOG.find(p=>p.id===(S.cfg.petId||'mochi')) || PETS_CATALOG[0] || {name:'Mochi',icon:'🌱'};
+  const petNick = S.cfg.petName || curPet.name;
+  const petImg = S.cfg.customPetUrl || curPet.avatarUrl;
+  const curTheme = THEMES_CATALOG.find(t=>t.id===(S.cfg.bgTheme||'morning')) || THEMES_CATALOG[0];
+
+  return `
+  <div class="space-y-6">
+    <!-- KHỐI 1: TÙY CHỌN LINH VẬT ĐỒNG HÀNH -->
+    <section class="card border-t-4 border-t-emerald-600 shadow-sm">
+      <div class="flex items-center justify-between flex-wrap gap-2 mb-4 pb-3 border-b border-emerald-100">
+        <div class="flex items-center gap-2.5">
+          <span class="text-2xl">🐾</span>
+          <div>
+            <h3 class="font-extrabold text-lg text-emerald-950 font-fun">Linh Vật Đồng Hành Của Bạn</h3>
+            <p class="text-xs text-emerald-700">Tự do đổi giống linh thú, đặt tên riêng hoặc tải ảnh thú cưng theo ý bạn (Lưu vào máy bạn)</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="text-xs font-bold text-emerald-800">Đang chọn:</span>
+          <span class="px-2.5 py-1 bg-emerald-100 text-emerald-900 rounded-full font-bold text-xs border border-emerald-300 flex items-center gap-1.5">
+            <span>${curPet.icon||'🌱'}</span> <b>${petNick}</b>
+          </span>
+        </div>
+      </div>
+
+      <!-- ĐẶT TÊN RIÊNG CHO BÉ -->
+      <div class="p-3.5 bg-emerald-50/70 rounded-2xl border border-emerald-200 mb-5">
+        <label class="text-xs font-bold text-emerald-900 block mb-1.5">🏷️ Đặt Biệt Danh Riêng Cho Linh Vật Của Bạn:</label>
+        <div class="flex gap-2 max-w-md">
+          <input id="userPetNameInput" 
+                 type="text" 
+                 autocomplete="off" 
+                 value="${petNick}" 
+                 placeholder="Ví dụ: Bé Mầm, Thỏ Bông, Tiểu Long…" 
+                 class="font-bold text-sm py-2 px-3 flex-1" 
+                 onkeydown="if(event.key==='Enter')saveUserPetName()">
+          <button class="btn sm g shrink-0 !py-2 !px-4" onclick="saveUserPetName()">Lưu Biệt Danh</button>
+        </div>
+      </div>
+
+      <!-- KHO LINH THÚ HỆ THỐNG -->
+      <div class="mb-5">
+        <h4 class="font-extrabold text-sm text-emerald-950 uppercase tracking-wider mb-2.5 flex items-center justify-between">
+          <span>Chọn Giống Linh Thú Từ Kho Chung (${PETS_CATALOG.length} loài):</span>
+          <span class="text-[11px] text-teal-700 font-semibold">Nhấp 1-chạm để nhận nuôi</span>
+        </h4>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+          ${PETS_CATALOG.map(p => {
+            const isSelected = (S.cfg.petId || 'mochi') === p.id;
+            return `
+              <div class="card p-3 border-2 transition cursor-pointer ${isSelected ? 'border-emerald-600 bg-emerald-50/90 shadow-md ring-2 ring-emerald-400' : 'border-emerald-200/80 hover:border-emerald-400 bg-white'}" onclick="setUserPet('${p.id}')">
+                <div class="flex items-center gap-3">
+                  <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-emerald-100 to-teal-50 border border-emerald-300 flex items-center justify-center text-2xl shadow-sm shrink-0 overflow-hidden">
+                    ${p.avatarUrl ? `<img src="${p.avatarUrl}" class="w-full h-full object-cover">` : p.icon}
+                  </div>
+                  <div class="min-w-0 flex-1">
+                    <div class="flex items-center justify-between gap-1">
+                      <h5 class="font-extrabold text-sm text-emerald-950 truncate">${p.name}</h5>
+                      ${isSelected ? `<span class="text-[10px] bg-emerald-600 text-white font-bold px-1.5 py-0.5 rounded-full shrink-0">Đang nuôi</span>` : ''}
+                    </div>
+                    <p class="text-[11px] font-semibold text-teal-800 truncate">${p.title||'Linh Thú'}</p>
+                    <p class="text-[10px] text-emerald-700 line-clamp-1 mt-0.5">${p.desc}</p>
+                  </div>
+                </div>
+              </div>
+            `;
+          }).join('')}
+        </div>
+      </div>
+
+      <!-- TẢI ẢNH RIÊNG CHO LINH VẬT -->
+      <div class="p-3.5 bg-teal-50/70 rounded-2xl border border-teal-200">
+        <h4 class="font-bold text-xs text-teal-950 uppercase tracking-wider mb-2">📸 Hoặc Tải Ảnh Thú Cưng / Dán Link Ảnh Riêng Cho Bé:</h4>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 items-center">
+          <div>
+            <label class="text-[11px] font-semibold text-teal-900 block mb-1">Cách 1: Chọn ảnh từ máy tính / điện thoại:</label>
+            <label class="btn sm outline cursor-pointer w-full text-center block">
+              <span>📤 Chọn Tệp Ảnh (< 2MB)</span>
+              <input type="file" accept="image/*" class="hidden" onchange="uploadUserCustomPet(this.files)">
+            </label>
+          </div>
+          <div>
+            <label class="text-[11px] font-semibold text-teal-900 block mb-1">Cách 2: Dán URL ảnh từ internet:</label>
+            <div class="flex gap-1.5">
+              <input id="userCustomPetUrl" 
+                     placeholder="https://...link-anh.png" 
+                     value="${S.cfg.customPetUrl||''}" 
+                     class="text-xs font-mono py-1.5 px-2.5 flex-1">
+              <button class="btn sm g shrink-0 !py-1.5 !px-3" onclick="applyUserCustomPetUrl()">Áp Dụng</button>
+            </div>
+          </div>
+        </div>
+        ${S.cfg.customPetUrl ? `
+          <div class="mt-3 pt-2 border-t border-teal-200 flex items-center justify-between">
+            <span class="text-xs font-semibold text-teal-900">Đang sử dụng ảnh riêng tùy chỉnh</span>
+            <button class="btn sm rose !py-1 !px-2.5 text-xs" onclick="resetUserCustomPet()">Xóa Ảnh Riêng (Dùng Lại Ảnh Gốc Của Loài)</button>
+          </div>
+        ` : ''}
+      </div>
+    </section>
+
+    <!-- KHỐI 2: TÙY CHỌN GIAO DIỆN (THEME / SKIN) -->
+    <section class="card border-t-4 border-t-teal-600 shadow-sm">
+      <div class="flex items-center justify-between flex-wrap gap-2 mb-4 pb-3 border-b border-teal-100">
+        <div class="flex items-center gap-2.5">
+          <span class="text-2xl">🎨</span>
+          <div>
+            <h3 class="font-extrabold text-lg text-emerald-950 font-fun">Giao Diện & Màu Sắc Trang Web</h3>
+            <p class="text-xs text-emerald-700">Tự do đổi phông nền, màu sắc không gian học tập theo sở thích cá nhân (Lưu tự động)</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="text-xs font-bold text-teal-800">Đang dùng:</span>
+          <span class="px-2.5 py-1 bg-teal-100 text-teal-900 rounded-full font-bold text-xs border border-teal-300">
+            ${S.cfg.customBgUrl ? 'Ảnh nền cá nhân' : (curTheme.name||'Mặc định')}
+          </span>
+        </div>
+      </div>
+
+      <!-- KHO GIAO DIỆN HỆ THỐNG -->
+      <div class="mb-5">
+        <h4 class="font-extrabold text-sm text-emerald-950 uppercase tracking-wider mb-2.5 flex items-center justify-between">
+          <span>Chọn Bộ Giao Diện Sẵn Có (${THEMES_CATALOG.length} chủ đề):</span>
+          <span class="text-[11px] text-teal-700 font-semibold">Áp dụng tức thì cho màn hình của bạn</span>
+        </h4>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+          ${THEMES_CATALOG.map(t => {
+            const isUsing = (S.cfg.bgTheme === t.id) && !S.cfg.customBgUrl;
+            return `
+              <div class="card p-3 border-2 transition cursor-pointer ${isUsing ? 'border-teal-600 bg-teal-50/90 shadow-md ring-2 ring-teal-400' : 'border-emerald-200/80 hover:border-teal-400 bg-white'}" onclick="setUserTheme('${t.id}')">
+                <div class="w-full h-16 rounded-xl mb-2 border border-emerald-200 shadow-inner flex items-center justify-center font-bold text-xs" style="${t.bgUrl ? `background: url('${t.bgUrl}') center/cover no-repeat; color: white; text-shadow: 0 1px 3px rgba(0,0,0,0.8);` : (t.style ? `background: ${t.style};` : 'background: #e8f5e9;')}">
+                  ${isUsing ? `<span class="bg-teal-900/80 text-white px-2 py-0.5 rounded-full text-[11px]">✓ Đang dùng</span>` : ''}
+                </div>
+                <div class="flex items-center justify-between gap-1 mb-1">
+                  <h5 class="font-extrabold text-xs text-emerald-950">${t.name}</h5>
+                </div>
+                <p class="text-[11px] text-emerald-800 line-clamp-1">${t.desc||'Giao diện học tập phong cách'}</p>
+              </div>
+            `;
+          }).join('')}
+        </div>
+      </div>
+
+      <!-- TẢI ẢNH NỀN RIÊNG -->
+      <div class="p-3.5 bg-emerald-50/70 rounded-2xl border border-emerald-200">
+        <h4 class="font-bold text-xs text-emerald-950 uppercase tracking-wider mb-2">🖼️ Hoặc Đặt Hình Nền Riêng Tùy Thích:</h4>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 items-center">
+          <div>
+            <label class="text-[11px] font-semibold text-emerald-900 block mb-1">Cách 1: Chọn ảnh nền từ máy tính / điện thoại:</label>
+            <label class="btn sm outline cursor-pointer w-full text-center block">
+              <span>📤 Tải Ảnh Nền Từ Máy (< 2MB)</span>
+              <input type="file" accept="image/*" class="hidden" onchange="uploadUserCustomBg(this.files)">
+            </label>
+          </div>
+          <div>
+            <label class="text-[11px] font-semibold text-emerald-900 block mb-1">Cách 2: Dán URL hình nền từ internet:</label>
+            <div class="flex gap-1.5">
+              <input id="userCustomBgUrl" 
+                     placeholder="https://...hinh-nen.jpg" 
+                     value="${S.cfg.customBgUrl||''}" 
+                     class="text-xs font-mono py-1.5 px-2.5 flex-1">
+              <button class="btn sm g shrink-0 !py-1.5 !px-3" onclick="applyUserCustomBgUrl()">Áp Dụng</button>
+            </div>
+          </div>
+        </div>
+        ${S.cfg.customBgUrl ? `
+          <div class="mt-3 pt-2 border-t border-emerald-200 flex items-center justify-between">
+            <span class="text-xs font-semibold text-emerald-900">Đang sử dụng hình nền riêng</span>
+            <button class="btn sm rose !py-1 !px-2.5 text-xs" onclick="resetUserCustomBg()">Khôi Phục Giao Diện Mặc Định</button>
+          </div>
+        ` : ''}
+      </div>
+    </section>
+  </div>
+  `;
+}
+
+function setUserTheme(tId){
+  S.cfg = S.cfg || {};
+  S.cfg.bgTheme = tId;
+  S.cfg.customBgUrl = '';
+  save();
+  applyGardenTheme();
+  render();
+  const th = THEMES_CATALOG.find(t=>t.id===tId);
+  toast('Đã áp dụng giao diện: ' + (th ? th.name : tId));
+}
+
+function setUserPet(petId){
+  S.cfg = S.cfg || {};
+  S.cfg.petId = petId;
+  const p = PETS_CATALOG.find(x=>x.id===petId);
+  if(p && (!S.cfg.petName || DEFAULT_PETS.some(d=>d.name===S.cfg.petName))){
+    S.cfg.petName = p.name;
+  }
+  save();
+  render();
+  toast('Đã chọn linh vật: ' + (p ? p.name : petId));
+}
+
+function uploadUserCustomBg(files){
+  if(!files||!files[0]) return;
+  fileToBase64(files[0], (dataUrl)=>{
+    S.cfg = S.cfg || {};
+    S.cfg.customBgUrl = dataUrl;
+    save();
+    applyGardenTheme();
+    render();
+    toast('Đã tải lên và áp dụng hình nền cá nhân!');
+  });
+}
+
+function uploadUserCustomPet(files){
+  if(!files||!files[0]) return;
+  fileToBase64(files[0], (dataUrl)=>{
+    S.cfg = S.cfg || {};
+    S.cfg.customPetUrl = dataUrl;
+    save();
+    render();
+    toast('Đã cập nhật ảnh linh vật cá nhân!');
+  });
+}
+
+function applyUserCustomBgUrl(){
+  const inp = $('#userCustomBgUrl');
+  if(!inp) return;
+  const url = inp.value.trim();
+  if(!url){ toast('Vui lòng nhập đường link ảnh'); return; }
+  S.cfg = S.cfg || {};
+  S.cfg.customBgUrl = url;
+  save();
+  applyGardenTheme();
+  render();
+  toast('Đã áp dụng ảnh nền tùy chọn!');
+}
+
+function resetUserCustomBg(){
+  S.cfg = S.cfg || {};
+  S.cfg.customBgUrl = '';
+  save();
+  applyGardenTheme();
+  render();
+  toast('Đã khôi phục nền theo giao diện mặc định');
+}
+
+function applyUserCustomPetUrl(){
+  const inp = $('#userCustomPetUrl');
+  if(!inp) return;
+  const url = inp.value.trim();
+  if(!url){ toast('Vui lòng nhập link ảnh linh vật'); return; }
+  S.cfg = S.cfg || {};
+  S.cfg.customPetUrl = url;
+  save();
+  render();
+  toast('Đã áp dụng ảnh linh vật tùy chọn!');
+}
+
+function resetUserCustomPet(){
+  S.cfg = S.cfg || {};
+  S.cfg.customPetUrl = '';
+  save();
+  render();
+  toast('Đã chuyển về hình ảnh gốc của loài linh thú');
+}
+
+function saveUserPetName(){
+  const inp = $('#userPetNameInput');
+  if(!inp) return;
+  const name = inp.value.trim();
+  if(!name){ toast('Tên linh vật không được để trống'); return; }
+  S.cfg = S.cfg || {};
+  S.cfg.petName = name;
+  save();
+  render();
+  toast('Đã lưu tên linh vật: ' + name);
+}
         <div class="text-xs font-bold uppercase tracking-wider text-emerald-900 mb-2">Bảo Vật Trang Trí Phòng:</div>
         <div class="grid grid-cols-3 gap-2">
           ${ITEMS.map(([e,n,f,r])=>`
@@ -2059,16 +2976,20 @@ function vAscensionMap(){
 function waterPlant(){
   gain(10,'px',5);
   Sound.drop();
-  toast(`Bạn đã tưới cho ${S.cfg.petName} một giọt sương mát lành! 💧`);
+  const curP = PETS_CATALOG.find(p=>p.id===(S.cfg.petId||'mochi')) || PETS_CATALOG[0] || {name:'Mochi',icon:'🌱'};
+  const petNick = S.cfg.petName || curP.name;
+  toast(`Bạn đã tưới cho ${petNick} một giọt sương mát lành! 💧`);
   render();
 }
 
 function remind(){
   if(!('Notification' in window)){toast('Trình duyệt chưa hỗ trợ thông báo');return}
+  const curP = PETS_CATALOG.find(p=>p.id===(S.cfg.petId||'mochi')) || PETS_CATALOG[0] || {name:'Mochi',icon:'🌱'};
+  const petNick = S.cfg.petName || curP.name;
   try{
     Notification.requestPermission().then(p=>{
       if(p==='granted'){
-        try{new Notification(`${S.cfg.petName} nhắc bạn`,{body:'Đến giờ học rồi, khu vườn đang chờ!'})}catch(e){}
+        try{new Notification(`${petNick} nhắc bạn`,{body:'Đến giờ học rồi, khu vườn đang chờ!'})}catch(e){}
         toast('Đã bật nhắc nhở lúc '+S.remind);
       }else toast('Bạn chưa cho phép thông báo');
     }).catch(e=>{toast('Thông báo: '+e.message)});
@@ -2078,9 +2999,11 @@ setInterval(()=>{
   try{
     const n=new Date(),h=String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0');
     if(h===S.remind&&S.last!==TODAY()){
-      toast(`Đến giờ học rồi, ${S.cfg.petName} đang chờ!`);
+      const curP = PETS_CATALOG.find(p=>p.id===(S.cfg.petId||'mochi')) || PETS_CATALOG[0] || {name:'Mochi',icon:'🌱'};
+      const petNick = S.cfg.petName || curP.name;
+      toast(`Đến giờ học rồi, ${petNick} đang chờ!`);
       if('Notification' in window&&Notification.permission==='granted'){
-        try{new Notification('Đến giờ học rồi!',{body:`${S.cfg.petName} đang chờ em học bài.`})}catch(e){}
+        try{new Notification('Đến giờ học rồi!',{body:`${petNick} đang chờ em học bài.`})}catch(e){}
       }
     }
   }catch(e){}
