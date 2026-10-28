@@ -239,7 +239,7 @@ footer{position:relative;z-index:10}
             </span>
             <button class="text-slate-400 hover:text-slate-700 font-bold text-base p-1 leading-none rounded-lg hover:bg-slate-100" onclick="closeAdminPinDropdown()" title="Đóng">✕</button>
           </div>
-          <p class="text-xs text-emerald-800 mb-2 leading-relaxed">Nhập mật khẩu (mặc định: <code id="defaultPinHint" class="font-bold text-amber-800 bg-amber-50 px-1.5 py-0.5 rounded border border-amber-200">admin2026</code>):</p>
+          <p class="text-xs text-emerald-800 mb-2 leading-relaxed">Nhập mật khẩu quản trị để mở quyền cấu hình hệ thống:</p>
           <input id="adminPinInput" 
                  type="password" 
                  autocomplete="new-password" 
@@ -1133,7 +1133,6 @@ function handleAdminNavClick(){
     // Nếu chưa xác thực, mở dropdown nhập mã PIN nhanh ngay dưới nút
     const d=$('#adminPinDropdown');if(!d)return;
     const wrap=$('#adminWrap');
-    const hint=$('#defaultPinHint');if(hint)hint.textContent=ADMIN_PIN;
     const willOpen=d.classList.contains('hidden');
     d.classList.toggle('hidden');
     if(wrap){
@@ -1160,7 +1159,7 @@ function verifyAdminPin(){
     toast('Xác thực quản trị thành công!');
     go('admin');
   }else{
-    toast('Mật khẩu chưa đúng, hãy thử: '+ADMIN_PIN);
+    toast('Mật khẩu quản trị chưa đúng, vui lòng thử lại!');
   }
 }
 
@@ -1734,7 +1733,7 @@ function vAdminSecurity(){
     <div class="text-center mb-4">
       <span class="text-4xl">🔑</span>
       <h4 class="font-extrabold text-base text-emerald-950 font-fun mt-1">Đổi Mật Khẩu Quản Trị Viên</h4>
-      <p class="text-xs text-emerald-700">Mật khẩu hiện tại: <b class="font-mono text-emerald-900 bg-white/80 px-2 py-0.5 rounded border border-emerald-300">${ADMIN_PIN}</b></p>
+      <p class="text-xs text-emerald-700">Nhập mật khẩu mới để tăng cường bảo mật cho hệ thống quản trị</p>
     </div>
 
     <div class="space-y-3">
@@ -1748,7 +1747,7 @@ function vAdminSecurity(){
                spellcheck="false" 
                data-lpignore="true" 
                placeholder="Nhập mật khẩu mới…" 
-               value="${ADMIN_PIN}" 
+               value="" 
                class="font-bold text-emerald-950">
       </div>
       <div>
@@ -1761,7 +1760,7 @@ function vAdminSecurity(){
                spellcheck="false" 
                data-lpignore="true" 
                placeholder="Nhập lại mật khẩu mới…" 
-               value="${ADMIN_PIN}" 
+               value="" 
                class="font-bold text-emerald-950">
       </div>
       <div class="flex items-center gap-2 pt-1">
@@ -1787,11 +1786,12 @@ function toggleAdminPassVisibility(show){
 function saveAdminPassword(){
   const p1=$('#newAdminPinInput').value.trim();
   const p2=$('#confirmAdminPinInput').value.trim();
-  if(!p1){toast('Mật khẩu không được để trống');return}
-  if(p1!==p2){toast('Hai mật khẩu không khớp nhau');return}
+  if(!p1){toast('Vui lòng nhập mật khẩu mới');return}
+  if(p1.length < 4){toast('Mật khẩu cần có ít nhất 4 ký tự');return}
+  if(p1!==p2){toast('Hai mật khẩu không khớp nhau, vui lòng kiểm tra lại');return}
   ADMIN_PIN=p1;
   try{localStorage.setItem('sa_admin_pin',p1)}catch(e){}
-  toast('Đã đổi mật khẩu quản trị thành: '+p1);
+  toast('Đã cập nhật mật khẩu quản trị mới thành công! 🔒');
   render();
 }
 
