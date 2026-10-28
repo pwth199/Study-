@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Study Arena – Khu Vườn Tri Thức & Linh Vật Mochi</title>
+<title>HPU2 Study Arena – Đấu Trường Tri Thức Sư Phạm Hà Nội 2</title>
 <script src="https://cdn.tailwindcss.com/3.4.17"></script>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -207,14 +207,14 @@ footer{position:relative;z-index:10}
     <!-- LOGO VÀ TÊN HỆ THỐNG -->
     <div class="flex items-center gap-3 cursor-pointer select-none" onclick="go('learn')">
       <div id="siteLogoWrap" class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-emerald-600 to-teal-400 flex items-center justify-center text-2xl shadow-lg shadow-emerald-700/20 anim-float overflow-hidden shrink-0">
-        <span id="siteLogoIcon">🌿</span>
+        <span id="siteLogoIcon">🏛️</span>
       </div>
       <div>
         <div class="flex items-center gap-2">
-          <span id="siteTitle" class="text-2xl font-extrabold tracking-tight text-emerald-950 font-fun">Study Arena</span>
-          <span id="siteTag" class="bg-emerald-100 text-emerald-800 text-[11px] font-bold px-2.5 py-0.5 rounded-full border border-emerald-300">Vườn Tri Thức</span>
+          <span id="siteTitle" class="text-2xl font-extrabold tracking-tight text-emerald-950 font-fun">HPU2 Study Arena</span>
+          <span id="siteTag" class="bg-emerald-100 text-emerald-800 text-[11px] font-bold px-2.5 py-0.5 rounded-full border border-emerald-300">ĐH Sư Phạm Hà Nội 2</span>
         </div>
-        <div id="siteSub" class="text-xs font-semibold text-emerald-700">Nuôi dưỡng linh vật Mochi qua từng bài học</div>
+        <div id="siteSub" class="text-xs font-semibold text-emerald-700">Đấu trường tri thức & nghiệp vụ Sư phạm Toán - HPU2</div>
       </div>
     </div>
 
@@ -334,24 +334,45 @@ function fileToBase64(file, callback){
 
 const DEFAULT_THEMES = [
   {
+    id: 'hpu2_emerald',
+    name: '🏛️ Xanh Sư Phạm HPU2',
+    desc: 'Màu xanh truyền thống của ĐH Sư phạm Hà Nội 2 - Tươi sáng, thanh lịch và chuẩn mực',
+    style: 'linear-gradient(135deg, #e8f5e9 0%, #ecfdf5 45%, #d1fae5 100%)',
+    bgUrl: ''
+  },
+  {
+    id: 'hpu2_chalk',
+    name: '📐 Bảng Xanh Phấn Trắng',
+    desc: 'Không gian giảng đường sư phạm quen thuộc với bảng xanh ngọc và nét phấn tinh khôi',
+    style: 'linear-gradient(135deg, #064e3b 0%, #065f46 50%, #047857 100%)',
+    bgUrl: ''
+  },
+  {
     id: 'morning',
-    name: '🍃 Vườn Ban Mai',
-    desc: 'Tươi mát, dịu êm tràn đầy sức sống của buổi sớm mai',
+    name: '🍃 Ban Mai Xuân Hòa',
+    desc: 'Bình minh trong trẻo trên giảng đường Xuân Hòa - Phúc Yên, đón linh khí ngày mới',
     style: 'linear-gradient(135deg, #e8f5e9 0%, #f1faee 50%, #e0f2fe 100%)',
     bgUrl: ''
   },
   {
     id: 'fairy',
-    name: '✨ Vườn Tiên Cảnh',
-    desc: 'Pastel mộng mơ, lung linh ánh sáng diệu kỳ của xứ thần tiên',
+    name: '✨ Tiên Cảnh Giảng Đường',
+    desc: 'Pastel mộng mơ, lung linh ánh sáng tri thức và nhiệt huyết thanh xuân sinh viên',
     style: 'linear-gradient(135deg, #fce7f3 0%, #e0e7ff 50%, #fef3c7 100%)',
     bgUrl: ''
   },
   {
     id: 'twilight',
-    name: '🌌 Rừng Đom Đóm Đêm',
-    desc: 'Huyền ảo, tĩnh lặng và tập trung cao độ trong màn đêm',
+    name: '🌌 Ký Túc Xá Đêm Vắng',
+    desc: 'Tĩnh lặng, tập trung cao độ khi miệt mài soạn giáo án và giải đề đêm khuya',
     style: 'linear-gradient(135deg, #064e3b 0%, #0f172a 50%, #1e1b4b 100%)',
+    bgUrl: ''
+  },
+  {
+    id: 'sunset',
+    name: '🌅 Hoàng Hôn Đồi 79 Mùa Xuân',
+    desc: 'Ấm áp, bình yên thư giãn tâm trí sau những giờ rèn luyện nghiệp vụ sư phạm',
+    style: 'linear-gradient(135deg, #ffedd5 0%, #fed7aa 40%, #fbcfe8 100%)',
     bgUrl: ''
   },
   {
@@ -359,13 +380,6 @@ const DEFAULT_THEMES = [
     name: '🌸 Vườn Hoa Anh Đào',
     desc: 'Hồng phấn ngọt ngào, cánh hoa đào rơi êm đềm thư thái',
     style: 'linear-gradient(135deg, #fff1f2 0%, #ffe4e6 50%, #f0fdf4 100%)',
-    bgUrl: ''
-  },
-  {
-    id: 'sunset',
-    name: '🌅 Hoàng Hôn Rực Rỡ',
-    desc: 'Ấm áp, bình yên thư giãn tâm trí sau giờ học căng thẳng',
-    style: 'linear-gradient(135deg, #ffedd5 0%, #fed7aa 40%, #fbcfe8 100%)',
     bgUrl: ''
   },
   {
@@ -380,7 +394,14 @@ const DEFAULT_THEMES = [
 let THEMES_CATALOG = [...DEFAULT_THEMES];
 try {
   const savedTh = JSON.parse(localStorage.getItem('sa_themes_catalog') || '[]');
-  if (Array.isArray(savedTh) && savedTh.length > 0) THEMES_CATALOG = savedTh;
+  if (Array.isArray(savedTh) && savedTh.length > 0) {
+    const existingIds = new Set(savedTh.map(t => t.id));
+    const merged = [...savedTh];
+    DEFAULT_THEMES.forEach(dt => {
+      if (!existingIds.has(dt.id)) merged.unshift(dt);
+    });
+    THEMES_CATALOG = merged;
+  }
 } catch (e) {}
 
 function saveThemesCatalog(){
@@ -389,50 +410,66 @@ function saveThemesCatalog(){
 
 const DEFAULT_PETS = [
   {
+    id: 'hpu2_owl',
+    name: 'Cú Mèo Tri Thức HPU2',
+    title: 'Sứ Giả Trí Tuệ Sư Phạm',
+    desc: 'Cú nhỏ đeo kính sư phạm, thông thái, luôn đồng hành cùng sinh viên giải bài toán khó.',
+    icon: '🦉',
+    avatarUrl: ''
+  },
+  {
     id: 'mochi',
-    name: 'Bé Mầm Mochi',
-    title: 'Linh Thú Khởi Nguyên',
-    desc: 'Hạt mầm xanh đáng yêu, tràn đầy sự tươi mới và hiếu học.',
+    name: 'Bé Mầm Sư Phạm',
+    title: 'Hạt Giống Nghề Giáo',
+    desc: 'Hạt mầm xanh đáng yêu, tượng trưng cho những tân sinh viên ngày đầu gieo chữ tại HPU2.',
     icon: '🌱',
     avatarUrl: ''
   },
   {
     id: 'bunny',
-    name: 'Thỏ Ngọc Cung Trăng',
-    title: 'Sứ Giả Ánh Trăng',
-    desc: 'Nhanh nhẹn, thông minh, luôn chăm chỉ gõ nhịp học bài.',
+    name: 'Thỏ Trợ Giảng CV 5512',
+    title: 'Chuyên Gia Soạn Giáo Án',
+    desc: 'Nhanh nhẹn, cẩn thận, chuẩn chỉnh từng tiến trình hoạt động học theo chuẩn Bộ GD&ĐT.',
     icon: '🐇',
     avatarUrl: ''
   },
   {
+    id: 'crane',
+    name: 'Hạc Trắng Thanh Cao',
+    title: 'Biểu Tượng Đạo Đức Người Thầy',
+    desc: 'Cánh hạc trắng tượng trưng cho phẩm chất thanh liêm, tận tụy vì thế hệ tương lai.',
+    icon: '🕊️',
+    avatarUrl: ''
+  },
+  {
     id: 'fox',
-    name: 'Hồ Ly Tri Thức',
-    title: 'Bậc Thầy Trí Tuệ',
-    desc: 'Cáo nhỏ lanh lợi với đôi mắt tinh anh thấu suốt tri thức.',
+    name: 'Hồ Ly Logic Toán',
+    title: 'Bậc Thầy Đại Số & Hình Học',
+    desc: 'Cáo nhỏ tinh anh, nắm vững cấu trúc đại số và phương pháp tư duy chứng minh phản chứng.',
     icon: '🦊',
     avatarUrl: ''
   },
   {
-    id: 'cat',
-    name: 'Mèo Thần Tài May Mắn',
-    title: 'Hộ Thần May Mắn',
-    desc: 'Vẫy tay chiêu tài kiến thức, đem lại bình tĩnh khi thi cử.',
-    icon: '🐱',
-    avatarUrl: ''
-  },
-  {
     id: 'dragon',
-    name: 'Thanh Long Linh Giáp',
-    title: 'Thần Thú Bảo Hộ',
-    desc: 'Rồng con oai dũng, tràn đầy sức mạnh vượt qua mọi thử thách.',
+    name: 'Thanh Long Bản Lĩnh Bục Giảng',
+    title: 'Thần Thú Hội Thi Nghiệp Vụ',
+    desc: 'Tự tin, đĩnh đạc, bản lĩnh đứng lớp trước hàng trăm học sinh và giám khảo.',
     icon: '🐲',
     avatarUrl: ''
   },
   {
+    id: 'cat',
+    name: 'Mèo May Mắn Thi Cử',
+    title: 'Hộ Thần May Mắn',
+    desc: 'Vẫy tay đem lại may mắn, bình tĩnh và tự tin tuyệt đối trong mọi kỳ thi kết thúc học phần.',
+    icon: '🐱',
+    avatarUrl: ''
+  },
+  {
     id: 'phoenix',
-    name: 'Phượng Hoàng Niết Bàn',
-    title: 'Hỏa Phượng Trùng Sinh',
-    desc: 'Bền bỉ, ý chí kiên định, thắp sáng đam mê học tập không ngừng.',
+    name: 'Phượng Hoàng Lửa Nhiệt Huyết',
+    title: 'Ngọn Lửa Nghề Sư Phạm',
+    desc: 'Bền bỉ, ý chí kiên định, thắp sáng đam mê và ngọn lửa yêu nghề giáo không bao giờ tắt.',
     icon: '🦅',
     avatarUrl: ''
   }
@@ -441,7 +478,14 @@ const DEFAULT_PETS = [
 let PETS_CATALOG = [...DEFAULT_PETS];
 try {
   const savedP = JSON.parse(localStorage.getItem('sa_pets_catalog') || '[]');
-  if (Array.isArray(savedP) && savedP.length > 0) PETS_CATALOG = savedP;
+  if (Array.isArray(savedP) && savedP.length > 0) {
+    const existingIds = new Set(savedP.map(p => p.id));
+    const merged = [...savedP];
+    DEFAULT_PETS.forEach(dp => {
+      if (!existingIds.has(dp.id)) merged.unshift(dp);
+    });
+    PETS_CATALOG = merged;
+  }
 } catch (e) {}
 
 function savePetsCatalog(){
@@ -449,14 +493,14 @@ function savePetsCatalog(){
 }
 
 const DEFAULT_CFG={
-  siteName:'Study Arena',
-  siteTag:'Vườn Tri Thức',
-  siteSub:'Nuôi dưỡng linh vật tri thức qua từng bài học',
-  petName:'Mochi',
-  petId:'mochi',
-  bgTheme:'morning',
+  siteName:'HPU2 Study Arena',
+  siteTag:'ĐH Sư Phạm Hà Nội 2',
+  siteSub:'Đấu trường tri thức & nghiệp vụ Sư phạm Toán - HPU2',
+  petName:'Cú Mèo HPU2',
+  petId:'hpu2_owl',
+  bgTheme:'hpu2_emerald',
   customBgUrl:'',
-  logoIcon:'🌿',
+  logoIcon:'🏛️',
   customLogoUrl:'',
   customPetUrl:''
 };
@@ -520,41 +564,153 @@ function toggleAudio(){
   toast(S.muted?'Đã tắt âm thanh khu vườn':'Đã bật âm thanh sinh động');
 }
 
-/* ==================== 4. DỮ LIỆU CỐT LÕI (TOÁN GIẢI TÍCH) ==================== */
+/* ==================== 4. DỮ LIỆU CỐT LÕI (CHƯƠNG TRÌNH ĐÀO TẠO ĐH SƯ PHẠM HÀ NỘI 2 - HPU2) ==================== */
 const DEFAULT_TOPICS=[
-  'Giới hạn dãy số và hàm số',
-  'Hàm liên tục',
-  'Đạo hàm và vi phân',
-  'Ứng dụng đạo hàm: cực trị, tiệm cận',
-  'Tích phân bất định',
-  'Tích phân xác định',
-  'Tích phân suy rộng',
-  'Chuỗi số và tiêu chuẩn hội tụ'
+  'HPU2 - Giải tích 1: Giới hạn dãy số, hàm số và hàm số liên tục',
+  'HPU2 - Giải tích 1: Phép tính vi phân hàm một biến & Định lý Fermat, Rolle, Lagrange',
+  'HPU2 - Giải tích 1: Tích phân Riemann & Định lý cơ bản của Giải tích (Newton-Leibniz)',
+  'HPU2 - Giải tích 1: Chuỗi số dương, chuỗi đan dấu & Tiêu chuẩn hội tụ (d’Alembert, Cauchy, Leibniz)',
+  'HPU2 - Đại số tuyến tính: Không gian vectơ, độc lập tuyến tính, cơ sở và số chiều',
+  'HPU2 - Đại số tuyến tính: Ma trận, định thức và hệ phương trình đại số tuyến tính (Gauss-Jordan)',
+  'HPU2 - Đại số tuyến tính: Ánh xạ tuyến tính, trị riêng, vectơ riêng & Chéo hóa ma trận',
+  'HPU2 - PPDH Toán: Dạy học phát triển phẩm chất, năng lực học sinh theo CT GDPT 2018',
+  'HPU2 - PPDH Toán: Xây dựng Kế hoạch bài dạy (Giáo án) môn Toán theo Công văn 5512/BGDĐT',
+  'HPU2 - Tâm lý học SP: Đặc điểm tâm lý lứa tuổi học sinh THCS/THPT & Kỹ năng sư phạm của người thầy'
 ];
 const DEFAULT_KNOW=[
-  'Định nghĩa giới hạn và các dạng vô định (0/0, ∞/∞)',
-  'Quy tắc L’Hôpital',
-  'Định nghĩa đạo hàm bằng giới hạn của tỉ số số gia',
-  'Điều kiện cần của cực trị (định lý Fermat)',
-  'Công thức Newton–Leibniz',
-  'Tiêu chuẩn so sánh và d’Alembert cho chuỗi'
+  'Ngôn ngữ ε - δ trong định nghĩa giới hạn hàm số (Giải tích 1 HPU2)',
+  'Định lý Lagrange: Tồn tại c ∈ (a, b) sao cho f(b) - f(a) = f′(c)(b - a)',
+  'Điều kiện khả tích Riemann và công thức tích phân từng phần: ∫u dv = uv - ∫v du',
+  'Hạng ma trận r(A) và Định lý Kronecker-Capelli về nghiệm hệ phương trình tuyến tính',
+  'Định nghĩa không gian con, cơ sở, số chiều dim(V) của không gian vectơ',
+  'Quy trình 4 bước thiết kế hoạt động học theo CV 5512: Khởi động - Hình thành kiến thức - Luyện tập - Vận dụng',
+  'Các năng lực toán học cốt lõi theo GDPT 2018: Tư duy & lập luận toán học, Mô hình hóa, Giải quyết vấn đề, Giao tiếp toán học, Sử dụng công cụ/phương tiện'
 ];
 const DEFAULT_MCQ=[
- {q:'lim (x→0) sin x / x bằng?',o:['0','1','∞','Không tồn tại'],a:1,e:'Đây là giới hạn cơ bản, bằng 1.'},
- {q:'Đạo hàm của f(x) = x²·eˣ là?',o:['2x·eˣ','x²·eˣ','(2x + x²)·eˣ','2x + eˣ'],a:2,e:'Quy tắc tích: (uv)′ = u′v + uv′ = 2x·eˣ + x²·eˣ.'},
- {q:'∫₀¹ 2x dx bằng?',o:['0','1','2','1/2'],a:1,e:'Nguyên hàm là x², thay cận: 1² − 0² = 1.'},
- {q:'Chuỗi Σ 1/n² (n ≥ 1) có tính chất nào?',o:['Phân kỳ','Hội tụ','Dao động','Không xác định'],a:1,e:'Chuỗi p với p = 2 > 1 nên hội tụ.'},
- {q:'Hàm |x| tại x = 0?',o:['Liên tục, khả vi','Liên tục, không khả vi','Gián đoạn','Khả vi, không liên tục'],a:1,e:'Đạo hàm trái là −1, đạo hàm phải là 1 nên không khả vi, nhưng hàm vẫn liên tục.'}
+  {
+    q: '[Giải tích 1 - HPU2] Cho hàm số f(x) liên tục trên đoạn [a, b] và khả vi trên khoảng (a, b). Theo định lý Lagrange, khẳng định nào sau đây là đúng?',
+    o: [
+      'Tồn tại c ∈ (a, b) sao cho f′(c) = 0',
+      'Tồn tại c ∈ (a, b) sao cho f(b) - f(a) = f′(c)(b - a)',
+      'Với mọi c ∈ (a, b) ta đều có f(b) - f(a) = f′(c)(b - a)',
+      'Tồn tại c ∈ [a, b] sao cho f(c) = [f(a) + f(b)] / 2'
+    ],
+    a: 1,
+    e: 'Định lý giá trị trung bình Lagrange khẳng định tồn tại ít nhất một điểm c ∈ (a, b) sao cho f(b) - f(a) = f′(c)(b - a).'
+  },
+  {
+    q: '[Đại số tuyến tính - HPU2] Hệ gồm n vectơ trong không gian vectơ ℝⁿ là một cơ sở khi và chỉ khi:',
+    o: [
+      'Hệ vectơ đó trực giao từng đôi một',
+      'Hệ vectơ đó độc lập tuyến tính',
+      'Hệ vectơ đó có ít nhất một vectơ khác vectơ không',
+      'Định thức tạo bởi các tọa độ của chúng bằng 0'
+    ],
+    a: 1,
+    e: 'Trong không gian n chiều, một hệ gồm đúng n vectơ độc lập tuyến tính thì luôn là một cơ sở của không gian đó (định thức khác 0).'
+  },
+  {
+    q: '[Giải tích 1 - HPU2] Chuỗi số Riemann ∑ (1 / n^α) với n chạy từ 1 đến vô cùng hội tụ khi và chỉ khi:',
+    o: [
+      'α > 1',
+      'α ≥ 1',
+      'α < 1',
+      'α ≤ 0'
+    ],
+    a: 0,
+    e: 'Chuỗi Dirichlet (Riemann p-series) ∑ 1/n^α hội tụ khi α > 1 và phân kỳ khi α ≤ 1.'
+  },
+  {
+    q: '[PPDH Toán - HPU2] Theo Công văn 5512/BGDĐT, mỗi hoạt động học của học sinh trong Kế hoạch bài dạy cần gồm 4 bước tổ chức nào?',
+    o: [
+      'Giáo viên giảng bài - Học sinh nghe - Làm bài tập mẫu - Chấm điểm',
+      'Chuyển giao nhiệm vụ - Thực hiện nhiệm vụ - Báo cáo, thảo luận - Kết luận, nhận định',
+      'Kiểm tra bài cũ - Dạy bài mới - Củng cố kiến thức - Dặn dò bài tập về nhà',
+      'Đặt câu hỏi - Học sinh trả lời - Chép bài vào vở - Làm bài kiểm tra 15 phút'
+    ],
+    a: 1,
+    e: 'Khung 4 bước tổ chức hoạt động học chuẩn CV 5512 gồm: 1. Chuyển giao nhiệm vụ; 2. Thực hiện nhiệm vụ; 3. Báo cáo, thảo luận; 4. Kết luận, nhận định.'
+  },
+  {
+    q: '[GDPT 2018 - HPU2] Năng lực nào sau đây KHÔNG thuộc 5 thành tố năng lực toán học chuyên biệt theo Chương trình GDPT 2018 môn Toán?',
+    o: [
+      'Năng lực mô hình hóa toán học',
+      'Năng lực tư duy và lập luận toán học',
+      'Năng lực viết văn nghị luận văn học',
+      'Năng lực sử dụng công cụ, phương tiện học toán'
+    ],
+    a: 2,
+    e: '5 thành tố năng lực toán học theo CT GDPT 2018 gồm: Tư duy & lập luận, Mô hình hóa, Giải quyết vấn đề toán học, Giao tiếp toán học, Sử dụng công cụ/phương tiện học toán.'
+  },
+  {
+    q: '[Giải tích 1 - HPU2] Giới hạn lim (x → 0) (e^x - 1 - x) / x² có giá trị bằng:',
+    o: [
+      '0',
+      '1/2',
+      '1',
+      '+∞'
+    ],
+    a: 1,
+    e: 'Sử dụng khai triển Maclaurin e^x = 1 + x + x²/2 + o(x²) hoặc dùng quy tắc L’Hôpital hai lần, ta thu được kết quả 1/2.'
+  },
+  {
+    q: '[Đại số tuyến tính - HPU2] Cho ma trận vuông A cấp n. Điều kiện cần và đủ để ma trận A khả nghịch (tồn tại A⁻¹) là:',
+    o: [
+      'det(A) = 0',
+      'det(A) ≠ 0',
+      'rank(A) < n',
+      'A là ma trận đường chéo'
+    ],
+    a: 1,
+    e: 'Ma trận vuông cấp n khả nghịch khi và chỉ khi định thức của nó khác 0 (det(A) ≠ 0), tương đương hạng r(A) = n.'
+  },
+  {
+    q: '[Nghiệp vụ Sư phạm - HPU2] Khẩu hiệu hành động và triết lý đào tạo nổi tiếng của Trường ĐH Sư phạm Hà Nội 2 gắn liền với phương châm nào?',
+    o: [
+      'Tiên học lễ, hậu học văn',
+      'Kỷ cương - Tình thương - Trách nhiệm & Đổi mới sáng tạo',
+      'Học đi đôi với hành',
+      'Vững chuyên môn, sáng đạo đức, chuẩn mực tác phong người giáo viên nhân dân'
+    ],
+    a: 1,
+    e: 'Trường Đại học Sư phạm Hà Nội 2 luôn nêu cao tinh thần: "Kỷ cương - Tình thương - Trách nhiệm", hướng đến đào tạo người thầy mẫu mực, năng động, hội nhập và sáng tạo.'
+  }
 ];
 const DEFAULT_ESSAY=[
- {q:'Tìm cực trị của f(x) = x³ − 3x + 2 và trình bày các bước.',h:'Tính f′(x), giải f′(x) = 0, lập bảng biến thiên hoặc xét dấu f″(x).'},
- {q:'Chứng minh nếu f khả vi tại a thì f liên tục tại a.',h:'Viết f(x) − f(a) = [(f(x) − f(a))/(x − a)]·(x − a), rồi cho x → a.'}
+  {
+    q: '[Giải tích 1 - HPU2] Chứng minh rằng nếu hàm số f(x) khả vi tại điểm x₀ thì f(x) liên tục tại điểm x₀. Chiều ngược lại có luôn đúng không? Nêu một phản ví dụ kinh điển.',
+    h: 'Hướng dẫn Sư phạm Toán HPU2: Biểu diễn f(x) - f(x₀) = [(f(x) - f(x₀))/(x - x₀)] · (x - x₀). Lấy lim khi x → x₀, ta được lim (f(x) - f(x₀)) = f′(x₀) · 0 = 0 ⇒ lim f(x) = f(x₀) nên liên tục. Chiều ngược lại KHÔNG đúng: Xét phản ví dụ f(x) = |x| tại x₀ = 0 liên tục nhưng không khả vi (đạo hàm trái bằng -1, đạo hàm phải bằng 1).'
+  },
+  {
+    q: '[PPDH Toán - HPU2] Thầy/Cô hãy phân tích quy trình 4 bước tổ chức một hoạt động học theo Công văn 5512/BGDĐT và lấy ví dụ minh họa cho hoạt động "Hình thành định lý Pytago" trong môn Toán THCS.',
+    h: 'Hướng dẫn Sư phạm Toán HPU2: 1. Chuyển giao nhiệm vụ (GV giao phiếu học tập ghép 8 tam giác vuông vào 2 hình vuông cạnh a+b); 2. Thực hiện nhiệm vụ (HS thảo luận nhóm, so sánh diện tích phần còn lại c² và a²+b²); 3. Báo cáo, thảo luận (Đại diện nhóm trình bày kết quả c² = a²+b²); 4. Kết luận, nhận định (GV chuẩn hóa kiến thức thành Định lý Pytago).'
+  },
+  {
+    q: '[Đại số tuyến tính - HPU2] Trình bày thuật toán khử Gauss - Jordan để tìm hạng của ma trận và tìm nghiệm của hệ phương trình đại số tuyến tính tổng quát.',
+    h: 'Hướng dẫn Sư phạm Toán HPU2: Sử dụng 3 phép biến đổi sơ cấp trên dòng đưa ma trận hệ số bổ sung [A|B] về dạng ma trận bậc thang thu gọn (ma trận hình thang). So sánh r(A) và r(A|B) theo Định lý Kronecker-Capelli để kết luận vô nghiệm (r(A) < r(A|B)), có nghiệm duy nhất (r(A) = r(A|B) = n), hay vô số nghiệm phụ thuộc (n - r) ẩn tự do.'
+  }
 ];
 const DEFAULT_ORAL=[
- {q:'Em hãy phát biểu định nghĩa đạo hàm của hàm số tại một điểm.',k:['giới hạn','lim','tỉ số','số gia'],hint:'Hãy nghĩ tới giới hạn của tỉ số giữa số gia hàm số và số gia đối số.'},
- {q:'Về mặt hình học, đạo hàm tại x₀ biểu diễn điều gì?',k:['tiếp tuyến','hệ số góc','độ dốc'],hint:'Nghĩ về đường thẳng chạm đồ thị tại điểm đó.'},
- {q:'Hàm liên tục có chắc khả vi không? Cho một ví dụ.',k:['|x|','trị tuyệt đối','không khả vi','không'],hint:'Thử xét hàm có “góc nhọn” tại gốc tọa độ.'},
- {q:'Cuối cùng, định lý Fermat nói gì về cực trị và đạo hàm?',k:['bằng 0','=0','cực trị','điều kiện cần'],hint:'Nếu hàm khả vi và đạt cực trị tại x₀ thì f′(x₀) có giá trị nào?'}
+  {
+    q: 'Thầy chào em, sinh viên Sư phạm Toán HPU2! Trước hết, em hãy phát biểu ý nghĩa hình học của đạo hàm và ứng dụng của nó trong việc viết phương trình tiếp tuyến của đồ thị hàm số.',
+    k: ['tiếp tuyến', 'hệ số góc', 'độ dốc', 'y - y0', 'f\'(x0)'],
+    hint: 'Hãy nêu bản chất hệ số góc k = f′(x₀) của tiếp tuyến và dạng phương trình y = f′(x₀)(x - x₀) + f(x₀).'
+  },
+  {
+    q: 'Trong chương trình đào tạo Sư phạm Toán HPU2, Công văn 5512/BGDĐT đóng vai trò kim chỉ nam. Em hãy nêu tên 4 bước tổ chức một hoạt động dạy học trên lớp.',
+    k: ['chuyển giao', 'thực hiện', 'báo cáo', 'kết luận', 'nhận định', 'thảo luận', 'nhiệm vụ'],
+    hint: 'Gồm: Chuyển giao nhiệm vụ -> Thực hiện nhiệm vụ -> Báo cáo, thảo luận -> Kết luận, nhận định.'
+  },
+  {
+    q: 'Cho không gian vectơ V có n chiều. Thế nào là một cơ sở của V và một hệ n vectơ có điều kiện gì thì trở thành cơ sở?',
+    k: ['độc lập tuyến tính', 'sinh ra', 'hệ sinh', 'số chiều', 'cơ sở', 'dư thừa'],
+    hint: 'Cơ sở là hệ vừa độc lập tuyến tính vừa là hệ sinh. Trong không gian n chiều, chỉ cần n vectơ độc lập tuyến tính.'
+  },
+  {
+    q: 'Là một giáo viên tương lai trưởng thành từ cái nôi HPU2 - Xuân Hòa, theo em làm thế nào để bồi dưỡng năng lực giải quyết vấn đề toán học cho học sinh THCS/THPT?',
+    k: ['thực tiễn', 'tình huống', 'chủ động', 'vận dụng', 'tư duy', 'mô hình', 'học sinh', 'tích cực'],
+    hint: 'Gợi mở qua các tình huống thực tiễn, khuyến khích học sinh mô hình hóa bài toán, tự tìm kiếm chiến lược giải và tự kiểm tra đánh giá.'
+  }
 ];
 
 let CONTENT={
@@ -565,11 +721,25 @@ let CONTENT={
   KNOW:[...DEFAULT_KNOW]
 };
 
+const HPU2_VERSION = 'hpu2_v2.0';
 try{
-  const savedC=JSON.parse(localStorage.getItem('sa_garden_content')||localStorage.getItem('sa_content')||'{}');
-  for(const k in savedC){
-    if(CONTENT[k]&&Array.isArray(savedC[k])&&savedC[k].length>0){
-      CONTENT[k]=savedC[k];
+  const curVer = localStorage.getItem('sa_hpu2_version');
+  if (curVer !== HPU2_VERSION) {
+    CONTENT = {
+      MCQ:[...DEFAULT_MCQ],
+      ESSAY:[...DEFAULT_ESSAY],
+      ORAL:[...DEFAULT_ORAL],
+      TOPICS:[...DEFAULT_TOPICS],
+      KNOW:[...DEFAULT_KNOW]
+    };
+    localStorage.setItem('sa_hpu2_version', HPU2_VERSION);
+    saveContent();
+  } else {
+    const savedC=JSON.parse(localStorage.getItem('sa_garden_content')||localStorage.getItem('sa_content')||'{}');
+    for(const k in savedC){
+      if(CONTENT[k]&&Array.isArray(savedC[k])&&savedC[k].length>0){
+        CONTENT[k]=savedC[k];
+      }
     }
   }
 }catch(e){}
@@ -588,8 +758,8 @@ let S={
   streak:1,
   last:TODAY(),
   done:1,
-  grade:'Lớp 9',
-  subject:'Toán học',
+  grade:'Năm 1',
+  subject:'Giải tích 1 (Hàm 1 biến & Chuỗi)',
   hrs:2,
   files:[],
   focus:[...DEFAULT_KNOW],
@@ -624,15 +794,26 @@ if(S.xp===undefined||isNaN(S.xp)) S.xp=45;
 if(S.streak===undefined||isNaN(S.streak)) S.streak=1;
 if(!S.focus||!Array.isArray(S.focus)||!S.focus.length) S.focus=[...CONTENT.KNOW];
 
-// Khối lớp hợp lệ (Đã loại bỏ hoàn toàn Lớp 10, 11, 12 theo yêu cầu)
-const VALID_GRADES = [
-  'Lớp 1', 'Lớp 2', 'Lớp 3', 'Lớp 4', 'Lớp 5',
-  'Lớp 6', 'Lớp 7', 'Lớp 8', 'Lớp 9',
-  'Đại học năm 1', 'Đại học năm 2', 'Đại học năm 3', 'Đại học năm 4',
-  'Học viên tự do'
-];
-if (!S.grade || ['Lớp 10', 'Lớp 11', 'Lớp 12'].includes(S.grade) || !VALID_GRADES.includes(S.grade)) {
-  S.grade = 'Lớp 9';
+// Khối lớp hợp lệ (ĐÃ LOẠI BỎ TOÀN BỘ CÁC LỚP PHỔ THÔNG. CHỈ CÒN DUY NHẤT 4 NĂM ĐẠI HỌC HPU2)
+const VALID_GRADES = ['Năm 1', 'Năm 2', 'Năm 3', 'Năm 4'];
+if (!S.grade || !VALID_GRADES.includes(S.grade)) {
+  S.grade = 'Năm 1';
+}
+if (!S.subject || S.subject === 'Toán học') {
+  S.subject = 'Giải tích 1 (Hàm 1 biến & Chuỗi)';
+}
+
+// Cập nhật thương hiệu HPU2 nếu đang dùng cấu hình mặc định cũ
+if (!S.cfg || S.cfg.siteName === 'Study Arena' || !S.cfg.siteTag || S.cfg.siteTag === 'Vườn Tri Thức') {
+  S.cfg = Object.assign(S.cfg || {}, {
+    siteName: 'HPU2 Study Arena',
+    siteTag: 'ĐH Sư Phạm Hà Nội 2',
+    siteSub: 'Đấu trường tri thức & nghiệp vụ Sư phạm Toán - HPU2',
+    petId: S.cfg?.petId || 'hpu2_owl',
+    petName: S.cfg?.petName || 'Cú Mèo HPU2',
+    bgTheme: S.cfg?.bgTheme || 'hpu2_emerald',
+    logoIcon: S.cfg?.logoIcon || '🏛️'
+  });
 }
 
 // Khởi tạo và kiểm tra tính hợp lệ của Giao diện & Linh vật người dùng
@@ -1925,23 +2106,32 @@ function vLearn(){
         <h2 class="font-extrabold text-lg text-emerald-950 font-fun">Mục Tiêu Gieo Hạt</h2>
       </div>
 
-      <label class="text-xs font-bold text-emerald-800 uppercase tracking-wider">Khối Lớp / Hệ Đào Tạo</label>
-      <select onchange="S.grade=this.value;save()" class="mt-1 font-semibold text-emerald-950">
-        <optgroup label="Khối Lớp Dưới Cấp 3 (Tiểu học & THCS)">
-          ${['Lớp 1','Lớp 2','Lớp 3','Lớp 4','Lớp 5','Lớp 6','Lớp 7','Lớp 8','Lớp 9'].map(g=>`<option ${g===S.grade?'selected':''}>${g}</option>`).join('')}
-        </optgroup>
-        <optgroup label="Hệ Đại Học & Tự Do">
-          ${['Đại học năm 1','Đại học năm 2','Đại học năm 3','Đại học năm 4','Học viên tự do'].map(g=>`<option ${g===S.grade?'selected':''}>${g}</option>`).join('')}
-        </optgroup>
+      <label class="text-xs font-bold text-emerald-800 uppercase tracking-wider">Năm Học (ĐH Sư Phạm Hà Nội 2)</label>
+      <select onchange="S.grade=this.value;save();toast('Đã chọn: '+this.value)" class="mt-1 font-semibold text-emerald-950">
+        ${['Năm 1','Năm 2','Năm 3','Năm 4'].map(g=>`<option ${g===S.grade?'selected':''}>${g}</option>`).join('')}
       </select>
 
-      <label class="text-xs font-bold text-emerald-800 uppercase tracking-wider mt-3 block">Môn Học</label>
-      <select onchange="S.subject=this.value;save()" class="mt-1 font-semibold text-emerald-950">
-        <optgroup label="Môn Phổ Thông (Tiểu học & THCS)">
-          ${['Toán học','Ngữ văn / Tiếng Việt','Tiếng Anh','Khoa học tự nhiên','Lịch sử & Địa lý','Tin học'].map(s=>`<option ${s===S.subject?'selected':''}>${s}</option>`).join('')}
+      <label class="text-xs font-bold text-emerald-800 uppercase tracking-wider mt-3 block">Học Phần Đào Tạo (HPU2)</label>
+      <select onchange="S.subject=this.value;save();toast('Đã chọn học phần: '+this.value)" class="mt-1 font-semibold text-emerald-950">
+        <optgroup label="Toán Đại Cương & Cơ Sở (Năm 1 - Năm 2)">
+          ${[
+            'Giải tích 1 (Hàm 1 biến & Chuỗi)',
+            'Giải tích 2 (Hàm nhiều biến & Tích phân bội)',
+            'Đại số tuyến tính & Hình học giải tích',
+            'Đại số đại cương & Lý thuyết số',
+            'Hình học Afin & Euclid',
+            'Xác suất & Thống kê toán học'
+          ].map(s=>`<option ${s===S.subject?'selected':''}>${s}</option>`).join('')}
         </optgroup>
-        <optgroup label="Môn Chuyên Sâu & Đại Học">
-          ${['Toán giải tích','Toán đại số tuyến tính','Xác suất thống kê','Vật lý đại cương','Hóa học đại cương'].map(s=>`<option ${s===S.subject?'selected':''}>${s}</option>`).join('')}
+        <optgroup label="Nghiệp Vụ Sư Phạm & Phương Pháp Dạy Học (Năm 3 - Năm 4)">
+          ${[
+            'Phương pháp dạy học môn Toán (PPDH Toán)',
+            'Thiết kế kế hoạch bài dạy Toán theo CV 5512',
+            'Ứng dụng CNTT trong dạy học Toán (GeoGebra, LaTeX)',
+            'Kiểm tra & Đánh giá kết quả học tập môn Toán',
+            'Tâm lý học sư phạm & Giáo dục học đại cương',
+            'Rèn luyện nghiệp vụ sư phạm thường xuyên'
+          ].map(s=>`<option ${s===S.subject?'selected':''}>${s}</option>`).join('')}
         </optgroup>
       </select>
 
@@ -2082,34 +2272,34 @@ function miniTest(){
 
 function docHtml(){
   return `
-  <h1 style="color:#1b4332;font-family:sans-serif">${S.cfg.siteName||'Study Arena'} – Tóm Tắt Ôn Tập & Cương Lĩnh Học Tập</h1>
-  <p><b>Môn học:</b> ${S.subject} | <b>Khối lớp:</b> ${S.grade} | <b>Thời lượng:</b> ${S.hrs} giờ/ngày</p>
+  <h1 style="color:#1b4332;font-family:sans-serif">${S.cfg.siteName||'HPU2 Study Arena'} – Tóm Tắt Ôn Tập & Cương Lĩnh Học Tập</h1>
+  <p><b>Học phần:</b> ${S.subject} | <b>Năm học:</b> ${S.grade} (HPU2) | <b>Thời lượng:</b> ${S.hrs} giờ/ngày</p>
   <hr/>
   <h2 style="color:#2d6a4f">1. Kiến thức cốt lõi cần nhớ</h2>
   <ul>${((S.focus&&S.focus.length)?S.focus:CONTENT.KNOW).map(f=>`<li>${f}</li>`).join('')}</ul>
   <h2 style="color:#2d6a4f">2. Kế hoạch và lộ trình hoàn thành</h2>
   <ol>${((S.plan&&S.plan.length)?S.plan.map(p=>p.t):CONTENT.TOPICS).map(t=>`<li>${t}</li>`).join('')}</ol>
-  <p><i>${S.cfg.siteName||'Study Arena'} – Học thông minh cùng linh vật ${S.cfg.petName||'Mochi'}</i></p>
+  <p><i>${S.cfg.siteName||'HPU2 Study Arena'} – Học tập & rèn luyện nghiệp vụ Sư phạm Hà Nội 2 cùng ${S.cfg.petName||'Cú Mèo HPU2'}</i></p>
   `;
 }
 function exportDoc(){
   const b=new Blob(['<html><meta charset="utf-8"><body>'+docHtml()+'</body></html>'],{type:'application/msword'});
-  const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=`On-Tap-${(S.subject||'mon-hoc').replace(/\s+/g,'-')}.doc`;a.click();
+  const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=`HPU2-On-Tap-${(S.subject||'mon-hoc').replace(/\s+/g,'-')}.doc`;a.click();
   gain(5,'gn',3);
 }
 function exportPdf(){
   const w=open('','_blank');
   if(!w){toast('Trình duyệt đã chặn popup, hãy cho phép mở popup nhé');return}
-  w.document.write('<meta charset="utf-8"><title>Tài liệu ôn tập</title><body style="font-family:sans-serif;padding:30px">'+docHtml()+'</body>');
+  w.document.write('<meta charset="utf-8"><title>HPU2 Tài Liệu Ôn Tập</title><body style="font-family:sans-serif;padding:30px">'+docHtml()+'</body>');
   w.document.close();w.print();gain(5,'gn',3);
 }
 
 /* ==================== 12. ĐẤU TRƯỜNG THI ==================== */
 function vExam(){
   const t=[
-    ['mcq','🎯 Trắc Nghiệm Phản Xạ'],
-    ['essay','📝 Tự Luận Chuyên Sâu'],
-    ['oral','🎙️ Vấn Đáp Thầy AI']
+    ['mcq','📝 Trắc Nghiệm Chuẩn HPU2'],
+    ['essay','✍️ Tự Luận Chuyên Sâu & Nghiệp Vụ'],
+    ['oral','🦉 Vấn Đáp Nghiệp Vụ Giảng Viên HPU2']
   ];
   return `
   <div>
@@ -2266,26 +2456,26 @@ function vOral(){
   const list=CONTENT.ORAL||[];
   if(!list.length)return `<p class="text-center py-6 text-slate-500">Chưa có câu hỏi vấn đáp nào.</p>`;
   if(!O.log.length&&!O.over){
-    O.log.push({r:'ai',t:'Chào em, hôm nay thầy sẽ hỏi vấn đáp dựa trên tài liệu em đã học. ' + list[0].q});
+    O.log.push({r:'ai',t:'Chào em, sinh viên Sư phạm Toán HPU2! Thầy/Cô sẽ tiến hành vấn đáp kiểm tra kiến thức và năng lực nghiệp vụ sư phạm của em. ' + list[0].q});
   }
   return `
   <div class="flex flex-col h-[520px]">
     <div class="flex items-center justify-between border-b border-emerald-100 pb-2 mb-2">
       <div class="flex items-center gap-2">
-        <span class="text-2xl">🦉</span>
+        <span class="text-2xl">🏛️</span>
         <div>
-          <span class="font-bold text-sm text-emerald-950">Phòng Vấn Đáp Thông Minh</span>
-          <span class="text-[11px] text-emerald-700 block">Thầy AI đánh giá tư duy và từ khóa kiến thức</span>
+          <span class="font-bold text-sm text-emerald-950">Phòng Vấn Đáp Nghiệp Vụ Sư Phạm HPU2</span>
+          <span class="text-[11px] text-emerald-700 block">Giảng viên Sư phạm Hà Nội 2 đánh giá kiến thức toán & năng lực sư phạm</span>
         </div>
       </div>
-      <button class="btn sm outline" onclick="speakLastAI()" title="Nghe Thầy AI đọc câu hỏi bằng giọng nói">🔊 Nghe Thầy Đọc</button>
+      <button class="btn sm outline" onclick="speakLastAI()" title="Nghe Thầy/Cô HPU2 đọc câu hỏi">🔊 Nghe Giảng Viên Đọc</button>
     </div>
 
     <div class="flex-1 overflow-y-auto space-y-3 p-2 pr-1" id="chatBox">
       ${O.log.map(m=>`
         <div class="flex ${m.r==='ai'?'justify-start':'justify-end'}">
           <div class="max-w-[85%] rounded-2xl p-3.5 text-xs sm:text-sm font-medium shadow-sm ${m.r==='ai'?'bg-emerald-50 text-emerald-950 border border-emerald-200':'bg-amber-100 text-amber-950 border border-amber-200'}">
-            <b class="block mb-1 text-[11px] uppercase tracking-wider ${m.r==='ai'?'text-emerald-800':'text-amber-800'}">${m.r==='ai'?'🦉 Thầy AI:':'🌱 Em:'}</b>
+            <b class="block mb-1 text-[11px] uppercase tracking-wider ${m.r==='ai'?'text-emerald-800':'text-amber-800'}">${m.r==='ai'?'🏛️ Giảng Viên HPU2:':'🎓 Sinh Viên:'}</b>
             ${m.t}
           </div>
         </div>
@@ -2295,7 +2485,7 @@ function vOral(){
     <div class="pt-3 border-t border-emerald-100">
       ${O.over?`
         <div class="text-center">
-          <p class="text-xs font-bold text-emerald-800 mb-2">Em đã hoàn thành trọn vẹn buổi vấn đáp với Thầy AI!</p>
+          <p class="text-xs font-bold text-emerald-800 mb-2">🎉 Em đã hoàn thành xuất sắc buổi vấn đáp với Giảng viên HPU2!</p>
           <button class="btn g sm" onclick="O={i:0,log:[],tries:0,over:false};render()">Vấn Đáp Lại</button>
         </div>
       `:`
@@ -2348,15 +2538,15 @@ function ansOral(){
   const hit=(q.k||[]).some(k=>v.toLowerCase().includes(k.toLowerCase()));
 
   if(hit||O.tries>=1){
-    const reply=(hit?'Tốt, ý của em đúng hướng. ':'Không sao, thầy giải thích nhanh: '+(q.hint||'')+' ')+
-      (O.i+1<list.length?'Đi sâu hơn nhé: '+list[O.i+1].q:'Đó là câu cuối. Em đã hoàn thành buổi vấn đáp!');
+    const reply=(hit?'Rất tốt! Tư duy và lập luận của em rất chuẩn xác. ':'Không sao, thầy/cô định hướng nhanh cho em: '+(q.hint||'')+' ')+
+      (O.i+1<list.length?'Chúng ta đi sâu vào câu tiếp theo nhé: '+list[O.i+1].q:'Đó là câu hỏi cuối cùng. Chúc mừng em đã hoàn thành xuất sắc buổi vấn đáp nghiệp vụ HPU2!');
     O.log.push({r:'ai',t:reply});
     if(hit){gain(15,'vd',10);Sound.correct()}else{gain(5,'vd',4)}
     O.i++;O.tries=0;
     if(O.i>=list.length){O.over=true;S.done++;save()}
   }else{
     O.tries++;
-    O.log.push({r:'ai',t:'Chưa đủ ý. '+(q.hint||'')+' Em thử lại nhé.'});
+    O.log.push({r:'ai',t:'Chưa đầy đủ ý sư phạm. '+(q.hint||'')+' Em hãy bổ sung thêm nhé.'});
   }
   render();
   setTimeout(()=>{const b=$('#chatBox');if(b)b.scrollTop=b.scrollHeight},50);
@@ -2365,54 +2555,54 @@ function ansOral(){
 /* ==================== 13. LINH VẬT & LỘ TRÌNH THĂNG TIÊN ==================== */
 const ASCENSION_STAGES=[
   {
-    lvl:1,xp:0,realm:'Phàm Thai',name:'Hạt Giống Ngủ Say',icon:'🌰',
-    desc:'Hạt mầm tri thức ẩn mình dưới lòng đất màu mỡ, đợi linh sương ban mai đánh thức.',
-    reward:'Khai mở Vườn Tri Thức & Sổ Nhật Ký Gieo Mầm'
+    lvl:1,xp:0,realm:'Tân Sinh Viên HPU2',name:'Gieo Mầm Tri Thức Xuân Hòa',icon:'🌱',
+    desc:'Bước chân vào cổng trường ĐH Sư phạm Hà Nội 2 tại Xuân Hòa, bắt đầu hành trình trở thành nhà giáo tương lai.',
+    reward:'Khai mở Thư Viện HPU2 & Sổ Nhật Ký Nghiệp Vụ'
   },
   {
-    lvl:2,xp:60,realm:'Luyện Khí',name:'Mầm Cây Hấp Sương',icon:'🌱',
-    desc:'Chồi non đầu tiên nhú lên đón ánh bình minh, hấp thu tinh hoa trời đất.',
-    reward:'Mở khóa Chậu Cây Sen Đá & Tăng 10% Tốc Độ Tích Lũy Sương'
+    lvl:2,xp:60,realm:'Năm 1 - Nhập Môn',name:'Chinh Phục Giải Tích & Đại Số',icon:'📐',
+    desc:'Nắm vững giới hạn, vi phân, ma trận và không gian vectơ – nền móng vững chắc của toán học cao cấp.',
+    reward:'Mở khóa Bảng Xanh Phấn Trắng & Tăng 10% Tốc Độ Tích Lũy Sương'
   },
   {
-    lvl:3,xp:120,realm:'Trúc Cơ',name:'Cây Non Vươn Tán',icon:'🌿',
-    desc:'Rễ cây bám sâu vào mạch nguồn tri thức, thân cây cứng cáp xanh tươi.',
-    reward:'Mở khóa Giá Sách Gỗ Sồi Cổ & Chế Độ Mini-Test Tự Động'
+    lvl:3,xp:120,realm:'Năm 2 - Vững Vàng',name:'Cấu Trúc Đại Số & Hình Học',icon:'📚',
+    desc:'Thấu hiểu cấu trúc nhóm, vành, trường và hình học giải tích – rèn luyện tư duy toán trừu tượng sâu sắc.',
+    reward:'Mở khóa Giá Sách Giáo Trình HPU2 & Chế Độ Mini-Test Tự Động'
   },
   {
-    lvl:4,xp:180,realm:'Kim Đan',name:'Cỏ Bốn Lá Tiên Duyên',icon:'🍀',
-    desc:'Ngưng tụ đan dược may mắn, phản xạ giải đề nhạy bén vượt bậc.',
-    reward:'Mở khóa Xích Đu Mây Tre & Tăng Vận May Trắc Nghiệm'
+    lvl:4,xp:180,realm:'Năm 2 - Khám Phá',name:'Xác Suất & Thống Kê Sư Phạm',icon:'📊',
+    desc:'Ứng dụng xác suất thống kê vào xử lý số liệu giáo dục và phương pháp nghiên cứu khoa học sư phạm.',
+    reward:'Mở khóa Máy Tính Khoa Học & Tăng Vận May Trắc Nghiệm'
   },
   {
-    lvl:5,xp:240,realm:'Nguyên Anh',name:'Nụ Tiên Tụ Khí',icon:'🌷',
-    desc:'Hương thơm thoang thoảng kết tinh tri thức thâm sâu, ngộ ra quy luật toán học.',
-    reward:'Mở khóa Gợi Ý AI Tự Luận Chuyên Sâu Cấp Cao'
+    lvl:5,xp:240,realm:'Năm 3 - Chuyển Mình',name:'Nghiên Cứu CV 5512 & GDPT 2018',icon:'📝',
+    desc:'Tiếp cận phương pháp dạy học môn Toán hiện đại, phát triển phẩm chất và năng lực của học sinh.',
+    reward:'Mở khóa Trợ Lý AI Thiết Kế Kế Hoạch Bài Dạy Chuẩn 5512'
   },
   {
-    lvl:6,xp:300,realm:'Hóa Thần',name:'Hướng Dương Tỏa Rạng',icon:'🌻',
-    desc:'Tâm trí luôn hướng về ánh sáng trí tuệ, phản xạ vấn đáp như suối nguồn.',
-    reward:'Mở khóa Dương Cầm Lá Biếc & Micro Giọng Nói Với Thầy AI'
+    lvl:6,xp:300,realm:'Năm 3 - Tỏa Sáng',name:'Bậc Thầy Thiết Kế Kế Hoạch Bài Dạy',icon:'💡',
+    desc:'Xây dựng tiến trình 4 bước hoạt động học sáng tạo, tích hợp phần mềm GeoGebra và bài giảng số.',
+    reward:'Mở khóa Micro Giảng Đường & Phòng Vấn Đáp Nghiệp Vụ'
   },
   {
-    lvl:7,xp:360,realm:'Luyện Hư',name:'Linh Mộc Tán Xanh',icon:'🌳',
-    desc:'Thân cây hòa cùng linh khí khu vườn, che chở cho muôn vàn sinh linh tri thức.',
-    reward:'Mở khóa Lồng Đèn Đom Đóm Phát Sáng Ban Đêm'
+    lvl:7,xp:360,realm:'Năm 4 - Thử Lửa',name:'Tập Giảng & Hội Thi Nghiệp Vụ SP',icon:'🎤',
+    desc:'Tự tin đứng trên bục giảng Hội thi nghiệp vụ sư phạm HPU2, làm chủ kỹ năng thuyết trình và tác phong người thầy.',
+    reward:'Huy Hiệu Giảng Viên Tập Sự Xuất Sắc HPU2'
   },
   {
-    lvl:8,xp:420,realm:'Hợp Thể',name:'Vườn Trĩu Quả Ngọt',icon:'🍎',
-    desc:'Tri thức kết tinh thành quả mọng trường sinh, nuôi dưỡng trí tuệ vĩnh hằng.',
-    reward:'Mở khóa Cúp Hạt Vàng Vinh Quang & Huy Hiệu Siêu Học Viên'
+    lvl:8,xp:420,realm:'Năm 4 - Bản Lĩnh',name:'Thực Tập Sư Phạm Tại Phổ Thông',icon:'🏫',
+    desc:'Trực tiếp đứng lớp giảng dạy tại trường THCS/THPT, truyền lửa say mê toán học cho thế hệ học trò.',
+    reward:'Mở khóa Sổ Tay Chủ Nhiệm & Bằng Khen Thực Tập Xuất Sắc'
   },
   {
-    lvl:9,xp:480,realm:'Đại Thừa',name:'Vạn Hoa Tiên Cảnh',icon:'🌸',
-    desc:'Cả khu vườn bừng sáng sắc hồng hoa tiên, thấu triệt mọi chương trình học tập.',
-    reward:'Hào Quang Hộ Thể Tiên Hoa & Quyền Năng Sáng Tạo Ngân Hàng Đề'
+    lvl:9,xp:480,realm:'Tốt Nghiệp',name:'Cử Nhân Sư Phạm Toán Xuất Sắc',icon:'🎓',
+    desc:'Bảo vệ thành công Khóa luận tốt nghiệp tại HPU2, nhận bằng Cử nhân Sư phạm Toán loại Giỏi/Xuất sắc.',
+    reward:'Áo Cử Nhân Vinh Danh & Quyền Năng Sáng Tạo Ngân Hàng Đề HPU2'
   },
   {
-    lvl:10,xp:540,realm:'Độ Kiếp Thăng Tiên',name:'Đại Thụ Vĩnh Cửu',icon:'🌲',
-    desc:'Đắc đạo phi thăng cảnh giới tối thượng, trở thành Thần Mộc Tri Thức bảo hộ khu vườn.',
-    reward:'Ngôi Vị Đại Thần Vườn Tri Thức & Danh Hiệu Bất Tử'
+    lvl:10,xp:540,realm:'Đỉnh Cao Sự Nghiệp',name:'Nhà Giáo Ưu Tú – Tự Hào HPU2',icon:'🏛️',
+    desc:'Đắc đạo thăng hoa cùng sự nghiệp trồng người cao quý, ngọn hải đăng soi sáng tri thức cho bao thế hệ học trò.',
+    reward:'Vinh Danh Bảng Vàng Cựu Sinh Viên Ưu Tú ĐH Sư Phạm Hà Nội 2'
   }
 ];
 
