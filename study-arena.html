@@ -800,6 +800,148 @@ const HPU2_SUBJECTS = [
   'Toán rời rạc'
 ];
 
+/* HỆ THỐNG CHỦ ĐỀ & KIẾN THỨC THEO TỪNG HỌC PHẦN HPU2 */
+const HPU2_CURRICULUM = {
+  'Đại số tuyến tính': {
+    know: [
+      '[Đại số tuyến tính] Ma trận & Các phép biến đổi sơ cấp hàng (Gauss-Jordan), ma trận nghịch đảo A⁻¹',
+      '[Đại số tuyến tính] Định thức cấp n, tính chất cơ bản và quy tắc khai triển Laplace',
+      '[Đại số tuyến tính] Định lý Kronecker-Capelli về điều kiện có nghiệm của hệ phương trình tuyến tính',
+      '[Đại số tuyến tính] Định nghĩa không gian vectơ ℝⁿ, độc lập tuyến tính & phụ thuộc tuyến tính',
+      '[Đại số tuyến tính] Cơ sở, số chiều dim(V) của không gian con & Tọa độ đối với cơ sở',
+      '[Đại số tuyến tính] Ánh xạ tuyến tính, ma trận biểu diễn, hạt nhân Ker(f) và ảnh Im(f)',
+      '[Đại số tuyến tính] Giá trị riêng, vectơ riêng, đa thức đặc trưng & Điều kiện chéo hóa ma trận',
+      '[Đại số tuyến tính] Không gian Euclid, tích vô hướng, trực chuẩn hóa Gram-Schmidt & Ma trận trực giao',
+      '[Đại số tuyến tính] Dạng toàn phương, ma trận dạng toàn phương, phân loại dấu & Đưa về dạng chính tắc (Lagrange)'
+    ],
+    topics: [
+      'Ma trận, các phép toán ma trận, phép biến đổi sơ cấp hàng & Tìm ma trận nghịch đảo',
+      'Định thức ma trận vuông cấp n, các tính chất cơ bản & Quy tắc Cramer',
+      'Hệ phương trình đại số tuyến tính tổng quát & Thuật toán khử Gauss-Jordan',
+      'Không gian vectơ ℝⁿ, hệ vectơ độc lập tuyến tính & Phụ thuộc tuyến tính',
+      'Cơ sở, số chiều dim(V) của không gian con & Tọa độ vectơ đối với cơ sở',
+      'Ánh xạ tuyến tính, ma trận của ánh xạ tuyến tính, hạt nhân Ker(f) & Ảnh Im(f)',
+      'Giá trị riêng, vectơ riêng, đa thức đặc trưng & Điều kiện chéo hóa ma trận',
+      'Không gian Euclid, tích vô hướng & Quá trình trực chuẩn hóa Gram-Schmidt',
+      'Dạng toàn phương, tiêu chuẩn Sylvester & Đưa dạng toàn phương về dạng chính tắc',
+      'Tổng ôn tập lý thuyết, phân tích sai lầm sư phạm & Đề thi kết thúc học phần HPU2'
+    ]
+  },
+  'Giải tích 1': {
+    know: [
+      '[Giải tích 1] Ngôn ngữ ε - δ trong định nghĩa giới hạn & Dãy số đơn điệu bị chặn Weierstrass',
+      '[Giải tích 1] Giới hạn hàm số, các dạng vô định 0/0, ∞/∞ & Định lý giá trị trung gian Bolzano-Cauchy',
+      '[Giải tích 1] Đạo hàm, vi phân cấp cao, ý nghĩa hình học & vật lý trong sư phạm',
+      '[Giải tích 1] Định lý giá trị trung bình: Rolle, Lagrange, Cauchy & Ứng dụng chứng minh bất đẳng thức',
+      '[Giải tích 1] Công thức Taylor, Maclaurin với phần dư Peano & Quy tắc L\'Hôpital khử dạng vô định',
+      '[Giải tích 1] Ứng dụng đạo hàm khảo sát cực trị, điểm uốn, tiệm cận đồ thị hàm số',
+      '[Giải tích 1] Nguyên hàm, tích phân bất định & Phương pháp đổi biến, tích phân từng phần',
+      '[Giải tích 1] Tích phân xác định Riemann, công thức Newton-Leibniz & Ứng dụng diện tích, thể tích',
+      '[Giải tích 1] Tích phân suy rộng loại 1 (khoảng vô hạn) & Tích phân suy rộng loại 2 (hàm không bị chặn)',
+      '[Giải tích 1] Chuỗi số dương: Tiêu chuẩn d\'Alembert, Cauchy, Raabe & Chuỗi đan dấu Leibniz'
+    ],
+    topics: [
+      'Giới hạn dãy số, tiêu chuẩn Cauchy & Định lý Weierstrass về dãy đơn điệu bị chặn',
+      'Giới hạn hàm số, tính liên tục & Định lý giá trị trung gian Bolzano-Cauchy',
+      'Đạo hàm, vi phân cấp cao & Ý nghĩa hình học, vật lý trong giảng dạy sư phạm',
+      'Các định lý về giá trị trung bình: Định lý Rolle, Lagrange và Cauchy',
+      'Công thức Taylor, Maclaurin & Quy tắc L\'Hôpital khử các dạng vô định',
+      'Khảo sát sự biến thiên, cực trị hàm một biến, tiệm cận & Điểm uốn đồ thị',
+      'Nguyên hàm và tích phân bất định, các phương pháp tích phân cơ bản',
+      'Tích phân xác định Riemann, công thức Newton-Leibniz & Ứng dụng hình học',
+      'Tích phân suy rộng loại 1 (khoảng vô hạn) & Tích phân suy rộng loại 2 (hàm gián đoạn)',
+      'Chuỗi số dương, tiêu chuẩn d\'Alembert, Cauchy & Tiêu chuẩn so sánh',
+      'Chuỗi đan dấu Leibniz, chuỗi lũy thừa & Bán kính hội tụ của chuỗi hàm',
+      'Tổng ôn hệ thống định lý giải tích, phương pháp giải đề thi kết thúc học phần HPU2'
+    ]
+  },
+  'Giải tích 2': {
+    know: [
+      '[Giải tích 2] Không gian metric ℝⁿ, giới hạn & tính liên tục của hàm nhiều biến',
+      '[Giải tích 2] Đạo hàm riêng, vi phân toàn phần & Định lý Schwarz về đạo hàm hỗn hợp',
+      '[Giải tích 2] Đạo hàm theo hướng vector và vector Gradient ∇f trong không gian',
+      '[Giải tích 2] Đạo hàm hàm hợp, đạo hàm hàm ẩn & Công thức Taylor cho hàm nhiều biến',
+      '[Giải tích 2] Cực trị tự do (ma trận Hessian) & Cực trị có điều kiện (Nhân tử Lagrange)',
+      '[Giải tích 2] Tích phân kép trên miền D, định lý Fubini & Đổi biến sang tọa độ cực',
+      '[Giải tích 2] Ứng dụng tích phân kép: Tính diện tích miền phẳng, thể tích khối trụ & Khối tâm',
+      '[Giải tích 2] Tích phân bội ba: Tọa độ Descartes, tọa độ trụ & Tọa độ cầu',
+      '[Giải tích 2] Tích phân đường loại 1 (độ dài cung) & Tích phân đường loại 2 (theo tọa độ)',
+      '[Giải tích 2] Định lý Green liên hệ giữa tích phân đường loại hai và tích phân kép trên miền D',
+      '[Giải tích 2] Tích phân mặt, định lý Gauss-Ostrogradsky & Định lý Stokes cho trường vector'
+    ],
+    topics: [
+      'Không gian metric ℝⁿ, giới hạn & Tính liên tục của hàm nhiều biến số',
+      'Đạo hàm riêng, vi phân toàn phần & Đạo hàm theo hướng (Gradient ∇f)',
+      'Đạo hàm hàm hợp, đạo hàm hàm ẩn & Công thức Taylor cho hàm nhiều biến',
+      'Cực trị tự do (ma trận Hessian) & Cực trị có điều kiện (Nhân tử Lagrange)',
+      'Tích phân kép trên hình chữ nhật và miền tổng quát (Định lý Fubini)',
+      'Đổi biến trong tích phân kép (tọa độ cực) & Ứng dụng tính diện tích, thể tích',
+      'Tích phân bội ba: Tọa độ Descartes, tọa độ trụ & Tọa độ cầu',
+      'Tích phân đường loại 1 (theo độ dài cung) & Ứng dụng tính khối lượng đường cong',
+      'Tích phân đường loại 2, định lý Green & Điều kiện tích phân không phụ thuộc đường đi',
+      'Tích phân mặt loại 1 & Tích phân mặt loại 2 (thông lượng qua mặt cong)',
+      'Định lý Gauss-Ostrogradsky, định lý Stokes & Luân chuyển của trường vector',
+      'Tổng ôn luyện đề thi cuối kỳ Giải tích 2 & Chuẩn hóa phương pháp sư phạm'
+    ]
+  },
+  'Xác suất thống kê': {
+    know: [
+      '[Xác suất thống kê] Không gian biến cố, xác suất cổ điển, hình học & Giải tích tổ hợp',
+      '[Xác suất thống kê] Xác suất có điều kiện, công thức xác suất đầy đủ & Công thức Bayes',
+      '[Xác suất thống kê] Biến ngẫu nhiên rời rạc, bảng phân phối & Các đặc trưng số E(X), V(X)',
+      '[Xác suất thống kê] Biến ngẫu nhiên liên tục, hàm mật độ xác suất f(x) & Hàm phân phối tích lũy F(x)',
+      '[Xác suất thống kê] Các quy luật phân phối thông dụng: Nhị thức, Poisson, Chuẩn N(μ, σ²)',
+      '[Xác suất thống kê] Biến ngẫu nhiên 2 chiều, hiệp phương sai Cov(X, Y) & Hệ số tương quan ρ',
+      '[Xác suất thống kê] Bất đẳng thức Chebyshev, Luật số lớn Bernoulli & Định lý giới hạn trung tâm (CLT)',
+      '[Xác suất thống kê] Lý thuyết mẫu ngẫu nhiên, trung bình mẫu & Phân phối Student t, Chi-square, Fisher F',
+      '[Xác suất thống kê] Ước lượng khoảng tin cậy cho kỳ vọng, phương sai và tỷ lệ',
+      '[Xác suất thống kê] Kiểm định giả thuyết thống kê cho 1 mẫu & 2 mẫu trong nghiên cứu sư phạm'
+    ],
+    topics: [
+      'Không gian biến cố, xác suất cổ điển & Các quy tắc tính xác suất cơ bản',
+      'Xác suất có điều kiện, công thức xác suất đầy đủ & Định lý Bayes',
+      'Biến ngẫu nhiên rời rạc & Các đặc trưng số: Kỳ vọng toán E(X), Phương sai V(X)',
+      'Biến ngẫu nhiên liên tục, hàm mật độ xác suất f(x) & Hàm phân phối F(x)',
+      'Các quy luật phân phối thông dụng: Phân phối Nhị thức, Poisson & Phân phối Chuẩn',
+      'Biến ngẫu nhiên 2 chiều, phân phối biên duyên & Hệ số tương quan tuyến tính ρ',
+      'Luật số lớn (Chebyshev, Bernoulli) & Định lý giới hạn trung tâm (CLT)',
+      'Lý thuyết mẫu ngẫu nhiên, thống kê mô tả & Các phân phối xác suất mẫu Student, Chi-square',
+      'Ước lượng tham số: Ước lượng điểm và ước lượng khoảng tin cậy cho kỳ vọng, tỷ lệ',
+      'Kiểm định giả thuyết thống kê tham số cho kỳ vọng và tỷ lệ (bài toán 1 mẫu)',
+      'Kiểm định so sánh 2 kỳ vọng, 2 tỷ lệ & Kiểm định tính độc lập Chi-square',
+      'Hồi quy tuyến tính đơn biến, hệ số xác định R² & Tổng ôn thi học phần XSTK HPU2'
+    ]
+  },
+  'Toán rời rạc': {
+    know: [
+      '[Toán rời rạc] Logic toán học: Mệnh đề, bảng chân trị, tương đương logic & Dạng chuẩn tắc',
+      '[Toán rời rạc] Logic vị từ: Lượng từ ∀, ∃, suy luận hợp lý & Quy tắc suy diễn toán học',
+      '[Toán rời rạc] Tập hợp, quan hệ tương đương, quan hệ thứ tự & Ánh xạ (đơn ánh, toàn ánh, song ánh)',
+      '[Toán rời rạc] Phương pháp đếm: Nguyên lý bù trừ, nguyên lý Dirichlet & Hệ thức truy hồi tuyến tính',
+      '[Toán rời rạc] Định lý bắt tay trong đồ thị: Tổng bậc của các đỉnh bằng 2 lần số cạnh ∑ deg(v) = 2|E|',
+      '[Toán rời rạc] Đồ thị liên thông, ma trận kề, ma trận liên thuộc & Thuật toán duyệt BFS, DFS',
+      '[Toán rời rạc] Đồ thị Euler (chu trình & đường đi Euler) & Bài toán chu trình Hamilton',
+      '[Toán rời rạc] Cây và cây khung: Định lý n đỉnh n-1 cạnh, thuật toán Kruskal & Prim tìm MST',
+      '[Toán rời rạc] Bài toán đường đi ngắn nhất: Thuật toán Dijkstra & Bellman-Ford',
+      '[Toán rời rạc] Đồ thị phẳng, công thức Euler V - E + F = 2 & Bài toán tô màu đồ thị'
+    ],
+    topics: [
+      'Cơ sở logic mệnh đề, bảng chân trị & Các luật tương đương logic cơ bản',
+      'Logic vị từ, suy luận toán học & Phương pháp chứng minh phản chứng, quy nạp',
+      'Tập hợp, quan hệ tương đương, quan hệ thứ tự & Cấu trúc ánh xạ',
+      'Nguyên lý đếm nâng cao, nguyên lý bù trừ & Nguyên lý Dirichlet',
+      'Hệ thức truy hồi tuyến tính & Phương pháp giải phương trình đặc trưng',
+      'Nhập môn lý thuyết đồ thị: Bậc đỉnh, định lý bắt tay & Các đơn đồ thị',
+      'Biểu diễn đồ thị bằng ma trận kề & Thuật toán duyệt đồ thị BFS, DFS',
+      'Đồ thị Euler, chu trình Euler & Bài toán đường đi Hamilton',
+      'Cây và Cây khung nhỏ nhất: Thuật toán Kruskal & Thuật toán Prim',
+      'Bài toán tìm đường đi ngắn nhất: Thuật toán Dijkstra & Floyd-Warshall',
+      'Đồ thị phẳng, công thức Euler V - E + F = 2 & Bài toán tô màu đồ thị',
+      'Đại số Boole, hàm Boole, mạch logic & Tổng ôn luyện thi học phần Toán rời rạc HPU2'
+    ]
+  }
+};
+
 const DEFAULT_TOPICS = [
   'HPU2 - Đại số tuyến tính: Không gian vectơ, độc lập tuyến tính, cơ sở và số chiều',
   'HPU2 - Đại số tuyến tính: Ma trận, định thức, hệ phương trình đại số tuyến tính & Chéo hóa ma trận',
@@ -1011,6 +1153,9 @@ let S={
   docAnalysis:null,
   docQuizAnswers:{},
   plan:[],
+  planSubject:'Đại số tuyến tính',
+  planGrade:'Năm 1',
+  planMode:'week4',
   tab:'learn', // 'learn', 'exam', 'pet', 'admin'
   petTab:'garden', // 'garden' hoặc 'ascend'
   exam:'mcq',
@@ -1395,13 +1540,17 @@ function isUserLoggedIn(){
   return true;
 }
 
-function promptLoginForUpload(){
+function promptLogin(msg){
   if(S.user && S.user.provider === 'Khách Vãng Lai'){
-    toast('⚠️ Bạn đang ở chế độ Khách Vãng Lai. Vui lòng đăng nhập với Google, Facebook hoặc nhập Tên để tải tài liệu!');
+    toast(msg || '⚠️ Bạn đang ở chế độ Khách Vãng Lai. Vui lòng đăng nhập với Google, Facebook hoặc nhập Tên để kích hoạt đầy đủ tính năng!');
   }else{
-    toast('⚠️ Vui lòng đăng nhập tài khoản để sử dụng tính năng tải và phân tích tài liệu!');
+    toast(msg || '⚠️ Vui lòng đăng nhập tài khoản để sử dụng tính năng này!');
   }
   toggleAuthDropdown();
+}
+
+function promptLoginForUpload(msg){
+  promptLogin(msg || '⚠️ Vui lòng đăng nhập tài khoản để sử dụng tính năng tải và phân tích tài liệu!');
 }
 
 /* ==================== 9. XỬ LÝ NÚT QUẢN TRỊ TRỰC TIẾP TẠI NÚT TRÊN CÙNG ==================== */
@@ -2476,15 +2625,135 @@ const lab=i=>{
   return (S.mode==='day7')?'Ngày '+(i+1):'Tuần '+(i+1)+' (Tháng '+(Math.floor((a-1)/30)+1)+', ngày '+a+'–'+b+')';
 };
 
+function generateRoadmapForTarget(autoToast = false){
+  const subject = S.subject || 'Đại số tuyến tính';
+  const grade = S.grade || 'Năm 1';
+  const mode = S.mode || 'week4';
+  const cur = HPU2_CURRICULUM[subject] || HPU2_CURRICULUM['Đại số tuyến tính'];
+  
+  const rawTopics = (cur && cur.topics && cur.topics.length) ? cur.topics : DEFAULT_TOPICS;
+  const rawKnow = (cur && cur.know && cur.know.length) ? cur.know : DEFAULT_KNOW;
+  
+  const modeMap = { day7: 7, week4: 4, week12: 12 };
+  const N = modeMap[mode] || 4;
+
+  let newPlan = [];
+
+  if (mode === 'day7') {
+    const daysTitle = [
+      'Ngày 1: Khởi động nền tảng & Tổng quan lý thuyết trọng tâm',
+      'Ngày 2: Phương pháp & Kỹ thuật biến đổi then chốt',
+      'Ngày 3: Định lý trọng tâm & Bài toán cốt lõi',
+      'Ngày 4: Rèn luyện kỹ năng giải nhanh & Khắc phục sai sót',
+      'Ngày 5: Dạng toán nâng cao & Ứng dụng thực tiễn trong sư phạm',
+      'Ngày 6: Luyện đề tổng hợp & Tự kiểm tra phản xạ kiến thức',
+      'Ngày 7: Tổng ôn cấp tốc toàn diện & Tự tin đạt điểm A/A+'
+    ];
+    newPlan = Array.from({ length: 7 }, (_, i) => {
+      const tIdx = Math.floor(i * rawTopics.length / 7);
+      const mainTopic = rawTopics[tIdx] || rawTopics[0];
+      const kItem = rawKnow[i % rawKnow.length] || '';
+      return {
+        t: `<b>${daysTitle[i]}</b><br><span class="text-teal-900 font-normal">Trọng tâm: ${mainTopic}</span><br><span class="text-[11px] text-emerald-700 italic">Kiến thức then chốt: ${kItem}</span>`,
+        d: false,
+        rawTopic: mainTopic,
+        subject: subject,
+        grade: grade
+      };
+    });
+  } else if (mode === 'week4') {
+    const weeksTitle = [
+      'Tuần 1: Chuyên đề Cơ sở & Các tiên đề, định lý nền tảng',
+      'Tuần 2: Chuyên đề Trọng tâm & Phương pháp tính toán chuyên sâu',
+      'Tuần 3: Chuyên đề Nâng cao & Ứng dụng liên môn trong sư phạm Toán',
+      'Tuần 4: Tổng ôn toàn diện, Luyện giải bộ đề thi HPU2 & Đánh giá năng lực'
+    ];
+    newPlan = Array.from({ length: 4 }, (_, i) => {
+      const a = Math.floor(i * rawTopics.length / 4);
+      const b = Math.floor((i + 1) * rawTopics.length / 4);
+      const sliceTopics = rawTopics.slice(a, b);
+      const topicStr = sliceTopics.length ? sliceTopics.join(' • ') : rawTopics[i % rawTopics.length];
+      const kItem = rawKnow[i % rawKnow.length] || '';
+      return {
+        t: `<b>${weeksTitle[i]}</b><br><span class="text-teal-900 font-normal">Chủ đề: ${topicStr}</span><br><span class="text-[11px] text-emerald-700 italic">Trọng tâm HPU2: ${kItem}</span>`,
+        d: false,
+        rawTopic: topicStr,
+        subject: subject,
+        grade: grade
+      };
+    });
+  } else {
+    // 12 tuần
+    newPlan = Array.from({ length: 12 }, (_, i) => {
+      const mainTopic = rawTopics[i] || `Chuyên đề tuần ${i + 1}: Ôn tập kiến thức & Thực hành nghiệp vụ sư phạm`;
+      const kItem = rawKnow[i % rawKnow.length] || '';
+      return {
+        t: `<b>Tuần ${i + 1} (${grade} - ${subject}):</b> ${mainTopic}<br><span class="text-[11px] text-emerald-700 italic">Định lý trọng tâm: ${kItem}</span>`,
+        d: false,
+        rawTopic: mainTopic,
+        subject: subject,
+        grade: grade
+      };
+    });
+  }
+
+  S.plan = newPlan;
+  S.planSubject = subject;
+  S.planGrade = grade;
+  S.planMode = mode;
+  
+  if (autoToast) {
+    toast(`🗺️ Đã đồng bộ lộ trình theo môn ${subject} (${grade})!`);
+  }
+}
+
+function onTargetGoalChange(key, val){
+  if (!isUserLoggedIn()) {
+    promptLogin('🔒 Vui lòng đăng nhập để thay đổi mục tiêu học tập!');
+    return;
+  }
+  S[key] = val;
+  if (key === 'subject') {
+    const cur = HPU2_CURRICULUM[val];
+    if (cur && cur.know) {
+      if (!S.docAnalysis) {
+        S.focus = [...cur.know];
+      }
+    }
+  }
+  generateRoadmapForTarget(false);
+  save();
+  Sound.correct && Sound.correct();
+  toast(`🌱 Đã cập nhật mục tiêu: ${val} & tự động làm mới lộ trình!`);
+  render();
+}
+
+function setStudyMode(mode){
+  if (!isUserLoggedIn()) {
+    promptLogin('🔒 Vui lòng đăng nhập để chuyển chế độ lộ trình học tập!');
+    return;
+  }
+  S.mode = mode;
+  generateRoadmapForTarget(false);
+  save();
+  Sound.correct && Sound.correct();
+  toast(`⏱️ Chuyển sang lộ trình: ${mode === 'day7' ? 'Cấp tốc 7 ngày' : (mode === 'week12' ? 'Chuẩn 12 tuần' : 'Nhanh 4 tuần')}`);
+  render();
+}
+
 function ensurePlan(){
-  if(!S.plan||!Array.isArray(S.plan)||!S.plan.length){
-    suggest();
+  const needInit = !S.plan || !Array.isArray(S.plan) || !S.plan.length;
+  const subjectMismatch = S.subject && S.planSubject && S.planSubject !== S.subject;
+  const gradeMismatch = S.grade && S.planGrade && S.planGrade !== S.grade;
+  const modeMismatch = S.mode && S.planMode && S.planMode !== S.mode;
+  if (needInit || subjectMismatch || gradeMismatch || modeMismatch) {
+    generateRoadmapForTarget(false);
   }
 }
 
 function vLearn(){
   ensurePlan();
-  const knowList=(S.focus&&S.focus.length)?S.focus:CONTENT.KNOW;
+  const knowList = (S.focus && S.focus.length) ? S.focus : (HPU2_CURRICULUM[S.subject]?.know || CONTENT.KNOW);
   const isAuth = isUserLoggedIn();
   const doc = S.docAnalysis;
   return `
@@ -2492,25 +2761,59 @@ function vLearn(){
     ${doc ? renderDocAnalysisSection(doc) : ''}
 
     <section class="card lg:col-span-1 border-t-4 border-t-emerald-600">
-      <div class="flex items-center gap-2 mb-3">
-        <span class="text-2xl">🎯</span>
-        <h2 class="font-extrabold text-lg text-emerald-950 font-fun">Mục Tiêu Gieo Hạt</h2>
+      <div class="flex items-center justify-between mb-3">
+        <div class="flex items-center gap-2">
+          <span class="text-2xl">🎯</span>
+          <h2 class="font-extrabold text-lg text-emerald-950 font-fun">Mục Tiêu Gieo Hạt</h2>
+        </div>
+        ${isAuth ? `
+          <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 flex items-center gap-1">
+            <span>●</span> Đã mở khóa
+          </span>
+        ` : `
+          <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-100 text-amber-900 border border-amber-300 flex items-center gap-1">
+            <span>🔒</span> Khóa tương tác
+          </span>
+        `}
       </div>
 
-      <label class="text-xs font-bold text-emerald-800 uppercase tracking-wider">Năm Học (ĐH Sư Phạm Hà Nội 2)</label>
-      <select onchange="S.grade=this.value;save();toast('Đã chọn: '+this.value)" class="mt-1 font-semibold text-emerald-950">
-        ${['Năm 1','Năm 2','Năm 3','Năm 4'].map(g=>`<option ${g===S.grade?'selected':''}>${g}</option>`).join('')}
-      </select>
+      ${!isAuth ? `
+        <!-- Banner thông báo yêu cầu đăng nhập đối với Mục tiêu gieo hạt -->
+        <div class="mb-3 p-2.5 rounded-xl bg-amber-50/90 border border-amber-300 text-amber-900 text-xs flex items-center justify-between gap-2 shadow-2xs">
+          <div class="flex items-center gap-2">
+            <span class="text-base shrink-0">🔒</span>
+            <span class="font-medium">Đăng nhập để chọn năm học, học phần &amp; cá nhân hóa lộ trình</span>
+          </div>
+          <button class="btn sm g !py-1 !px-2.5 text-[11px] font-bold shrink-0 shadow-xs" onclick="promptLogin('Vui lòng đăng nhập để tùy chỉnh Mục Tiêu Gieo Hạt!')">
+            🔑 Đăng Nhập
+          </button>
+        </div>
+      ` : ''}
 
-      <label class="text-xs font-bold text-emerald-800 uppercase tracking-wider mt-3 block">Học Phần Đào Tạo (HPU2)</label>
-      <select onchange="S.subject=this.value;save();toast('Đã chọn học phần: '+this.value)" class="mt-1 font-semibold text-emerald-950">
-        ${HPU2_SUBJECTS.map(s=>`<option ${s===S.subject?'selected':''}>${s}</option>`).join('')}
-      </select>
+      <!-- Khu vực chọn Mục Tiêu: Khóa khi chưa đăng nhập -->
+      <div class="relative">
+        ${!isAuth ? `
+          <div class="absolute inset-0 bg-white/40 backdrop-blur-[1px] z-10 rounded-xl cursor-pointer" 
+               onclick="promptLogin('Vui lòng đăng nhập để tùy chỉnh Mục Tiêu Gieo Hạt!')"
+               title="Nhấp để đăng nhập và tùy chỉnh mục tiêu học tập">
+          </div>
+        ` : ''}
 
-      <label class="text-xs font-bold text-emerald-800 uppercase tracking-wider mt-3 block">
-        Thời gian chăm chỉ: <span class="text-emerald-700 font-extrabold text-base" id="hv">${S.hrs}</span> giờ/ngày
-      </label>
-      <input type="range" min="1" max="8" step="1" value="${S.hrs}" oninput="S.hrs=this.value;$('#hv').textContent=this.value;save()" class="accent-emerald-600 mt-1">
+        <label class="text-xs font-bold text-emerald-800 uppercase tracking-wider">Năm Học (ĐH Sư Phạm Hà Nội 2)</label>
+        <select ${!isAuth ? 'disabled' : ''} onchange="onTargetGoalChange('grade', this.value)" class="mt-1 font-semibold text-emerald-950 w-full ${!isAuth ? 'bg-slate-50 cursor-not-allowed opacity-75' : ''}">
+          ${['Năm 1','Năm 2','Năm 3','Năm 4'].map(g=>`<option ${g===S.grade?'selected':''}>${g}</option>`).join('')}
+        </select>
+
+        <label class="text-xs font-bold text-emerald-800 uppercase tracking-wider mt-3 block">Học Phần Đào Tạo (HPU2)</label>
+        <select ${!isAuth ? 'disabled' : ''} onchange="onTargetGoalChange('subject', this.value)" class="mt-1 font-semibold text-emerald-950 w-full ${!isAuth ? 'bg-slate-50 cursor-not-allowed opacity-75' : ''}">
+          ${HPU2_SUBJECTS.map(s=>`<option ${s===S.subject?'selected':''}>${s}</option>`).join('')}
+        </select>
+
+        <label class="text-xs font-bold text-emerald-800 uppercase tracking-wider mt-3 block">
+          Thời gian chăm chỉ: <span class="text-emerald-700 font-extrabold text-base" id="hv">${S.hrs}</span> giờ/ngày
+        </label>
+        <input ${!isAuth ? 'disabled' : ''} type="range" min="1" max="8" step="1" value="${S.hrs}" oninput="if(!isUserLoggedIn()){promptLogin();return;} S.hrs=this.value;$('#hv').textContent=this.value;save()" class="accent-emerald-600 mt-1 w-full ${!isAuth ? 'cursor-not-allowed opacity-60' : ''}">
+      </div>
 
       <hr class="my-4 border-emerald-100">
 
@@ -2556,8 +2859,8 @@ function vLearn(){
 
       <div class="mt-4">
         <div class="text-xs font-bold uppercase tracking-wider text-emerald-900 flex items-center justify-between mb-1.5">
-          <span>${doc ? 'Kiến thức rút trích từ tệp:' : 'Kiến thức chắt lọc (' + knowList.length + '):'}</span>
-          <span class="text-teal-600 font-extrabold">${doc ? 'AI Analyzed' : 'AI Verified'}</span>
+          <span>${doc ? 'Kiến thức rút trích từ tệp:' : `Kiến thức cốt lõi ${S.subject} (${knowList.length}):`}</span>
+          <span class="text-teal-600 font-extrabold">${doc ? 'AI Analyzed' : 'HPU2 Curriculum'}</span>
         </div>
         <ul class="text-xs space-y-1.5 max-h-48 overflow-y-auto pr-1">
           ${(doc && doc.coreKnowledge && doc.coreKnowledge.length ? doc.coreKnowledge.map(k => `
@@ -2624,42 +2927,79 @@ function vLearn(){
     <section class="card lg:col-span-2 border-t-4 border-t-teal-600">
       <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
         <div>
-          <h2 class="font-extrabold text-lg text-emerald-950 font-fun flex items-center gap-2">
-            <span>🗺️</span> <span>Lộ Trình Ươm Mầm Tri Thức</span>
-          </h2>
-          <p class="text-xs text-emerald-700">Tự động phân bổ bài học khoa học, bạn có thể chỉnh thứ tự bằng ▲▼</p>
-        </div>
-        <button class="btn g sm" onclick="suggest()">✨ Tạo / Làm Mới Lộ Trình</button>
-      </div>
-
-      <div class="flex flex-wrap gap-2 mb-4 p-1.5 bg-emerald-50/80 rounded-2xl border border-emerald-200/60">
-        ${MODES.map(m=>`
-          <button class="tab sm flex-1 text-center py-1.5 ${S.mode===m[0]?'on':'bg-white/70'}" onclick="S.mode='${m[0]}';suggest()">${m[1]}</button>
-        `).join('')}
-      </div>
-
-      <div class="space-y-2.5 max-h-[560px] overflow-y-auto pr-1">
-        ${(S.plan||[]).map((p,i)=>`
-          <div class="p-3.5 rounded-2xl border ${p.d?'bg-emerald-100/60 border-emerald-300':'bg-white border-emerald-100'} hover:border-emerald-300 transition flex items-center gap-3">
-            <input type="checkbox" class="w-5 h-5 accent-emerald-600 rounded cursor-pointer" ${p.d?'checked':''} onchange="doneWeek(${i},this.checked)" title="Đánh dấu hoàn thành mốc này">
-            <div class="flex-1">
-              <div class="flex items-center gap-2 flex-wrap">
-                <span class="font-extrabold text-sm text-emerald-900">${lab(i)}</span>
-                <span class="text-xs bg-emerald-100 text-emerald-800 px-2.5 py-0.5 rounded-full font-semibold">~${hrsOf(i)} giờ học</span>
-                ${(i+1)%tevery()===0?`
-                  <button class="text-xs font-bold text-teal-700 hover:text-teal-900 underline flex items-center gap-1" onclick="miniTest(${i})">
-                    <span>⚡</span> <span>Mini-test kiểm tra</span>
-                  </button>
-                `:''}
-              </div>
-              <div class="text-xs sm:text-sm text-emerald-950 mt-1 font-medium leading-relaxed">${p.t}</div>
-            </div>
-            <div class="flex flex-col gap-1">
-              <button class="w-7 h-7 rounded-lg bg-emerald-50 hover:bg-emerald-200 text-emerald-900 text-xs font-bold flex items-center justify-center" onclick="mv(${i},-1)" title="Chuyển lên trước">▲</button>
-              <button class="w-7 h-7 rounded-lg bg-emerald-50 hover:bg-emerald-200 text-emerald-900 text-xs font-bold flex items-center justify-center" onclick="mv(${i},1)" title="Chuyển xuống sau">▼</button>
-            </div>
+          <div class="flex items-center gap-2">
+            <h2 class="font-extrabold text-lg text-emerald-950 font-fun flex items-center gap-2">
+              <span>🗺️</span> <span>Lộ Trình Ươm Mầm Tri Thức</span>
+            </h2>
+            ${isAuth ? `
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-teal-100 text-teal-800 border border-teal-200">
+                ${S.subject} (${S.grade})
+              </span>
+            ` : `
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-100 text-amber-900 border border-amber-300 flex items-center gap-1">
+                🔒 Khóa tương tác
+              </span>
+            `}
           </div>
+          <p class="text-xs text-emerald-700">Tự động phân bổ bài học khoa học theo học phần ${S.subject}, có thể đổi thứ tự bằng ▲▼</p>
+        </div>
+        ${isAuth ? `
+          <button class="btn g sm" onclick="suggest(true)">✨ Tạo / Làm Mới Lộ Trình</button>
+        ` : `
+          <button class="btn sm border border-amber-300 bg-amber-50 text-amber-900 font-bold hover:bg-amber-100 flex items-center gap-1.5 shadow-2xs" onclick="promptLogin('Vui lòng đăng nhập để tạo hoặc làm mới lộ trình!')">
+            <span>🔒</span> <span>Cần Đăng Nhập Để Tạo Mới</span>
+          </button>
+        `}
+      </div>
+
+      <div class="flex flex-wrap gap-2 mb-4 p-1.5 bg-emerald-50/80 rounded-2xl border border-emerald-200/60 ${!isAuth ? 'opacity-70' : ''}">
+        ${MODES.map(m=>`
+          <button class="tab sm flex-1 text-center py-1.5 ${S.mode===m[0]?'on':'bg-white/70'}" onclick="${isAuth ? `setStudyMode('${m[0]}')` : `promptLogin('Vui lòng đăng nhập để đổi chế độ lộ trình!')`}">${m[1]}</button>
         `).join('')}
+      </div>
+
+      <div class="relative">
+        ${!isAuth ? `
+          <div class="absolute inset-0 bg-white/50 backdrop-blur-[2px] z-10 rounded-2xl flex flex-col items-center justify-center p-6 text-center shadow-xs">
+            <div class="w-14 h-14 rounded-full bg-amber-100 text-amber-800 flex items-center justify-center text-2xl font-bold mb-3 shadow-sm border border-amber-300 animate-bounce">
+              🔒
+            </div>
+            <h3 class="font-extrabold text-sm sm:text-base text-amber-950 mb-1.5">
+              Lộ Trình Đang Ở Chế Độ Khóa Tương Tác
+            </h3>
+            <p class="text-xs text-amber-900 mb-4 max-w-md leading-relaxed">
+              Bạn đang xem dưới quyền <b>Khách Vãng Lai</b>. Hãy đăng nhập để lưu tiến độ học tập, tùy chỉnh thứ tự các tuần bằng ▲▼ và kích hoạt các bài Mini-test kiểm tra kiến thức!
+            </p>
+            <button class="btn g !py-2.5 !px-5 text-xs sm:text-sm font-extrabold shadow-md flex items-center gap-2" onclick="promptLogin('Vui lòng đăng nhập để kích hoạt Lộ Trình Ươm Mầm Tri Thức!')">
+              <span>🔑</span> <span>Đăng Nhập Để Mở Khóa Toàn Bộ Lộ Trình</span>
+            </button>
+          </div>
+        ` : ''}
+
+        <div class="space-y-2.5 max-h-[560px] overflow-y-auto pr-1 ${!isAuth ? 'select-none pointer-events-none filter blur-[0.8px]' : ''}">
+          ${(S.plan||[]).map((p,i)=>`
+            <div class="p-3.5 rounded-2xl border ${p.d?'bg-emerald-100/60 border-emerald-300':'bg-white border-emerald-100'} hover:border-emerald-300 transition flex items-center gap-3">
+              <input type="checkbox" class="w-5 h-5 accent-emerald-600 rounded cursor-pointer" ${p.d?'checked':''} ${!isAuth ? 'disabled' : ''} onchange="doneWeek(${i},this.checked)" title="Đánh dấu hoàn thành mốc này">
+              <div class="flex-1">
+                <div class="flex items-center gap-2 flex-wrap">
+                  <span class="font-extrabold text-sm text-emerald-900">${lab(i)}</span>
+                  <span class="text-xs bg-emerald-100 text-emerald-800 px-2.5 py-0.5 rounded-full font-semibold">~${hrsOf(i)} giờ học</span>
+                  <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-teal-50 text-teal-800 border border-teal-200">${S.subject}</span>
+                  ${(i+1)%tevery()===0?`
+                    <button class="text-xs font-bold text-teal-700 hover:text-teal-900 underline flex items-center gap-1" onclick="${isAuth ? `miniTest(${i})` : `promptLogin('Vui lòng đăng nhập để làm bài mini-test!')`}">
+                      <span>⚡</span> <span>Mini-test kiểm tra</span>
+                    </button>
+                  `:''}
+                </div>
+                <div class="text-xs sm:text-sm text-emerald-950 mt-1 font-medium leading-relaxed">${formatMathText(p.t)}</div>
+              </div>
+              <div class="flex flex-col gap-1">
+                <button ${!isAuth ? 'disabled' : ''} class="w-7 h-7 rounded-lg bg-emerald-50 hover:bg-emerald-200 text-emerald-900 text-xs font-bold flex items-center justify-center ${!isAuth ? 'opacity-40 cursor-not-allowed' : ''}" onclick="mv(${i},-1)" title="Chuyển lên trước">▲</button>
+                <button ${!isAuth ? 'disabled' : ''} class="w-7 h-7 rounded-lg bg-emerald-50 hover:bg-emerald-200 text-emerald-900 text-xs font-bold flex items-center justify-center ${!isAuth ? 'opacity-40 cursor-not-allowed' : ''}" onclick="mv(${i},1)" title="Chuyển xuống sau">▼</button>
+              </div>
+            </div>
+          `).join('')}
+        </div>
       </div>
     </section>
   </div>
@@ -3997,40 +4337,58 @@ function finishAnalysisSuccess(analysis, fileName){
   render();
 }
 
-function suggest(){
-  const it=(S.focus&&S.focus.length)?S.focus:CONTENT.TOPICS;
-  const modeMap={day7:7,week4:4,week12:12};
-  const N=modeMap[S.mode]||4;
-  S.plan=Array.from({length:N},(_,i)=>{
-    const a=Math.floor(i*it.length/N),b=Math.floor((i+1)*it.length/N);
-    return{
-      t:b>a?it.slice(a,b).join('; '):'Tổng ôn chuyên đề & luyện đề củng cố phản xạ',
-      d:i===0
-    };
-  });
+function suggest(userTriggered = false){
+  if (userTriggered && !isUserLoggedIn()) {
+    promptLogin('🔒 Vui lòng đăng nhập để tạo hoặc làm mới lộ trình!');
+    return;
+  }
+  generateRoadmapForTarget(false);
   save();
-  Sound.correct();
-  toast('Đã cập nhật lộ trình học tập thông minh!');
+  if (userTriggered) {
+    Sound.correct && Sound.correct();
+    toast(`✨ Đã tạo mới lộ trình học tập chuẩn HPU2 cho môn ${S.subject}!`);
+  }
   render();
 }
 
-function mv(i,d){
-  const j=i+d;if(j<0||j>=S.plan.length)return;
-  [S.plan[i],S.plan[j]]=[S.plan[j],S.plan[i]];
-  save();render();
+function mv(i, d){
+  if (!isUserLoggedIn()) {
+    promptLogin('🔒 Vui lòng đăng nhập để thay đổi thứ tự lộ trình học tập!');
+    return;
+  }
+  const j = i + d;
+  if (j < 0 || !S.plan || j >= S.plan.length) return;
+  [S.plan[i], S.plan[j]] = [S.plan[j], S.plan[i]];
+  save();
+  render();
 }
 
-function doneWeek(i,v){
-  if(S.plan&&S.plan[i]){
-    S.plan[i].d=v;
-    if(v){gain(25,'gn',8);Sound.correct();toast(`Xuất sắc! Hoàn thành ${lab(i)} 🎉`)}
-    else save();
+function doneWeek(i, v){
+  if (!isUserLoggedIn()) {
+    promptLogin('🔒 Vui lòng đăng nhập để lưu tiến độ hoàn thành bài học!');
+    render();
+    return;
+  }
+  if (S.plan && S.plan[i]) {
+    S.plan[i].d = v;
+    if (v) {
+      gain(25, 'gn', 8);
+      Sound.correct && Sound.correct();
+      toast(`Xuất sắc! Hoàn thành ${lab(i)} 🎉`);
+    } else {
+      save();
+    }
   }
 }
 
-function miniTest(){
-  M={i:0,s:0,done:false,lock:false};
-  S.exam='mcq';go('exam');
+function miniTest(i){
+  if (!isUserLoggedIn()) {
+    promptLogin('🔒 Vui lòng đăng nhập để làm bài kiểm tra mini-test!');
+    return;
+  }
+  M = { i: 0, s: 0, done: false, lock: false };
+  S.exam = 'mcq';
+  go('exam');
 }
 
 /* ==================== 11.3 TÍNH NĂNG MỚI: HỎI ĐÁP & TRA CỨU BẰNG AI (HPU2 MATH AI ASSISTANT) ==================== */
