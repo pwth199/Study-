@@ -1,0 +1,12 @@
+{
+  "name": "study-arena-server",
+  "version": "1.0.0",
+  "description": "Máy chủ trung gian giữ khóa Gemini API cho Study Arena HPU2",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}

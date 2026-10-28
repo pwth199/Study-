@@ -88,6 +88,7 @@ details{margin-top:8px}summary{cursor:pointer;font-weight:600;color:var(--brand)
       <input type="password" id="apiKeyInput" placeholder="Dán Gemini API Key (tự động lưu vào trình duyệt của bạn)...">
       <button id="saveKeyBtn">Lưu Key</button>
     </div>
+    <div id="proxyNote" style="font-size:0.8rem;color:var(--mute);margin-top:6px;display:none;"></div>
 
     <div class="row">
       <button class="primary" id="go" disabled>Phân tích tài liệu</button>
@@ -124,13 +125,18 @@ details{margin-top:8px}summary{cursor:pointer;font-weight:600;color:var(--brand)
 <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+<!-- Cấu hình Proxy trung gian bảo mật khóa Gemini API (server.js) -->
+<script>
+  window.API_PROXY = window.API_PROXY || (location.protocol.startsWith('http') ? '/api/analyze' : '');
+</script>
+
 <script>
 /* ============ CẤU HÌNH ============
    CÁCH AN TOÀN (khuyên dùng): đặt PROXY_URL trỏ tới server của bạn. Server giữ GEMINI_API_KEY
    và chuyển tiếp body JSON tới Gemini (xem ví dụ Node.js trong phần hướng dẫn).
    CÁCH NHANH (chỉ để thử): điền GEMINI_API_KEY hoặc nhập trực tiếp trên giao diện — lưu ở localStorage. */
 const CONFIG = {
-  PROXY_URL: "",                       // ví dụ: "/api/analyze"
+  PROXY_URL: window.API_PROXY || (location.protocol.startsWith('http') ? '/api/analyze' : ''),
   GEMINI_API_KEY: localStorage.getItem("study_arena_gemini_key") || "", // lấy từ localStorage nếu có
   MODEL: "gemini-2.5-flash",
   MAX_BYTES: 15 * 1024 * 1024,
@@ -140,6 +146,13 @@ const CONFIG = {
 const $ = id => document.getElementById(id);
 let file = null, data = null, quizState = [];
 const STORE = "docAnalysis.saved.v1";
+
+// Cấu hình trạng thái Proxy hoặc API Key từ UI
+const proxyNote = $("proxyNote");
+if (proxyNote && CONFIG.PROXY_URL) {
+  proxyNote.style.display = "block";
+  proxyNote.innerHTML = `🛡️ <b>Proxy Server đang hoạt động:</b> <code>${CONFIG.PROXY_URL}</code> (khóa API được bảo mật trên máy chủ).`;
+}
 
 // Cấu hình API key từ UI
 const apiKeyInput = $("apiKeyInput");

@@ -30,5 +30,27 @@ Hệ thống ứng dụng học thông minh kết hợp nuôi dưỡng linh vậ
 ---
 
 ## 🚀 Hướng Dẫn Sử Dụng
+
+### Cách 1: Chạy trực tiếp (Chế độ Client / Tĩnh / GitHub Pages)
 - Mở file `index.html` hoặc `STUDY ARENA.html` trên bất kỳ trình duyệt nào (Chrome, Edge, Cốc Cốc, Safari).
 - Bật GitHub Pages trong phần Settings của Repository để chạy trực tuyến miễn phí 24/7.
+- Nhập trực tiếp Gemini API Key vào phần Quản trị hoặc giao diện Phân tích tài liệu để kích hoạt AI trực tiếp từ trình duyệt.
+
+### Cách 2: Khởi chạy Máy chủ Proxy trung gian (Bảo mật tuyệt đối khóa Gemini API)
+Sử dụng `server.js` (yêu cầu Node.js 18+):
+```bash
+# 1. Cài đặt thư viện Express
+npm install
+
+# 2. Khởi động server với khóa Gemini API của bạn
+# Trên Linux / macOS:
+GEMINI_API_KEY=AIzaSy... node server.js
+
+# Trên Windows PowerShell:
+$env:GEMINI_API_KEY="AIzaSy..."; node server.js
+
+# Trên Windows CMD:
+set GEMINI_API_KEY=AIzaSy... && node server.js
+```
+- Mở trình duyệt tại: `http://localhost:3000`
+- Máy chủ sẽ tự động phục vụ giao diện từ thư mục `public/` hoặc thư mục gốc và cung cấp endpoint `/api/analyze` bảo mật khóa API, có sẵn cơ chế Rate Limiting (10 lượt/10 phút/IP).

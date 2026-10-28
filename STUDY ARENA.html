@@ -405,6 +405,11 @@ footer{position:relative;z-index:10}
   </div>
 </div>
 
+<!-- Cấu hình Proxy trung gian bảo mật khóa Gemini API (server.js) -->
+<script>
+  window.API_PROXY = window.API_PROXY || (location.protocol.startsWith('http') ? '/api/analyze' : '');
+</script>
+
 <script>
 /* ==================== 1. KHỞI TẠO TIỆN ÍCH CỐT LÕI ==================== */
 const $=s=>document.querySelector(s);
@@ -2346,12 +2351,14 @@ function exportStandaloneHtml(){
 
 function vAdminAiConfig(){
   const savedKey = localStorage.getItem('study_arena_gemini_key') || '';
+  const savedProxy = localStorage.getItem('study_arena_proxy_url') || (window.API_PROXY || '');
+  const isProxyActive = !!(window.API_PROXY || savedProxy);
   return `
   <div class="p-4 bg-white/95 rounded-2xl border border-emerald-200 shadow-xs space-y-4">
     <div class="flex items-center justify-between pb-3 border-b border-emerald-100 flex-wrap gap-2">
       <div>
         <h4 class="font-extrabold text-sm text-emerald-950 flex items-center gap-2">
-          <span>🤖</span> <span>Cấu Hình Tích Hợp AI (Gemini 2.5 Flash & Document Parser)</span>
+          <span>🤖</span> <span>Cấu Hình Tích Hợp AI (Gemini 2.5 Flash & Proxy Server)</span>
         </h4>
         <p class="text-xs text-emerald-700 mt-0.5">Quản lý kết nối AI để đọc tài liệu (.pdf, .docx, .txt) và hỗ trợ sinh viên HPU2 tra cứu toán học</p>
       </div>
@@ -2360,15 +2367,34 @@ function vAdminAiConfig(){
       </a>
     </div>
 
+    <!-- CẤU HÌNH PROXY SERVER (SERVER.JS) BẢO MẬT KHÓA -->
+    <div class="p-3.5 bg-teal-50/70 rounded-2xl border border-teal-200 space-y-2">
+      <div class="flex items-center justify-between">
+        <label class="block text-xs font-bold text-teal-950">1. Máy chủ Proxy trung gian (server.js - Khuyên dùng):</label>
+        <span class="text-[10px] font-extrabold px-2 py-0.5 rounded-full ${isProxyActive ? 'bg-teal-200 text-teal-900 border border-teal-300' : 'bg-slate-200 text-slate-700'}">
+          ${isProxyActive ? '🟢 Proxy Sẵn Sàng' : '⚪ Chưa kích hoạt Proxy'}
+        </span>
+      </div>
+      <div class="flex gap-2">
+        <input type="text" id="adminProxyUrlInput" value="${savedProxy}" placeholder="ví dụ: /api/analyze hoặc http://localhost:3000/api/analyze" class="flex-1 p-2 text-xs border border-teal-300 rounded-xl bg-white text-teal-950 font-mono">
+        <button class="btn sm g" onclick="saveAdminProxyUrl()">Lưu Proxy 🛡️</button>
+        <button class="btn sm outline" onclick="clearAdminProxyUrl()">Mặc định</button>
+      </div>
+      <p class="text-[11px] text-teal-800 leading-relaxed italic">
+        🛡️ <b>Bảo mật tuyệt đối</b>: Khi khởi động <code>node server.js</code> với biến môi trường <code>GEMINI_API_KEY</code>, máy chủ giữ khóa bí mật và chuyển tiếp yêu cầu đến Gemini 2.5 Flash, hoàn toàn không để lộ khóa API ra phía client.
+      </p>
+    </div>
+
+    <!-- CẤU HÌNH TRỰC TIẾP TRÊN TRÌNH DUYỆT (KHI KHÔNG DÙNG SERVER.JS) -->
     <div class="p-3.5 bg-emerald-50/70 rounded-2xl border border-emerald-200 space-y-2">
-      <label class="block text-xs font-bold text-emerald-950">Gemini API Key (Google AI Studio):</label>
+      <label class="block text-xs font-bold text-emerald-950">2. Gemini API Key dự phòng (Dành cho chế độ tĩnh / Offline):</label>
       <div class="flex gap-2">
         <input type="password" id="adminGeminiApiKeyInput" value="${savedKey}" placeholder="Dán Gemini API Key (AIzaSy...)" class="flex-1 p-2 text-xs border border-emerald-300 rounded-xl bg-white text-emerald-950 font-mono">
         <button class="btn sm g" onclick="saveAdminGeminiKey()">Lưu Key 💾</button>
         <button class="btn sm outline" onclick="clearAdminGeminiKey()">Xóa</button>
       </div>
       <p class="text-[11px] text-emerald-700 italic">
-        Khóa API được lưu an toàn trong trình duyệt cục bộ (localStorage) của bạn. Khi có khóa, hệ thống sẽ gọi trực tiếp mô hình <b>gemini-2.5-flash</b> để xử lý PDF và văn bản. Khi không có khóa, hệ thống sử dụng bộ giả lập thông minh toán học HPU2.
+        Sử dụng khi bạn mở trực tiếp tệp HTML mà không qua máy chủ NodeJS. Khóa API lưu trong <code>localStorage</code> trình duyệt của bạn.
       </p>
     </div>
 
@@ -2384,6 +2410,29 @@ function vAdminAiConfig(){
     </div>
   </div>
   `;
+}
+
+function saveAdminProxyUrl(){
+  const input = $('#adminProxyUrlInput');
+  if(!input) return;
+  const url = input.value.trim();
+  if(url){
+    localStorage.setItem('study_arena_proxy_url', url);
+    window.API_PROXY = url;
+    toast('🎉 Đã cập nhật Proxy URL: ' + url);
+  } else {
+    clearAdminProxyUrl();
+  }
+  render();
+}
+
+function clearAdminProxyUrl(){
+  localStorage.removeItem('study_arena_proxy_url');
+  window.API_PROXY = location.protocol.startsWith('http') ? '/api/analyze' : '';
+  const input = $('#adminProxyUrlInput');
+  if(input) input.value = window.API_PROXY;
+  toast('Đã đặt lại Proxy URL theo mặc định');
+  render();
 }
 
 function saveAdminGeminiKey(){
@@ -3782,13 +3831,19 @@ async function callGeminiDocAnalysis(parts, apiKey){
       temperature: 0.3
     }
   };
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent`;
+  const proxyUrl = window.API_PROXY || (typeof CONFIG !== 'undefined' && CONFIG.PROXY_URL) || localStorage.getItem('study_arena_proxy_url') || '';
+  let url, headers = { "Content-Type": "application/json" };
+  if(proxyUrl){
+    url = proxyUrl;
+  } else if(apiKey){
+    url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent`;
+    headers["x-goog-api-key"] = apiKey;
+  } else {
+    throw new Error("Chưa cấu hình API Key hoặc Proxy Server.");
+  }
   const res = await fetch(url, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "x-goog-api-key": apiKey
-    },
+    headers: headers,
     body: JSON.stringify(body)
   });
   if(!res.ok){
@@ -3889,10 +3944,11 @@ async function upload(f){
     console.warn('Lỗi đọc nội dung file cục bộ:', readErr);
   }
 
+  const proxyUrl = window.API_PROXY || (typeof CONFIG !== 'undefined' && CONFIG.PROXY_URL) || localStorage.getItem('study_arena_proxy_url') || '';
   const apiKey = (localStorage.getItem('study_arena_gemini_key') || '').trim();
 
-  if(apiKey && (pdfParts || (extractedText && extractedText.length > 30))){
-    if(a) a.innerHTML = `<span class="inline-block animate-pulse mr-1">🧠</span> Đang kết nối Gemini 2.5 Flash phân tích tài liệu chuyên sâu...`;
+  if((proxyUrl || apiKey) && (pdfParts || (extractedText && extractedText.length > 30))){
+    if(a) a.innerHTML = `<span class="inline-block animate-pulse mr-1">🧠</span> Đang kết nối Gemini 2.5 Flash ${proxyUrl ? '(qua Proxy Server)' : ''} phân tích tài liệu chuyên sâu...`;
     try {
       const parts = pdfParts || [{ text: "NỘI DUNG TÀI LIỆU:\n" + extractedText.slice(0, 120000) }];
       const geminiResult = await callGeminiDocAnalysis(parts, apiKey);
