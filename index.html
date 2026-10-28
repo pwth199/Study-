@@ -6,6 +6,10 @@
 <title>HPU2 Study Arena – Đấu Trường Tri Thức Sư Phạm Hà Nội 2</title>
 <script src="https://cdn.tailwindcss.com/3.4.17"></script>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+<!-- KaTeX CDN cho hiển thị công thức toán học sắc nét chuẩn khoa học -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
 <style>
 :root{
   --g-deep:#0f382c;
@@ -195,6 +199,23 @@ footer{position:relative;z-index:10}
   height:42px;
   background:linear-gradient(180deg,#52b788,#2ec4b6);
   margin:0 auto;
+}
+/* Hiển thị công thức toán học chuyên nghiệp */
+.math-display{
+  font-family:'KaTeX_Math','Cambria Math','Latin Modern Math',Georgia,serif;
+  letter-spacing:0.015em;
+}
+.math-display .katex{
+  font-size:1.18em !important;
+}
+.math-display .katex-display{
+  margin:0.2em 0 !important;
+}
+.inline-math{
+  font-family:'KaTeX_Math','Cambria Math','Latin Modern Math',Georgia,serif;
+}
+.inline-math .katex{
+  font-size:1.06em !important;
 }
 </style>
 </head>
@@ -559,6 +580,137 @@ function toggleAudio(){
   S.muted=!S.muted;save();
   const b=$('#btnAudio');if(b)b.innerHTML=S.muted?'🔇 Đã tắt':'🔊 Âm thanh';
   toast(S.muted?'Đã tắt âm thanh khu vườn':'Đã bật âm thanh sinh động');
+}
+
+/* ==================== 3.1 BỘ HIỂN THỊ CÔNG THỨC TOÁN HỌC (KATEX / MATHJAX / HTML MATH) ==================== */
+function renderMath(latex, isBlock = false){
+  if(!latex) return '';
+  const clean = String(latex).trim();
+  
+  // 1. Dùng KaTeX chính thức nếu đã tải CDN
+  if(window.katex && typeof window.katex.renderToString === 'function'){
+    try {
+      return window.katex.renderToString(clean, {
+        displayMode: isBlock,
+        throwOnError: false,
+        strict: false
+      });
+    } catch(err){}
+  }
+  
+  // 2. Chế độ Fallback HTML/CSS ký hiệu toán học khoa học
+  return formatMathHtmlFallback(clean, isBlock);
+}
+
+function formatMathHtmlFallback(latex, isBlock = false){
+  let s = String(latex);
+  s = s.replace(/\\quad|\\qquad|\\;|\\,|\\!/g, ' ');
+  s = s.replace(/\\text\{([^{}]+)\}/g, '$1');
+  s = s.replace(/\\mathcal\{N\}/g, '𝒩');
+  s = s.replace(/\\frac\{([^{}]+)\}\{([^{}]+)\}/g, '<span class="inline-flex flex-col text-center align-middle mx-1"><span class="border-b border-current px-1 text-[11px] leading-tight font-medium">$1</span><span class="px-1 text-[11px] leading-tight font-medium">$2</span></span>');
+  s = s.replace(/\\sqrt\{([^{}]+)\}/g, '√($1)');
+  s = s.replace(/\\sum_\{([^{}]+)\}\^\{([^{}]+)\}/g, '∑<sub>$1</sub><sup>$2</sup>');
+  s = s.replace(/\\sum_\{([^{}]+)\}/g, '∑<sub>$1</sub>');
+  s = s.replace(/\\sum/g, '∑');
+  s = s.replace(/\\iint_([a-zA-Z0-9]+)/g, '∬<sub>$1</sub>');
+  s = s.replace(/\\iint/g, '∬');
+  s = s.replace(/\\oint_\{?([^{}\s]+)\}?/g, '∮<sub>$1</sub>');
+  s = s.replace(/\\oint/g, '∮');
+  s = s.replace(/\\int_\{([^{}]+)\}\^\{([^{}]+)\}/g, '∫<sub>$1</sub><sup>$2</sup>');
+  s = s.replace(/\\int/g, '∫');
+  s = s.replace(/\\lim_\{([^{}]+)\}/g, 'lim<sub>$1</sub>');
+  s = s.replace(/\\lim/g, 'lim');
+  s = s.replace(/\\det/g, 'det');
+  s = s.replace(/\\dim/g, 'dim');
+  s = s.replace(/\\deg/g, 'deg');
+  s = s.replace(/\\min/g, 'min');
+  s = s.replace(/\\max/g, 'max');
+  s = s.replace(/\\cdot/g, ' · ');
+  s = s.replace(/\\times/g, ' × ');
+  s = s.replace(/\\pm/g, ' ± ');
+  s = s.replace(/\\infty/g, '∞');
+  s = s.replace(/\\le|\\leq/g, ' ≤ ');
+  s = s.replace(/\\ge|\\geq/g, ' ≥ ');
+  s = s.replace(/\\neq/g, ' ≠ ');
+  s = s.replace(/\\equiv/g, ' ≡ ');
+  s = s.replace(/\\iff/g, ' ⟺ ');
+  s = s.replace(/\\implies/g, ' ⟹ ');
+  s = s.replace(/\\xrightarrow\{([^{}]+)\}/g, ' ⎯$1→ ');
+  s = s.replace(/\\to|\\rightarrow/g, ' → ');
+  s = s.replace(/\\in/g, ' ∈ ');
+  s = s.replace(/\\notin/g, ' ∉ ');
+  s = s.replace(/\\cup/g, ' ∪ ');
+  s = s.replace(/\\cap/g, ' ∩ ');
+  s = s.replace(/\\forall/g, '∀');
+  s = s.replace(/\\partial/g, '∂');
+  s = s.replace(/\\sim/g, ' ~ ');
+  s = s.replace(/\\pmod\{([^{}]+)\}/g, '(mod $1)');
+  s = s.replace(/\\alpha/g, 'α');
+  s = s.replace(/\\lambda/g, 'λ');
+  s = s.replace(/\\mu/g, 'μ');
+  s = s.replace(/\\sigma/g, 'σ');
+  s = s.replace(/\\varphi/g, 'φ');
+  s = s.replace(/\\bar\{([^{}]+)\}/g, '<span style="text-decoration:overline">$1</span>');
+  s = s.replace(/\\left\(/g, '(').replace(/\\right\)/g, ')');
+  s = s.replace(/\\left\[/g, '[').replace(/\\right\]/g, ']');
+  s = s.replace(/\\big\|/g, '|');
+  s = s.replace(/_\{([^{}]+)\}/g, '<sub>$1</sub>');
+  s = s.replace(/\^\{([^{}]+)\}/g, '<sup>$1</sup>');
+  s = s.replace(/_([a-zA-Z0-9])/g, '<sub>$1</sub>');
+  s = s.replace(/\^([a-zA-Z0-9])/g, '<sup>$1</sup>');
+  
+  if(isBlock){
+    return `<div class="font-serif italic tracking-wide text-emerald-950 inline-block text-sm sm:text-base">${s}</div>`;
+  }
+  return `<span class="font-serif italic tracking-wide text-emerald-950">${s}</span>`;
+}
+
+function formatMathText(text){
+  if(!text) return '';
+  let str = String(text);
+  
+  // 1. Phân giải công thức dạng $$...$$ (khối)
+  str = str.replace(/\$\$([^\$]+)\$\$/g, (_, f) => renderMath(f, true));
+  
+  // 2. Phân giải công thức dạng $...$ (nội dòng)
+  str = str.replace(/\$([^\$]+)\$/g, (_, f) => `<span class="inline-math">${renderMath(f, false)}</span>`);
+  
+  // 3. Xử lý các lệnh LaTeX thô còn sót lại và ký hiệu toán học phổ biến trong text
+  str = str.replace(/\\text\{([^{}]+)\}/g, '$1');
+  str = str.replace(/\\sum_\{([^{}]+)\}/g, '∑<sub>$1</sub>');
+  str = str.replace(/\\sum/g, '∑');
+  str = str.replace(/\\frac\{([^{}]+)\}\{([^{}]+)\}/g, '$1/$2');
+  str = str.replace(/\\sqrt\{([^{}]+)\}/g, '√($1)');
+  str = str.replace(/\\mathcal\{N\}/g, '𝒩');
+  str = str.replace(/∑_\(?([^\)\s]+)\)?/g, '∑<sub>$1</sub>');
+  str = str.replace(/A\^\(-1\)/g, 'A<sup>-1</sup>');
+  str = str.replace(/R\^([0-9n])/g, 'ℝ<sup>$1</sup>');
+  str = str.replace(/([x-z])\^([0-9a-z\+]+)/g, '$1<sup>$2</sup>');
+  str = str.replace(/\\det/g, 'det');
+  str = str.replace(/\\dim/g, 'dim');
+  str = str.replace(/\\deg/g, 'deg');
+  str = str.replace(/\\partial/g, '∂');
+  str = str.replace(/\\forall/g, '∀');
+  str = str.replace(/\\neq/g, '≠');
+  str = str.replace(/\\le|\\leq/g, '≤');
+  str = str.replace(/\\ge|\\geq/g, '≥');
+  str = str.replace(/\\in/g, '∈');
+  str = str.replace(/\\notin/g, '∉');
+  str = str.replace(/\\cup/g, '∪');
+  str = str.replace(/\\cap/g, '∩');
+  str = str.replace(/\\iff/g, '⟺');
+  str = str.replace(/\\implies/g, '⟹');
+  str = str.replace(/\\to|\\rightarrow/g, '→');
+  str = str.replace(/\\times/g, '×');
+  str = str.replace(/\\cdot/g, '·');
+  str = str.replace(/\\pm/g, '±');
+  str = str.replace(/\\lambda/g, 'λ');
+  str = str.replace(/\\mu/g, 'μ');
+  str = str.replace(/\\sigma/g, 'σ');
+  str = str.replace(/\\alpha/g, 'α');
+  str = str.replace(/\\varphi/g, 'φ');
+  
+  return str;
 }
 
 /* ==================== 4. DỮ LIỆU CỐT LÕI (5 HỌC PHẦN TOÁN TRỌNG TÂM ĐH SƯ PHẠM HÀ NỘI 2 - HPU2) ==================== */
@@ -982,6 +1134,17 @@ function render(){
     try{
       if(S.tab==='admin') appEl.innerHTML=vAdminView();
       else appEl.innerHTML={learn:vLearn,exam:vExam,pet:vPet}[S.tab]();
+      if(window.renderMathInElement){
+        try{
+          renderMathInElement(appEl, {
+            delimiters: [
+              {left: '$$', right: '$$', display: true},
+              {left: '$', right: '$', display: false}
+            ],
+            throwOnError: false
+          });
+        }catch(e){}
+      }
     }catch(err){
       appEl.innerHTML=`<div class="card text-center p-6"><h3 class="font-bold text-rose-600">Đang phục hồi dữ liệu...</h3><button class="btn g sm mt-3" onclick="location.reload()">Làm Mới Trang</button></div>`;
     }
@@ -2202,13 +2365,13 @@ function vLearn(){
             <li class="p-2 rounded-xl bg-teal-50/90 border border-teal-200/80 text-teal-950 flex items-start gap-1.5">
               <span class="text-teal-600 mt-0.5">💡</span>
               <div class="flex-1">
-                <span class="font-bold text-teal-900">${k.title}:</span>
-                <span class="text-[11px] text-teal-950 ml-1">${k.content.slice(0, 95)}...</span>
+                <span class="font-bold text-teal-900">${formatMathText(k.title)}:</span>
+                <span class="text-[11px] text-teal-950 ml-1">${formatMathText(k.content.slice(0, 95))}...</span>
               </div>
             </li>
           `) : knowList.map(f=>`
             <li class="p-2 rounded-xl bg-emerald-50/80 border border-emerald-200/60 text-emerald-950 flex items-start gap-1.5">
-              <span class="text-emerald-500 mt-0.5">🌿</span> <span>${f}</span>
+              <span class="text-emerald-500 mt-0.5">🌿</span> <span>${formatMathText(f)}</span>
             </li>
           `)).join('')}
         </ul>
@@ -2323,20 +2486,20 @@ function renderDocAnalysisSection(doc){
         </p>
         <div class="space-y-3 overflow-y-auto max-h-[460px] pr-1.5">
           ${(doc.coreKnowledge||[]).map((item, idx) => `
-            <div class="p-3 rounded-xl bg-emerald-50/70 border border-emerald-200 hover:border-emerald-300 transition">
-              <div class="flex items-center justify-between gap-2 mb-1">
+            <div class="p-3.5 rounded-2xl bg-white/95 border border-emerald-200/90 hover:border-emerald-300 transition shadow-xs">
+              <div class="flex items-center justify-between gap-2 mb-1.5">
                 <span class="font-bold text-xs text-emerald-950 flex items-center gap-1.5">
-                  <span class="w-5 h-5 rounded-md bg-emerald-600 text-white text-[10px] font-extrabold flex items-center justify-center">${idx+1}</span>
-                  <span>${item.title}</span>
+                  <span class="w-5 h-5 rounded-md bg-emerald-600 text-white text-[10px] font-extrabold flex items-center justify-center shadow-2xs">${idx+1}</span>
+                  <span>${formatMathText(item.title)}</span>
                 </span>
-                <span class="text-[10px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded bg-emerald-200/80 text-emerald-900">${item.type}</span>
+                <span class="text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-900 border border-emerald-200/70">${item.type}</span>
               </div>
-              <div class="text-xs text-emerald-950 leading-relaxed font-medium mt-1.5 pl-6.5">
-                ${item.content}
+              <div class="text-xs text-emerald-950 leading-relaxed font-normal mt-1 pl-6.5">
+                ${formatMathText(item.content)}
               </div>
               ${item.formula ? `
-                <div class="mt-2 p-2 bg-emerald-100/70 rounded-lg text-xs font-mono font-bold text-emerald-950 text-center border border-emerald-300/50">
-                  ${item.formula}
+                <div class="mt-2.5 px-3.5 py-2 bg-gradient-to-r from-emerald-50/80 via-white to-teal-50/80 rounded-xl border border-emerald-200/80 shadow-2xs text-center text-sm sm:text-base text-emerald-950 overflow-x-auto math-display">
+                  ${renderMath(item.formula, true)}
                 </div>
               ` : ''}
             </div>
@@ -2375,20 +2538,20 @@ function renderDocAnalysisSection(doc){
                 `:''}
               </div>
               <div class="text-xs font-bold text-emerald-950 mb-2 leading-relaxed">
-                ${q.question}
+                ${formatMathText(q.question)}
               </div>
               ${q.type === 'mcq' ? `
                 <div class="space-y-1.5 mt-2">
                   ${(q.options||[]).map((opt, optIdx) => `
                     <button class="w-full text-left p-2 rounded-lg border text-xs font-semibold transition flex items-start gap-2 ${getDocQuizBtnClass(qIdx, optIdx)}" onclick="answerDocQuiz(${qIdx}, ${optIdx})">
                       <span class="w-4 h-4 rounded-full bg-slate-200 text-slate-800 text-[10px] font-bold flex items-center justify-center shrink-0 mt-0.5">${String.fromCharCode(65+optIdx)}</span>
-                      <span class="flex-1">${opt}</span>
+                      <span class="flex-1">${formatMathText(opt)}</span>
                     </button>
                   `).join('')}
                 </div>
                 ${answers[qIdx] !== undefined ? `
                   <div class="mt-2.5 p-2 rounded-lg bg-teal-100/80 text-[11px] text-teal-950 border border-teal-300/60 leading-relaxed">
-                    <span class="font-bold">💡 Lời giải chi tiết:</span> ${q.explanation}
+                    <span class="font-bold">💡 Lời giải chi tiết:</span> ${formatMathText(q.explanation)}
                   </div>
                 ` : ''}
               ` : `
@@ -2396,7 +2559,7 @@ function renderDocAnalysisSection(doc){
                   <div class="text-[11px] font-bold text-purple-900 mb-1 flex items-center gap-1">
                     <span>🗝️</span> <span>Gợi ý lời giải chuẩn sư phạm:</span>
                   </div>
-                  <div class="text-purple-950 leading-relaxed mb-2 whitespace-pre-line">${q.sampleAnswer}</div>
+                  <div class="text-purple-950 leading-relaxed mb-2 whitespace-pre-line">${formatMathText(q.sampleAnswer)}</div>
                   <div class="flex flex-wrap gap-1">
                     ${(q.keywords||[]).map(kw => `<span class="px-2 py-0.5 rounded-md bg-purple-200/70 text-purple-900 text-[10px] font-bold">#${kw}</span>`).join('')}
                   </div>
@@ -2501,8 +2664,15 @@ function generateAIAnalysis(fileName, file){
   let coreKnowledge = [];
   let reviewQuestions = [];
 
+  const isKTMT = fnLower.includes('ram') || fnLower.includes('ktmt') || fnLower.includes('kiến trúc') || fnLower.includes('kientruc') || fnLower.includes('bộ nhớ') || fnLower.includes('bonho');
+  const isRoiRac = fnLower.includes('rời rạc') || fnLower.includes('roirac') || fnLower.includes('roi_rac') || fnLower.includes('roi rac') || fnLower.includes('đồ thị') || fnLower.includes('dothi') || fnLower.includes('do thi') || fnLower.includes('do_thi') || fnLower.includes('dijkstra') || fnLower.includes('kruskal');
+  const isXSTK = fnLower.includes('xác suất') || fnLower.includes('xacsuat') || fnLower.includes('xac_suat') || fnLower.includes('xac suat') || fnLower.includes('thống kê') || fnLower.includes('thongke') || fnLower.includes('thong_ke') || fnLower.includes('bayes') || fnLower.includes('xstk');
+  const isGT2 = fnLower.includes('giải tích 2') || fnLower.includes('giaitich2') || fnLower.includes('giai_tich_2') || fnLower.includes('gt2') || fnLower.includes('tích phân kép') || fnLower.includes('green') || fnLower.includes('tọa độ cực');
+  const isGT1 = fnLower.includes('giải tích 1') || fnLower.includes('giaitich1') || fnLower.includes('giai_tich_1') || fnLower.includes('gt1') || fnLower.includes('lagrange') || fnLower.includes('maclaurin') || fnLower.includes('taylor') || fnLower.includes('riemann') || fnLower.includes('chuỗi số');
+  const isDSTT = fnLower.includes('đại số') || fnLower.includes('daiso') || fnLower.includes('dai_so') || fnLower.includes('dai so') || fnLower.includes('tuyến tính') || fnLower.includes('tuyentinh') || fnLower.includes('tuyen_tinh') || fnLower.includes('dstt') || fnLower.includes('ma trận') || fnLower.includes('matran') || fnLower.includes('định thức');
+
   // 1. Nhận diện tài liệu Kiến trúc máy tính / RAM (như BaocaoKTMT_RAM&phanloaiRAM.docx)
-  if(fnLower.includes('ram') || fnLower.includes('ktmt') || fnLower.includes('kiến trúc') || fnLower.includes('kientruc') || fnLower.includes('bộ nhớ') || fnLower.includes('bonho')){
+  if(isKTMT){
     detectedSubj = 'Kiến trúc máy tính & Phân loại RAM';
     coreKnowledge = [
       {
@@ -2583,37 +2753,37 @@ function generateAIAnalysis(fileName, file){
     ];
   }
   // 2. Nhận diện tài liệu Đại số tuyến tính
-  else if(fnLower.includes('đại số') || fnLower.includes('daiso') || fnLower.includes('tuyến tính') || fnLower.includes('tuyentinh') || fnLower.includes('ma trận') || fnLower.includes('matran') || activeSubj === 'Đại số tuyến tính'){
+  else if(isDSTT || (!isRoiRac && !isXSTK && !isGT2 && !isGT1 && activeSubj === 'Đại số tuyến tính')){
     detectedSubj = 'Đại số tuyến tính (HPU2)';
     coreKnowledge = [
       {
         title: 'Định thức & Ma trận nghịch đảo',
         type: 'Định lý then chốt',
-        content: 'Ma trận vuông cấp n có ma trận nghịch đảo A^(-1) khi và chỉ khi det(A) ≠ 0. Khi đó A^(-1) = (1/det(A)) · P_A^T với P_A là ma trận các phần bù đại số.',
+        content: 'Ma trận vuông cấp $n$ có ma trận nghịch đảo $A^{-1}$ khi và chỉ khi $\\det(A) \\neq 0$. Khi đó $A^{-1} = \\frac{1}{\\det(A)} P_A^T$ với $P_A$ là ma trận các phần bù đại số.',
         formula: 'A \\cdot A^{-1} = I_n \\iff \\det(A) \\neq 0'
       },
       {
         title: 'Hạng của Ma trận & Định lý Kronecker-Capelli',
         type: 'Định lý nền tảng',
-        content: 'Hệ phương trình tuyến tính tổng quát Ax = b có nghiệm khi và chỉ khi rank(A) = rank(A|b). Hệ có nghiệm duy nhất nếu rank = n, và có vô số nghiệm phụ thuộc (n - rank) tham số tự do nếu rank < n.',
+        content: 'Hệ phương trình tuyến tính tổng quát $Ax = b$ có nghiệm khi và chỉ khi $\\text{rank}(A) = \\text{rank}(\\bar{A})$. Hệ có nghiệm duy nhất nếu $\\text{rank}(A) = n$, và có vô số nghiệm phụ thuộc $n - r$ tham số tự do nếu $\\text{rank}(A) < n$.',
         formula: '\\text{rank}(A) = \\text{rank}(\\bar{A}) = r \\le n'
       },
       {
         title: 'Không gian Vector & Cơ sở',
         type: 'Cấu trúc đại số',
-        content: 'Hệ vector S = {v1, v2, ..., vn} là cơ sở của không gian vector V khi và chỉ khi S độc lập tuyến tính và là hệ sinh của V. Mọi cơ sở của V đều có cùng số lượng vector, gọi là số chiều dim(V).',
+        content: 'Hệ vector $S = \\{v_1, v_2, \\dots, v_n\\}$ là cơ sở của không gian vector $V$ khi và chỉ khi $S$ độc lập tuyến tính và là hệ sinh của $V$. Mọi cơ sở của $V$ đều có cùng số lượng vector, gọi là số chiều $\\dim(V) = |S|$.',
         formula: '\\dim(V) = |S| \\quad (S \\text{ là cơ sở})'
       },
       {
         title: 'Giá trị riêng & Vector riêng',
         type: 'Toán tử tuyến tính',
-        content: 'Số λ là giá trị riêng của ma trận A ứng với vector riêng v ≠ 0 khi và chỉ khi Av = λv. Để tìm λ, giải phương trình đặc trưng det(A - λI) = 0.',
+        content: 'Số $\\lambda$ là giá trị riêng của ma trận $A$ ứng với vector riêng $v \\neq 0$ khi và chỉ khi $Av = \\lambda v$. Để tìm $\\lambda$, giải phương trình đặc trưng $\\det(A - \\lambda I_n) = 0$.',
         formula: '\\det(A - \\lambda I_n) = 0'
       },
       {
         title: 'Định lý Số chiều của Ánh xạ tuyến tính',
         type: 'Định lý cơ sở',
-        content: 'Cho ánh xạ tuyến tính f: V → W giữa các không gian vector hữu hạn chiều, ta luôn có hệ thức bảo toàn số chiều: dim(Ker f) + dim(Im f) = dim(V).',
+        content: 'Cho ánh xạ tuyến tính $f: V \\to W$ giữa các không gian vector hữu hạn chiều, ta luôn có hệ thức bảo toàn số chiều: $\\dim(\\text{Ker } f) + \\dim(\\text{Im } f) = \\dim(V)$.',
         formula: '\\dim(\\text{Ker } f) + \\dim(\\text{Im } f) = \\dim(V)'
       }
     ];
@@ -2649,37 +2819,37 @@ function generateAIAnalysis(fileName, file){
     ];
   }
   // 3. Nhận diện tài liệu Giải tích 1
-  else if(fnLower.includes('giải tích 1') || fnLower.includes('giaitich1') || fnLower.includes('gt1') || fnLower.includes('vi phân') || fnLower.includes('viphan') || activeSubj === 'Giải tích 1'){
+  else if(isGT1 || (!isRoiRac && !isXSTK && !isGT2 && !isDSTT && activeSubj === 'Giải tích 1')){
     detectedSubj = 'Giải tích 1 (HPU2)';
     coreKnowledge = [
       {
         title: 'Định lý Giá trị Trung bình Lagrange',
         type: 'Định lý nền tảng',
-        content: 'Nếu hàm f liên tục trên [a, b] và khả vi trên (a, b), thì tồn tại c ∈ (a, b) sao cho f(b) - f(a) = f\'(c)(b - a). Đây là công cụ then chốt chứng minh bất đẳng thức và tính đơn điệu.',
+        content: 'Nếu hàm $f$ liên tục trên $[a, b]$ và khả vi trên $(a, b)$, thì tồn tại $c \\in (a, b)$ sao cho $f(b) - f(a) = f\'(c)(b - a)$. Đây là công cụ then chốt chứng minh bất đẳng thức và tính đơn điệu.',
         formula: 'f(b) - f(a) = f\'(c)(b - a)'
       },
       {
         title: 'Khai triển Maclaurin & Taylor',
         type: 'Xấp xỉ hàm số',
-        content: 'Biểu diễn hàm khả vi n lần thành đa thức xấp xỉ bậc n cộng phần dư Peano: f(x) = ∑ [f^(k)(0)/k!] x^k + o(x^n). Giúp khử các dạng vô định phức tạp.',
+        content: 'Biểu diễn hàm khả vi $n$ lần thành đa thức xấp xỉ bậc $n$ cộng phần dư Peano: $f(x) = \\sum_{k=0}^n \\frac{f^{(k)}(0)}{k!} x^k + o(x^n)$. Giúp khử các dạng vô định phức tạp.',
         formula: 'f(x) = \\sum_{k=0}^n \\frac{f^{(k)}(0)}{k!} x^k + o(x^n)'
       },
       {
         title: 'Quy tắc L\'Hôpital khử dạng vô định',
         type: 'Kỹ thuật giới hạn',
-        content: 'Khi tính giới hạn dạng 0/0 hoặc ∞/∞, nếu lim f\'(x)/g\'(x) tồn tại thì lim f(x)/g(x) = lim f\'(x)/g\'(x).',
+        content: 'Khi tính giới hạn dạng $\\frac{0}{0}$ hoặc $\\frac{\\infty}{\\infty}$, nếu $\\lim_{x \\to x_0} \\frac{f\'(x)}{g\'(x)}$ tồn tại thì $\\lim_{x \\to x_0} \\frac{f(x)}{g(x)} = \\lim_{x \\to x_0} \\frac{f\'(x)}{g\'(x)}$.',
         formula: '\\lim_{x \\to x_0} \\frac{f(x)}{g(x)} = \\lim_{x \\to x_0} \\frac{f\'(x)}{g\'(x)}'
       },
       {
         title: 'Công thức Tích phân từng phần',
         type: 'Kỹ thuật tích phân',
-        content: 'Dựa trên vi phân tích: ∫ u dv = uv - ∫ v du. Thứ tự ưu tiên đặt biến u: Nhất Logarit, Nhì Đa thức, Tam Lượng giác, Tứ Hàm mũ.',
+        content: 'Dựa trên vi phân tích: $\\int u \\, dv = uv - \\int v \\, du$. Thứ tự ưu tiên đặt biến $u$: Nhất Logarit, Nhì Đa thức, Tam Lượng giác, Tứ Hàm mũ.',
         formula: '\\int u \\, dv = uv - \\int v \\, du'
       },
       {
         title: 'Hội tụ của Tích phân suy rộng loại 1',
         type: 'Giải tích mở rộng',
-        content: 'Tích phân suy rộng I = ∫_1^(+∞) (1/x^α) dx hội tụ khi và chỉ khi α > 1 và phân kỳ khi α ≤ 1.',
+        content: 'Tích phân suy rộng $I = \\int_1^{+\\infty} \\frac{dx}{x^\\alpha}$ hội tụ khi và chỉ khi $\\alpha > 1$ và phân kỳ khi $\\alpha \\le 1$.',
         formula: '\\int_1^{+\\infty} \\frac{dx}{x^\\alpha} \\text{ hội tụ } \\iff \\alpha > 1'
       }
     ];
@@ -2715,37 +2885,37 @@ function generateAIAnalysis(fileName, file){
     ];
   }
   // 4. Nhận diện tài liệu Giải tích 2
-  else if(fnLower.includes('giải tích 2') || fnLower.includes('giaitich2') || fnLower.includes('gt2') || fnLower.includes('tích phân kép') || fnLower.includes('tọa độ cực') || activeSubj === 'Giải tích 2'){
+  else if(isGT2 || (!isRoiRac && !isXSTK && !isGT1 && !isDSTT && activeSubj === 'Giải tích 2')){
     detectedSubj = 'Giải tích 2 (HPU2)';
     coreKnowledge = [
       {
         title: 'Cực trị Hàm nhiều biến & Ma trận Hessian',
         type: 'Định lý tối ưu',
-        content: 'Điểm dừng tìm từ ∇f = 0. Xét ma trận Hessian H. Nếu det(H) > 0 và f\"_xx > 0 thì hàm đạt cực tiểu địa phương; nếu det(H) < 0 thì là điểm yên ngựa.',
-        formula: '\\det(H) > 0, \\; f\"_{xx} > 0 \\implies \\text{Cực tiểu}'
+        content: 'Điểm dừng tìm từ $\\nabla f = 0$. Xét ma trận Hessian $H$. Nếu $\\det(H) > 0$ và $f\'\'_{xx} > 0$ thì hàm đạt cực tiểu địa phương; nếu $\\det(H) < 0$ thì là điểm yên ngựa.',
+        formula: '\\det(H) > 0, \\; f\'\'_{xx} > 0 \\implies \\text{Cực tiểu}'
       },
       {
         title: 'Đổi biến Tọa độ cực trong Tích phân kép',
         type: 'Kỹ thuật tích phân',
-        content: 'Khi miền D có dạng hình tròn, đổi sang tọa độ cực: x = r cos φ, y = r sin φ, định thức Jacobi J = r. Công thức: ∬_D f(x, y) dxdy = ∬ f(r cos φ, r sin φ) r dr dφ.',
+        content: 'Khi miền $D$ có dạng hình tròn, đổi sang tọa độ cực: $x = r \\cos \\varphi$, $y = r \\sin \\varphi$, định thức Jacobi $J = r$. Công thức: $\\iint_D f(x, y) \\, dxdy = \\iint f(r \\cos \\varphi, r \\sin \\varphi) \\, r \\, dr d\\varphi$.',
         formula: 'dxdy = r \\, dr \\, d\\varphi'
       },
       {
         title: 'Công thức Green trên Mặt phẳng',
         type: 'Định lý tích phân',
-        content: 'Liên hệ giữa tích phân đường loại 2 trên đường biên kín C^+ và tích phân kép trên miền D: ∮_(C^+) (P dx + Q dy) = ∬_D (∂Q/∂x - ∂P/∂y) dxdy.',
+        content: 'Liên hệ giữa tích phân đường loại 2 trên đường biên kín $C^+$ và tích phân kép trên miền $D$: $\\oint_{C^+} (P \\, dx + Q \\, dy) = \\iint_D \\left(\\frac{\\partial Q}{\\partial x} - \\frac{\\partial P}{\\partial y}\\right) \\, dxdy$.',
         formula: '\\oint_{C^+} (P dx + Q dy) = \\iint_D \\left(\\frac{\\partial Q}{\\partial x} - \\frac{\\partial P}{\\partial y}\\right) dxdy'
       },
       {
         title: 'Tích phân đường độc lập đường đi',
         type: 'Trường thế',
-        content: 'Trong miền đơn liên D, tích phân đường loại 2 độc lập với đường đi khi và chỉ khi ∂Q/∂x = ∂P/∂y (biểu thức dưới dấu tích phân là vi phân toàn phần).',
+        content: 'Trong miền đơn liên $D$, tích phân đường loại 2 độc lập với đường đi khi và chỉ khi $\\frac{\\partial Q}{\\partial x} = \\frac{\\partial P}{\\partial y}$ (biểu thức dưới dấu tích phân là vi phân toàn phần).',
         formula: '\\frac{\\partial Q}{\\partial x} = \\frac{\\partial P}{\\partial y} \\iff \\text{Độc lập đường đi}'
       },
       {
         title: 'Tiêu chuẩn D\'Alembert cho Chuỗi số dương',
         type: 'Lý thuyết chuỗi',
-        content: 'Cho chuỗi ∑ u_n (u_n > 0). Nếu lim (u_(n+1) / u_n) = L < 1 thì chuỗi hội tụ; nếu L > 1 thì chuỗi phân kỳ.',
+        content: 'Cho chuỗi $\\sum u_n$ ($u_n > 0$). Nếu $\\lim_{n \\to \\infty} \\frac{u_{n+1}}{u_n} = L < 1$ thì chuỗi hội tụ; nếu $L > 1$ thì chuỗi phân kỳ.',
         formula: 'L = \\lim_{n \\to \\infty} \\frac{u_{n+1}}{u_n} < 1 \\implies \\text{Hội tụ}'
       }
     ];
@@ -2786,37 +2956,37 @@ function generateAIAnalysis(fileName, file){
     ];
   }
   // 5. Nhận diện tài liệu Xác suất thống kê
-  else if(fnLower.includes('xác suất') || fnLower.includes('xacsuat') || fnLower.includes('thống kê') || fnLower.includes('thongke') || fnLower.includes('bayes') || activeSubj === 'Xác suất thống kê'){
+  else if(isXSTK || (!isRoiRac && !isGT2 && !isGT1 && !isDSTT && activeSubj === 'Xác suất thống kê')){
     detectedSubj = 'Xác suất thống kê (HPU2)';
     coreKnowledge = [
       {
         title: 'Công thức Xác suất Toàn phần & Bayes',
         type: 'Nền tảng xác suất',
-        content: 'Công thức Bayes cho phép cập nhật xác suất tiên nghiệm P(Ai) thành xác suất hậu nghiệm P(Ai|B) khi có thông tin biến cố B xảy ra.',
+        content: 'Công thức Bayes cho phép cập nhật xác suất tiên nghiệm $P(A_i)$ thành xác suất hậu nghiệm $P(A_i|B)$ khi có thông tin biến cố $B$ xảy ra.',
         formula: 'P(A_k|B) = \\frac{P(A_k)P(B|A_k)}{\\sum_{i=1}^n P(A_i)P(B|A_i)}'
       },
       {
         title: 'Kỳ vọng & Phương sai Biến ngẫu nhiên',
         type: 'Đặc trưng số',
-        content: 'Kỳ vọng E(X) thể hiện giá trị trung bình theo xác suất. Phương sai Var(X) = E(X^2) - [E(X)]^2 đo lường mức độ phân tán quanh kỳ vọng. Tính chất: Var(aX + b) = a^2 Var(X).',
+        content: 'Kỳ vọng $E(X)$ thể hiện giá trị trung bình theo xác suất. Phương sai $\\text{Var}(X) = E(X^2) - [E(X)]^2$ đo lường mức độ phân tán quanh kỳ vọng. Tính chất: $\\text{Var}(aX + b) = a^2 \\text{Var}(X)$.',
         formula: '\\text{Var}(aX + b) = a^2 \\text{Var}(X)'
       },
       {
-        title: 'Quy luật Phân phối chuẩn Gauss N(μ, σ²)',
+        title: 'Quy luật Phân phối chuẩn Gauss $\\mathcal{N}(\\mu, \\sigma^2)$',
         type: 'Phân phối cốt lõi',
-        content: 'Biến ngẫu nhiên liên tục có hàm mật độ hình chuông đối xứng qua μ. Quy tắc 3-sigma: 68.27% dữ liệu nằm trong [μ-σ, μ+σ], 95.45% trong [μ-2σ, μ+2σ], và 99.73% trong [μ-3σ, μ+3σ].',
+        content: 'Biến ngẫu nhiên liên tục có hàm mật độ hình chuông đối xứng qua $\\mu$. Quy tắc 3-sigma: 68.27% dữ liệu nằm trong $[\\mu - \\sigma, \\mu + \\sigma]$, 95.45% trong $[\\mu - 2\\sigma, \\mu + 2\\sigma]$, và 99.73% trong $[\\mu - 3\\sigma, \\mu + 3\\sigma]$.',
         formula: 'Z = \\frac{X - \\mu}{\\sigma} \\sim \\mathcal{N}(0, 1)'
       },
       {
         title: 'Định lý Giới hạn Trung tâm (CLT)',
         type: 'Định lý cơ sở thống kê',
-        content: 'Tổng của n biến ngẫu nhiên độc lập cùng phân phối (với mẫu n ≥ 30) sẽ có phân phối xấp xỉ phân phối chuẩn, bất kể phân phối gốc ban đầu là gì.',
+        content: 'Tổng của $n$ biến ngẫu nhiên độc lập cùng phân phối (với mẫu $n \\ge 30$) sẽ có phân phối xấp xỉ phân phối chuẩn, bất kể phân phối gốc ban đầu là gì.',
         formula: '\\bar{X}_n \\xrightarrow{d} \\mathcal{N}\\left(\\mu, \\frac{\\sigma^2}{n}\\right)'
       },
       {
         title: 'Ước lượng Khoảng tin cậy cho Kỳ vọng',
         type: 'Thống kê suy diễn',
-        content: 'Ước lượng kỳ vọng μ với độ tin cậy 1 - α khi đã biết phương sai σ²: [X̄ - z_(α/2) * (σ/√n), X̄ + z_(α/2) * (σ/√n)].',
+        content: 'Ước lượng kỳ vọng $\\mu$ với độ tin cậy $1 - \\alpha$ khi đã biết phương sai $\\sigma^2$: $\\left[\\bar{X} - z_{\\alpha/2} \\cdot \\frac{\\sigma}{\\sqrt{n}}, \\, \\bar{X} + z_{\\alpha/2} \\cdot \\frac{\\sigma}{\\sqrt{n}}\\right]$.',
         formula: '\\bar{X} \\pm z_{\\alpha/2} \\cdot \\frac{\\sigma}{\\sqrt{n}}'
       }
     ];
@@ -2824,24 +2994,24 @@ function generateAIAnalysis(fileName, file){
     reviewQuestions = [
       {
         type: 'mcq',
-        question: 'Nếu biến ngẫu nhiên X có phân phối chuẩn N(10, 4), thì phương sai Var(X) bằng:',
+        question: 'Nếu biến ngẫu nhiên $X$ có phân phối chuẩn $\\mathcal{N}(10, 4)$, thì phương sai $\\text{Var}(X)$ bằng:',
         options: ['4', '2', '16', '10'],
         answer: 0,
-        explanation: 'Theo ký hiệu chuẩn N(μ, σ²), tham số thứ nhất là kỳ vọng μ = 10, tham số thứ hai là phương sai Var(X) = σ² = 4.'
+        explanation: 'Theo ký hiệu chuẩn $\\mathcal{N}(\\mu, \\sigma^2)$, tham số thứ nhất là kỳ vọng $\\mu = 10$, tham số thứ hai là phương sai $\\text{Var}(X) = \\sigma^2 = 4$.'
       },
       {
         type: 'mcq',
-        question: 'Cho hai biến ngẫu nhiên độc lập X và Y với Var(X) = 2, Var(Y) = 3. Tính Var(2X - 3Y):',
+        question: 'Cho hai biến ngẫu nhiên độc lập $X$ và $Y$ với $\\text{Var}(X) = 2$, $\\text{Var}(Y) = 3$. Tính $\\text{Var}(2X - 3Y)$:',
         options: ['35', '19', '1', '23'],
         answer: 0,
-        explanation: 'Vì X và Y độc lập: Var(2X - 3Y) = 2^2 * Var(X) + (-3)^2 * Var(Y) = 4 * 2 + 9 * 3 = 8 + 27 = 35.'
+        explanation: 'Vì $X$ và $Y$ độc lập: $\\text{Var}(2X - 3Y) = 2^2 \\text{Var}(X) + (-3)^2 \\text{Var}(Y) = 4 \\times 2 + 9 \\times 3 = 8 + 27 = 35$.'
       },
       {
         type: 'mcq',
-        question: 'Theo quy tắc 3-sigma của phân phối chuẩn, tỷ lệ dữ liệu nằm trong khoảng [μ - 2σ, μ + 2σ] xấp xỉ:',
+        question: 'Theo quy tắc 3-sigma của phân phối chuẩn, tỷ lệ dữ liệu nằm trong khoảng $[\\mu - 2\\sigma, \\mu + 2\\sigma]$ xấp xỉ:',
         options: ['95.45%', '68.27%', '99.73%', '90.00%'],
         answer: 0,
-        explanation: 'Trong phân phối chuẩn Gauss: khoảng 1σ chứa 68.27%, khoảng 2σ chứa 95.45%, khoảng 3σ chứa 99.73% toàn bộ dữ liệu.'
+        explanation: 'Trong phân phối chuẩn Gauss: khoảng $1\\sigma$ chứa 68.27%, khoảng $2\\sigma$ chứa 95.45%, khoảng $3\\sigma$ chứa 99.73% toàn bộ dữ liệu.'
       },
       {
         type: 'essay',
@@ -2852,37 +3022,37 @@ function generateAIAnalysis(fileName, file){
     ];
   }
   // 6. Nhận diện tài liệu Toán rời rạc
-  else if(fnLower.includes('rời rạc') || fnLower.includes('roirac') || fnLower.includes('đồ thị') || fnLower.includes('dijkstra') || activeSubj === 'Toán rời rạc'){
+  else if(isRoiRac || (!isXSTK && !isGT2 && !isGT1 && !isDSTT && activeSubj === 'Toán rời rạc')){
     detectedSubj = 'Toán rời rạc (HPU2)';
     coreKnowledge = [
       {
         title: 'Định lý Bắt tay (Handshaking Lemma)',
         type: 'Lý thuyết đồ thị',
-        content: 'Trong mọi đồ thị vô hướng G = (V, E), tổng bậc của tất cả các đỉnh bằng hai lần số cạnh: ∑_(v∈V) deg(v) = 2|E|. Hệ quả: Số đỉnh có bậc lẻ luôn là một số chẵn.',
+        content: 'Trong mọi đồ thị vô hướng $G = (V, E)$, tổng bậc của tất cả các đỉnh bằng hai lần số cạnh: $\\sum_{v \\in V} \\text{deg}(v) = 2|E|$. Hệ quả: Số đỉnh có bậc lẻ luôn là một số chẵn.',
         formula: '\\sum_{v \\in V} \\text{deg}(v) = 2|E|'
       },
       {
         title: 'Đồ thị Euler & Chu trình Euler',
         type: 'Định lý Euler',
-        content: 'Đồ thị vô hướng liên thông có chu trình Euler khi và chỉ khi mọi đỉnh đều có bậc chẵn. Đồ thị có đường đi Euler khi và chỉ khi có đúng 2 đỉnh bậc lẻ.',
+        content: 'Đồ thị vô hướng liên thông có chu trình Euler khi và chỉ khi mọi đỉnh đều có bậc chẵn ($\\forall v \\in V, \\; \\text{deg}(v) \\equiv 0 \\pmod 2$). Đồ thị có đường đi Euler khi và chỉ khi có đúng 2 đỉnh bậc lẻ.',
         formula: '\\forall v \\in V, \\; \\text{deg}(v) \\equiv 0 \\pmod 2 \\iff \\text{Chu trình Euler}'
       },
       {
         title: 'Thuật toán Dijkstra Tìm Đường đi Ngắn nhất',
         type: 'Thuật toán tối ưu',
-        content: 'Thuật toán tham lam tìm đường đi ngắn nhất từ một đỉnh nguồn đến các đỉnh còn lại trên đồ thị có trọng số không âm với độ phức tạp O(V²) hoặc O(E log V).',
+        content: 'Thuật toán tham lam tìm đường đi ngắn nhất từ một đỉnh nguồn đến các đỉnh còn lại trên đồ thị có trọng số không âm với độ phức tạp $\\mathcal{O}(|V|^2)$ hoặc $\\mathcal{O}(|E| \\log |V|)$.',
         formula: 'd[v] = \\min(d[v], \\; d[u] + w(u, v))'
       },
       {
         title: 'Cây Khung Nhỏ Nhất (MST - Kruskal & Prim)',
         type: 'Thuật toán cây',
-        content: 'Cây là đồ thị liên thông không có chu trình gồm |V| - 1 cạnh. Thuật toán Kruskal sắp xếp cạnh tăng dần và lần lượt kết nạp cạnh không tạo chu trình (dùng Disjoint Set).',
+        content: 'Cây là đồ thị liên thông không có chu trình gồm $|V| - 1$ cạnh. Thuật toán Kruskal sắp xếp cạnh tăng dần và lần lượt kết nạp cạnh không tạo chu trình (dùng Disjoint Set).',
         formula: '|E_{\\text{MST}}| = |V| - 1'
       },
       {
         title: 'Nguyên lý Bù trừ (Inclusion-Exclusion)',
         type: 'Tổ hợp',
-        content: 'Công thức tính kích thước hợp của các tập hợp hữu hạn: |A ∪ B| = |A| + |B| - |A ∩ B|. Cho n tập, cộng tổng lực lượng tập đơn, trừ tích đôi, cộng tích ba...',
+        content: 'Công thức tính kích thước hợp của các tập hợp hữu hạn: $|A \\cup B| = |A| + |B| - |A \\cap B|$. Cho n tập, cộng tổng lực lượng tập đơn, trừ tích đôi, cộng tích ba...',
         formula: '|A \\cup B| = |A| + |B| - |A \\cap B|'
       }
     ];
@@ -2905,19 +3075,19 @@ function generateAIAnalysis(fileName, file){
         question: 'Một đồ thị có 10 đỉnh, mỗi đỉnh đều có bậc bằng 3. Tổng số cạnh của đồ thị đó là:',
         options: ['15', '30', '10', '20'],
         answer: 0,
-        explanation: 'Theo Định lý Bắt tay: 2|E| = ∑ deg(v) = 10 * 3 = 30 => |E| = 30 / 2 = 15 cạnh.'
+        explanation: 'Theo Định lý Bắt tay: $2|E| = \\sum_{v \\in V} \\text{deg}(v) = 10 \\times 3 = 30 \\implies |E| = 15$ cạnh.'
       },
       {
         type: 'mcq',
         question: 'Điều kiện tiên quyết để thuật toán Dijkstra đảm bảo cho ra kết quả đường đi ngắn nhất chính xác là:',
         options: [
-          'Tất cả trọng số trên các cạnh phải không âm',
+          'Tất cả trọng số trên các cạnh phải không âm ($w(e) \\ge 0$)',
           'Đồ thị phải là đồ thị có hướng không chu trình (DAG)',
           'Đồ thị phải là đồ thị phẳng',
           'Số đỉnh không vượt quá 100'
         ],
         answer: 0,
-        explanation: 'Thuật toán Dijkstra dựa trên chiến lược tham lam, chỉ đúng khi trọng số của tất cả các cạnh đều không âm (w ≥ 0).'
+        explanation: 'Thuật toán Dijkstra dựa trên chiến lược tham lam, chỉ đúng khi trọng số của tất cả các cạnh đều không âm ($w \\ge 0$).'
       },
       {
         type: 'essay',
@@ -3144,13 +3314,13 @@ function vMcq(){
       <span class="bg-emerald-100 text-emerald-800 px-2.5 py-0.5 rounded-full">+10 XP khi đúng</span>
     </div>
 
-    <h2 class="text-lg sm:text-xl font-extrabold text-emerald-950 font-fun mb-4 leading-relaxed">${q.q}</h2>
+    <h2 class="text-lg sm:text-xl font-extrabold text-emerald-950 font-fun mb-4 leading-relaxed">${formatMathText(q.q)}</h2>
 
     <div class="space-y-2">
       ${(q.o||[]).map((o,idx)=>`
         <button class="opt" onclick="pick(${idx})">
           <span class="inline-block w-7 h-7 rounded-full bg-emerald-100 text-emerald-900 text-xs font-extrabold text-center leading-7 mr-2">${String.fromCharCode(65+idx)}</span>
-          ${o}
+          <span class="flex-1">${formatMathText(o)}</span>
         </button>
       `).join('')}
     </div>
@@ -3182,7 +3352,7 @@ function pick(i){
         <div class="font-extrabold text-sm flex items-center gap-1.5">
           <span>${isOk?'🎉 Chính xác tuyệt đối!':'💡 Chưa chính xác'}</span>
         </div>
-        <p class="text-xs sm:text-sm mt-1.5">${q.e||''}</p>
+        <p class="text-xs sm:text-sm mt-1.5 leading-relaxed">${formatMathText(q.e||q.ex||'')}</p>
         <button class="btn ${isOk?'g':'y'} sm mt-3" onclick="nextQ()">
           ${M.i+1<list.length?'Tiếp Tục Câu Tiếp Theo ➜':'Xem Bảng Tổng Kết 🏆'}
         </button>
@@ -3211,7 +3381,7 @@ function vEssay(){
 
     ${list.map((e,i)=>`
       <div class="p-4 rounded-2xl border border-emerald-200/80 bg-white shadow-sm">
-        <h3 class="font-extrabold text-emerald-950 text-base mb-2 font-fun">Bài ${i+1}. ${e.q}</h3>
+        <h3 class="font-extrabold text-emerald-950 text-base mb-2 font-fun">Bài ${i+1}. ${formatMathText(e.q)}</h3>
         <textarea rows="4" class="text-sm font-medium" placeholder="Viết lời giải của bạn…" id="es_${i}"></textarea>
         <div class="flex flex-wrap gap-2 mt-3">
           <button class="btn y sm" onclick="hint(${i})">💡 Gợi Ý Từ AI</button>
@@ -3229,7 +3399,7 @@ function hint(i){
   if(el&&CONTENT.ESSAY&&CONTENT.ESSAY[i]){
     el.innerHTML=`
       <div class="p-3 bg-amber-50 border border-amber-200 rounded-xl text-xs text-amber-900 leading-relaxed">
-        <b>🌿 AI Gợi Ý Định Hướng:</b> ${CONTENT.ESSAY[i].h}
+        <b>🌿 AI Gợi Ý Định Hướng:</b> ${formatMathText(CONTENT.ESSAY[i].h || CONTENT.ESSAY[i].hint || '')}
       </div>
     `;
   }
@@ -3248,7 +3418,7 @@ function submitEssay(i){
     <div class="p-3 bg-teal-50 border border-teal-200 rounded-xl text-xs text-teal-900 leading-relaxed">
       <b>✅ Đã nộp bài thành công (+20 XP)!</b><br/>
       <b>AI nhận xét:</b> Lập luận có cấu trúc, hãy kiểm tra lại điều kiện áp dụng định lý.<br/>
-      <b>Gợi ý đối chiếu:</b> ${CONTENT.ESSAY[i].h}
+      <b>Gợi ý đối chiếu:</b> ${formatMathText(CONTENT.ESSAY[i].h || CONTENT.ESSAY[i].hint || '')}
     </div>
   `;
 }
@@ -3277,7 +3447,7 @@ function vOral(){
         <div class="flex ${m.r==='ai'?'justify-start':'justify-end'}">
           <div class="max-w-[85%] rounded-2xl p-3.5 text-xs sm:text-sm font-medium shadow-sm ${m.r==='ai'?'bg-emerald-50 text-emerald-950 border border-emerald-200':'bg-amber-100 text-amber-950 border border-amber-200'}">
             <b class="block mb-1 text-[11px] uppercase tracking-wider ${m.r==='ai'?'text-emerald-800':'text-amber-800'}">${m.r==='ai'?'🏛️ Giảng Viên HPU2:':'🎓 Sinh Viên:'}</b>
-            ${m.t}
+            ${formatMathText(m.t)}
           </div>
         </div>
       `).join('')}
@@ -3981,6 +4151,12 @@ function setupGardenCanvas(){
 /* ==================== 15. KHỞI CHẠY ==================== */
 setupGardenCanvas();
 render();
+window.addEventListener('load', () => {
+  // Khi KaTeX nạp xong từ CDN, tự động render lại để công thức hiển thị sắc nét nhất
+  if(window.katex){
+    render();
+  }
+});
 </script>
 </body>
 </html>
