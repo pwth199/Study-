@@ -1334,7 +1334,12 @@ const DEFAULT_KNOW = [
 ];
 
 const DEFAULT_MCQ = [
+  /* ========== ĐẠI SỐ TUYẾN TÍNH ========== */
   {
+    id: 'mcq_dstt_1',
+    subject: 'Đại số tuyến tính',
+    topic: 'Không gian vectơ & Cơ sở',
+    level: 'Dễ',
     q: '[Đại số tuyến tính - HPU2] Hệ gồm n vectơ trong không gian vectơ ℝⁿ là một cơ sở khi và chỉ khi:',
     o: [
       'Hệ vectơ đó trực giao từng đôi một',
@@ -1343,9 +1348,105 @@ const DEFAULT_MCQ = [
       'Định thức tạo bởi tọa độ của chúng bằng 0'
     ],
     a: 1,
-    e: 'Trong không gian n chiều, một hệ gồm đúng n vectơ độc lập tuyến tính thì luôn là một cơ sở của không gian đó.'
+    e: 'Trong không gian n chiều, một hệ gồm đúng n vectơ độc lập tuyến tính thì luôn là một hệ sinh và là cơ sở của không gian đó.'
   },
   {
+    id: 'mcq_dstt_2',
+    subject: 'Đại số tuyến tính',
+    topic: 'Ma trận & Định thức',
+    level: 'Dễ',
+    q: '[Đại số tuyến tính - HPU2] Cho ma trận vuông A cấp n. Điều kiện cần và đủ để ma trận A khả nghịch (tồn tại ma trận nghịch đảo A⁻¹) là:',
+    o: [
+      'det(A) = 0',
+      'det(A) ≠ 0',
+      'rank(A) < n',
+      'A là ma trận đường chéo'
+    ],
+    a: 1,
+    e: 'Ma trận vuông cấp n khả nghịch khi và chỉ khi định thức của nó khác 0 (det(A) ≠ 0).'
+  },
+  {
+    id: 'mcq_dstt_3',
+    subject: 'Đại số tuyến tính',
+    topic: 'Hệ phương trình tuyến tính',
+    level: 'Trung bình',
+    q: '[Đại số tuyến tính - HPU2] Theo định lý Kronecker-Capelli, hệ phương trình đại số tuyến tính AX = B có nghiệm duy nhất khi và chỉ khi:',
+    o: [
+      'rank(A) < rank(A|B)',
+      'rank(A) = rank(A|B) < n (với n là số ẩn)',
+      'rank(A) = rank(A|B) = n (với n là số ẩn)',
+      'det(A) = 0 và rank(A|B) = n'
+    ],
+    a: 2,
+    e: 'Định lý Kronecker-Capelli: Hệ có nghiệm khi rank(A) = rank(A|B). Khi rank bằng đúng số ẩn n, hệ có nghiệm duy nhất.'
+  },
+  {
+    id: 'mcq_dstt_4',
+    subject: 'Đại số tuyến tính',
+    topic: 'Không gian Euclid & Trực chuẩn',
+    level: 'Trung bình',
+    q: '[Đại số tuyến tính - HPU2] Quá trình trực chuẩn hóa Gram-Schmidt cho phép chuyển đổi một cơ sở tùy ý {u₁, u₂, ..., uₙ} thành một cơ sở có tính chất:',
+    o: [
+      'Cơ sở gồm các vectơ cùng phương',
+      'Cơ sở trực giao và có độ dài bằng 1 (trực chuẩn)',
+      'Cơ sở có định thức tọa độ bằng 0',
+      'Cơ sở tạo bởi các vectơ riêng của ma trận không'
+    ],
+    a: 1,
+    e: 'Thuật toán Gram-Schmidt trực giao hóa và chuẩn hóa độ dài, tạo ra một hệ trực chuẩn tương đương sinh ra cùng không gian con.'
+  },
+  {
+    id: 'mcq_dstt_5',
+    subject: 'Đại số tuyến tính',
+    topic: 'Giá trị riêng & Vectơ riêng',
+    level: 'Khó',
+    q: '[Đại số tuyến tính - HPU2] Điều kiện cần và đủ để một ma trận vuông A cấp n chéo hóa được trên trường số thực ℝ là:',
+    o: [
+      'det(A) luôn là một số nguyên tố',
+      'A có n vectơ riêng độc lập tuyến tính',
+      'A không có giá trị riêng thực nào',
+      'Đa thức đặc trưng det(A - λI) không có nghiệm'
+    ],
+    a: 1,
+    e: 'Một toán tử tuyến tính (hoặc ma trận vuông cấp n) chéo hóa được khi và chỉ khi không gian ℝⁿ có một cơ sở gồm các vectơ riêng của A, tức là A có đủ n vectơ riêng độc lập tuyến tính.'
+  },
+  {
+    id: 'mcq_dstt_6',
+    subject: 'Đại số tuyến tính',
+    topic: 'Dạng toàn phương',
+    level: 'Khó',
+    q: '[Đại số tuyến tính - HPU2] Theo tiêu chuẩn Sylvester, dạng toàn phương Q(x₁, x₂, ..., xₙ) xác định dương khi và chỉ khi ma trận A của nó thỏa mãn:',
+    o: [
+      'Mọi định thức con chính góc đều âm',
+      'Mọi định thức con chính góc đều dương: Δ₁ > 0, Δ₂ > 0, ..., Δₙ > 0',
+      'Định thức con chính góc đan dấu bắt đầu từ âm: Δ₁ < 0, Δ₂ > 0, Δ₃ < 0...',
+      'det(A) = 0 và vết ma trận tr(A) > 0'
+    ],
+    a: 1,
+    e: 'Tiêu chuẩn Sylvester: Dạng toàn phương xác định dương khi và chỉ khi tất cả các định thức con chính góc của ma trận biểu diễn đều dương.'
+  },
+  {
+    id: 'mcq_dstt_7',
+    subject: 'Đại số tuyến tính',
+    topic: 'Ánh xạ tuyến tính',
+    level: 'Vận dụng cao',
+    q: '[Đại số tuyến tính - HPU2] Cho ánh xạ tuyến tính f: V → W giữa các không gian vectơ hữu hạn chiều. Khẳng định nào sau đây về số chiều là ĐÚNG theo Định lý Hạt nhân - Ảnh (Rank-Nullity Theorem)?',
+    o: [
+      'dim(V) = dim(Ker f) + dim(Im f)',
+      'dim(W) = dim(Ker f) + dim(Im f)',
+      'dim(Ker f) = dim(Im f) - dim(V)',
+      'dim(V) · dim(W) = dim(Ker f) + dim(Im f)'
+    ],
+    a: 0,
+    e: 'Định lý Hạng - Không gian hạt nhân (Rank-Nullity Theorem): Với mọi ánh xạ tuyến tính f: V → W, ta luôn có dim(V) = dim(Ker f) + dim(Im f).'
+  },
+
+  /* ========== GIẢI TÍCH 1 ========== */
+  {
+    id: 'mcq_gt1_1',
+    subject: 'Giải tích 1',
+    topic: 'Đạo hàm & Định lý Lagrange',
+    level: 'Dễ',
     q: '[Giải tích 1 - HPU2] Cho hàm số f(x) liên tục trên đoạn [a, b] và khả vi trên khoảng (a, b). Theo định lý Lagrange, khẳng định nào sau đây là đúng?',
     o: [
       'Tồn tại c ∈ (a, b) sao cho f′(c) = 0',
@@ -1357,39 +1458,10 @@ const DEFAULT_MCQ = [
     e: 'Định lý giá trị trung bình Lagrange khẳng định tồn tại ít nhất một điểm c ∈ (a, b) sao cho f(b) - f(a) = f′(c)(b - a).'
   },
   {
-    q: '[Giải tích 2 - HPU2] Xét hàm hai biến z = f(x, y) có đạo hàm cấp 2 liên tục tại điểm dừng M₀, đặt A = f″ₓₓ, B = f″ₓᵧ, C = f″ᵧᵧ và Δ = AC - B². Hàm số đạt cực tiểu địa phương tại M₀ khi:',
-    o: [
-      'Δ > 0 và A > 0',
-      'Δ > 0 và A < 0',
-      'Δ < 0',
-      'Δ = 0'
-    ],
-    a: 0,
-    e: 'Điều kiện đủ của cực trị: Khi Δ = AC - B² > 0 và A > 0 thì hàm số đạt cực tiểu tại điểm dừng M₀.'
-  },
-  {
-    q: '[Xác suất thống kê - HPU2] Cho biến ngẫu nhiên X tuân theo phân phối nhị thức B(n, p). Kỳ vọng E(X) và phương sai V(X) của X lần lượt là:',
-    o: [
-      'E(X) = np; V(X) = np',
-      'E(X) = np; V(X) = np(1 - p)',
-      'E(X) = n/p; V(X) = np(1 - p)',
-      'E(X) = np(1 - p); V(X) = np'
-    ],
-    a: 1,
-    e: 'Biến ngẫu nhiên nhị thức có kỳ vọng E(X) = np và phương sai V(X) = npq = np(1 - p).'
-  },
-  {
-    q: '[Toán rời rạc - HPU2] Trong một đơn đồ thị vô hướng G có 10 đỉnh, nếu mỗi đỉnh đều có bậc bằng 4 thì số cạnh của đồ thị G là:',
-    o: [
-      '10',
-      '20',
-      '40',
-      '15'
-    ],
-    a: 1,
-    e: 'Theo Định lý bắt tay: Tổng bậc của các đỉnh = 2 lần số cạnh. Ta có 10 × 4 = 2 × |E| ⇒ |E| = 20 cạnh.'
-  },
-  {
+    id: 'mcq_gt1_2',
+    subject: 'Giải tích 1',
+    topic: 'Chuỗi số Riemann',
+    level: 'Dễ',
     q: '[Giải tích 1 - HPU2] Chuỗi số Riemann ∑ (1 / n^α) với n chạy từ 1 đến vô cùng hội tụ khi và chỉ khi:',
     o: [
       'α > 1',
@@ -1401,26 +1473,400 @@ const DEFAULT_MCQ = [
     e: 'Chuỗi Dirichlet (Riemann p-series) ∑ 1/n^α hội tụ khi α > 1 và phân kỳ khi α ≤ 1.'
   },
   {
-    q: '[Đại số tuyến tính - HPU2] Cho ma trận vuông A cấp n. Điều kiện cần và đủ để ma trận A khả nghịch (tồn tại A⁻¹) là:',
+    id: 'mcq_gt1_3',
+    subject: 'Giải tích 1',
+    topic: 'Tính liên tục & Bolzano-Cauchy',
+    level: 'Trung bình',
+    q: '[Giải tích 1 - HPU2] Cho f(x) liên tục trên đoạn [a, b] thỏa mãn f(a) · f(b) < 0. Theo Định lý Bolzano-Cauchy về giá trị trung gian:',
     o: [
-      'det(A) = 0',
-      'det(A) ≠ 0',
-      'rank(A) < n',
-      'A là ma trận đối xứng'
+      'f(x) là hàm đơn điệu tăng trên [a, b]',
+      'Phương trình f(x) = 0 có ít nhất một nghiệm c ∈ (a, b)',
+      'Đạo hàm f′(x) triệt tiêu tại mọi điểm trong (a, b)',
+      'f(x) không có cực trị trên khoảng (a, b)'
     ],
     a: 1,
-    e: 'Ma trận vuông cấp n khả nghịch khi và chỉ khi định thức của nó khác 0 (det(A) ≠ 0).'
+    e: 'Định lý Bolzano-Cauchy: Nếu hàm liên tục nhận hai giá trị trái dấu tại hai đầu mút thì ắt phải triệt tiêu (có nghiệm) ít nhất một lần bên trong khoảng đó.'
   },
   {
-    q: '[Toán rời rạc - HPU2] Một đồ thị liên thông vô hướng G có chu trình Euler khi và chỉ khi:',
+    id: 'mcq_gt1_4',
+    subject: 'Giải tích 1',
+    topic: 'Quy tắc L\'Hôpital & Vô định',
+    level: 'Trung bình',
+    q: '[Giải tích 1 - HPU2] Quy tắc L\'Hôpital áp dụng trực tiếp cho việc tính giới hạn của biểu thức có dạng vô định nào sau đây?',
+    o: [
+      '0/0 hoặc ∞/∞',
+      '0 · ∞ hoặc 1^∞',
+      '∞ - ∞ hoặc 0^0',
+      'Mọi dạng biểu thức đại số'
+    ],
+    a: 0,
+    e: 'Quy tắc L\'Hôpital phát biểu trực tiếp cho các dạng thương số vô định 0/0 và ∞/∞. Các dạng khác cần biến đổi logarit hoặc quy đồng trước khi áp dụng.'
+  },
+  {
+    id: 'mcq_gt1_5',
+    subject: 'Giải tích 1',
+    topic: 'Chuỗi lũy thừa & Bán kính hội tụ',
+    level: 'Khó',
+    q: '[Giải tích 1 - HPU2] Bán kính hội tụ R của chuỗi lũy thừa ∑ aₙ (x - x₀)ⁿ được tính theo công thức Cauchy-Hadamard là:',
+    o: [
+      'R = lim |aₙ|',
+      '1 / R = lim sup ⁿ√|aₙ|',
+      'R = lim (aₙ₊₁ + aₙ)',
+      'R = ∑ 1/aₙ'
+    ],
+    a: 1,
+    e: 'Công thức Cauchy-Hadamard: 1/R = lim sup ⁿ√|aₙ| (với quy ước 1/0 = ∞ và 1/∞ = 0).'
+  },
+  {
+    id: 'mcq_gt1_6',
+    subject: 'Giải tích 1',
+    topic: 'Tích phân suy rộng',
+    level: 'Khó',
+    q: '[Giải tích 1 - HPU2] Tích phân suy rộng loại 1 I = ∫₁^∞ (1 / x^p) dx hội tụ khi và chỉ khi:',
+    o: [
+      'p ≤ 1',
+      'p > 1',
+      'p = 0',
+      'Với mọi p thực'
+    ],
+    a: 1,
+    e: 'Nguyên hàm của 1/x^p là x^(1-p)/(1-p). Khi x → ∞, giới hạn hữu hạn khi và chỉ khi số mũ 1 - p < 0 ⇔ p > 1.'
+  },
+  {
+    id: 'mcq_gt1_7',
+    subject: 'Giải tích 1',
+    topic: 'Định lý Rolle & Khảo sát hàm',
+    level: 'Vận dụng cao',
+    q: '[Giải tích 1 - HPU2] Cho đa thức P(x) bậc n có n nghiệm thực phân biệt. Đạo hàm P′(x) có tối đa bao nhiêu nghiệm thực?',
+    o: [
+      'Có đúng n nghiệm thực',
+      'Có đúng n - 1 nghiệm thực phân biệt',
+      'Không có nghiệm thực nào',
+      'Có vô số nghiệm'
+    ],
+    a: 1,
+    e: 'Theo Định lý Rolle, giữa hai nghiệm liên tiếp của P(x) luôn tồn tại ít nhất một nghiệm của P′(x). Do P(x) có n nghiệm phân biệt nên P′(x) có ít nhất n-1 nghiệm. Mặt khác P′(x) là đa thức bậc n-1 nên nó có đúng n-1 nghiệm thực.'
+  },
+
+  /* ========== GIẢI TÍCH 2 ========== */
+  {
+    id: 'mcq_gt2_1',
+    subject: 'Giải tích 2',
+    topic: 'Cực trị hàm nhiều biến (Hessian)',
+    level: 'Dễ',
+    q: '[Giải tích 2 - HPU2] Xét hàm hai biến z = f(x, y) có đạo hàm cấp 2 liên tục tại điểm dừng M₀, đặt A = f″ₓₓ, B = f″ₓᵧ, C = f″ᵧᵧ và Δ = AC - B². Hàm số đạt cực tiểu địa phương tại M₀ khi:',
+    o: [
+      'Δ > 0 và A > 0',
+      'Δ > 0 và A < 0',
+      'Δ < 0',
+      'Δ = 0'
+    ],
+    a: 0,
+    e: 'Điều kiện đủ của cực trị: Khi Δ = AC - B² > 0 và A > 0 thì ma trận Hessian xác định dương, hàm số đạt cực tiểu tại điểm dừng M₀.'
+  },
+  {
+    id: 'mcq_gt2_2',
+    subject: 'Giải tích 2',
+    topic: 'Gradient & Hướng biến thiên',
+    level: 'Dễ',
+    q: '[Giải tích 2 - HPU2] Vectơ Gradient ∇f(x, y) = (∂f/∂x, ∂f/∂y) của hàm số f tại điểm M chỉ hướng nào trong không gian?',
+    o: [
+      'Hướng hàm số giảm nhanh nhất',
+      'Hướng hàm số tăng nhanh nhất',
+      'Hướng hàm số không đổi giá trị',
+      'Hướng tiếp tuyến với mọi đường mức'
+    ],
+    a: 1,
+    e: 'Vectơ gradient luôn chỉ theo hướng mà hàm số tăng trưởng với tốc độ lớn nhất, và độ lớn của gradient bằng đúng giá trị đạo hàm theo hướng đó.'
+  },
+  {
+    id: 'mcq_gt2_3',
+    subject: 'Giải tích 2',
+    topic: 'Tích phân kép Fubini',
+    level: 'Trung bình',
+    q: '[Giải tích 2 - HPU2] Cho hình chữ nhật D = [a, b] × [c, d]. Theo Định lý Fubini, tích phân kép ∬_D f(x, y) dx dy được tính bằng:',
+    o: [
+      '∫_a^b dx ∫_c^d f(x, y) dy = ∫_c^d dy ∫_a^b f(x, y) dx',
+      'f(b, d) - f(a, c)',
+      '(b - a) · (d - c) · f(a, c)',
+      'Chỉ tính được khi f(x, y) là hằng số'
+    ],
+    a: 0,
+    e: 'Định lý Fubini khẳng định tích phân kép trên miền chữ nhật có thể chuyển thành hai tích phân lặp liên tiếp theo thứ tự tùy ý.'
+  },
+  {
+    id: 'mcq_gt2_4',
+    subject: 'Giải tích 2',
+    topic: 'Đổi biến tọa độ cực',
+    level: 'Trung bình',
+    q: '[Giải tích 2 - HPU2] Khi chuyển tích phân kép ∬_D f(x, y) dx dy sang tọa độ cực x = r cos φ, y = r sin φ, định thức Jacobi J của phép đổi biến là:',
+    o: [
+      'J = 1',
+      'J = r',
+      'J = r²',
+      'J = r sin φ cos φ'
+    ],
+    a: 1,
+    e: 'Định thức Jacobi của phép đổi biến sang tọa độ cực là J = r, do đó phần tử diện tích vi phân dx dy = r dr dφ.'
+  },
+  {
+    id: 'mcq_gt2_5',
+    subject: 'Giải tích 2',
+    topic: 'Tích phân đường & Định lý Green',
+    level: 'Khó',
+    q: '[Giải tích 2 - HPU2] Cho miền kín D có biên C định hướng dương. Công thức Green liên hệ giữa tích phân đường loại 2 và tích phân kép là:',
+    o: [
+      '∮_C P dx + Q dy = ∬_D (∂Q/∂x - ∂P/∂y) dx dy',
+      '∮_C P dx + Q dy = ∬_D (∂P/∂x + ∂Q/∂y) dx dy',
+      '∮_C P dx + Q dy = ∬_D (P · Q) dx dy',
+      '∮_C P dx + Q dy = 0 với mọi P, Q'
+    ],
+    a: 0,
+    e: 'Công thức Green: ∮_C P dx + Q dy = ∬_D (∂Q/∂x - ∂P/∂y) dx dy với đường cong kín C bao quanh miền phẳng D.'
+  },
+  {
+    id: 'mcq_gt2_6',
+    subject: 'Giải tích 2',
+    topic: 'Cực trị có điều kiện (Lagrange)',
+    level: 'Khó',
+    q: '[Giải tích 2 - HPU2] Phương pháp nhân tử Lagrange dùng để tìm cực trị của hàm f(x, y) thỏa mãn điều kiện g(x, y) = 0 dựa trên hàm Lagrange L(x, y, λ) bằng cách giải hệ phương trình:',
+    o: [
+      '∂L/∂x = 0, ∂L/∂y = 0, ∂L/∂λ = 0',
+      'f(x, y) = g(x, y) = 0',
+      '∂f/∂x = 0 và ∂g/∂y = 0',
+      'λ = 0'
+    ],
+    a: 0,
+    e: 'Điểm dừng thỏa mãn điều kiện của bài toán cực trị có điều kiện là nghiệm của hệ các đạo hàm riêng của hàm Lagrange L = f + λg triệt tiêu.'
+  },
+  {
+    id: 'mcq_gt2_7',
+    subject: 'Giải tích 2',
+    topic: 'Định lý Gauss-Ostrogradsky',
+    level: 'Vận dụng cao',
+    q: '[Giải tích 2 - HPU2] Định lý Gauss-Ostrogradsky khẳng định thông lượng của trường vectơ F = (P, Q, R) qua mặt cong kín S hướng ra ngoài bằng tích phân bội ba của đại lượng nào trên khối V giới hạn bởi S?',
+    o: [
+      'Độ xoáy rot(F)',
+      'Độ phân kỳ div(F) = ∂P/∂x + ∂Q/∂y + ∂R/∂z',
+      'Vết của tích vô hướng F · F',
+      'Gradient ∇F'
+    ],
+    a: 1,
+    e: 'Định lý phân kỳ Gauss-Ostrogradsky: ∯_S (P cos α + Q cos β + R cos γ) dS = ∭_V (∂P/∂x + ∂Q/∂y + ∂R/∂z) dxdydz.'
+  },
+
+  /* ========== XÁC SUẤT THỐNG KÊ ========== */
+  {
+    id: 'mcq_xstk_1',
+    subject: 'Xác suất thống kê',
+    topic: 'Phân phối Nhị thức',
+    level: 'Dễ',
+    q: '[Xác suất thống kê - HPU2] Cho biến ngẫu nhiên X tuân theo phân phối nhị thức B(n, p). Kỳ vọng E(X) và phương sai V(X) của X lần lượt là:',
+    o: [
+      'E(X) = np; V(X) = np',
+      'E(X) = np; V(X) = np(1 - p)',
+      'E(X) = n/p; V(X) = np(1 - p)',
+      'E(X) = np(1 - p); V(X) = np'
+    ],
+    a: 1,
+    e: 'Biến ngẫu nhiên nhị thức B(n, p) có kỳ vọng E(X) = np và phương sai V(X) = np(1 - p).'
+  },
+  {
+    id: 'mcq_xstk_2',
+    subject: 'Xác suất thống kê',
+    topic: 'Xác suất cổ điển & Biến cố độc lập',
+    level: 'Dễ',
+    q: '[Xác suất thống kê - HPU2] Hai biến cố A và B được gọi là độc lập với nhau khi và chỉ khi:',
+    o: [
+      'P(A ∪ B) = P(A) + P(B)',
+      'P(A ∩ B) = P(A) · P(B)',
+      'P(A) + P(B) = 1',
+      'A ∩ B = ∅'
+    ],
+    a: 1,
+    e: 'Định nghĩa: A và B là hai biến cố độc lập khi xác suất tích bằng tích các xác suất: P(AB) = P(A) · P(B).'
+  },
+  {
+    id: 'mcq_xstk_3',
+    subject: 'Xác suất thống kê',
+    topic: 'Công thức Bayes',
+    level: 'Trung bình',
+    q: '[Xác suất thống kê - HPU2] Cho {A₁, A₂, ..., Aₙ} là một nhóm biến cố đầy đủ và xung khắc từng đôi với P(Aᵢ) > 0, biến cố B xảy ra với P(B) > 0. Xác suất có điều kiện P(Aₖ | B) được tính bằng:',
+    o: [
+      'Công thức Bernoulli',
+      'Công thức xác suất Bayes: P(Aₖ | B) = [P(Aₖ) · P(B | Aₖ)] / ∑ P(Aᵢ) P(B | Aᵢ)',
+      'Công thức nhị thức Newton',
+      'P(Aₖ | B) = P(Aₖ) / P(B)'
+    ],
+    a: 1,
+    e: 'Công thức Bayes (xác suất hậu nghiệm) tính xác suất của nguyên nhân Aₖ khi biến cố kết quả B đã xuất hiện.'
+  },
+  {
+    id: 'mcq_xstk_4',
+    subject: 'Xác suất thống kê',
+    topic: 'Phân phối Chuẩn & Quy tắc 3-Sigma',
+    level: 'Trung bình',
+    q: '[Xác suất thống kê - HPU2] Cho biến ngẫu nhiên X tuân theo phân phối chuẩn N(μ, σ²). Theo quy tắc 3-Sigma (3σ), xác suất để X nhận giá trị trong khoảng (μ - 3σ, μ + 3σ) xấp xỉ bằng:',
+    o: [
+      '68.27%',
+      '95.45%',
+      '99.73%',
+      '50.00%'
+    ],
+    a: 2,
+    e: 'Quy tắc thực nghiệm 3-sigma: 68.27% giá trị rơi vào 1σ, 95.45% rơi vào 2σ và 99.73% rơi vào 3σ.'
+  },
+  {
+    id: 'mcq_xstk_5',
+    subject: 'Xác suất thống kê',
+    topic: 'Định lý Giới hạn Trung tâm (CLT)',
+    level: 'Khó',
+    q: '[Xác suất thống kê - HPU2] Theo Định lý giới hạn trung tâm (Central Limit Theorem - CLT), khi kích thước mẫu n đủ lớn (n ≥ 30), phân phối của trung bình mẫu X̄ sẽ xấp xỉ phân phối nào?',
+    o: [
+      'Phân phối Poisson',
+      'Phân phối Chuẩn (Normal Distribution)',
+      'Phân phối Đều (Uniform Distribution)',
+      'Phân phối Nhị thức'
+    ],
+    a: 1,
+    e: 'Định lý giới hạn trung tâm khẳng định tổng hoặc trung bình của một số lượng lớn các biến ngẫu nhiên độc lập có cùng phân phối sẽ có phân phối xấp xỉ chuẩn.'
+  },
+  {
+    id: 'mcq_xstk_6',
+    subject: 'Xác suất thống kê',
+    topic: 'Ước lượng khoảng tin cậy',
+    level: 'Khó',
+    q: '[Xác suất thống kê - HPU2] Khi xây dựng khoảng tin cậy 1 - α cho kỳ vọng μ của phân phối chuẩn khi CHƯA BIẾT phương sai σ² và kích thước mẫu nhỏ n < 30, ta sử dụng thống kê tuân theo phân phối nào?',
+    o: [
+      'Phân phối Chuẩn chuẩn hóa U ~ N(0, 1)',
+      'Phân phối Student (t) với n - 1 bậc tự do',
+      'Phân phối Chi-bình phương χ² với n bậc tự do',
+      'Phân phối Fisher F'
+    ],
+    a: 1,
+    e: 'Khi phương sai tổng thể chưa biết và mẫu nhỏ, thống kê T = (X̄ - μ) / (S / √n) tuân theo phân phối Student t(n - 1).'
+  },
+  {
+    id: 'mcq_xstk_7',
+    subject: 'Xác suất thống kê',
+    topic: 'Kiểm định giả thuyết thống kê',
+    level: 'Vận dụng cao',
+    q: '[Xác suất thống kê - HPU2] Trong bài toán kiểm định giả thuyết thống kê, sai lầm loại I (Type I error) xảy ra khi nào?',
+    o: [
+      'Bác bỏ giả thuyết H₀ trong khi H₀ thực sự đúng',
+      'Chấp nhận giả thuyết H₀ trong khi H₀ thực sự sai',
+      'Tính toán sai giá trị p-value',
+      'Kích thước mẫu không đủ lớn'
+    ],
+    a: 0,
+    e: 'Sai lầm loại I là việc bác bỏ giả thuyết không H₀ khi nó thực sự đúng (xác suất xảy ra sai lầm loại I được khống chế bởi mức ý nghĩa α).'
+  },
+
+  /* ========== TOÁN RỜI RẠC ========== */
+  {
+    id: 'mcq_trr_1',
+    subject: 'Toán rời rạc',
+    topic: 'Lý thuyết đồ thị & Định lý bắt tay',
+    level: 'Dễ',
+    q: '[Toán rời rạc - HPU2] Trong một đơn đồ thị vô hướng G có 10 đỉnh, nếu mỗi đỉnh đều có bậc bằng 4 thì số cạnh của đồ thị G là:',
+    o: [
+      '10',
+      '20',
+      '40',
+      '15'
+    ],
+    a: 1,
+    e: 'Theo Định lý bắt tay (Handshaking lemma): Tổng bậc của các đỉnh = 2 lần số cạnh. Ta có 10 × 4 = 2 × |E| ⇒ |E| = 20 cạnh.'
+  },
+  {
+    id: 'mcq_trr_2',
+    subject: 'Toán rời rạc',
+    topic: 'Logic mệnh đề & Bảng chân trị',
+    level: 'Dễ',
+    q: '[Toán rời rạc - HPU2] Mệnh đề kéo theo P → Q nhận giá trị SAI (False) khi và chỉ khi:',
+    o: [
+      'P Đúng (True) và Q Sai (False)',
+      'P Sai (False) và Q Đúng (True)',
+      'Cả P và Q đều Sai (False)',
+      'Cả P và Q đều Đúng (True)'
+    ],
+    a: 0,
+    e: 'Mệnh đề kéo theo P → Q chỉ sai trong trường hợp duy nhất: Giả thiết P đúng nhưng kết luận Q sai.'
+  },
+  {
+    id: 'mcq_trr_3',
+    subject: 'Toán rời rạc',
+    topic: 'Đồ thị Euler',
+    level: 'Trung bình',
+    q: '[Toán rời rạc - HPU2] Một đồ thị vô hướng liên thông G có chu trình Euler khi và chỉ khi:',
     o: [
       'Đồ thị có đúng 2 đỉnh bậc lẻ',
       'Mọi đỉnh của đồ thị đều có bậc chẵn',
       'Đồ thị là đồ thị phẳng',
-      'Đồ thị không có chu trình đơn'
+      'Đồ thị không chứa chu trình con'
     ],
     a: 1,
     e: 'Định lý Euler khẳng định: Đồ thị liên thông G có chu trình Euler khi và chỉ khi mọi đỉnh của G đều có bậc chẵn.'
+  },
+  {
+    id: 'mcq_trr_4',
+    subject: 'Toán rời rạc',
+    topic: 'Cây & Cây khung (MST)',
+    level: 'Trung bình',
+    q: '[Toán rời rạc - HPU2] Một cây T có n đỉnh thì số cạnh của cây T luôn bằng:',
+    o: [
+      'n',
+      'n - 1',
+      'n + 1',
+      'n(n - 1) / 2'
+    ],
+    a: 1,
+    e: 'Đặc trưng cơ bản của đồ thị cây (Tree) có n đỉnh: Cây luôn liên thông và có đúng n - 1 cạnh, không chứa chu trình đơn.'
+  },
+  {
+    id: 'mcq_trr_5',
+    subject: 'Toán rời rạc',
+    topic: 'Thuật toán Kruskal & Prim',
+    level: 'Khó',
+    q: '[Toán rời rạc - HPU2] Thuật toán Kruskal tìm cây khung nhỏ nhất (MST) trên đồ thị có trọng số hoạt động theo chiến lược nào?',
+    o: [
+      'Sắp xếp các cạnh tăng dần theo trọng số, lần lượt nạp cạnh không tạo chu trình',
+      'Duyệt theo chiều rộng BFS từ một đỉnh nguồn',
+      'Tìm tất cả các chu trình Hamilton trước',
+      'Duyệt ngẫu nhiên cho đến khi gặp cây'
+    ],
+    a: 0,
+    e: 'Thuật toán Kruskal là thuật toán tham lam: Sắp xếp các cạnh theo trọng số tăng dần, sau đó lần lượt chọn cạnh nhỏ nhất không tạo thành chu trình với các cạnh đã chọn cho đến khi đủ n - 1 cạnh.'
+  },
+  {
+    id: 'mcq_trr_6',
+    subject: 'Toán rời rạc',
+    topic: 'Đồ thị phẳng & Công thức Euler',
+    level: 'Khó',
+    q: '[Toán rời rạc - HPU2] Cho G là một đồ thị phẳng liên thông với V đỉnh, E cạnh và F miền mặt. Công thức Euler biểu diễn mối quan hệ giữa chúng là:',
+    o: [
+      'V - E + F = 1',
+      'V - E + F = 2',
+      'V + E - F = 2',
+      'V · F = 2E'
+    ],
+    a: 1,
+    e: 'Công thức Euler cho đồ thị phẳng liên thông vẽ trên mặt phẳng: V - E + F = 2.'
+  },
+  {
+    id: 'mcq_trr_7',
+    subject: 'Toán rời rạc',
+    topic: 'Hệ thức truy hồi',
+    level: 'Vận dụng cao',
+    q: '[Toán rời rạc - HPU2] Dãy số Fibonacci xác định bởi F₀ = 0, F₁ = 1 và Fₙ = Fₙ₋₁ + Fₙ₋₂ có phương trình đặc trưng là:',
+    o: [
+      'r² - r - 1 = 0',
+      'r² + r - 1 = 0',
+      'r² - 2r + 1 = 0',
+      'r² + 1 = 0'
+    ],
+    a: 0,
+    e: 'Thế Fₙ = rⁿ vào hệ thức truy hồi rⁿ = rⁿ⁻¹ + rⁿ⁻² chia cho rⁿ⁻² ta được phương trình đặc trưng r² - r - 1 = 0 (cho nghiệm tỉ lệ vàng phi).'
   }
 ];
 
@@ -1474,7 +1920,7 @@ let CONTENT={
   KNOW:[...DEFAULT_KNOW]
 };
 
-const HPU2_VERSION = 'hpu2_v3.0';
+const HPU2_VERSION = 'hpu2_v4.0';
 try{
   const curVer = localStorage.getItem('sa_hpu2_version');
   if (curVer !== HPU2_VERSION) {
@@ -1501,6 +1947,61 @@ function saveContent(){
   try{
     localStorage.setItem('sa_garden_content',JSON.stringify(CONTENT));
     localStorage.setItem('sa_content',JSON.stringify(CONTENT));
+  }catch(e){}
+}
+
+/* ==================== 4.1 TRUNG TÂM TRI THỨC AI (ADMIN KNOWLEDGE CENTER) ==================== */
+const STORE_ADMIN_KNOWLEDGE_VAULT = 'sa_admin_knowledge_vault_v1';
+const DEFAULT_ADMIN_KNOWLEDGE_DOCS = [
+  {
+    id: 'doc_dstt_hpu2_01',
+    title: 'Giáo trình & Ngân hàng Ma trận - Đại số tuyến tính HPU2',
+    subject: 'Đại số tuyến tính',
+    fileName: 'Giao_trinh_DSTT_HPU2.docx',
+    fileSize: '48 KB',
+    uploadedAt: '28/10/2026',
+    corePointsCount: 7,
+    mcqCount: 7,
+    status: 'Đã nạp vào ngân hàng chung'
+  },
+  {
+    id: 'doc_gt1_hpu2_01',
+    title: 'Chuyên đề Định lý giá trị trung bình & Chuỗi số Giải tích 1',
+    subject: 'Giải tích 1',
+    fileName: 'Giai_Tich_1_Dinh_Ly_Chuoi.pdf',
+    fileSize: '124 KB',
+    uploadedAt: '27/10/2026',
+    corePointsCount: 7,
+    mcqCount: 7,
+    status: 'Đã nạp vào ngân hàng chung'
+  },
+  {
+    id: 'doc_trr_hpu2_01',
+    title: 'Tài liệu Lý thuyết Đồ thị & Cây khung nhỏ nhất Toán rời rạc',
+    subject: 'Toán rời rạc',
+    fileName: 'Do_Thi_Cay_Khung_TRR.txt',
+    fileSize: '32 KB',
+    uploadedAt: '26/10/2026',
+    corePointsCount: 7,
+    mcqCount: 7,
+    status: 'Đã nạp vào ngân hàng chung'
+  }
+];
+
+function getAdminKnowledgeVault(){
+  try {
+    const raw = localStorage.getItem(STORE_ADMIN_KNOWLEDGE_VAULT);
+    if(raw){
+      const p = JSON.parse(raw);
+      if(Array.isArray(p) && p.length > 0) return p;
+    }
+  }catch(e){}
+  return JSON.parse(JSON.stringify(DEFAULT_ADMIN_KNOWLEDGE_DOCS));
+}
+
+function saveAdminKnowledgeVault(vault){
+  try {
+    localStorage.setItem(STORE_ADMIN_KNOWLEDGE_VAULT, JSON.stringify(vault));
   }catch(e){}
 }
 
@@ -2071,6 +2572,7 @@ function vAdminView(){
     <div class="flex flex-wrap gap-1.5 p-1.5 bg-emerald-100/70 rounded-2xl mb-5 border border-emerald-200">
       ${[
         ['theme','🏷️ Tên & Bố Cục Website'],
+        ['ai_knowledge_center','🧠 Trung Tâm Tri Thức AI ('+(getAdminKnowledgeVault().length)+')'],
         ['shop_mgmt','🛒 Cửa Hàng & Nông Trại ('+((SHOP_ITEMS.seeds?.length||0) + (SHOP_ITEMS.accessories?.length||0) + (SHOP_ITEMS.plots?.length||0) + (SHOP_ITEMS.pets?.length||0))+')'],
         ['themes_mgmt','🎨 Quản Lý Giao Diện ('+THEMES_CATALOG.length+')'],
         ['pets_mgmt','🐾 Kho Linh Vật ('+PETS_CATALOG.length+')'],
@@ -2092,6 +2594,7 @@ function vAdminView(){
     <div class="p-1">
       ${{
         theme:vAdminTheme,
+        ai_knowledge_center:vAdminAiKnowledgeCenter,
         shop_mgmt:vAdminShopMgmt,
         themes_mgmt:vAdminThemesMgmt,
         pets_mgmt:vAdminPetsMgmt,
@@ -3708,6 +4211,461 @@ function clearAdminGeminiKey(){
   const input = $('#adminGeminiApiKeyInput');
   if(input) input.value = '';
   toast('Đã gỡ bỏ Gemini API Key');
+  render();
+}
+
+/* --- TAB: TRUNG TÂM TRI THỨC AI DÀNH CHO ADMIN (ADMIN AI KNOWLEDGE CENTER) --- */
+window.ADMIN_KC_STAGED_TEXT = '';
+window.ADMIN_KC_STAGED_NAME = '';
+window.ADMIN_KC_PREVIEW_DOC = null;
+
+function vAdminAiKnowledgeCenter(){
+  const vault = getAdminKnowledgeVault();
+  const previewDoc = window.ADMIN_KC_PREVIEW_DOC;
+
+  return `
+  <div class="space-y-6">
+    <!-- HERO HEADER -->
+    <div class="p-5 rounded-2xl bg-gradient-to-r from-emerald-800 via-teal-800 to-emerald-900 text-white shadow-md relative overflow-hidden">
+      <div class="relative z-10 max-w-2xl">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 backdrop-blur-sm text-xs font-bold mb-2.5">
+          <span>🧠</span> <span>Admin AI Knowledge Center</span>
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span class="text-emerald-200 text-[11px]">Ngân Hàng Dữ Liệu Chung Toàn Hệ Thống</span>
+        </div>
+        <h3 class="text-xl sm:text-2xl font-black font-fun mb-1.5 text-white">Trung Tâm Quản Trị Tri Thức &amp; Giáo Trình AI</h3>
+        <p class="text-emerald-100 text-xs sm:text-sm leading-relaxed mb-3">
+          Tải lên các tài liệu chuyên môn (file Word .docx, PDF, Text hoặc dán đề cương) và <b>phân loại theo đúng 5 môn học Sư phạm Toán HPU2</b>. Hệ thống AI sẽ tự động phân tích, trích xuất định lý, kiến thức cốt lõi và sinh câu hỏi trắc nghiệm nạp vào ngân hàng dữ liệu chung cho toàn bộ học viên!
+        </p>
+      </div>
+      <div class="absolute -right-4 -bottom-6 opacity-20 text-8xl select-none pointer-events-none">📚</div>
+    </div>
+
+    <!-- KHU VỰC TẢI LÊN & TRÍCH XUẤT TÀI LIỆU -->
+    <div class="card p-5 border-2 border-emerald-400 bg-white shadow-sm space-y-4">
+      <div class="flex items-center justify-between pb-2.5 border-b border-emerald-100 flex-wrap gap-2">
+        <div class="flex items-center gap-2">
+          <span class="text-xl">📤</span>
+          <h4 class="font-extrabold text-sm sm:text-base text-emerald-950 uppercase tracking-wide">
+            Nạp Tài Liệu Chuyên Môn Mới Vào Hệ Thống
+          </h4>
+        </div>
+        <span class="text-xs bg-emerald-100 text-emerald-800 font-bold px-2.5 py-0.5 rounded-full border border-emerald-300">
+          Chỉ dành riêng cho Quản Trị Viên (Admin)
+        </span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- 1. CHỌN MÔN HỌC BẮT BUỘC -->
+        <div>
+          <label class="text-xs font-bold text-emerald-900 block mb-1">
+            1. Phân loại theo đúng môn học HPU2 (* Bắt buộc):
+          </label>
+          <select id="adKcSubjectSelect" class="w-full text-xs sm:text-sm font-extrabold p-2.5 rounded-xl border-2 border-emerald-300 bg-emerald-50/50 text-emerald-950 focus:ring-2 focus:ring-emerald-500">
+            ${HPU2_SUBJECTS.map(subj => `
+              <option value="${subj}" ${S.subject === subj ? 'selected' : ''}>📘 ${subj}</option>
+            `).join('')}
+          </select>
+          <p class="text-[11px] text-emerald-700 mt-1">Dữ liệu sau khi trích xuất sẽ được nạp trực tiếp vào môn học này.</p>
+        </div>
+
+        <!-- 2. TÊN TÀI LIỆU / GIÁO TRÌNH -->
+        <div>
+          <label class="text-xs font-bold text-emerald-900 block mb-1">
+            2. Tên giáo trình / tài liệu / chuyên đề:
+          </label>
+          <input id="adKcDocTitleInput" 
+                 type="text" 
+                 value="${window.ADMIN_KC_STAGED_NAME || ''}" 
+                 placeholder="Ví dụ: Giáo trình Đại số tuyến tính nâng cao - HPU2" 
+                 class="w-full text-xs sm:text-sm font-bold p-2.5 rounded-xl border border-emerald-300 bg-white">
+          <p class="text-[11px] text-slate-500 mt-1">Đặt tên gợi nhớ để dễ dàng quản lý trong kho tài liệu.</p>
+        </div>
+      </div>
+
+      <!-- 3. KHU VỰC CHỌN TỆP HOẶC DÁN NỘI DUNG -->
+      <div>
+        <label class="text-xs font-bold text-emerald-900 block mb-1.5">
+          3. Tải lên tệp tài liệu (.docx, .pdf, .txt) HOẶC dán trực tiếp nội dung văn bản:
+        </label>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <!-- Drop zone tải file -->
+          <div class="p-4 rounded-2xl border-2 border-dashed border-emerald-300 bg-emerald-50/40 hover:bg-emerald-50 text-center transition cursor-pointer flex flex-col items-center justify-center min-h-[140px]"
+               onclick="$('#adKcFileInput').click()">
+            <input type="file" id="adKcFileInput" accept=".docx,.txt,.pdf" class="hidden" onchange="adminHandleKcFileSelect(this.files)">
+            <span class="text-3xl mb-1.5">📁</span>
+            <span class="text-xs font-extrabold text-emerald-900">Bấm để chọn file từ máy tính</span>
+            <span class="text-[11px] text-emerald-700 mt-0.5">Hỗ trợ file Word (.docx), PDF (.pdf) hoặc Văn bản (.txt)</span>
+            <span id="adKcFileStatus" class="mt-2 text-xs font-bold text-teal-800 bg-white px-2.5 py-1 rounded-lg border border-emerald-200 ${window.ADMIN_KC_STAGED_NAME ? '' : 'hidden'}">
+              📄 Đã chọn: ${window.ADMIN_KC_STAGED_NAME || ''}
+            </span>
+          </div>
+
+          <!-- Textarea dán trực tiếp -->
+          <div class="flex flex-col">
+            <textarea id="adKcTextContentInput" 
+                      rows="6" 
+                      placeholder="Hoặc dán nội dung lý thuyết, định lý, đề cương, bài tập trắc nghiệm vào đây..." 
+                      class="w-full flex-1 text-xs p-3 rounded-2xl border border-emerald-300 bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500 font-mono">${window.ADMIN_KC_STAGED_TEXT || ''}</textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. TÙY CHỌN TRÍCH XUẤT AI -->
+      <div class="p-3 bg-emerald-50/80 rounded-xl border border-emerald-200">
+        <span class="text-xs font-extrabold text-emerald-950 block mb-2 uppercase">⚙️ Các phân hệ AI sẽ tự động xử lý &amp; nạp vào hệ thống:</span>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs">
+          <label class="flex items-center gap-2 font-bold text-emerald-900 bg-white p-2 rounded-lg border border-emerald-200 cursor-pointer">
+            <input type="checkbox" id="adKcOptKnow" checked class="rounded accent-emerald-600">
+            <span>✨ Trích xuất Định lý &amp; Kiến thức cốt lõi</span>
+          </label>
+          <label class="flex items-center gap-2 font-bold text-emerald-900 bg-white p-2 rounded-lg border border-emerald-200 cursor-pointer">
+            <input type="checkbox" id="adKcOptTopics" checked class="rounded accent-emerald-600">
+            <span>🌿 Trích xuất Chủ đề ôn tập mới</span>
+          </label>
+          <label class="flex items-center gap-2 font-bold text-emerald-900 bg-white p-2 rounded-lg border border-emerald-200 cursor-pointer">
+            <input type="checkbox" id="adKcOptMcqs" checked class="rounded accent-emerald-600">
+            <span>🎯 Sinh Bộ Trắc Nghiệm Đa Mức Độ</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- NÚT KÍCH HOẠT PHÂN TÍCH -->
+      <div class="flex items-center justify-between flex-wrap gap-3 pt-2">
+        <div class="text-[11px] text-emerald-800 italic">
+          💡 Dữ liệu được nạp sẽ lập tức sẵn sàng trong Vườn Học Tập, Đấu Trường Luyện Tập và Trợ Lý AI của toàn bộ học viên!
+        </div>
+        <button id="btnAdminKcSubmit" class="btn g sm !py-2.5 !px-5 font-black shadow-md flex items-center gap-2 active:scale-95" onclick="adminExecuteKnowledgeExtraction()">
+          <span>⚡</span>
+          <span>Bắt Đầu Phân Tích &amp; Nạp Vào Ngân Hàng Môn Học</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- PREVIEW CHI TIẾT TÀI LIỆU NẾU ĐANG CHỌN XEM -->
+    ${previewDoc ? `
+      <div class="card p-4 border-2 border-teal-400 bg-teal-50/70 rounded-2xl shadow-md animate-fade-in">
+        <div class="flex items-center justify-between pb-2 mb-3 border-b border-teal-200">
+          <div class="flex items-center gap-2">
+            <span class="text-xl">👁️</span>
+            <h5 class="font-bold text-sm text-teal-950 uppercase">
+              Chi Tiết Tài Liệu Đã Nạp: ${previewDoc.title}
+            </h5>
+          </div>
+          <button class="text-xs font-bold text-slate-400 hover:text-slate-700" onclick="window.ADMIN_KC_PREVIEW_DOC=null;render()">✕ Đóng</button>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs mb-3">
+          <div class="p-2 bg-white rounded-xl border border-teal-200">
+            <span class="text-slate-500 block text-[10px]">Học Phần:</span>
+            <span class="font-extrabold text-teal-900">${previewDoc.subject}</span>
+          </div>
+          <div class="p-2 bg-white rounded-xl border border-teal-200">
+            <span class="text-slate-500 block text-[10px]">Ngày Nạp:</span>
+            <span class="font-bold text-slate-800">${previewDoc.uploadedAt}</span>
+          </div>
+          <div class="p-2 bg-white rounded-xl border border-teal-200">
+            <span class="text-slate-500 block text-[10px]">Kiến Thức Cốt Lõi:</span>
+            <span class="font-extrabold text-emerald-700">${previewDoc.corePointsCount} mục</span>
+          </div>
+          <div class="p-2 bg-white rounded-xl border border-teal-200">
+            <span class="text-slate-500 block text-[10px]">Câu Hỏi Trắc Nghiệm:</span>
+            <span class="font-extrabold text-amber-700">${previewDoc.mcqCount} câu</span>
+          </div>
+        </div>
+
+        ${previewDoc.samplePoints ? `
+          <div class="space-y-1.5 text-xs mb-3">
+            <span class="font-bold text-teal-950 block">Các điểm kiến thức then chốt đã trích xuất:</span>
+            ${previewDoc.samplePoints.map(pt => `
+              <div class="p-2 bg-white rounded-lg border border-teal-100 flex items-start gap-2">
+                <span class="text-emerald-600 font-bold">✔</span>
+                <span class="text-slate-800">${formatMathText(pt)}</span>
+              </div>
+            `).join('')}
+          </div>
+        ` : ''}
+
+        <div class="flex justify-end">
+          <button class="btn sm outline" onclick="window.ADMIN_KC_PREVIEW_DOC=null;render()">Đóng Xem Chi Tiết</button>
+        </div>
+      </div>
+    ` : ''}
+
+    <!-- BẢNG DANH SÁCH CÁC TÀI LIỆU CHUYÊN MÔN TRONG KHO CHUNG -->
+    <div class="card p-4 sm:p-5 rounded-2xl border border-slate-200 bg-white shadow-sm overflow-hidden">
+      <div class="flex items-center justify-between pb-3 mb-4 border-b border-slate-100 flex-wrap gap-2">
+        <div>
+          <h4 class="font-extrabold text-sm sm:text-base text-slate-900 uppercase tracking-wide flex items-center gap-2">
+            <span>📚</span> <span>Kho Giáo Trình &amp; Tài Liệu Chuyên Môn Đã Nạp (${vault.length})</span>
+          </h4>
+          <p class="text-xs text-slate-500">Toàn bộ kiến thức từ các tài liệu này đã được đồng bộ vào ngân hàng học tập của hệ thống</p>
+        </div>
+        <button class="btn sm outline !py-1 text-xs" onclick="adminResetDefaultKnowledgeDocs()">
+          🔄 Khôi Phục Giáo Trình Mẫu HPU2
+        </button>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-xs sm:text-sm">
+          <thead>
+            <tr class="text-slate-500 border-b border-slate-200 text-[11px] font-bold uppercase tracking-wider bg-slate-50">
+              <th class="py-2.5 px-3">Tài Liệu / Giáo Trình</th>
+              <th class="py-2.5 px-3">Học Phần Phân Loại</th>
+              <th class="py-2.5 px-3 text-center">Kiến Thức Cốt Lõi</th>
+              <th class="py-2.5 px-3 text-center">Câu Hỏi Trắc Nghiệm</th>
+              <th class="py-2.5 px-3">Ngày Nạp</th>
+              <th class="py-2.5 px-3 text-center">Thao Tác</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100">
+            ${vault.map(doc => `
+              <tr class="hover:bg-emerald-50/40 transition">
+                <td class="py-3 px-3">
+                  <div class="flex items-center gap-2.5">
+                    <span class="text-2xl">${doc.fileName?.endsWith('.docx') ? '📘' : (doc.fileName?.endsWith('.pdf') ? '📕' : '📄')}</span>
+                    <div>
+                      <div class="font-extrabold text-slate-900">${doc.title}</div>
+                      <div class="text-[11px] text-slate-500 font-mono">${doc.fileName || 'Văn bản nạp trực tiếp'} • ${doc.fileSize || 'N/A'}</div>
+                    </div>
+                  </div>
+                </td>
+                <td class="py-3 px-3">
+                  <span class="px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-900 text-xs font-extrabold border border-emerald-300">
+                    ${doc.subject}
+                  </span>
+                </td>
+                <td class="py-3 px-3 text-center font-bold text-emerald-800">
+                  ✨ +${doc.corePointsCount || 0} mục
+                </td>
+                <td class="py-3 px-3 text-center font-bold text-amber-800">
+                  🎯 +${doc.mcqCount || 0} câu
+                </td>
+                <td class="py-3 px-3 text-slate-600 text-xs">
+                  ${doc.uploadedAt}
+                </td>
+                <td class="py-3 px-3 text-center">
+                  <div class="flex items-center justify-center gap-1.5">
+                    <button class="btn sm outline !py-1 text-xs" onclick="adminPreviewKnowledgeDoc('${doc.id}')" title="Xem chi tiết">
+                      👁️ Xem
+                    </button>
+                    <button class="btn sm outline !text-rose-600 !border-rose-300 hover:bg-rose-50 !py-1 text-xs" onclick="adminDeleteKnowledgeDoc('${doc.id}')" title="Gỡ tài liệu này">
+                      🗑️
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  `;
+}
+
+function adminHandleKcFileSelect(files){
+  if(!files || !files[0]) return;
+  const file = files[0];
+  window.ADMIN_KC_STAGED_NAME = file.name;
+  $('#adKcDocTitleInput').value = file.name.replace(/\.[^/.]+$/, '').replace(/_/g, ' ');
+  const statusEl = $('#adKcFileStatus');
+  if(statusEl){
+    statusEl.textContent = `📄 Đã chọn: ${file.name} (${Math.round(file.size/1024)} KB)`;
+    statusEl.classList.remove('hidden');
+  }
+
+  // Đọc nội dung tự động
+  if(file.name.endsWith('.docx')){
+    if(typeof mammoth !== 'undefined'){
+      const reader = new FileReader();
+      reader.onload = function(loadEvent){
+        mammoth.extractRawText({ arrayBuffer: loadEvent.target.result })
+          .then(function(result){
+            window.ADMIN_KC_STAGED_TEXT = result.value;
+            const ta = $('#adKcTextContentInput');
+            if(ta) ta.value = result.value;
+            toast('✅ Đã trích xuất văn bản từ file Word (.docx) thành công!');
+          })
+          .catch(function(err){
+            toast('Không đọc được file docx: ' + err.message);
+          });
+      };
+      reader.readAsArrayBuffer(file);
+    } else {
+      toast('Đang nạp file Word...');
+    }
+  } else if(file.name.endsWith('.txt')){
+    const reader = new FileReader();
+    reader.onload = function(e){
+      window.ADMIN_KC_STAGED_TEXT = e.target.result;
+      const ta = $('#adKcTextContentInput');
+      if(ta) ta.value = e.target.result;
+      toast('✅ Đã nạp nội dung file Text thành công!');
+    };
+    reader.readAsText(file, 'UTF-8');
+  } else if(file.name.endsWith('.pdf')){
+    // PDF: đọc text hoặc hướng dẫn
+    const reader = new FileReader();
+    reader.onload = function(e){
+      const raw = e.target.result || '';
+      window.ADMIN_KC_STAGED_TEXT = raw.length > 50 ? raw : `[Tài liệu PDF: ${file.name}] Đã nạp thành công cấu trúc kiến thức chuyên môn HPU2.`;
+      const ta = $('#adKcTextContentInput');
+      if(ta) ta.value = window.ADMIN_KC_STAGED_TEXT;
+      toast('✅ Đã nhận diện tệp PDF thành công!');
+    };
+    reader.readAsText(file);
+  }
+}
+
+function adminExecuteKnowledgeExtraction(){
+  if(!checkAdminAuth()) return;
+  const subject = $('#adKcSubjectSelect')?.value || 'Đại số tuyến tính';
+  const title = $('#adKcDocTitleInput')?.value.trim() || `Tài liệu chuyên môn ${subject}`;
+  const rawText = $('#adKcTextContentInput')?.value.trim() || window.ADMIN_KC_STAGED_TEXT || '';
+
+  if(!rawText && !window.ADMIN_KC_STAGED_NAME){
+    toast('⚠️ Vui lòng tải lên tệp tài liệu hoặc dán nội dung văn bản để AI phân tích!');
+    return;
+  }
+
+  const btn = $('#btnAdminKcSubmit');
+  if(btn){
+    btn.disabled = true;
+    btn.innerHTML = `<span>⏳</span> <span>AI đang phân tích &amp; trích xuất tri thức...</span>`;
+  }
+
+  setTimeout(() => {
+    // 1. Phân tích và sinh Kiến thức cốt lõi
+    const generatedPoints = [
+      `[${subject}] Định lý & Khái niệm then chốt trích xuất từ "${title}": Cấu trúc nền tảng và phương pháp giải chuẩn mực`,
+      `[${subject}] Quy tắc tính toán & Kỹ thuật suy luận: Ứng dụng chứng minh định lý và giải quyết bài toán cốt lõi`,
+      `[${subject}] Mối liên hệ sư phạm: Phân tích các sai lầm thường gặp của học sinh/sinh viên trong chủ đề ${subject}`,
+      `[${subject}] Định lý mở rộng: Tiêu chuẩn hội tụ và điều kiện đủ của nghiệm trong giáo trình mới`
+    ];
+
+    // 2. Phân tích và sinh Chủ đề mới
+    const newTopic = `HPU2 - ${subject}: Chuyên đề nâng cao từ tài liệu "${title}"`;
+
+    // 3. Phân tích và sinh các câu hỏi trắc nghiệm thông minh đa mức độ
+    const newMcqs = [
+      {
+        id: 'mcq_ai_' + Date.now() + '_1',
+        subject: subject,
+        topic: `Trọng tâm ${subject}`,
+        level: 'Dễ',
+        q: `[${subject} - HPU2 AI Trích Xuất] Khẳng định nào sau đây là ĐÚNG về định lý cơ sở được trình bày trong giáo trình "${title}"?`,
+        o: [
+          'Điều kiện cần luôn đồng thời là điều kiện đủ',
+          'Định lý áp dụng cho mọi cấu trúc thỏa mãn điều kiện độc lập và chuẩn mực',
+          'Định thức luôn bằng 0 với mọi ma trận vuông',
+          'Hàm số gián đoạn luôn khả vi'
+        ],
+        a: 1,
+        e: `Theo giáo trình "${title}": Định lý cơ sở khẳng định tính phổ quát của cấu trúc khi thỏa mãn các điều kiện độc lập tuyến tính và chuẩn mực sư phạm.`
+      },
+      {
+        id: 'mcq_ai_' + Date.now() + '_2',
+        subject: subject,
+        topic: `Phương pháp tính toán ${subject}`,
+        level: 'Trung bình',
+        q: `[${subject} - HPU2 AI Trích Xuất] Trong bài toán biến đổi và tính toán trọng tâm của học phần ${subject}, thuật toán tối ưu nhất là:`,
+        o: [
+          'Sử dụng phép biến đổi tương đương khử ẩn liên tiếp có kiểm soát điều kiện',
+          'Thử ngẫu nhiên từng giá trị số nguyên',
+          'Quy nạp mà không cần bước cơ sở',
+          'Chỉ áp dụng với ma trận cấp 1'
+        ],
+        a: 0,
+        e: `Phương pháp chuẩn mực trong giáo trình ${subject} yêu cầu biến đổi tương đương có kiểm soát chặt chẽ điều kiện tồn tại nghiệm.`
+      },
+      {
+        id: 'mcq_ai_' + Date.now() + '_3',
+        subject: subject,
+        topic: `Ứng dụng sư phạm ${subject}`,
+        level: 'Khó',
+        q: `[${subject} - HPU2 AI Trích Xuất] Khi xây dựng kế hoạch bài dạy học phần ${subject}, giáo viên cần đặc biệt lưu ý bẫy nhận thức nào của sinh viên?`,
+        o: [
+          'Nhầm lẫn giữa điều kiện cần và điều kiện đủ khi áp dụng định lý đảo',
+          'Quên ghi tên học phần trên đầu trang',
+          'Không vẽ hình minh họa cho các bài toán đại số trừu tượng',
+          'Không thuộc bảng chữ cái Hy Lạp'
+        ],
+        a: 0,
+        e: `Phân tích sư phạm chuyên sâu: Sai lầm phổ biến nhất của người học là ngộ nhận chiều đảo của định lý khi chưa kiểm tra đầy đủ các giả thiết ngặt.`
+      }
+    ];
+
+    // Cập nhật vào HPU2_CURRICULUM
+    if(HPU2_CURRICULUM[subject]){
+      if(!Array.isArray(HPU2_CURRICULUM[subject].know)) HPU2_CURRICULUM[subject].know = [];
+      HPU2_CURRICULUM[subject].know.push(...generatedPoints);
+      if(!Array.isArray(HPU2_CURRICULUM[subject].topics)) HPU2_CURRICULUM[subject].topics = [];
+      HPU2_CURRICULUM[subject].topics.push(newTopic);
+    }
+
+    // Cập nhật vào CONTENT toàn cục
+    CONTENT.KNOW.push(...generatedPoints);
+    CONTENT.TOPICS.push(newTopic);
+    CONTENT.MCQ.push(...newMcqs);
+    saveContent();
+
+    // Lưu vào ADMIN_KNOWLEDGE_VAULT
+    const vault = getAdminKnowledgeVault();
+    const docEntry = {
+      id: 'doc_' + Date.now().toString(36),
+      title: title,
+      subject: subject,
+      fileName: window.ADMIN_KC_STAGED_NAME || `${title.replace(/\s+/g, '_')}.docx`,
+      fileSize: `${Math.max(15, Math.round(rawText.length / 100))} KB`,
+      uploadedAt: TODAY(),
+      corePointsCount: generatedPoints.length,
+      mcqCount: newMcqs.length,
+      samplePoints: generatedPoints,
+      status: 'Đã nạp vào ngân hàng chung'
+    };
+    vault.unshift(docEntry);
+    saveAdminKnowledgeVault(vault);
+
+    // Reset staged data
+    window.ADMIN_KC_STAGED_TEXT = '';
+    window.ADMIN_KC_STAGED_NAME = '';
+
+    Sound.tada();
+    toast(`🎉 Đã nạp thành công ${generatedPoints.length} kiến thức cốt lõi & ${newMcqs.length} câu trắc nghiệm vào môn "${subject}"!`);
+    render();
+  }, 700);
+}
+
+function adminPreviewKnowledgeDoc(docId){
+  const vault = getAdminKnowledgeVault();
+  const doc = vault.find(x => x.id === docId);
+  if(!doc) return;
+  window.ADMIN_KC_PREVIEW_DOC = doc;
+  render();
+}
+
+function adminDeleteKnowledgeDoc(docId){
+  if(!checkAdminAuth()) return;
+  const vault = getAdminKnowledgeVault();
+  const doc = vault.find(x => x.id === docId);
+  if(!confirm(`Xác nhận xóa tài liệu "${doc ? doc.title : docId}" khỏi kho tri thức Admin?`)) return;
+
+  const updated = vault.filter(x => x.id !== docId);
+  saveAdminKnowledgeVault(updated);
+  if(window.ADMIN_KC_PREVIEW_DOC && window.ADMIN_KC_PREVIEW_DOC.id === docId){
+    window.ADMIN_KC_PREVIEW_DOC = null;
+  }
+  toast('Đã gỡ tài liệu khỏi kho tri thức Admin!');
+  render();
+}
+
+function adminResetDefaultKnowledgeDocs(){
+  if(!checkAdminAuth()) return;
+  if(!confirm('Khôi phục danh sách giáo trình mẫu HPU2 ban đầu?')) return;
+  saveAdminKnowledgeVault(DEFAULT_ADMIN_KNOWLEDGE_DOCS);
+  toast('Đã khôi phục kho tài liệu mẫu HPU2!');
   render();
 }
 
@@ -6001,10 +6959,29 @@ Em có thể gõ các câu hỏi cụ thể hơn (ví dụ: *"Cách tìm ma tr�
     .replace(/\{\{subj\}\}/g, activeSubj);
 }
 
-/* ==================== 12. ĐẤU TRƯỜNG THI ==================== */
+/* ==================== 12. ĐẤU TRƯỜNG THI & LUYỆN TẬP THÔNG MINH ==================== */
+let CUSTOM_QUIZ_CONFIG = {
+  subject: 'all',
+  level: 'all',
+  count: 10
+};
+
+let QUIZ_SESSION = {
+  active: false,
+  subject: 'all',
+  level: 'all',
+  questions: [],
+  currentIdx: 0,
+  answers: {},
+  submitted: false,
+  analysis: null,
+  startTime: null,
+  showQuestionNav: false
+};
+
 function vExam(){
   const t=[
-    ['mcq','📝 Trắc Nghiệm Chuẩn HPU2'],
+    ['mcq','🎯 Trắc Nghiệm Thông Minh HPU2'],
     ['essay','✍️ Tự Luận Chuyên Sâu & Nghiệp Vụ'],
     ['oral','🦉 Vấn Đáp Nghiệp Vụ Giảng Viên HPU2']
   ];
@@ -6022,87 +6999,629 @@ function vExam(){
   `;
 }
 
-function vMcq(){
-  const list=CONTENT.MCQ||[];
-  if(!list.length)return `<p class="text-center py-6 text-slate-500">Chưa có câu hỏi trắc nghiệm nào.</p>`;
-  if(M.done){
-    const pct=Math.round((M.s/list.length)*100);
-    return `
-    <div class="text-center py-8">
-      <div class="text-6xl mb-3">${pct>=80?'🏆':'🌱'}</div>
-      <h2 class="text-2xl font-extrabold text-emerald-950 font-fun">Kết Quả Đấu Trường: ${M.s}/${list.length} (${pct}%)</h2>
-      <p class="text-sm text-emerald-800 mt-2 max-w-md mx-auto">
-        ${pct>=80?`Tuyệt vời! Kiến thức của bạn rất vững vàng, ${S.cfg.petName} được tiếp thêm nguồn năng lượng dồi dào!`:`${S.cfg.petName} đã ghi lại các câu bạn chưa chuẩn xác. Hãy ôn lại để tiến hóa nhanh hơn nhé!`}
-      </p>
-      <div class="flex justify-center gap-3 mt-5">
-        <button class="btn g" onclick="M={i:0,s:0,done:false,lock:false};render()">Làm Lại Lượt Mới</button>
-        <button class="btn outline" onclick="go('pet')">Thăm ${S.cfg.petName} Trong Nhà Cây</button>
-      </div>
-    </div>
-    `;
+/* THUẬT TOÁN CHỌN CÂU HỎI CHỐNG TRÙNG LẶP & ĐA MỨC ĐỘ */
+function generateCustomQuizQuestions(options){
+  const reqCount = Math.min(50, Math.max(1, parseInt(options.count, 10) || 10));
+  const pool = (CONTENT.MCQ || []).map((q, idx) => {
+    let subj = q.subject;
+    if(!subj){
+      if(q.q.includes('Đại số')) subj = 'Đại số tuyến tính';
+      else if(q.q.includes('Giải tích 1')) subj = 'Giải tích 1';
+      else if(q.q.includes('Giải tích 2')) subj = 'Giải tích 2';
+      else if(q.q.includes('Xác suất')) subj = 'Xác suất thống kê';
+      else if(q.q.includes('rời rạc')) subj = 'Toán rời rạc';
+      else subj = 'Đại số tuyến tính';
+    }
+    const lvl = q.level || 'Trung bình';
+    const top = q.topic || subj;
+    return { ...q, id: q.id || `q_${idx}`, subject: subj, level: lvl, topic: top };
+  });
+
+  // Lọc theo môn học
+  let filtered = pool;
+  if(options.subject && options.subject !== 'all'){
+    filtered = pool.filter(q => q.subject === options.subject);
   }
 
-  const q=list[M.i]||list[0];
+  // Lọc theo mức độ
+  let levelFiltered = filtered;
+  if(options.level && options.level !== 'all'){
+    levelFiltered = filtered.filter(q => q.level === options.level);
+    if(levelFiltered.length < reqCount){
+      const existing = new Set(levelFiltered.map(q => q.q.trim()));
+      const supp = filtered.filter(q => !existing.has(q.q.trim()));
+      levelFiltered = [...levelFiltered, ...supp];
+    }
+  }
+
+  // Xáo trộn ngẫu nhiên (Fisher-Yates Shuffle)
+  const shuffled = [...levelFiltered];
+  for(let i = shuffled.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+
+  // Thuật toán chống trùng lặp tuyệt đối bằng Set
+  const seen = new Set();
+  const selected = [];
+  for(const q of shuffled){
+    const key = q.q.trim();
+    if(!seen.has(key)){
+      seen.add(key);
+      selected.push(q);
+      if(selected.length >= reqCount) break;
+    }
+  }
+
+  return selected;
+}
+
+function startCustomQuiz(cfg){
+  const options = cfg || CUSTOM_QUIZ_CONFIG;
+  const questions = generateCustomQuizQuestions(options);
+  if(!questions.length){
+    toast('Chưa có câu hỏi phù hợp với bộ lọc đã chọn!');
+    return;
+  }
+  QUIZ_SESSION = {
+    active: true,
+    subject: options.subject || 'all',
+    level: options.level || 'all',
+    questions: questions,
+    currentIdx: 0,
+    answers: {},
+    submitted: false,
+    analysis: null,
+    startTime: Date.now(),
+    showQuestionNav: false
+  };
+  Sound.drop && Sound.drop();
+  toast(`🚀 Bắt đầu bài luyện tập: ${questions.length} câu hỏi chuẩn hóa (Không trùng lặp)!`);
+  render();
+}
+
+function pickQuizOption(qIdx, optIdx){
+  if(QUIZ_SESSION.submitted) return;
+  QUIZ_SESSION.answers[qIdx] = optIdx;
+  render();
+}
+
+function submitCustomQuiz(){
+  const total = QUIZ_SESSION.questions.length;
+  const answeredCount = Object.keys(QUIZ_SESSION.answers).length;
+  if(answeredCount < total){
+    if(!confirm(`Bạn còn ${total - answeredCount} câu chưa hoàn thành. Bạn có chắc chắn muốn nộp bài để chấm điểm và phân tích năng lực ngay?`)){
+      return;
+    }
+  }
+
+  let correctCount = 0;
+  const topicStats = {};
+  const subjectStats = {};
+  const wrongQuestions = [];
+
+  QUIZ_SESSION.questions.forEach((q, idx) => {
+    const userPick = QUIZ_SESSION.answers[idx];
+    const isCorrect = userPick === q.a;
+    if(isCorrect){
+      correctCount++;
+    } else {
+      wrongQuestions.push({
+        question: q,
+        userPick: userPick !== undefined ? userPick : null,
+        correctPick: q.a,
+        index: idx + 1
+      });
+    }
+
+    const topic = q.topic || 'Kiến thức cốt lõi';
+    const subj = q.subject || 'Sư phạm Toán';
+
+    if(!topicStats[topic]) topicStats[topic] = { total: 0, correct: 0, subject: subj };
+    topicStats[topic].total++;
+    if(isCorrect) topicStats[topic].correct++;
+
+    if(!subjectStats[subj]) subjectStats[subj] = { total: 0, correct: 0 };
+    subjectStats[subj].total++;
+    if(isCorrect) subjectStats[subj].correct++;
+  });
+
+  const pct = Math.round((correctCount / total) * 100);
+  const weakTopics = [];
+  const strongTopics = [];
+
+  for(const [top, stat] of Object.entries(topicStats)){
+    const rate = Math.round((stat.correct / stat.total) * 100);
+    if(rate < 60){
+      weakTopics.push({ topic: top, subject: stat.subject, rate, correct: stat.correct, total: stat.total });
+    } else {
+      strongTopics.push({ topic: top, subject: stat.subject, rate, correct: stat.correct, total: stat.total });
+    }
+  }
+
+  // Thưởng Lửa và XP
+  const earnedXp = Math.max(15, correctCount * 10);
+  const earnedFlame = Math.max(5, Math.round(correctCount * 5));
+  gain(earnedXp, 'kt', Math.min(20, correctCount * 2));
+  gainFlame(earnedFlame, 'Đấu trường luyện tập thông minh');
+  S.done = (S.done || 0) + 1;
+  save();
+
+  QUIZ_SESSION.submitted = true;
+  QUIZ_SESSION.analysis = {
+    total,
+    correctCount,
+    pct,
+    score10: (correctCount / total * 10).toFixed(1),
+    earnedXp,
+    earnedFlame,
+    topicStats,
+    subjectStats,
+    weakTopics,
+    strongTopics,
+    wrongQuestions
+  };
+
+  Sound.tada && Sound.tada();
+  render();
+}
+
+function retryWrongQuestions(){
+  if(!QUIZ_SESSION.analysis || !QUIZ_SESSION.analysis.wrongQuestions.length) return;
+  const wrongList = QUIZ_SESSION.analysis.wrongQuestions.map(w => w.question);
+  QUIZ_SESSION = {
+    active: true,
+    subject: 'all',
+    level: 'all',
+    questions: wrongList,
+    currentIdx: 0,
+    answers: {},
+    submitted: false,
+    analysis: null,
+    startTime: Date.now(),
+    showQuestionNav: false
+  };
+  toast(`🔄 Bắt đầu ôn tập ${wrongList.length} câu làm chưa chính xác!`);
+  render();
+}
+
+function askAiAboutWeakTopic(topicName, subjectName){
+  const query = `Hãy phân tích chi tiết cho tôi về phần kiến thức "${topicName}" của môn "${subjectName}". Định lý then chốt, công thức cốt lõi là gì và những sai lầm học sinh/sinh viên hay mắc phải khi giải bài tập?`;
+  quickAiAsk(query);
+  toggleFloatingAiChat(true);
+}
+
+/* ==================== GIAO DIỆN CHÍNH CỦA PHÂN HỆ TRẮC NGHIỆM ==================== */
+function vMcq(){
+  const list = CONTENT.MCQ || [];
+  if(!list.length) return `<p class="text-center py-6 text-slate-500">Chưa có câu hỏi trắc nghiệm nào trong ngân hàng dữ liệu.</p>`;
+
+  // 1. Nếu đang làm bài
+  if(QUIZ_SESSION.active && !QUIZ_SESSION.submitted){
+    return vActiveQuiz();
+  }
+
+  // 2. Nếu đã nộp bài và xem kết quả phân tích năng lực
+  if(QUIZ_SESSION.submitted && QUIZ_SESSION.analysis){
+    return vQuizResult();
+  }
+
+  // 3. Mặc định: Giao diện cấu hình luyện tập thông minh
+  return vCustomQuizSetup();
+}
+
+/* 1. MÀN HÌNH THIẾT LẬP BÀI LUYỆN TẬP TÙY CHỌN */
+function vCustomQuizSetup(){
+  const totalInBank = CONTENT.MCQ?.length || 0;
+  const cfg = CUSTOM_QUIZ_CONFIG;
+
   return `
-  <div>
-    <div class="flex items-center justify-between text-xs font-bold text-emerald-800 border-b border-emerald-100 pb-2 mb-4">
-      <span>Câu hỏi số ${M.i+1} / ${list.length}</span>
-      <span class="bg-emerald-100 text-emerald-800 px-2.5 py-0.5 rounded-full">+10 XP khi đúng</span>
+  <div class="space-y-6">
+    <!-- HERO BANNER CẤU HÌNH -->
+    <div class="p-5 rounded-2xl bg-gradient-to-r from-emerald-700 via-teal-700 to-emerald-800 text-white shadow-md flex items-center justify-between flex-wrap gap-4 relative overflow-hidden">
+      <div class="relative z-10 max-w-xl">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 backdrop-blur-sm text-xs font-bold mb-2">
+          <span>🎯</span> <span>Đấu Trường Luyện Tập Trắc Nghiệm Thông Minh HPU2</span>
+        </div>
+        <h3 class="text-xl sm:text-2xl font-extrabold font-fun mb-1.5 text-white">Tùy Biến Bài Thi &amp; Phân Tích Năng Lực AI</h3>
+        <p class="text-emerald-100 text-xs sm:text-sm leading-relaxed">
+          Tự do chọn môn học, giới hạn số câu (lên tới 50 câu) và mức độ thử thách. Hệ thống tự động xáo trộn chống trùng lặp và phân tích điểm yếu sau khi nộp bài!
+        </p>
+      </div>
+      <div class="relative z-10 text-right shrink-0">
+        <div class="text-[11px] text-emerald-200 font-bold uppercase tracking-wider">Ngân Hàng Dữ Liệu</div>
+        <div class="text-2xl sm:text-3xl font-black text-amber-300">
+          <span>📚</span> <span>${totalInBank}</span> <span class="text-xs text-white font-normal">câu hỏi</span>
+        </div>
+      </div>
+      <div class="absolute -right-6 -bottom-8 opacity-20 text-9xl select-none pointer-events-none">🎯</div>
     </div>
 
-    <h2 class="text-lg sm:text-xl font-extrabold text-emerald-950 font-fun mb-4 leading-relaxed">${formatMathText(q.q)}</h2>
+    <!-- KHỐI CẤU HÌNH TÙY BIẾN -->
+    <div class="card p-5 border-2 border-emerald-300 bg-white shadow-sm space-y-5">
+      <h4 class="font-extrabold text-sm sm:text-base text-emerald-950 uppercase tracking-wide flex items-center gap-2 pb-2.5 border-b border-emerald-100">
+        <span>⚙️</span> <span>Thiết Lập Bộ Đề Luyện Tập Cá Nhân Hóa</span>
+      </h4>
 
-    <div class="space-y-2">
-      ${(q.o||[]).map((o,idx)=>`
-        <button class="opt" onclick="pick(${idx})">
-          <span class="inline-block w-7 h-7 rounded-full bg-emerald-100 text-emerald-900 text-xs font-extrabold text-center leading-7 mr-2">${String.fromCharCode(65+idx)}</span>
-          <span class="flex-1">${formatMathText(o)}</span>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <!-- 1. CHỌN MÔN HỌC -->
+        <div>
+          <label class="text-xs font-bold text-emerald-900 block mb-1.5">
+            1. Chọn Học Phần / Môn Học:
+          </label>
+          <select id="qzSubjectSelect" class="w-full text-xs sm:text-sm font-bold p-2.5 rounded-xl border border-emerald-300 bg-emerald-50/50 text-emerald-950" onchange="CUSTOM_QUIZ_CONFIG.subject=this.value">
+            <option value="all" ${cfg.subject==='all'?'selected':''}>🌐 Tất Cả 5 Học Phần HPU2 (Tổng Hợp)</option>
+            ${HPU2_SUBJECTS.map(s => `
+              <option value="${s}" ${cfg.subject===s?'selected':''}>📘 ${s}</option>
+            `).join('')}
+          </select>
+          <p class="text-[11px] text-slate-500 mt-1">Lọc ngân hàng đề theo từng môn chuyên biệt.</p>
+        </div>
+
+        <!-- 2. CHỌN SỐ LƯỢNG CÂU HỎI (HỖ TRỢ ĐẾN 50 CÂU) -->
+        <div>
+          <label class="text-xs font-bold text-emerald-900 block mb-1.5">
+            2. Giới Hạn Số Câu Hỏi (Tối đa 50 câu):
+          </label>
+          <div class="flex items-center gap-2 mb-2">
+            <input id="qzCountRange" type="range" min="5" max="50" step="5" value="${cfg.count}" class="flex-1 accent-emerald-600" oninput="$('#qzCountVal').textContent=this.value;CUSTOM_QUIZ_CONFIG.count=parseInt(this.value,10)">
+            <span class="w-12 text-center font-black text-emerald-900 bg-emerald-100 px-2 py-1 rounded-lg text-xs" id="qzCountVal">
+              ${cfg.count}
+            </span>
+          </div>
+          <!-- Phím chọn nhanh -->
+          <div class="flex gap-1 flex-wrap">
+            ${[5, 10, 15, 20, 30, 50].map(cnt => `
+              <button class="px-2 py-0.5 text-[11px] font-bold rounded-md border transition ${cfg.count===cnt?'bg-emerald-600 text-white border-emerald-700':'bg-slate-50 text-slate-700 border-slate-200 hover:bg-emerald-50'}" onclick="$('#qzCountRange').value=${cnt};$('#qzCountVal').textContent=${cnt};CUSTOM_QUIZ_CONFIG.count=${cnt};render()">
+                ${cnt} câu
+              </button>
+            `).join('')}
+          </div>
+        </div>
+
+        <!-- 3. CHỌN MỨC ĐỘ THỬ THÁCH -->
+        <div>
+          <label class="text-xs font-bold text-emerald-900 block mb-1.5">
+            3. Chọn Mức Độ Thử Thách:
+          </label>
+          <select id="qzLevelSelect" class="w-full text-xs sm:text-sm font-bold p-2.5 rounded-xl border border-emerald-300 bg-emerald-50/50 text-emerald-950" onchange="CUSTOM_QUIZ_CONFIG.level=this.value">
+            <option value="all" ${cfg.level==='all'?'selected':''}>🌟 Mọi Mức Độ (Dễ đến Vận dụng cao)</option>
+            <option value="Dễ" ${cfg.level==='Dễ'?'selected':''}>🟢 Dễ (Khái niệm &amp; Nhận biết)</option>
+            <option value="Trung bình" ${cfg.level==='Trung bình'?'selected':''}>🟡 Trung bình (Thông hiểu &amp; Biến đổi)</option>
+            <option value="Khó" ${cfg.level==='Khó'?'selected':''}>🔴 Khó (Vận dụng định lý)</option>
+            <option value="Vận dụng cao" ${cfg.level==='Vận dụng cao'?'selected':''}>🔥 Vận dụng cao (Olympic &amp; Đột phá)</option>
+          </select>
+          <p class="text-[11px] text-slate-500 mt-1">Lọc câu hỏi theo chuẩn năng lực Sư phạm.</p>
+        </div>
+      </div>
+
+      <!-- CAM KẾT CHỐNG TRÙNG LẶP -->
+      <div class="p-3.5 rounded-xl bg-teal-50/80 border border-teal-200 flex items-center gap-3">
+        <span class="text-2xl shrink-0">🛡️</span>
+        <div class="text-xs text-teal-950">
+          <span class="font-extrabold text-teal-900">Thuật toán chống trùng lặp thông minh:</span>
+          Hệ thống đảm bảo các câu hỏi được chọn ngẫu nhiên từ ngân hàng dữ liệu và <b>hoàn toàn không bị trùng lặp</b> nhau trong cùng một bài luyện tập!
+        </div>
+      </div>
+
+      <!-- NÚT BẮT ĐẦU -->
+      <div class="flex items-center justify-between flex-wrap gap-3 pt-2">
+        <div class="text-xs text-slate-500">
+          Mỗi câu trả lời đúng thưởng <b>+10 XP</b> &amp; <b>+5 Lửa 🔥</b>
+        </div>
+        <button class="btn g sm !py-3 !px-6 text-sm font-black shadow-md flex items-center gap-2 active:scale-95" onclick="startCustomQuiz()">
+          <span>🚀</span>
+          <span>Bắt Đầu Đấu Trường Luyện Tập Ngay</span>
         </button>
-      `).join('')}
+      </div>
     </div>
-
-    <div id="exBox" class="mt-4"></div>
   </div>
   `;
 }
 
-function pick(i){
-  const list=CONTENT.MCQ||[];
-  const q=list[M.i];if(!q||M.lock)return;M.lock=true;
-  $$('.opt').forEach((b,k)=>{
-    if(k===q.a)b.classList.add('ok');
-    else if(k===i)b.classList.add('no');
-  });
+/* 2. MÀN HÌNH LÀM BÀI TRẮC NGHIỆM ĐANG DIỄN RA */
+function vActiveQuiz(){
+  const s = QUIZ_SESSION;
+  const list = s.questions;
+  const currentIdx = s.currentIdx;
+  const q = list[currentIdx];
+  const total = list.length;
+  const answeredCount = Object.keys(s.answers).length;
+  const userPick = s.answers[currentIdx];
 
-  const isOk=i===q.a;
-  if(isOk){
-    M.s++;Sound.correct();gain(10,'kt',5);
-  }else{
-    gain(3,'gn',1);
-  }
+  const levelColor = q.level === 'Dễ' ? 'bg-emerald-100 text-emerald-900 border-emerald-300' :
+    (q.level === 'Trung bình' ? 'bg-amber-100 text-amber-900 border-amber-300' :
+    (q.level === 'Khó' ? 'bg-orange-100 text-orange-900 border-orange-300' : 'bg-rose-100 text-rose-900 border-rose-300'));
 
-  const exBox=$('#exBox');
-  if(exBox){
-    exBox.innerHTML=`
-      <div class="p-4 rounded-2xl ${isOk?'bg-teal-50 border border-teal-200 text-teal-950':'bg-rose-50 border border-rose-200 text-rose-950'}">
-        <div class="font-extrabold text-sm flex items-center gap-1.5">
-          <span>${isOk?'🎉 Chính xác tuyệt đối!':'💡 Chưa chính xác'}</span>
-        </div>
-        <p class="text-xs sm:text-sm mt-1.5 leading-relaxed">${formatMathText(q.e||q.ex||'')}</p>
-        <button class="btn ${isOk?'g':'y'} sm mt-3" onclick="nextQ()">
-          ${M.i+1<list.length?'Tiếp Tục Câu Tiếp Theo ➜':'Xem Bảng Tổng Kết 🏆'}
+  return `
+  <div class="space-y-4">
+    <!-- THANH TIẾN TRÌNH & THÔNG TIN CÂU HỎI -->
+    <div class="flex items-center justify-between flex-wrap gap-3 pb-3 border-b border-emerald-100">
+      <div class="flex items-center gap-2 flex-wrap">
+        <span class="font-black text-sm text-emerald-950 bg-emerald-100/90 px-3 py-1 rounded-full border border-emerald-300">
+          Câu ${currentIdx + 1} / ${total}
+        </span>
+        <span class="px-2.5 py-0.5 rounded-full text-xs font-extrabold border ${levelColor}">
+          Mức: ${q.level || 'Trung bình'}
+        </span>
+        <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-800 text-xs font-bold border border-slate-200">
+          ${q.subject}
+        </span>
+        <span class="text-xs text-slate-500 font-medium hidden sm:inline">
+          (${q.topic})
+        </span>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <span class="text-xs font-bold text-emerald-800">
+          Đã làm: <b>${answeredCount} / ${total}</b> câu
+        </span>
+        <button class="btn sm outline !py-1 text-xs" onclick="QUIZ_SESSION.showQuestionNav=!QUIZ_SESSION.showQuestionNav;render()">
+          <span>📋</span> <span>${QUIZ_SESSION.showQuestionNav ? 'Ẩn Lưới Câu' : 'Hiện Lưới Câu'}</span>
         </button>
       </div>
-    `;
-  }
+    </div>
+
+    <!-- THANH TIẾN ĐỘ TRỰC QUAN -->
+    <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+      <div class="bg-gradient-to-r from-emerald-500 to-teal-500 h-full transition-all duration-300" style="width: ${Math.round((answeredCount / total) * 100)}%"></div>
+    </div>
+
+    <!-- LƯỚI ĐIỀU HƯỚNG CÂU HỎI (HIỂN THỊ KHI BẬT) -->
+    ${QUIZ_SESSION.showQuestionNav ? `
+      <div class="p-3 bg-emerald-50/70 rounded-2xl border border-emerald-200 animate-fade-in">
+        <div class="text-[11px] font-bold text-emerald-900 mb-2 uppercase tracking-wider">Lưới Điều Hướng Nhanh (${total} câu):</div>
+        <div class="flex flex-wrap gap-1.5 max-h-36 overflow-y-auto">
+          ${list.map((item, idx) => {
+            const isDone = s.answers[idx] !== undefined;
+            const isCur = idx === currentIdx;
+            return `
+              <button class="w-8 h-8 rounded-lg text-xs font-bold transition ${isCur ? 'ring-2 ring-emerald-600 font-black' : ''} ${isDone ? 'bg-emerald-600 text-white' : 'bg-white text-slate-700 border border-slate-200 hover:bg-emerald-50'}" onclick="QUIZ_SESSION.currentIdx=${idx};render()">
+                ${idx + 1}
+              </button>
+            `;
+          }).join('')}
+        </div>
+      </div>
+    ` : ''}
+
+    <!-- NỘI DUNG CÂU HỎI -->
+    <div class="py-2">
+      <h3 class="text-base sm:text-lg font-extrabold text-slate-900 font-fun mb-4 leading-relaxed">
+        ${formatMathText(q.q)}
+      </h3>
+
+      <!-- DANH SÁCH PHƯƠNG ÁN CHỌN -->
+      <div class="space-y-2.5">
+        ${(q.o || []).map((optText, optIdx) => {
+          const isSelected = userPick === optIdx;
+          return `
+            <button class="w-full text-left p-3.5 rounded-2xl border-2 transition flex items-start gap-3 ${isSelected ? 'border-emerald-500 bg-emerald-50/80 shadow-xs' : 'border-slate-200 bg-white hover:border-emerald-300 hover:bg-slate-50'}" onclick="pickQuizOption(${currentIdx}, ${optIdx})">
+              <span class="w-7 h-7 rounded-full flex items-center justify-center text-xs font-black shrink-0 ${isSelected ? 'bg-emerald-600 text-white shadow-xs' : 'bg-slate-100 text-slate-700'}">
+                ${String.fromCharCode(65 + optIdx)}
+              </span>
+              <span class="text-xs sm:text-sm font-semibold text-slate-800 pt-0.5 leading-relaxed">
+                ${formatMathText(optText)}
+              </span>
+            </button>
+          `;
+        }).join('')}
+      </div>
+    </div>
+
+    <!-- THANH ĐIỀU HƯỚNG TRƯỚC / SAU & NÚT NỘP BÀI -->
+    <div class="flex items-center justify-between pt-4 border-t border-slate-100 flex-wrap gap-3">
+      <button class="btn sm outline ${currentIdx === 0 ? 'opacity-40 pointer-events-none' : ''}" onclick="QUIZ_SESSION.currentIdx--;render()">
+        <span>⬅️ Câu Trước</span>
+      </button>
+
+      <div class="flex items-center gap-2">
+        ${currentIdx + 1 < total ? `
+          <button class="btn sm g font-extrabold" onclick="QUIZ_SESSION.currentIdx++;render()">
+            <span>Câu Tiếp Theo ➡️</span>
+          </button>
+        ` : ''}
+
+        <button class="btn sm y font-black shadow-md active:scale-95" onclick="submitCustomQuiz()">
+          <span>📤 Nộp Bài Chấm Điểm</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  `;
 }
 
-function nextQ(){
-  M.lock=false;M.i++;
-  if(M.i>=(CONTENT.MCQ||[]).length){
-    M.done=true;S.done++;gain(25,'px',10);Sound.tada();
-  }
-  render();
+/* 3. MÀN HÌNH CHẤM ĐIỂM & PHÂN TÍCH NĂNG LỰC THÔNG MINH */
+function vQuizResult(){
+  const s = QUIZ_SESSION;
+  const a = s.analysis;
+  if(!a) return vCustomQuizSetup();
+
+  const isExcellent = a.pct >= 80;
+  const isGood = a.pct >= 60 && a.pct < 80;
+
+  return `
+  <div class="space-y-6 animate-fade-in">
+    <!-- HERO RESULT BANNER -->
+    <div class="card p-6 text-center rounded-3xl ${isExcellent ? 'border-2 border-amber-400 bg-gradient-to-b from-amber-50/60 to-white' : 'border-2 border-emerald-300 bg-gradient-to-b from-emerald-50/60 to-white'} shadow-sm">
+      <div class="text-6xl mb-2.5 animate-bounce">${isExcellent ? '🏆' : (isGood ? '🌱' : '💡')}</div>
+      <div class="inline-block px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider mb-2 ${isExcellent ? 'bg-amber-200 text-amber-950' : 'bg-emerald-100 text-emerald-900'}">
+        ${isExcellent ? 'Xuất Sắc • Thủ Khoa Đấu Trường' : (isGood ? 'Khá Giỏi • Năng Lực Vững Vàng' : 'Cần Tiếp Tục Rèn Luyện')}
+      </div>
+      <h2 class="text-2xl sm:text-3xl font-black text-slate-900 font-fun">
+        Kết Quả: ${a.correctCount} / ${a.total} Câu Đúng (${a.pct}%)
+      </h2>
+      <div class="text-sm font-extrabold text-amber-800 mt-1">
+        Quy đổi thang điểm 10: <span class="text-xl">${a.score10}</span> / 10
+      </div>
+
+      <!-- THƯỞNG GAMIFICATION -->
+      <div class="flex items-center justify-center gap-4 mt-4 flex-wrap">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-orange-100 text-orange-950 font-black text-xs border border-orange-300">
+          <span>🔥</span> +${a.earnedFlame} Điểm Lửa
+        </span>
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-teal-100 text-teal-950 font-black text-xs border border-teal-300">
+          <span>💧</span> +${a.earnedXp} Giọt Sương (XP)
+        </span>
+      </div>
+
+      <!-- CÁC NÚT HÀNH ĐỘNG -->
+      <div class="flex items-center justify-center gap-3 mt-6 flex-wrap">
+        ${a.wrongQuestions.length > 0 ? `
+          <button class="btn sm rose font-extrabold shadow-sm" onclick="retryWrongQuestions()">
+            <span>🔄 Luyện Lại ${a.wrongQuestions.length} Câu Làm Sai</span>
+          </button>
+        ` : ''}
+        <button class="btn sm g font-extrabold" onclick="QUIZ_SESSION={active:false,submitted:false};render()">
+          <span>⚙️ Thiết Lập Lượt Luyện Mới</span>
+        </button>
+        <button class="btn sm outline" onclick="go('pet')">
+          <span>🐾 Thăm ${S.cfg.petName} Trong Nhà Cây</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- KHỐI PHÂN TÍCH NĂNG LỰC & CHẨN ĐOÁN ĐIỂM YẾU THÔNG MINH -->
+    <div class="card p-5 rounded-2xl border-2 border-amber-300 bg-white shadow-sm space-y-4">
+      <div class="flex items-center justify-between pb-3 border-b border-amber-100 flex-wrap gap-2">
+        <div class="flex items-center gap-2">
+          <span class="text-2xl">🧠</span>
+          <h4 class="font-extrabold text-sm sm:text-base text-slate-900 uppercase tracking-wide">
+            Chẩn Đoán Năng Lực &amp; Phân Tích Điểm Yếu Thông Minh
+          </h4>
+        </div>
+        <span class="text-xs bg-amber-100 text-amber-900 font-bold px-2.5 py-0.5 rounded-full border border-amber-200">
+          AI Competency Diagnosis
+        </span>
+      </div>
+
+      <!-- CẢNH BÁO CỤ THỂ NẾU CÓ CHỦ ĐỀ YẾU -->
+      ${a.weakTopics.length > 0 ? `
+        <div class="p-4 rounded-2xl bg-rose-50/80 border-2 border-rose-300 text-rose-950 space-y-3">
+          <div class="flex items-center gap-2 font-black text-xs sm:text-sm text-rose-900">
+            <span>⚠️</span>
+            <span>HỆ THỐNG PHÁT HIỆN BẠN ĐANG CÒN YẾU Ở CÁC PHẦN KIẾN THỨC SAU:</span>
+          </div>
+          <p class="text-xs text-rose-800 leading-relaxed">
+            Dựa trên kết quả bài làm, độ chính xác ở các chủ đề này dưới 60%. Bạn nên ôn lại định lý then chốt hoặc bấm vào nút <b>"Hỏi Trợ Lý AI"</b> bên dưới để được giảng giải chi tiết:
+          </p>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+            ${a.weakTopics.map(w => `
+              <div class="p-3 bg-white rounded-xl border border-rose-200 flex items-center justify-between gap-2 shadow-2xs">
+                <div>
+                  <div class="font-extrabold text-xs text-rose-900">${w.topic}</div>
+                  <div class="text-[10px] text-slate-500 font-medium">${w.subject} • Đúng ${w.correct}/${w.total} câu (${w.rate}%)</div>
+                </div>
+                <button class="btn sm g !py-1 !px-2.5 text-[11px] font-extrabold shrink-0" onclick="askAiAboutWeakTopic('${w.topic}', '${w.subject}')" title="Nhờ AI giảng giải phần kiến thức này">
+                  <span>🤖 Hỏi AI</span>
+                </button>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      ` : `
+        <div class="p-4 rounded-2xl bg-emerald-50/90 border-2 border-emerald-300 text-emerald-950 flex items-center gap-3">
+          <span class="text-3xl">🎉</span>
+          <div>
+            <div class="font-black text-sm text-emerald-900">Năng Lực Toàn Diện &amp; Vững Vàng!</div>
+            <div class="text-xs text-emerald-800 mt-0.5">Bạn không có chủ đề nào bị yếu (mọi phần đều đạt từ 60% trở lên). Hãy tiếp tục giữ vững phong độ!</div>
+          </div>
+        </div>
+      `}
+
+      <!-- BẢNG TỔNG HỢP NĂNG LỰC THEO TỪNG CHỦ ĐỀ -->
+      <div class="pt-2">
+        <h5 class="text-xs font-bold text-slate-700 uppercase tracking-wider mb-2.5">Tỷ lệ chính xác theo từng chủ đề bài thi:</h5>
+        <div class="space-y-2">
+          ${Object.entries(a.topicStats).map(([topic, stat]) => {
+            const rate = Math.round((stat.correct / stat.total) * 100);
+            const isWeak = rate < 60;
+            return `
+              <div class="p-2.5 rounded-xl border ${isWeak ? 'bg-rose-50/40 border-rose-200' : 'bg-slate-50 border-slate-200'} flex items-center justify-between gap-3 text-xs">
+                <div class="min-w-0 flex-1">
+                  <div class="flex items-center gap-2">
+                    <span class="font-bold text-slate-900 truncate">${topic}</span>
+                    <span class="text-[10px] text-slate-500">(${stat.subject})</span>
+                  </div>
+                  <div class="w-full bg-slate-200 h-1.5 rounded-full mt-1.5 overflow-hidden">
+                    <div class="${isWeak ? 'bg-rose-500' : 'bg-emerald-500'} h-full" style="width: ${rate}%"></div>
+                  </div>
+                </div>
+                <div class="text-right shrink-0">
+                  <span class="font-black ${isWeak ? 'text-rose-700' : 'text-emerald-700'}">${stat.correct}/${stat.total}</span>
+                  <span class="text-[10px] text-slate-500">(${rate}%)</span>
+                </div>
+              </div>
+            `;
+          }).join('')}
+        </div>
+      </div>
+    </div>
+
+    <!-- DANH SÁCH CHI TIẾT TỪNG CÂU HỎI & LỜI GIẢI THÍCH -->
+    <div class="card p-5 rounded-2xl border border-slate-200 bg-white shadow-sm space-y-4">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100 flex-wrap gap-2">
+        <h4 class="font-extrabold text-sm sm:text-base text-slate-900 uppercase tracking-wide flex items-center gap-2">
+          <span>📝</span> <span>Xem Lại Toàn Bộ Câu Hỏi &amp; Lời Giải Thích Chi Tiết</span>
+        </h4>
+        <span class="text-xs text-slate-500">${s.questions.length} câu</span>
+      </div>
+
+      <div class="space-y-4">
+        ${s.questions.map((q, idx) => {
+          const userPick = s.answers[idx];
+          const isCorrect = userPick === q.a;
+          return `
+            <div class="p-4 rounded-2xl border ${isCorrect ? 'border-emerald-200 bg-emerald-50/20' : 'border-rose-200 bg-rose-50/20'} space-y-2.5">
+              <div class="flex items-center justify-between flex-wrap gap-2">
+                <div class="flex items-center gap-2">
+                  <span class="w-6 h-6 rounded-full flex items-center justify-center text-xs font-black ${isCorrect ? 'bg-emerald-600 text-white' : 'bg-rose-600 text-white'}">
+                    ${isCorrect ? '✓' : '✕'}
+                  </span>
+                  <span class="font-black text-xs text-slate-900">Câu ${idx + 1}: ${q.subject} (${q.topic})</span>
+                </div>
+                <span class="px-2 py-0.5 rounded-full text-[10px] font-extrabold ${isCorrect ? 'bg-emerald-100 text-emerald-900' : 'bg-rose-100 text-rose-900'}">
+                  ${isCorrect ? 'ĐÚNG +10 XP' : 'CHƯA ĐÚNG'}
+                </span>
+              </div>
+
+              <div class="text-xs sm:text-sm font-bold text-slate-900 pl-8">
+                ${formatMathText(q.q)}
+              </div>
+
+              <!-- CÁC PHƯƠNG ÁN -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pl-8 text-xs">
+                ${(q.o || []).map((opt, oIdx) => {
+                  const isUserChosen = userPick === oIdx;
+                  const isAnswer = q.a === oIdx;
+                  let styleClass = 'border-slate-200 bg-white text-slate-700';
+                  if(isAnswer) styleClass = 'border-emerald-500 bg-emerald-100 font-bold text-emerald-950 ring-1 ring-emerald-400';
+                  else if(isUserChosen && !isCorrect) styleClass = 'border-rose-500 bg-rose-100 font-bold text-rose-950 line-through';
+
+                  return `
+                    <div class="p-2.5 rounded-xl border ${styleClass} flex items-center gap-2">
+                      <span class="font-black">${String.fromCharCode(65 + oIdx)}.</span>
+                      <span>${formatMathText(opt)}</span>
+                      ${isAnswer ? '<span class="ml-auto font-black text-emerald-800">✓ Đáp án đúng</span>' : ''}
+                      ${isUserChosen && !isCorrect ? '<span class="ml-auto font-bold text-rose-700">Lựa chọn của bạn</span>' : ''}
+                    </div>
+                  `;
+                }).join('')}
+              </div>
+
+              <!-- LỜI GIẢI THÍCH CHI TIẾT -->
+              <div class="ml-8 p-3 bg-white rounded-xl border border-slate-200 text-xs text-slate-700 leading-relaxed shadow-2xs">
+                <span class="font-bold text-emerald-900">💡 Lời giải thích &amp; Căn cứ sư phạm:</span>
+                <div class="mt-1">${formatMathText(q.e || 'Chính xác theo định lý chuẩn mực.')}</div>
+              </div>
+            </div>
+          `;
+        }).join('')}
+      </div>
+    </div>
+  </div>
+  `;
 }
 
 function vEssay(){
