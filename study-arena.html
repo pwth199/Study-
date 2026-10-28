@@ -658,6 +658,214 @@ function saveAscensionStages(){
   } catch (e) {}
 }
 
+/* ==================== 2.4 CỬA HÀNG GAMIFICATION & PHỤ KIỆN LINH VẬT ==================== */
+const SHOP_ITEMS = {
+  pets: [
+    {
+      id: 'shop_eagle',
+      name: 'Thần Ưng Tri Thức',
+      title: 'Chúa Tể Bầu Trời Toán Học',
+      desc: 'Tầm nhìn bao quát toàn bộ lý thuyết giải tích và đại số, sải cánh vượt qua mọi kỳ thi.',
+      icon: '🦅',
+      price: 150,
+      avatarUrl: ''
+    },
+    {
+      id: 'shop_fox',
+      name: 'Cáo Thông Thái Euler',
+      title: 'Bậc Thầy Biện Luận Toán Học',
+      desc: 'Nhanh nhẹn, sắc bén, phản xạ giải đề trong chớp mắt và phát hiện mọi bẫy toán học.',
+      icon: '🦊',
+      price: 120,
+      avatarUrl: ''
+    },
+    {
+      id: 'shop_unicorn',
+      name: 'Kỳ Lân Sư Phạm HPU2',
+      title: 'Hộ Linh Tối Thượng Xuân Hòa',
+      desc: 'Biểu tượng của sự tinh khôi, trí tuệ sư phạm đỉnh cao và phẩm chất nhà giáo ưu tú.',
+      icon: '🦄',
+      price: 260,
+      avatarUrl: ''
+    }
+  ],
+  accessories: [
+    {
+      id: 'acc_hat_grad',
+      type: 'hat',
+      name: 'Mũ Cử Nhân Vinh Quy',
+      icon: '🎓',
+      price: 50,
+      desc: 'Tăng 10% uy nghi bục giảng khi tham gia vấn đáp nghiệp vụ sư phạm.'
+    },
+    {
+      id: 'acc_glasses',
+      type: 'glasses',
+      name: 'Kính Tri Thức Nghiên Cứu',
+      icon: '👓',
+      price: 40,
+      desc: 'Kính thần quan sát thấu suốt các công thức và định lý giải tích nhiều biến.'
+    },
+    {
+      id: 'acc_crown',
+      type: 'hat',
+      name: 'Vương Miện Quán Quân HPU2',
+      icon: '👑',
+      price: 120,
+      desc: 'Vinh quang rực rỡ dành cho thủ khoa toán học có chuỗi ngày học xuất sắc.'
+    },
+    {
+      id: 'acc_scarf',
+      type: 'badge',
+      name: 'Khăn Choàng Sư Phạm Trẻ',
+      icon: '🧣',
+      price: 35,
+      desc: 'Ấm áp bước vào mùa thực tập sư phạm tại các trường trung học phổ thông.'
+    },
+    {
+      id: 'acc_medal',
+      type: 'badge',
+      name: 'Huy Chương Vàng Olympic Toán',
+      icon: '🥇',
+      price: 80,
+      desc: 'Minh chứng cho bản lĩnh giải toán siêu việt trên đấu trường học thuật.'
+    },
+    {
+      id: 'acc_house',
+      type: 'decor',
+      name: 'Nhà Nấm Cổ Tích Khu Vườn',
+      icon: '🍄',
+      price: 70,
+      desc: 'Căn nhà nhỏ xinh xắn đặt trong phòng nuôi linh vật giúp bé luôn vui tươi.'
+    }
+  ],
+  seeds: [
+    {
+      id: 'seed_succulent',
+      name: 'Sen Đá Kiên Trì',
+      icon: '🪴',
+      price: 25,
+      maxStage: 3,
+      streakReq: 1,
+      rewardXp: 40,
+      rewardFlame: 25,
+      desc: 'Loài cây mọng nước nhẫn nại, nảy mầm sau mỗi giờ học chăm chỉ.'
+    },
+    {
+      id: 'seed_sunflower',
+      name: 'Hoa Hướng Dương Sư Phạm',
+      icon: '🌻',
+      price: 45,
+      maxStage: 4,
+      streakReq: 2,
+      rewardXp: 80,
+      rewardFlame: 45,
+      desc: 'Luôn hướng về mặt trời chân lý, bung nở rực rỡ khi duy trì chuỗi 2 ngày.'
+    },
+    {
+      id: 'seed_lotus',
+      name: 'Búp Sen Tri Thức Hồ Tây',
+      icon: '🪷',
+      price: 75,
+      maxStage: 4,
+      streakReq: 3,
+      rewardXp: 130,
+      rewardFlame: 70,
+      desc: 'Thanh tao, sâu sắc, tỏa ngát hương thơm nghiệp vụ sư phạm.'
+    },
+    {
+      id: 'seed_bodhi',
+      name: 'Cây Bồ Đề Giác Ngộ',
+      icon: '🌳',
+      price: 120,
+      maxStage: 4,
+      streakReq: 5,
+      rewardXp: 220,
+      rewardFlame: 120,
+      desc: 'Cây cổ thụ tỏa bóng mát linh khí, kết tinh trái ngọt tri thức đỉnh cao.'
+    }
+  ]
+};
+
+function getAccessoryIcon(accId){
+  const found = SHOP_ITEMS.accessories.find(a => a.id === accId);
+  return found ? found.icon : '';
+}
+
+/* ==================== 2.5 BẢNG XẾP HẠNG SERVER (GLOBAL LEADERBOARD) ==================== */
+const STORE_LEADERBOARD = 'sa_global_leaderboard_v2';
+const DEFAULT_LEADERBOARD = [
+  { id: 'lb_1', name: 'Nguyễn Thị Mai Linh', school: 'K49 Sư Phạm Toán HPU2', flame: 1580, streak: 42, done: 38, lvl: 10, petIcon: '🦉', petName: 'Cú Mèo HPU2', badge: '👑 Quán Quân Tri Thức' },
+  { id: 'lb_2', name: 'Trần Quốc Tuấn', school: 'K50 Sư Phạm Toán HPU2', flame: 1340, streak: 35, done: 32, lvl: 9, petIcon: '🐲', petName: 'Thanh Long', badge: '🥈 Bậc Thầy Sư Phạm' },
+  { id: 'lb_3', name: 'Lê Hoàng Nam', school: 'K51 Toán Tin HPU2', flame: 1120, streak: 28, done: 27, lvl: 8, petIcon: '🦅', petName: 'Phượng Hoàng Lửa', badge: '🥉 Chiến Thần Nghiên Cứu' },
+  { id: 'lb_4', name: 'Phạm Thúy Nga', school: 'K50 Sư Phạm Toán HPU2', flame: 960, streak: 24, done: 22, lvl: 7, petIcon: '🐱', petName: 'Mèo May Mắn', badge: '⭐ Siêu Sao Giải Tích' },
+  { id: 'lb_5', name: 'Hoàng Minh Đức', school: 'K49 Sư Phạm Toán HPU2', flame: 830, streak: 19, done: 18, lvl: 6, petIcon: '🌱', petName: 'Bé Mầm Mochi', badge: '✨ Tài Năng Đại Số' },
+  { id: 'lb_6', name: 'Đỗ Thu Hà', school: 'K51 Sư Phạm Toán HPU2', flame: 710, streak: 16, done: 15, lvl: 5, petIcon: '🦉', petName: 'Cú Tri Thức', badge: '📚 Chuyên Gia Xác Suất' },
+  { id: 'lb_7', name: 'Vũ Hải Long', school: 'K52 Sư Phạm Toán HPU2', flame: 590, streak: 12, done: 12, lvl: 4, petIcon: '🐲', petName: 'Tiểu Long', badge: '💡 Thần Đồng Rời Rạc' },
+  { id: 'lb_8', name: 'Bùi Phương Thảo', school: 'K51 Sư Phạm Toán HPU2', flame: 480, streak: 9, done: 10, lvl: 3, petIcon: '🌱', petName: 'Mầm Non', badge: '🌿 Mầm Xanh Hy Vọng' }
+];
+
+function getLeaderboardData(){
+  try {
+    const raw = localStorage.getItem(STORE_LEADERBOARD);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+    }
+  } catch(e){}
+  return [...DEFAULT_LEADERBOARD];
+}
+
+function saveLeaderboardData(list){
+  try {
+    localStorage.setItem(STORE_LEADERBOARD, JSON.stringify(list));
+  } catch(e){}
+}
+
+function syncMyScoreToLeaderboard(){
+  if (typeof isUserLoggedIn !== 'function' || !isUserLoggedIn()) return;
+  const list = getLeaderboardData();
+  const userName = (S.user && S.user.name) ? S.user.name : 'Học viên HPU2';
+  const curPet = (typeof PETS_CATALOG !== 'undefined' && PETS_CATALOG.find(p => p.id === (S.cfg?.petId || 'hpu2_owl'))) || { icon: '🦉', name: 'Cú Mèo' };
+  const petNick = S.cfg?.petName || curPet.name;
+  const myLvl = typeof lvl === 'function' ? lvl() : 1;
+  const myRealm = (typeof ASCENSION_STAGES !== 'undefined' && ASCENSION_STAGES[myLvl - 1]) ? ASCENSION_STAGES[myLvl - 1].realm : `Cấp ${myLvl}`;
+
+  const existingIdx = list.findIndex(item => item.isMe || item.name === userName);
+  const myEntry = {
+    id: existingIdx >= 0 ? list[existingIdx].id : 'user_' + Date.now(),
+    name: userName,
+    school: (S.user && S.user.provider === 'Tùy chọn') ? `${S.grade || 'Năm 1'} Sư Phạm Toán HPU2` : `${S.user?.provider || 'Học viên'} - HPU2`,
+    flame: S.flame || 0,
+    streak: S.streak || 1,
+    done: S.done || 1,
+    lvl: myLvl,
+    petIcon: curPet.icon || '🌱',
+    petName: petNick,
+    badge: `Bậc ${myLvl}: ${myRealm}`,
+    isMe: true,
+    lastActive: TODAY()
+  };
+
+  if (existingIdx >= 0) {
+    list[existingIdx] = myEntry;
+  } else {
+    list.push(myEntry);
+  }
+
+  list.sort((a, b) => (b.flame || 0) - (a.flame || 0));
+  saveLeaderboardData(list);
+}
+
+function gainFlame(points, reason = ''){
+  const p = Math.max(1, parseInt(points, 10) || 5);
+  S.flame = (S.flame || 0) + p;
+  save();
+  try { syncMyScoreToLeaderboard(); } catch(e){}
+  toast(`🔥 +${p} Điểm Lửa! ${reason ? '• ' + reason : ''}`);
+  try { head(); } catch(e){}
+}
+
 const DEFAULT_CFG={
   siteName:'HPU2 Study Arena',
   siteTag:'ĐH Sư Phạm Hà Nội 2',
@@ -1234,7 +1442,21 @@ let S={
   user:null,
   muted:false,
   st:{...defaultSt},
-  cfg:{...DEFAULT_CFG}
+  cfg:{...DEFAULT_CFG},
+  flame:60,
+  inventory:{
+    pets:['hpu2_owl','mochi'],
+    accessories:[],
+    seeds:{ seed_succulent: 2, seed_sunflower: 1 },
+    equipped:{ hat:'', glasses:'', badge:'', decor:'' },
+    gardenPlots:[
+      { id: 1, seedId: 'seed_sunflower', plantName: 'Hoa Hướng Dương Sư Phạm', icon: '🌻', stage: 2, maxStage: 4, waterCount: 2, neededWater: 2, streakReq: 2, plantedAt: TODAY() },
+      { id: 2, seedId: 'seed_succulent', plantName: 'Sen Đá Kiên Trì', icon: '🪴', stage: 1, maxStage: 3, waterCount: 1, neededWater: 2, streakReq: 1, plantedAt: TODAY() },
+      { id: 3, seedId: null, plantName: '', icon: '', stage: 0, maxStage: 0, waterCount: 0, neededWater: 0, streakReq: 0, plantedAt: null },
+      { id: 4, seedId: null, plantName: '', icon: '', stage: 0, maxStage: 0, waterCount: 0, neededWater: 0, streakReq: 0, plantedAt: null }
+    ]
+  },
+  minigameBest:0
 };
 
 try{
@@ -1254,6 +1476,21 @@ if(!S.exam) S.exam='mcq';
 if(!S.remind) S.remind='20:00';
 if(S.xp===undefined||isNaN(S.xp)) S.xp=45;
 if(S.streak===undefined||isNaN(S.streak)) S.streak=1;
+if(S.flame===undefined||isNaN(S.flame)) S.flame=60;
+if(!S.inventory||typeof S.inventory!=='object') S.inventory={};
+if(!Array.isArray(S.inventory.pets)) S.inventory.pets=['hpu2_owl','mochi'];
+if(!Array.isArray(S.inventory.accessories)) S.inventory.accessories=[];
+if(!S.inventory.seeds||typeof S.inventory.seeds!=='object') S.inventory.seeds={ seed_succulent: 2, seed_sunflower: 1 };
+if(!S.inventory.equipped||typeof S.inventory.equipped!=='object') S.inventory.equipped={ hat:'', glasses:'', badge:'', decor:'' };
+if(!Array.isArray(S.inventory.gardenPlots) || S.inventory.gardenPlots.length === 0){
+  S.inventory.gardenPlots=[
+    { id: 1, seedId: 'seed_sunflower', plantName: 'Hoa Hướng Dương Sư Phạm', icon: '🌻', stage: 2, maxStage: 4, waterCount: 2, neededWater: 2, streakReq: 2, plantedAt: TODAY() },
+    { id: 2, seedId: 'seed_succulent', plantName: 'Sen Đá Kiên Trì', icon: '🪴', stage: 1, maxStage: 3, waterCount: 1, neededWater: 2, streakReq: 1, plantedAt: TODAY() },
+    { id: 3, seedId: null, plantName: '', icon: '', stage: 0, maxStage: 0, waterCount: 0, neededWater: 0, streakReq: 0, plantedAt: null },
+    { id: 4, seedId: null, plantName: '', icon: '', stage: 0, maxStage: 0, waterCount: 0, neededWater: 0, streakReq: 0, plantedAt: null }
+  ];
+}
+if(S.minigameBest===undefined||isNaN(S.minigameBest)) S.minigameBest=0;
 if(!S.focus||!Array.isArray(S.focus)||!S.focus.length) S.focus=[...CONTENT.KNOW];
 
 // Khối lớp hợp lệ (ĐÃ LOẠI BỎ TOÀN BỘ CÁC LỚP PHỔ THÔNG. CHỈ CÒN DUY NHẤT 4 NĂM ĐẠI HỌC HPU2)
@@ -1341,13 +1578,18 @@ function gain(xp,k,d){
   }
   S.xp=(S.xp||0)+xp;
   if(k&&S.st&&S.st[k]!==undefined) S.st[k]=Math.min(100,S.st[k]+d);
+  
+  // Gamification: Tự động cộng điểm Lửa (Flame Points) từ việc học
+  const flameBonus = Math.max(3, Math.round(xp * 0.5));
+  S.flame = (S.flame || 0) + flameBonus;
   save();
+  try { syncMyScoreToLeaderboard(); } catch(e){}
   Sound.drop();
   if(lvl()>before){
     Sound.tada();
-    toast(`Chúc mừng! ${S.cfg.petName} đã Đột Phá Thăng Cấp ${lvl()}! 🎉`);
+    toast(`Chúc mừng! ${S.cfg.petName} đã Đột Phá Thăng Cấp ${lvl()}! 🎉 (+${flameBonus} Lửa 🔥)`);
   }else{
-    toast(`+${xp} Giọt sương tri thức (XP)`);
+    toast(`+${xp} Giọt sương (XP) & +${flameBonus} Điểm Lửa 🔥`);
   }
   head();
 }
@@ -1407,7 +1649,8 @@ function head(){
     const tabs=[
       ['learn','🌱 Vườn Học Tập'],
       ['exam','⚔️ Đấu Trường Thi'],
-      ['pet',`🏡 Nhà Cây ${petNick}`]
+      ['pet',`🏡 Nhà Cây & Mini-Game`],
+      ['leaderboard','🏆 Bảng Xếp Hạng']
     ];
     if(S.tab==='admin'){
       tabs.push(['admin','⚙️ Quản Trị Viên']);
@@ -1423,7 +1666,9 @@ function head(){
     chipEl.innerHTML=`
       <span class="inline-flex items-center gap-1 font-extrabold text-emerald-800" title="${curStage.realm}: ${curStage.name || ''}">🪴 Cấp ${curLvl} (${curStage.realm})</span>
       <span class="text-emerald-300">|</span>
-      <span class="inline-flex items-center gap-1 font-bold text-amber-700">🔥 Chuỗi ${S.streak} ngày</span>
+      <span class="inline-flex items-center gap-1 font-extrabold text-amber-800 bg-amber-100/90 px-2 py-0.5 rounded-full border border-amber-300 cursor-pointer hover:bg-amber-200 transition shadow-2xs" onclick="go('pet');S.petTab='shop';render();" title="Điểm Lửa tích lũy từ học tập & giải đố. Nhấp để vào Cửa Hàng Gamification!">🔥 ${S.flame||0} Lửa</span>
+      <span class="text-emerald-300">|</span>
+      <span class="inline-flex items-center gap-1 font-bold text-amber-700">⚡ Chuỗi ${S.streak} ngày</span>
       <span class="text-emerald-300">|</span>
       <span class="inline-flex items-center gap-1 font-bold text-teal-700">💧 ${S.xp} Sương</span>
     `;
@@ -1454,7 +1699,7 @@ function render(){
   if(appEl){
     try{
       if(S.tab==='admin') appEl.innerHTML=vAdminView();
-      else appEl.innerHTML={learn:vLearn,exam:vExam,pet:vPet}[S.tab]();
+      else appEl.innerHTML={learn:vLearn,exam:vExam,pet:vPet,leaderboard:vLeaderboardView}[S.tab]();
       if(window.renderMathInElement){
         try{
           renderMathInElement(appEl, {
@@ -4805,8 +5050,9 @@ function doneWeek(i, v){
     S.plan[i].d = v;
     if (v) {
       gain(25, 'gn', 8);
+      gainFlame(30, `Hoàn thành ${lab(i)}`);
       Sound.correct && Sound.correct();
-      toast(`Xuất sắc! Hoàn thành ${lab(i)} 🎉`);
+      toast(`Xuất sắc! Hoàn thành ${lab(i)} 🎉 (+30 Lửa 🔥)`);
     } else {
       save();
     }
@@ -5632,25 +5878,39 @@ function vPet(){
         <button class="tab ${S.petTab==='garden'?'on':'bg-white/80'}" onclick="S.petTab='garden';render()">
           🏡 Phòng & Chăm Sóc ${petNick}
         </button>
+        <button class="tab ${S.petTab==='digital_garden'?'on':'bg-white/80'}" onclick="S.petTab='digital_garden';render()">
+          🌱 Khu Vườn Số (Trồng Cây)
+        </button>
+        <button class="tab ${S.petTab==='shop'?'on':'bg-white/80'}" onclick="S.petTab='shop';render()">
+          🛍️ Cửa Hàng Gamification
+        </button>
+        <button class="tab ${S.petTab==='minigame'?'on':'bg-white/80'}" onclick="S.petTab='minigame';render()">
+          🎮 Toán Tốc Độ 60s
+        </button>
         <button class="tab ${S.petTab==='ascend'?'on':'bg-white/80'}" onclick="S.petTab='ascend';render()">
-          🗺️ Lộ Trình Thăng Tiến (${maxLvl} Cấp Độ)
+          🗺️ Lộ Trình Thăng Tiến (${maxLvl} Cấp)
         </button>
         <button class="tab ${S.petTab==='customize'?'on':'bg-white/80'}" onclick="S.petTab='customize';render()">
-          ✨ Tùy Chỉnh Linh Vật & Giao Diện
+          ✨ Tùy Chỉnh
         </button>
       </div>
 
       <div class="flex items-center gap-2">
-        <button class="btn sm outline !py-1 text-xs" onclick="S.petTab='customize';render()" title="Đổi linh thú hoặc giao diện yêu thích">
-          <span>🎨</span> <span>Đổi Linh Vật / Giao Diện</span>
-        </button>
-        <div class="text-xs font-bold px-3 py-1 bg-amber-100 text-amber-900 rounded-full border border-amber-300">
+        <div class="flex items-center gap-1.5 px-3 py-1 bg-amber-500/15 text-amber-900 rounded-full border border-amber-300 font-extrabold text-xs shadow-sm">
+          <span>🔥</span> <b>${S.flame||0}</b> <span>Lửa</span>
+        </div>
+        <div class="text-xs font-bold px-3 py-1 bg-emerald-100 text-emerald-900 rounded-full border border-emerald-300">
           Cảnh giới: <b>${curStage.realm}</b> (${curLvl}/${maxLvl})
         </div>
       </div>
     </div>
 
-    ${S.petTab==='ascend' ? vAscensionMap() : (S.petTab==='customize' ? vUserCustomizationView() : vGardenRoom(m,msg,curStage,need))}
+    ${S.petTab==='digital_garden' ? vDigitalGardenView() :
+      S.petTab==='shop' ? vGamificationShopView() :
+      S.petTab==='minigame' ? vSpeedMathGameView() :
+      S.petTab==='ascend' ? vAscensionMap() :
+      S.petTab==='customize' ? vUserCustomizationView() :
+      vGardenRoom(m,msg,curStage,need)}
   </div>
   `;
 }
@@ -5662,18 +5922,27 @@ function vGardenRoom(m,msg,curStage,need){
   const petNick = S.cfg.petName || curPet.name;
   const petImg = S.cfg.customPetUrl || curPet.avatarUrl;
 
+  const eqHat = S.inventory?.equipped?.hat ? getAccessoryIcon(S.inventory.equipped.hat) : '';
+  const eqGlasses = S.inventory?.equipped?.glasses ? getAccessoryIcon(S.inventory.equipped.glasses) : '';
+  const eqBadge = S.inventory?.equipped?.badge ? getAccessoryIcon(S.inventory.equipped.badge) : '';
+  const eqDecor = S.inventory?.equipped?.decor ? getAccessoryIcon(S.inventory.equipped.decor) : '';
+
   return `
   <div class="grid lg:grid-cols-2 gap-6">
     <section class="card text-center border-t-4 border-t-emerald-600 relative overflow-hidden">
+      ${eqDecor ? `<div class="absolute top-2 left-3 text-2xl filter drop-shadow opacity-90" title="Vật phẩm trang trí phòng">${eqDecor}</div>` : ''}
       <div class="flex items-center justify-between mb-1">
         <span class="text-xs font-bold text-teal-800 bg-teal-50 px-2.5 py-1 rounded-full border border-teal-200">${curPet.title||'Linh Thú'}</span>
-        <button class="btn sm outline !py-1 text-[11px]" onclick="S.petTab='customize';render()">✏️ Đổi Tên / Đổi Bé</button>
+        <div class="flex items-center gap-1.5">
+          <button class="btn sm outline !py-1 text-[11px]" onclick="S.petTab='customize';render()">✏️ Đổi Tên</button>
+          <button class="btn sm y !py-1 text-[11px]" onclick="S.petTab='shop';render()">🛍️ Cửa Hàng</button>
+        </div>
       </div>
       <h2 class="font-extrabold text-xl text-emerald-950 font-fun">Nhà Cây Của ${petNick}</h2>
       <p class="text-xs text-emerald-700 mt-0.5">Người bạn đồng hành lớn lên cùng sự chăm chỉ của em</p>
 
       <div class="my-5 relative inline-block">
-        <div class="w-40 h-40 mx-auto rounded-full bg-gradient-to-tr from-emerald-100 via-teal-50 to-amber-100 border-4 border-emerald-300/80 shadow-inner flex items-center justify-center anim-glow overflow-hidden">
+        <div class="w-40 h-40 mx-auto rounded-full bg-gradient-to-tr from-emerald-100 via-teal-50 to-amber-100 border-4 border-emerald-300/80 shadow-inner flex items-center justify-center anim-glow overflow-hidden relative">
           ${petImg ? `
             <img src="${petImg}" class="w-full h-full object-cover">
           ` : `
@@ -5682,7 +5951,21 @@ function vGardenRoom(m,msg,curStage,need){
             </div>
           `}
         </div>
-        <span class="absolute bottom-1 right-2 text-3xl filter drop-shadow">${m}</span>
+        ${eqHat ? `<span class="absolute -top-3 left-1/2 -translate-x-1/2 text-4xl filter drop-shadow z-20 pointer-events-none" title="Mũ: ${eqHat}">${eqHat}</span>` : ''}
+        ${eqGlasses ? `<span class="absolute top-12 left-1/2 -translate-x-1/2 text-3xl filter drop-shadow z-20 pointer-events-none" title="Kính: ${eqGlasses}">${eqGlasses}</span>` : ''}
+        ${eqBadge ? `<span class="absolute bottom-1 left-2 text-3xl filter drop-shadow z-20" title="Phụ kiện">${eqBadge}</span>` : ''}
+        <span class="absolute bottom-1 right-2 text-3xl filter drop-shadow z-20">${m}</span>
+      </div>
+
+      <div class="flex items-center justify-center gap-2 mb-2 flex-wrap">
+        <span class="px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-950 border border-amber-300 text-xs font-extrabold flex items-center gap-1 shadow-xs">
+          🔥 <span>${S.flame||0} Điểm Lửa</span>
+        </span>
+        ${(eqHat || eqGlasses || eqBadge || eqDecor) ? `
+          <span class="px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-900 border border-indigo-200 text-xs font-semibold flex items-center gap-1">
+            <span>Đang mặc:</span> <b>${[eqHat, eqGlasses, eqBadge, eqDecor].filter(Boolean).join(' ')}</b>
+          </span>
+        ` : ''}
       </div>
 
       <h3 class="text-lg font-extrabold text-emerald-950 font-fun">${curStage.realm}: ${petNick} (${curPet.name})</h3>
@@ -5714,9 +5997,14 @@ function vGardenRoom(m,msg,curStage,need){
         </div>
       </div>
 
-      <button class="btn y w-full mt-5" onclick="waterPlant()">
-        <span>💧</span> <span>Điểm Danh & Tưới Nước Hôm Nay (+10 Giọt Sương)</span>
-      </button>
+      <div class="grid grid-cols-2 gap-2 mt-5">
+        <button class="btn y w-full" onclick="waterPlant()">
+          <span>💧</span> <span>Tưới Nước (+10 XP, +5 Lửa)</span>
+        </button>
+        <button class="btn g w-full" onclick="S.petTab='digital_garden';render()">
+          <span>🌱</span> <span>Vào Khu Vườn Số</span>
+        </button>
+      </div>
     </section>
 
     <section class="card border-t-4 border-t-teal-600 flex flex-col justify-between">
@@ -5734,7 +6022,27 @@ function vGardenRoom(m,msg,curStage,need){
         </div>
       </div>
 
-      <div class="mt-6 pt-4 border-t border-emerald-100">
+      <!-- LỐI TẮT GAMIFICATION & MINI-GAME -->
+      <div class="mt-4 p-3.5 bg-gradient-to-r from-amber-50 to-emerald-50 rounded-2xl border border-amber-200/80">
+        <div class="flex items-center justify-between mb-2">
+          <div class="flex items-center gap-2">
+            <span class="text-xl">🎮</span>
+            <div>
+              <div class="font-extrabold text-xs text-amber-950">Đấu Trường Toán Học Mini-game 60s</div>
+              <div class="text-[11px] text-amber-800">Kiếm thêm Lửa 🔥 & rèn luyện phản xạ tính toán tức thì</div>
+            </div>
+          </div>
+          <button class="btn y sm !py-1 text-xs" onclick="S.petTab='minigame';render()">
+            Chơi Ngay 🚀
+          </button>
+        </div>
+        <div class="flex items-center justify-between text-xs text-amber-900 font-semibold pt-1 border-t border-amber-200/60">
+          <span>Kỷ lục điểm cao: <b>${S.minigameBest || 0} pts</b></span>
+          <button class="text-teal-700 hover:underline font-bold" onclick="S.petTab='shop';render()">🛍️ Mở Cửa Hàng →</button>
+        </div>
+      </div>
+
+      <div class="mt-4 pt-3 border-t border-emerald-100">
         <h3 class="font-extrabold text-sm text-emerald-950 mb-1 flex items-center gap-1.5">
           <span>⏰</span> <span>Nhắc Học Hằng Ngày</span>
         </h3>
@@ -6105,7 +6413,8 @@ function waterPlant(){
   Sound.drop();
   const curP = PETS_CATALOG.find(p=>p.id===(S.cfg.petId||'mochi')) || PETS_CATALOG[0] || {name:'Mochi',icon:'🌱'};
   const petNick = S.cfg.petName || curP.name;
-  toast(`Bạn đã tưới cho ${petNick} một giọt sương mát lành! 💧`);
+  gainFlame(5, 'Tưới nước chăm sóc ' + petNick);
+  toast(`Bạn đã tưới cho ${petNick} một giọt sương mát lành! 💧 (+5 Lửa)`);
   render();
 }
 
@@ -6135,6 +6444,1136 @@ setInterval(()=>{
     }
   }catch(e){}
 },30000);
+
+/* ==================== 14. KHU VƯỜN SỐ (DIGITAL GARDEN) ==================== */
+function vDigitalGardenView(){
+  if(!Array.isArray(S.inventory?.gardenPlots) || S.inventory.gardenPlots.length < 4){
+    if(!S.inventory) S.inventory = {};
+    S.inventory.gardenPlots = [
+      { id: 1, seedId: 'seed_sunflower', plantName: 'Hoa Hướng Dương Sư Phạm', icon: '🌻', stage: 2, maxStage: 4, waterCount: 2, neededWater: 2, streakReq: 2, plantedAt: TODAY() },
+      { id: 2, seedId: 'seed_succulent', plantName: 'Sen Đá Kiên Trì', icon: '🪴', stage: 1, maxStage: 3, waterCount: 1, neededWater: 2, streakReq: 1, plantedAt: TODAY() },
+      { id: 3, seedId: null, plantName: '', icon: '', stage: 0, maxStage: 0, waterCount: 0, neededWater: 0, streakReq: 0, plantedAt: null },
+      { id: 4, seedId: null, plantName: '', icon: '', stage: 0, maxStage: 0, waterCount: 0, neededWater: 0, streakReq: 0, plantedAt: null }
+    ];
+  }
+  const plots = S.inventory.gardenPlots;
+  const seeds = S.inventory.seeds || {};
+  const seedKeys = Object.keys(seeds).filter(k => seeds[k] > 0);
+  const STAGE_NAMES = ['Đất Trống', '🌱 Mầm Non', '🌿 Cây Con', '🌷 Đơm Nụ', '🌺 Nở Rộ Rực Rỡ'];
+
+  return `
+  <div class="space-y-6">
+    <!-- BANNER KHU VƯỜN SỐ -->
+    <div class="card bg-gradient-to-r from-emerald-600 via-teal-700 to-green-700 text-white p-6 shadow-md border-0 relative overflow-hidden">
+      <div class="relative z-10 max-w-2xl">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 backdrop-blur-sm text-xs font-bold mb-3">
+          <span>🌱</span> <span>Khu Vườn Số Sư Phạm Toán HPU2</span>
+        </div>
+        <h2 class="text-2xl lg:text-3xl font-extrabold font-fun mb-2 text-white">Vườn Ươm Tri Thức & Nhân Cách Nhà Giáo</h2>
+        <p class="text-emerald-100 text-xs sm:text-sm leading-relaxed mb-4">
+          Nơi gieo mầm các loài hoa biểu trưng cho ý chí học tập toán học. Bạn hãy dùng điểm Lửa 🔥 và chuỗi ngày chuyên cần để tưới nước, giúp cây đơm hoa kết trái và thu hoạch những mốc thưởng XP vượt bậc!
+        </p>
+        <div class="flex items-center gap-3 flex-wrap">
+          <div class="px-3.5 py-1.5 rounded-xl bg-black/25 backdrop-blur-sm border border-white/25 font-bold text-xs flex items-center gap-2">
+            <span>🔥 Điểm Lửa:</span> <b class="text-amber-300 text-sm">${S.flame||0}</b>
+          </div>
+          <div class="px-3.5 py-1.5 rounded-xl bg-black/25 backdrop-blur-sm border border-white/25 font-bold text-xs flex items-center gap-2">
+            <span>⚡ Chuỗi Ngày:</span> <b class="text-emerald-200 text-sm">${S.streak||1} ngày</b>
+          </div>
+          <button class="btn y sm !py-1 text-xs" onclick="S.petTab='shop';window.SHOP_ACTIVE_FILTER='seeds';render()">
+            <span>🛍️</span> <span>Sắm Thêm Hạt Giống Thần Kỳ</span>
+          </button>
+        </div>
+      </div>
+      <div class="absolute -right-6 -bottom-8 opacity-25 text-9xl select-none pointer-events-none">🪴</div>
+    </div>
+
+    <!-- TÚI HẠT GIỐNG HIỆN CÓ -->
+    <div class="card border border-emerald-200 bg-white shadow-sm">
+      <div class="flex items-center justify-between flex-wrap gap-2 mb-3">
+        <h3 class="font-extrabold text-emerald-950 text-base flex items-center gap-2">
+          <span>🎒</span> <span>Túi Hạt Giống Đang Có</span>
+        </h3>
+        <span class="text-xs text-emerald-700">Chọn hạt giống để gieo vào các ô đất bên dưới</span>
+      </div>
+
+      ${seedKeys.length === 0 ? `
+        <div class="p-4 rounded-xl bg-amber-50/70 border border-amber-200 text-center">
+          <p class="text-xs text-amber-900 font-semibold mb-2">Túi hạt giống đang trống! Hãy ghé Cửa Hàng Gamification để sắm các hạt giống hoa Sen đá, Hướng dương hay Cây bồ đề giác ngộ.</p>
+          <button class="btn sm y" onclick="S.petTab='shop';window.SHOP_ACTIVE_FILTER='seeds';render()">🛍️ Ghé Cửa Hàng Mua Hạt Giống</button>
+        </div>
+      ` : `
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          ${seedKeys.map(k => {
+            const seedInfo = SHOP_ITEMS.seeds.find(s => s.id === k) || { name: k, icon: '🌱' };
+            const qty = seeds[k];
+            return `
+              <div class="p-3 rounded-xl border border-emerald-200 bg-emerald-50/40 flex items-center justify-between shadow-2xs">
+                <div class="flex items-center gap-2.5">
+                  <span class="text-3xl">${seedInfo.icon}</span>
+                  <div>
+                    <div class="font-bold text-xs text-emerald-950">${seedInfo.name}</div>
+                    <div class="text-[11px] text-emerald-700 font-semibold">Tồn kho: <b class="text-emerald-900">x${qty}</b></div>
+                  </div>
+                </div>
+              </div>
+            `;
+          }).join('')}
+        </div>
+      `}
+    </div>
+
+    <!-- LƯỚI 4 Ô ĐẤT TRỒNG CÂY -->
+    <div>
+      <div class="flex items-center justify-between mb-3">
+        <h3 class="font-extrabold text-emerald-950 text-lg flex items-center gap-2">
+          <span>🌾</span> <span>Các Ô Đất Ươm Mầm (4 Ô)</span>
+        </h3>
+        <span class="text-xs text-emerald-700 font-semibold">Tưới nước đều đặn để nhận hoa thơm trái ngọt</span>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        ${plots.map(plot => {
+          const isEmpty = !plot.seedId;
+          const isHarvestable = !isEmpty && plot.stage >= plot.maxStage;
+          const stagePercent = isEmpty ? 0 : Math.min(100, Math.round((plot.stage / plot.maxStage) * 100));
+
+          let displayIcon = '🟫';
+          if (!isEmpty) {
+            if (plot.stage === 1) displayIcon = '🌱';
+            else if (plot.stage === 2) displayIcon = '🌿';
+            else if (plot.stage === 3) displayIcon = '🌷';
+            else displayIcon = plot.icon || '🌸';
+          }
+
+          return `
+          <div class="card text-center p-4 rounded-2xl border-2 transition ${isEmpty ? 'border-dashed border-emerald-300 bg-emerald-50/20' : (isHarvestable ? 'border-amber-400 bg-amber-50/30 shadow-md ring-2 ring-amber-300' : 'border-emerald-200 bg-white shadow-sm')} flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between text-xs font-bold text-emerald-900 mb-2">
+                <span>Ô Đất #${plot.id}</span>
+                ${isEmpty ? '<span class="text-slate-400 font-normal">Đang trống</span>' : (isHarvestable ? '<span class="px-2 py-0.5 rounded-full bg-amber-200 text-amber-900 font-extrabold text-[10px] animate-pulse">Sẵn sàng thu hoạch!</span>' : `<span class="text-teal-700 text-[11px] font-semibold">${STAGE_NAMES[plot.stage] || 'Cây con'}</span>`)}
+              </div>
+
+              <!-- HÌNH ẢNH CÂY TRỒNG TRỰC QUAN -->
+              <div class="w-24 h-24 mx-auto rounded-2xl bg-gradient-to-b ${isEmpty ? 'from-amber-100 to-amber-200/60' : 'from-emerald-50 to-teal-100'} border-2 border-emerald-200/70 flex items-center justify-center my-2 shadow-inner relative overflow-hidden">
+                <span class="text-5xl ${isHarvestable ? 'anim-float' : ''}">${displayIcon}</span>
+                ${isHarvestable ? '<span class="absolute top-1 right-1 text-sm">✨</span>' : ''}
+              </div>
+
+              ${isEmpty ? `
+                <p class="text-xs text-slate-500 font-medium my-2">Ô đất đang sẵn sàng đón nhận hạt giống mới</p>
+                <div class="mt-3">
+                  ${seedKeys.length > 0 ? `
+                    <select id="seedSelect_${plot.id}" class="text-xs p-1.5 rounded-lg border border-emerald-300 mb-2 w-full font-semibold">
+                      ${seedKeys.map(k => {
+                        const s = SHOP_ITEMS.seeds.find(item => item.id === k);
+                        return `<option value="${k}">${s ? s.icon + ' ' + s.name : k} (còn ${seeds[k]})</option>`;
+                      }).join('')}
+                    </select>
+                    <button class="btn sm g w-full !py-1.5 text-xs font-bold" onclick="plantSeed(${plot.id})">
+                      🌱 Gieo Hạt Ngay
+                    </button>
+                  ` : `
+                    <button class="btn sm outline w-full !py-1.5 text-xs" onclick="S.petTab='shop';window.SHOP_ACTIVE_FILTER='seeds';render()">
+                      🛒 Mua Hạt Giống
+                    </button>
+                  `}
+                </div>
+              ` : `
+                <div class="my-2">
+                  <h4 class="font-extrabold text-sm text-emerald-950 font-fun">${plot.plantName}</h4>
+                  <div class="text-[11px] text-emerald-700">Tiến độ trưởng thành: <b>${plot.stage}/${plot.maxStage}</b></div>
+                  <div class="bar mt-1.5 mb-1 !h-2">
+                    <i style="width:${stagePercent}%" class="!bg-gradient-to-r !from-emerald-500 !to-teal-400"></i>
+                  </div>
+                  <div class="text-[10px] text-slate-500 flex justify-between font-semibold">
+                    <span>Đã tưới: <b>${plot.waterCount||0} lần</b></span>
+                    <span>Streak: <b>${S.streak} ngày</b></span>
+                  </div>
+                </div>
+
+                <div class="mt-3">
+                  ${isHarvestable ? `
+                    <button class="btn sm y w-full !py-1.5 text-xs font-extrabold shadow-sm anim-glow" onclick="harvestPlant(${plot.id})">
+                      🌾 Thu Hoạch Tri Thức (+50 Lửa, +80 XP)
+                    </button>
+                  ` : `
+                    <button class="btn sm g w-full !py-1.5 text-xs font-bold" onclick="waterDigitalPlant(${plot.id})">
+                      💧 Tưới Nước (-2 Lửa)
+                    </button>
+                  `}
+                </div>
+              `}
+            </div>
+
+            ${!isEmpty ? `
+              <div class="mt-2 pt-2 border-t border-slate-100 text-[10px] text-slate-400">
+                Gieo ngày: ${plot.plantedAt || TODAY()}
+              </div>
+            ` : ''}
+          </div>
+          `;
+        }).join('')}
+      </div>
+    </div>
+  </div>
+  `;
+}
+
+function plantSeed(plotId){
+  if(typeof isUserLoggedIn === 'function' && !isUserLoggedIn()){
+    promptLogin('Bạn cần đăng nhập tài khoản để gieo hạt và lưu giữ thành quả khu vườn số vĩnh viễn!');
+    return;
+  }
+  const selEl = $(`#seedSelect_${plotId}`);
+  const seedId = selEl ? selEl.value : null;
+  if(!seedId || !S.inventory?.seeds?.[seedId]){
+    toast('⚠️ Bạn không còn hạt giống này trong túi!');
+    return;
+  }
+  const plot = S.inventory.gardenPlots.find(p => p.id === plotId);
+  if(!plot){ toast('Ô đất không hợp lệ!'); return; }
+  const sInfo = SHOP_ITEMS.seeds.find(s => s.id === seedId) || { name: 'Cây Tri Thức', icon: '🌱', maxStage: 4, streakReq: 1 };
+
+  S.inventory.seeds[seedId]--;
+  if(S.inventory.seeds[seedId] <= 0) delete S.inventory.seeds[seedId];
+
+  plot.seedId = seedId;
+  plot.plantName = sInfo.name;
+  plot.icon = sInfo.icon;
+  plot.stage = 1;
+  plot.maxStage = sInfo.maxStage || 4;
+  plot.waterCount = 0;
+  plot.neededWater = 2;
+  plot.streakReq = sInfo.streakReq || 1;
+  plot.plantedAt = TODAY();
+
+  Sound.drop();
+  save();
+  toast(`🌱 Đã gieo thành công hạt giống ${sInfo.name} vào ô #${plotId}!`);
+  render();
+}
+
+function waterDigitalPlant(plotId){
+  if(typeof isUserLoggedIn === 'function' && !isUserLoggedIn()){
+    promptLogin('Bạn cần đăng nhập tài khoản để chăm sóc khu vườn số!');
+    return;
+  }
+  const plot = S.inventory?.gardenPlots?.find(p => p.id === plotId);
+  if(!plot || !plot.seedId){ toast('Ô đất này chưa có cây!'); return; }
+  if(plot.stage >= plot.maxStage){
+    toast('🌸 Cây đã trưởng thành rực rỡ! Hãy bấm nút Thu Hoạch Tri Thức.');
+    return;
+  }
+
+  if((S.flame || 0) >= 2){
+    S.flame -= 2;
+  }
+  plot.waterCount = (plot.waterCount || 0) + 1;
+  Sound.drop();
+
+  if(plot.waterCount >= 2){
+    plot.stage = Math.min(plot.maxStage, plot.stage + 1);
+    plot.waterCount = 0;
+    Sound.fanfare();
+    toast(`✨ Cây ${plot.plantName} đã hấp thụ dưỡng chất và lớn lên giai đoạn ${plot.stage}/${plot.maxStage}!`);
+  }else{
+    toast(`💧 Bạn đã tưới nước cho cây ${plot.plantName}! Thêm 1 lần tưới nữa cây sẽ thăng cấp.`);
+  }
+
+  save();
+  try{ head(); }catch(e){}
+  render();
+}
+
+function harvestPlant(plotId){
+  if(typeof isUserLoggedIn === 'function' && !isUserLoggedIn()){
+    promptLogin('Bạn cần đăng nhập tài khoản để thu hoạch phần thưởng!');
+    return;
+  }
+  const plot = S.inventory?.gardenPlots?.find(p => p.id === plotId);
+  if(!plot || !plot.seedId){ toast('Ô đất này chưa có cây!'); return; }
+  if(plot.stage < plot.maxStage){
+    toast('Cây chưa nở hoa kết trái, hãy tiếp tục chăm sóc nhé!');
+    return;
+  }
+
+  const sInfo = SHOP_ITEMS.seeds.find(s => s.id === plot.seedId) || { rewardXp: 80, rewardFlame: 50 };
+  const rwXp = sInfo.rewardXp || 80;
+  const rwFlame = sInfo.rewardFlame || 50;
+
+  gain(rwXp, 'kt', 10);
+  gainFlame(rwFlame, `Thu hoạch ${plot.plantName}`);
+  Sound.fanfare();
+
+  const plantName = plot.plantName;
+  plot.seedId = null;
+  plot.plantName = '';
+  plot.icon = '';
+  plot.stage = 0;
+  plot.maxStage = 0;
+  plot.waterCount = 0;
+  plot.plantedAt = null;
+
+  save();
+  toast(`🎉 Chúc mừng bạn đã thu hoạch thành công ${plantName}! Nhận +${rwFlame} Lửa 🔥 và +${rwXp} XP tri thức!`);
+  render();
+}
+
+/* ==================== 15. CỬA HÀNG GAMIFICATION & PHỤ KIỆN ==================== */
+function vGamificationShopView(){
+  if(!window.SHOP_ACTIVE_FILTER) window.SHOP_ACTIVE_FILTER = 'all';
+  const curFilter = window.SHOP_ACTIVE_FILTER;
+
+  const myPets = S.inventory?.pets || ['hpu2_owl','mochi'];
+  const myAccs = S.inventory?.accessories || [];
+  const mySeeds = S.inventory?.seeds || {};
+  const equipped = S.inventory?.equipped || { hat:'', glasses:'', badge:'', decor:'' };
+
+  const allItems = [
+    ...SHOP_ITEMS.pets.map(p => ({ ...p, category: 'pets', catName: '🐾 Linh Thú Mới' })),
+    ...SHOP_ITEMS.accessories.map(a => ({ ...a, category: 'accessories', catName: '🎩 Phụ Kiện' })),
+    ...SHOP_ITEMS.seeds.map(s => ({ ...s, category: 'seeds', catName: '🌱 Hạt Giống' }))
+  ];
+
+  const filteredItems = curFilter === 'all' ? allItems : allItems.filter(i => i.category === curFilter);
+
+  return `
+  <div class="space-y-6">
+    <!-- SHOP HERO BANNER -->
+    <div class="card bg-gradient-to-r from-amber-500 via-orange-600 to-rose-600 text-white p-6 shadow-md border-0 relative overflow-hidden">
+      <div class="relative z-10 max-w-2xl">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 backdrop-blur-sm text-xs font-bold mb-3">
+          <span>🛍️</span> <span>Cửa Hàng Gamification Sư Phạm Toán HPU2</span>
+        </div>
+        <h2 class="text-2xl lg:text-3xl font-extrabold font-fun mb-2 text-white">Chợ Đổi Thưởng & Linh Vật Tri Thức</h2>
+        <p class="text-amber-100 text-xs sm:text-sm leading-relaxed mb-4">
+          Dùng số điểm "Lửa" tích lũy từ những giờ học chăm chỉ, những câu hỏi trắc nghiệm đúng và thử thách 60s để sắm cho bé linh vật các phụ kiện lộng lẫy, mở khóa thần thú hộ mệnh hoặc ươm mầm hạt giống thần kỳ.
+        </p>
+        <div class="flex items-center gap-3 flex-wrap">
+          <div class="px-4 py-2 rounded-xl bg-black/30 backdrop-blur-sm border border-white/30 font-extrabold text-sm flex items-center gap-2 shadow-inner">
+            <span>🔥 Điểm Lửa Hiện Có:</span> <b class="text-amber-300 text-lg">${S.flame||0}</b>
+          </div>
+          <button class="btn sm bg-white text-orange-900 font-extrabold hover:bg-amber-100" onclick="S.petTab='minigame';render()">
+            🎮 Kiếm Thêm Lửa (Mini-game 60s)
+          </button>
+        </div>
+      </div>
+      <div class="absolute -right-6 -bottom-8 opacity-25 text-9xl select-none pointer-events-none">🎁</div>
+    </div>
+
+    <!-- TABS LỌC MẶT HÀNG -->
+    <div class="flex items-center justify-between flex-wrap gap-2">
+      <div class="flex flex-wrap gap-2">
+        <button class="tab ${curFilter==='all'?'on':'bg-white'}" onclick="window.SHOP_ACTIVE_FILTER='all';render()">
+          Tất Cả (${allItems.length})
+        </button>
+        <button class="tab ${curFilter==='pets'?'on':'bg-white'}" onclick="window.SHOP_ACTIVE_FILTER='pets';render()">
+          🐾 Linh Thú Mới (${SHOP_ITEMS.pets.length})
+        </button>
+        <button class="tab ${curFilter==='accessories'?'on':'bg-white'}" onclick="window.SHOP_ACTIVE_FILTER='accessories';render()">
+          🎩 Phụ Kiện Thú Nuôi (${SHOP_ITEMS.accessories.length})
+        </button>
+        <button class="tab ${curFilter==='seeds'?'on':'bg-white'}" onclick="window.SHOP_ACTIVE_FILTER='seeds';render()">
+          🌱 Hạt Giống Vườn Số (${SHOP_ITEMS.seeds.length})
+        </button>
+      </div>
+
+      <div class="text-xs text-slate-600 font-semibold">
+        Đăng nhập để sở hữu vật phẩm vĩnh viễn trên server
+      </div>
+    </div>
+
+    <!-- LƯỚI DANH SÁCH VẬT PHẨM -->
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      ${filteredItems.map(item => {
+        const isPet = item.category === 'pets';
+        const isAcc = item.category === 'accessories';
+        const isSeed = item.category === 'seeds';
+
+        const ownedPet = isPet && myPets.includes(item.id);
+        const ownedAcc = isAcc && myAccs.includes(item.id);
+        const seedCount = isSeed ? (mySeeds[item.id] || 0) : 0;
+        const isEquipped = isAcc && equipped[item.type] === item.id;
+        const isCurrentPet = isPet && S.cfg?.petId === item.id;
+
+        const canAfford = (S.flame || 0) >= item.price;
+
+        return `
+        <div class="card p-4 rounded-2xl border transition hover:shadow-md flex flex-col justify-between ${isCurrentPet ? 'border-emerald-500 bg-emerald-50/20 ring-2 ring-emerald-400' : 'border-slate-200 bg-white'}">
+          <div>
+            <div class="flex items-start justify-between gap-2 mb-2">
+              <span class="text-xs font-bold px-2 py-0.5 rounded-full ${isPet ? 'bg-indigo-100 text-indigo-900' : (isAcc ? 'bg-amber-100 text-amber-900' : 'bg-emerald-100 text-emerald-900')}">
+                ${item.catName}
+              </span>
+              <span class="font-extrabold text-sm text-amber-700 flex items-center gap-1">
+                🔥 <b>${item.price}</b> Lửa
+              </span>
+            </div>
+
+            <div class="w-20 h-20 mx-auto rounded-2xl bg-gradient-to-tr from-slate-100 to-amber-50 border border-slate-200 flex items-center justify-center my-3 shadow-inner">
+              <span class="text-5xl anim-float">${item.icon}</span>
+            </div>
+
+            <h3 class="font-extrabold text-base text-slate-900 font-fun text-center">${item.name}</h3>
+            ${item.title ? `<div class="text-center text-xs font-semibold text-teal-700 mb-1">${item.title}</div>` : ''}
+            <p class="text-xs text-slate-600 text-center line-clamp-2 my-1 leading-relaxed">${item.desc}</p>
+          </div>
+
+          <div class="mt-4 pt-3 border-t border-slate-100">
+            ${isPet ? `
+              ${ownedPet ? `
+                ${isCurrentPet ? `
+                  <button class="btn sm outline w-full !py-1.5 text-xs text-emerald-700 border-emerald-400 font-bold" disabled>
+                    ✅ Đang Là Bạn Đồng Hành
+                  </button>
+                ` : `
+                  <button class="btn sm g w-full !py-1.5 text-xs" onclick="adoptShopPet('${item.id}')">
+                    🐾 Chọn Nuôi Bé Này
+                  </button>
+                `}
+              ` : `
+                <button class="btn sm y w-full !py-1.5 text-xs ${!canAfford ? 'opacity-60' : ''}" onclick="buyShopItem('pets', '${item.id}')">
+                  🛒 Mua Nuôi (${item.price} 🔥)
+                </button>
+              `}
+            ` : (isAcc ? `
+              ${ownedAcc ? `
+                <button class="btn sm ${isEquipped ? 'outline !text-amber-800 !border-amber-300' : 'g'} w-full !py-1.5 text-xs" onclick="toggleEquipAccessory('${item.id}')">
+                  ${isEquipped ? '✨ Đang Trang Bị (Tháo ra)' : '👒 Trang Bị Cho Bé'}
+                </button>
+              ` : `
+                <button class="btn sm y w-full !py-1.5 text-xs ${!canAfford ? 'opacity-60' : ''}" onclick="buyShopItem('accessories', '${item.id}')">
+                  🛒 Mua Phụ Kiện (${item.price} 🔥)
+                </button>
+              `}
+            ` : `
+              <div class="flex items-center justify-between gap-2">
+                <span class="text-xs font-bold text-emerald-800">Đang có: <b>x${seedCount}</b></span>
+                <button class="btn sm y !py-1.5 text-xs ${!canAfford ? 'opacity-60' : ''}" onclick="buyShopItem('seeds', '${item.id}')">
+                  🛒 Mua Thêm (${item.price} 🔥)
+                </button>
+              </div>
+            `)}
+          </div>
+        </div>
+        `;
+      }).join('')}
+    </div>
+  </div>
+  `;
+}
+
+function buyShopItem(category, itemId){
+  if(typeof isUserLoggedIn === 'function' && !isUserLoggedIn()){
+    promptLogin('Bạn cần đăng nhập tài khoản để mua sắm vật phẩm và lưu giữ vĩnh viễn!');
+    return;
+  }
+  const item = SHOP_ITEMS[category]?.find(x => x.id === itemId);
+  if(!item){ toast('Vật phẩm không tồn tại!'); return; }
+  const price = item.price || 0;
+
+  if((S.flame || 0) < price){
+    toast(`⚠️ Bạn cần thêm ${price - (S.flame||0)} Lửa để mua ${item.name}! Hãy làm thêm bài tập hoặc chơi mini-game nhé.`);
+    return;
+  }
+
+  S.flame -= price;
+
+  if(category === 'pets'){
+    if(!S.inventory.pets.includes(itemId)) S.inventory.pets.push(itemId);
+    if(!PETS_CATALOG.some(p => p.id === itemId)){
+      PETS_CATALOG.push({
+        id: item.id,
+        name: item.name,
+        title: item.title,
+        icon: item.icon,
+        desc: item.desc,
+        avatarUrl: item.avatarUrl || ''
+      });
+      try{ localStorage.setItem('sa_pets_catalog', JSON.stringify(PETS_CATALOG)); }catch(e){}
+    }
+    toast(`🎉 Chúc mừng bạn đã nhận nuôi thành công linh thú ${item.name}!`);
+  }else if(category === 'accessories'){
+    if(!S.inventory.accessories.includes(itemId)) S.inventory.accessories.push(itemId);
+    if(item.type){
+      if(!S.inventory.equipped) S.inventory.equipped = { hat:'', glasses:'', badge:'', decor:'' };
+      S.inventory.equipped[item.type] = itemId;
+    }
+    toast(`🎉 Đã mua và trang bị phụ kiện ${item.name}!`);
+  }else if(category === 'seeds'){
+    if(!S.inventory.seeds) S.inventory.seeds = {};
+    S.inventory.seeds[itemId] = (S.inventory.seeds[itemId] || 0) + 1;
+    toast(`🎉 Đã mua thành công 1 hạt giống ${item.name}! Hãy ghé Khu Vườn Số để gieo trồng.`);
+  }
+
+  Sound.fanfare();
+  save();
+  try{ syncMyScoreToLeaderboard(); }catch(e){}
+  render();
+}
+
+function toggleEquipAccessory(accId){
+  const acc = SHOP_ITEMS.accessories.find(a => a.id === accId);
+  if(!acc) return;
+  if(!S.inventory.equipped) S.inventory.equipped = { hat:'', glasses:'', badge:'', decor:'' };
+  const slot = acc.type || 'badge';
+  if(S.inventory.equipped[slot] === accId){
+    S.inventory.equipped[slot] = '';
+    toast(`Đã tháo ${acc.name}`);
+  }else{
+    S.inventory.equipped[slot] = accId;
+    toast(`Đã trang bị ${acc.name} cho bé! ✨`);
+    Sound.click();
+  }
+  save();
+  render();
+}
+
+function adoptShopPet(petId){
+  const pet = PETS_CATALOG.find(p => p.id === petId) || SHOP_ITEMS.pets.find(p => p.id === petId);
+  if(!pet) return;
+  S.cfg.petId = petId;
+  S.cfg.petName = pet.name;
+  Sound.levelup();
+  save();
+  toast(`🐾 ${pet.name} đã sẵn sàng đồng hành cùng bạn trên bục giảng!`);
+  render();
+}
+
+/* ==================== 16. MINI-GAME: THỬ THÁCH TOÁN TỐC ĐỘ 60S ==================== */
+const SPEED_MATH_BANK = [
+  // Đại số tuyến tính
+  {
+    topic: 'Đại số tuyến tính',
+    q: 'Tính định thức ma trận cấp 2: $\\det \\begin{pmatrix} 3 & 1 \\\\ 2 & 4 \\end{pmatrix}$',
+    opts: ['10', '14', '8', '12'],
+    ans: 0,
+    expl: '$3 \\times 4 - 1 \\times 2 = 12 - 2 = 10$'
+  },
+  {
+    topic: 'Đại số tuyến tính',
+    q: 'Tính định thức ma trận: $\\det \\begin{pmatrix} 5 & 2 \\\\ 3 & 2 \\end{pmatrix}$',
+    opts: ['4', '16', '10', '1'],
+    ans: 0,
+    expl: '$5 \\times 2 - 2 \\times 3 = 10 - 6 = 4$'
+  },
+  {
+    topic: 'Đại số tuyến tính',
+    q: 'Vết (Trace) của ma trận $A = \\begin{pmatrix} 5 & 8 \\\\ 2 & 7 \\end{pmatrix}$ bằng bao nhiêu?',
+    opts: ['12', '10', '19', '35'],
+    ans: 0,
+    expl: '$\\text{tr}(A) = 5 + 7 = 12$'
+  },
+  {
+    topic: 'Đại số tuyến tính',
+    q: 'Tích vô hướng của 2 vector $\\vec{u} = (2, 3)$ và $\\vec{v} = (4, -1)$ là:',
+    opts: ['5', '11', '8', '-1'],
+    ans: 0,
+    expl: '$\\vec{u} \\cdot \\vec{v} = 2(4) + 3(-1) = 8 - 3 = 5$'
+  },
+  {
+    topic: 'Đại số tuyến tính',
+    q: 'Ma trận đơn vị $I_2$ có định thức bằng bao nhiêu?',
+    opts: ['1', '0', '2', '-1'],
+    ans: 0,
+    expl: '$\\det(I_n) = 1$ với mọi $n$'
+  },
+
+  // Giải tích 1 & 2
+  {
+    topic: 'Giải tích 1',
+    q: 'Đạo hàm của hàm số $f(x) = \\sin(x)$ là:',
+    opts: ['$\\cos(x)$', '$-\\cos(x)$', '$\\sin(x)$', '$-\\sin(x)$'],
+    ans: 0,
+    expl: '$(\\sin x)\' = \\cos x$'
+  },
+  {
+    topic: 'Giải tích 1',
+    q: 'Đạo hàm của hàm số $f(x) = e^{3x}$ tại mọi $x$ là:',
+    opts: ['$3e^{3x}$', '$e^{3x}$', '$\\frac{1}{3}e^{3x}$', '$3x e^{3x-1}$'],
+    ans: 0,
+    expl: '$(e^{3x})\' = 3e^{3x}$'
+  },
+  {
+    topic: 'Giải tích 1',
+    q: 'Giới hạn cơ bản $\\lim_{x \\to 0} \\frac{\\sin(x)}{x}$ có giá trị bằng:',
+    opts: ['1', '0', '+\\infty', 'Không tồn tại'],
+    ans: 0,
+    expl: 'Giới hạn lượng giác cơ bản kinh điển bằng 1'
+  },
+  {
+    topic: 'Giải tích 1',
+    q: 'Tích phân xác định: $\\int_{0}^{2} 3x^2 \\, dx$ bằng:',
+    opts: ['8', '6', '12', '4'],
+    ans: 0,
+    expl: '$\\int 3x^2 dx = x^3 \\Big|_0^2 = 8 - 0 = 8$'
+  },
+  {
+    topic: 'Giải tích 2',
+    q: 'Đạo hàm riêng theo biến $x$ của $f(x, y) = x^2 y + 3y$ là:',
+    opts: ['$2xy$', '$x^2 + 3$', '$2xy + 3$', '$2x$'],
+    ans: 0,
+    expl: '$\\frac{\\partial}{\\partial x}(x^2 y + 3y) = 2xy$'
+  },
+
+  // Xác suất thống kê
+  {
+    topic: 'Xác suất thống kê',
+    q: 'Tung một con xúc xắc 6 mặt cân đối, xác suất xuất hiện mặt chẵn là:',
+    opts: ['$\\frac{1}{2}$', '$\\frac{1}{3}$', '$\\frac{1}{6}$', '$\\frac{2}{3}$'],
+    ans: 0,
+    expl: 'Mặt chẵn {2, 4, 6} $\\Rightarrow P = 3/6 = 1/2$'
+  },
+  {
+    topic: 'Xác suất thống kê',
+    q: 'Số hoán vị của 3 phần tử phân biệt ($P_3 = 3!$) là:',
+    opts: ['6', '3', '9', '8'],
+    ans: 0,
+    expl: '$3! = 3 \\times 2 \\times 1 = 6$'
+  },
+  {
+    topic: 'Xác suất thống kê',
+    q: 'Nếu xác suất biến cố $A$ là $P(A) = 0.25$, thì xác suất của biến cố đối $\\bar{A}$ là:',
+    opts: ['0.75', '0.25', '0.50', '1.00'],
+    ans: 0,
+    expl: '$P(\\bar{A}) = 1 - P(A) = 1 - 0.25 = 0.75$'
+  },
+  {
+    topic: 'Xác suất thống kê',
+    q: 'Tổ hợp chập 1 của 5 phần tử ($C_5^1$) bằng:',
+    opts: ['5', '1', '10', '120'],
+    ans: 0,
+    expl: '$C_5^1 = 5$'
+  },
+
+  // Toán rời rạc
+  {
+    topic: 'Toán rời rạc',
+    q: 'Số cạnh của đồ thị đầy đủ $K_4$ có 4 đỉnh là:',
+    opts: ['6', '4', '8', '12'],
+    ans: 0,
+    expl: '$E = \\frac{n(n-1)}{2} = \\frac{4 \\times 3}{2} = 6$'
+  },
+  {
+    topic: 'Toán rời rạc',
+    q: 'Số tập hợp con của một tập hợp có đúng 3 phần tử là:',
+    opts: ['8', '6', '9', '3'],
+    ans: 0,
+    expl: '$2^n = 2^3 = 8$ tập con'
+  },
+  {
+    topic: 'Toán rời rạc',
+    q: 'Theo Bổ đề bắt tay (Handshaking Lemma), tổng bậc của mọi đỉnh trong đồ thị vô hướng luôn là:',
+    opts: ['Số chẵn ($2|E|$)', 'Số lẻ', 'Bằng số đỉnh', 'Bằng 0'],
+    ans: 0,
+    expl: '$\\sum_{v \\in V} \\text{deg}(v) = 2|E|$ luôn là số chẵn'
+  },
+  {
+    topic: 'Toán rời rạc',
+    q: 'Mệnh đề hội $P \\land Q$ đúng khi và chỉ khi:',
+    opts: ['Cả $P$ và $Q$ đều đúng', 'Chỉ cần một mệnh đề đúng', 'Cả $P$ và $Q$ đều sai', '$P$ kéo theo $Q$'],
+    ans: 0,
+    expl: 'Phép hội $\\land$ chỉ đúng khi tất cả các mệnh đề thành phần đều đúng'
+  }
+];
+
+window.SPEED_MATH = {
+  running: false,
+  timeLeft: 60,
+  score: 0,
+  streak: 0,
+  maxStreak: 0,
+  correctCount: 0,
+  currentQ: null,
+  timerId: null,
+  summary: null
+};
+
+function generateSpeedMathQuestion(){
+  const template = SPEED_MATH_BANK[Math.floor(Math.random() * SPEED_MATH_BANK.length)];
+  const correctText = template.opts[template.ans];
+  const shuffled = [...template.opts].sort(() => Math.random() - 0.5);
+  const correctIdx = shuffled.indexOf(correctText);
+  return {
+    topic: template.topic,
+    q: template.q,
+    opts: shuffled,
+    ans: correctIdx,
+    expl: template.expl
+  };
+}
+
+function vSpeedMathGameView(){
+  const g = window.SPEED_MATH;
+
+  return `
+  <div class="space-y-6">
+    <!-- BANNER MINI-GAME -->
+    <div class="card bg-gradient-to-r from-violet-600 via-indigo-700 to-purple-800 text-white p-6 shadow-md border-0 relative overflow-hidden">
+      <div class="relative z-10 max-w-2xl">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 backdrop-blur-sm text-xs font-bold mb-3">
+          <span>⚡</span> <span>Đấu Trường Toán Học Tốc Độ 60 Giây</span>
+        </div>
+        <h2 class="text-2xl lg:text-3xl font-extrabold font-fun mb-2 text-white">Thử Thách Toán Tốc Độ 60s</h2>
+        <p class="text-purple-100 text-xs sm:text-sm leading-relaxed mb-4">
+          Thử tài phản xạ chớp nhoáng với 5 phân môn Toán Sư Phạm HPU2. Trả lời đúng liên hoàn để nhân cấp số điểm, nhận mưa Lửa 🔥 đổi quà trong Cửa Hàng và leo bảng xếp hạng!
+        </p>
+        <div class="flex items-center gap-3 flex-wrap">
+          <div class="px-3.5 py-1.5 rounded-xl bg-black/25 backdrop-blur-sm border border-white/25 font-bold text-xs flex items-center gap-2">
+            <span>🏆 Kỷ Lục Cá Nhân:</span> <b class="text-amber-300 text-sm">${S.minigameBest||0} pts</b>
+          </div>
+          <div class="px-3.5 py-1.5 rounded-xl bg-black/25 backdrop-blur-sm border border-white/25 font-bold text-xs flex items-center gap-2">
+            <span>🔥 Số Dư:</span> <b class="text-emerald-300 text-sm">${S.flame||0} Lửa</b>
+          </div>
+        </div>
+      </div>
+      <div class="absolute -right-6 -bottom-8 opacity-25 text-9xl select-none pointer-events-none">⚡</div>
+    </div>
+
+    <!-- KHU VỰC TRÒ CHƠI -->
+    <div class="card border border-indigo-200 bg-white p-6 text-center shadow-sm" id="speedMathContainer">
+      ${!g.running && !g.summary ? `
+        <!-- MÀN HÌNH CHUẨN BỊ -->
+        <div class="py-8 max-w-lg mx-auto">
+          <div class="w-24 h-24 mx-auto rounded-3xl bg-indigo-50 border-2 border-indigo-200 flex items-center justify-center text-5xl mb-4 shadow-inner anim-float">
+            ⏱️
+          </div>
+          <h3 class="font-extrabold text-2xl text-slate-900 font-fun mb-2">Sẵn Sàng Bước Vào Đấu Trường?</h3>
+          <p class="text-sm text-slate-600 mb-6 leading-relaxed">
+            Bạn có <b>60 giây</b> để trả lời càng nhiều câu hỏi toán học càng tốt. Mỗi chuỗi trả lời đúng sẽ nhân số điểm Lửa nhận được!
+          </p>
+
+          <button class="btn y !py-3 !px-8 text-base font-extrabold shadow-md anim-glow" onclick="startSpeedMathGame()">
+            🚀 BẮT ĐẦU THỬ THÁCH 60S
+          </button>
+        </div>
+      ` : (g.running ? `
+        <!-- MÀN HÌNH ĐANG CHƠI -->
+        <div class="max-w-2xl mx-auto">
+          <!-- THANH CHỈ SỐ -->
+          <div class="flex items-center justify-between gap-3 mb-4 p-3 bg-indigo-50/70 rounded-2xl border border-indigo-200">
+            <div class="text-left">
+              <span class="text-[11px] font-bold text-slate-500 uppercase">Thời Gian</span>
+              <div class="font-extrabold text-2xl ${g.timeLeft <= 10 ? 'text-rose-600 animate-pulse' : 'text-indigo-950'} font-fun" id="speedTimer">
+                ${g.timeLeft}s
+              </div>
+            </div>
+
+            <div class="text-center">
+              <span class="text-[11px] font-bold text-slate-500 uppercase">Điểm Số</span>
+              <div class="font-extrabold text-2xl text-amber-600 font-fun" id="speedScore">
+                ${g.score}
+              </div>
+            </div>
+
+            <div class="text-right">
+              <span class="text-[11px] font-bold text-slate-500 uppercase">Combo Streak</span>
+              <div class="font-extrabold text-2xl text-emerald-600 font-fun" id="speedStreak">
+                🔥 x${Math.min(5, 1 + Math.floor(g.streak / 2))}
+              </div>
+            </div>
+          </div>
+
+          <!-- CHỦ ĐỀ & CÂU HỎI -->
+          <div class="mb-6 p-6 rounded-2xl bg-gradient-to-b from-indigo-50/40 to-white border-2 border-indigo-200 shadow-sm">
+            <div class="inline-block px-3 py-1 rounded-full bg-indigo-100 text-indigo-900 font-bold text-xs mb-3">
+              ${g.currentQ.topic}
+            </div>
+            <div class="text-lg sm:text-xl font-bold text-slate-900 min-h-[50px] flex items-center justify-center">
+              ${g.currentQ.q}
+            </div>
+          </div>
+
+          <!-- 4 LỰA CHỌN TRẢ LỜI -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3" id="speedOpts">
+            ${g.currentQ.opts.map((opt, idx) => `
+              <button class="p-4 rounded-xl border-2 border-slate-200 hover:border-indigo-500 hover:bg-indigo-50 font-bold text-base text-slate-800 transition active:scale-95 shadow-2xs text-center flex items-center justify-center" onclick="submitSpeedMathAnswer(${idx})">
+                ${opt}
+              </button>
+            `).join('')}
+          </div>
+        </div>
+      ` : `
+        <!-- MÀN HÌNH TỔNG KẾT -->
+        <div class="py-6 max-w-lg mx-auto">
+          <div class="text-6xl mb-3 anim-float">🎉</div>
+          <h3 class="font-extrabold text-2xl text-slate-900 font-fun mb-1">Hoàn Thành Thử Thách!</h3>
+          <p class="text-xs text-slate-600 mb-5">Bạn đã thể hiện sự nhanh nhạy tuyệt vời của sinh viên Sư Phạm Toán</p>
+
+          <div class="grid grid-cols-3 gap-3 mb-6 p-4 rounded-2xl bg-indigo-50/60 border border-indigo-200 text-center">
+            <div>
+              <div class="text-xs text-slate-500 font-semibold">Điểm Đạt Được</div>
+              <div class="text-2xl font-extrabold text-indigo-950 font-fun">${g.summary.score}</div>
+            </div>
+            <div>
+              <div class="text-xs text-slate-500 font-semibold">Trả Lời Đúng</div>
+              <div class="text-2xl font-extrabold text-emerald-600 font-fun">${g.summary.correctCount} câu</div>
+            </div>
+            <div>
+              <div class="text-xs text-slate-500 font-semibold">Thưởng Lửa 🔥</div>
+              <div class="text-2xl font-extrabold text-amber-600 font-fun">+${g.summary.flameWon}</div>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-center gap-3 flex-wrap">
+            <button class="btn y !py-2.5 !px-6 text-sm font-extrabold shadow-sm" onclick="startSpeedMathGame()">
+              🔄 Chơi Lại Lần Nữa
+            </button>
+            <button class="btn g sm !py-2.5 text-sm font-bold" onclick="S.petTab='shop';render()">
+              🛍️ Mở Cửa Hàng
+            </button>
+            <button class="btn sm outline !py-2.5 text-sm font-bold" onclick="go('leaderboard')">
+              🏆 Bảng Xếp Hạng
+            </button>
+          </div>
+        </div>
+      `)}
+    </div>
+  </div>
+  `;
+}
+
+function startSpeedMathGame(){
+  if(window.SPEED_MATH.timerId) clearInterval(window.SPEED_MATH.timerId);
+  window.SPEED_MATH.running = true;
+  window.SPEED_MATH.timeLeft = 60;
+  window.SPEED_MATH.score = 0;
+  window.SPEED_MATH.streak = 0;
+  window.SPEED_MATH.maxStreak = 0;
+  window.SPEED_MATH.correctCount = 0;
+  window.SPEED_MATH.flameWon = 0;
+  window.SPEED_MATH.summary = null;
+  window.SPEED_MATH.currentQ = generateSpeedMathQuestion();
+
+  window.SPEED_MATH.timerId = setInterval(() => {
+    window.SPEED_MATH.timeLeft--;
+    const tEl = document.getElementById('speedTimer');
+    if(tEl){
+      tEl.textContent = window.SPEED_MATH.timeLeft + 's';
+      if(window.SPEED_MATH.timeLeft <= 10) tEl.className = 'font-extrabold text-2xl text-rose-600 animate-pulse font-fun';
+    }
+    if(window.SPEED_MATH.timeLeft <= 0){
+      endSpeedMathGame();
+    }
+  }, 1000);
+
+  render();
+}
+
+function submitSpeedMathAnswer(chosenIdx){
+  const g = window.SPEED_MATH;
+  if(!g.running || !g.currentQ) return;
+
+  const isCorrect = chosenIdx === g.currentQ.ans;
+  if(isCorrect){
+    g.correctCount++;
+    g.streak++;
+    if(g.streak > g.maxStreak) g.maxStreak = g.streak;
+    const comboMult = Math.min(5, 1 + Math.floor(g.streak / 2));
+    const pts = 10 * comboMult;
+    g.score += pts;
+    Sound.click();
+    toast(`Chính xác! +${pts} điểm (Combo x${comboMult})`);
+  }else{
+    g.streak = 0;
+    g.timeLeft = Math.max(0, g.timeLeft - 2);
+    Sound.pop();
+    toast('Chưa chính xác! (-2 giây)');
+  }
+
+  g.currentQ = generateSpeedMathQuestion();
+  render();
+}
+
+function endSpeedMathGame(){
+  const g = window.SPEED_MATH;
+  if(g.timerId) clearInterval(g.timerId);
+  g.running = false;
+
+  const earnedFlame = Math.max(5, Math.round(g.score / 12) + Math.min(15, g.maxStreak * 2));
+  g.flameWon = earnedFlame;
+
+  if(g.score > (S.minigameBest || 0)){
+    S.minigameBest = g.score;
+  }
+
+  g.summary = {
+    score: g.score,
+    correctCount: g.correctCount,
+    maxStreak: g.maxStreak,
+    flameWon: earnedFlame
+  };
+
+  gainFlame(earnedFlame, 'Thử thách Toán 60s');
+  Sound.fanfare();
+  save();
+  try{ syncMyScoreToLeaderboard(); }catch(e){}
+  render();
+}
+
+/* ==================== 17. BẢNG XẾP HẠNG SERVER (GLOBAL LEADERBOARD) ==================== */
+function cheerLeaderboardUser(userId){
+  const list = getLeaderboardData();
+  const found = list.find(x => x.id === userId);
+  if(found){
+    found.cheers = (found.cheers || 0) + 1;
+    saveLeaderboardData(list);
+    Sound.drop();
+    toast(`❤️ Đã gửi lời động viên ấm áp đến ${found.name}!`);
+    render();
+  }
+}
+
+function vLeaderboardView(){
+  if(!window.LEADERBOARD_TAB) window.LEADERBOARD_TAB = 'all';
+  const curTab = window.LEADERBOARD_TAB;
+
+  // Đồng bộ điểm bản thân
+  try{ syncMyScoreToLeaderboard(); }catch(e){}
+
+  const allList = getLeaderboardData();
+  let filtered = [...allList];
+  if(curTab === 'k49') filtered = allList.filter(u => (u.school||'').includes('K49'));
+  else if(curTab === 'k50') filtered = allList.filter(u => (u.school||'').includes('K50'));
+  else if(curTab === 'k51') filtered = allList.filter(u => (u.school||'').includes('K51'));
+
+  filtered.sort((a,b) => (b.flame||0) - (a.flame||0));
+
+  const top1 = filtered[0] || null;
+  const top2 = filtered[1] || null;
+  const top3 = filtered[2] || null;
+
+  const myRankIdx = filtered.findIndex(x => x.isMe || (S.user && x.name === S.user.name));
+  const myRank = myRankIdx >= 0 ? myRankIdx + 1 : null;
+  const logged = typeof isUserLoggedIn === 'function' && isUserLoggedIn();
+
+  return `
+  <div class="space-y-6">
+    <!-- LEADERBOARD HERO BANNER -->
+    <div class="card bg-gradient-to-r from-amber-600 via-yellow-600 to-amber-700 text-white p-6 shadow-md border-0 relative overflow-hidden">
+      <div class="relative z-10 max-w-2xl">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 backdrop-blur-sm text-xs font-bold mb-3">
+          <span>🏆</span> <span>Bảng Vinh Danh Sư Phạm Toán HPU2</span>
+        </div>
+        <h2 class="text-2xl lg:text-3xl font-extrabold font-fun mb-2 text-white">Đại Lộ Danh Vọng & Thi Đua Toàn Trường</h2>
+        <p class="text-amber-100 text-xs sm:text-sm leading-relaxed mb-4">
+          Nơi vinh danh các gương mặt tiêu biểu của Khoa Toán - Trường ĐH Sư Phạm Hà Nội 2. Tích lũy Lửa 🔥 từ việc hoàn thành lộ trình, giải bài tập và mini-game để thăng hạng!
+        </p>
+        <div class="flex items-center gap-3 flex-wrap">
+          <button class="btn sm bg-white text-amber-950 font-extrabold hover:bg-amber-100 shadow-sm" onclick="syncMyScoreToLeaderboard();toast('🔄 Đã cập nhật thứ hạng mới nhất!');render()">
+            🔄 Cập Nhật Xếp Hạng Mới Nhất
+          </button>
+          <button class="btn sm outline !text-white !border-white/40 hover:bg-white/10" onclick="S.petTab='minigame';S.tab='pet';render()">
+            🎮 Chơi Mini-game Tích Lửa 🔥
+          </button>
+        </div>
+      </div>
+      <div class="absolute -right-6 -bottom-8 opacity-25 text-9xl select-none pointer-events-none">👑</div>
+    </div>
+
+    <!-- THÔNG TIN VỊ TRÍ HỌC VIÊN HIỆN TẠI -->
+    ${logged ? `
+      <div class="card border-2 border-amber-300 bg-gradient-to-r from-amber-50/70 via-white to-emerald-50/60 shadow-sm p-4 rounded-2xl flex items-center justify-between flex-wrap gap-3">
+        <div class="flex items-center gap-3">
+          <div class="w-12 h-12 rounded-2xl bg-amber-200 border-2 border-amber-400 flex items-center justify-center text-2xl font-extrabold text-amber-900 shadow-inner">
+            ${myRank ? `#${myRank}` : '⭐'}
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="font-extrabold text-base text-slate-900">${S.user?.name || 'Bạn'}</span>
+              <span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-900 text-xs font-bold border border-emerald-300">Đang trực tuyến</span>
+            </div>
+            <div class="text-xs text-slate-600 mt-0.5">
+              ${myRank ? `Thứ hạng hiện tại: <b>#${myRank} / ${filtered.length}</b> học viên` : 'Chưa có trên bảng xếp hạng (hãy tích lũy Lửa để vào top)'}
+            </div>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-4">
+          <div class="text-right">
+            <div class="text-xs text-slate-500 font-semibold">Điểm Lửa Tích Lũy</div>
+            <div class="text-xl font-extrabold text-amber-700 flex items-center gap-1 justify-end">
+              🔥 <span>${S.flame||0}</span>
+            </div>
+          </div>
+          <button class="btn sm y" onclick="syncMyScoreToLeaderboard();render()">
+            ⚡ Đồng Bộ
+          </button>
+        </div>
+      </div>
+    ` : `
+      <div class="p-4 rounded-2xl bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 flex items-center justify-between flex-wrap gap-3">
+        <div class="flex items-center gap-3">
+          <span class="text-3xl">👤</span>
+          <div>
+            <div class="font-extrabold text-sm text-amber-950">Bạn đang ở chế độ Khách Vãng Lai</div>
+            <div class="text-xs text-amber-800">Đăng nhập tài khoản để đưa tên bạn lên Bảng Vinh Danh Server và cạnh tranh cùng sinh viên Sư Phạm Toán!</div>
+          </div>
+        </div>
+        <button class="btn sm y font-extrabold" onclick="toggleAuthDropdown()">
+          Đăng Nhập Ngay 🚀
+        </button>
+      </div>
+    `}
+
+    <!-- BỤC VINH DANH TOP 1, 2, 3 (PODIUM) -->
+    ${filtered.length >= 3 ? `
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4">
+        <!-- TOP 2: BẠC -->
+        <div class="card p-5 rounded-2xl border-2 border-slate-300 bg-gradient-to-b from-slate-50 to-white text-center shadow-sm order-2 md:order-1 flex flex-col justify-between">
+          <div>
+            <div class="inline-block px-3 py-1 rounded-full bg-slate-200 text-slate-800 font-extrabold text-xs mb-3">
+              🥈 HẠNG NHÌ (TOP 2)
+            </div>
+            <div class="w-20 h-20 mx-auto rounded-full bg-slate-100 border-4 border-slate-300 flex items-center justify-center text-4xl shadow-inner mb-3">
+              ${top2.petIcon || '🦊'}
+            </div>
+            <h4 class="font-extrabold text-base text-slate-900 font-fun">${top2.name}</h4>
+            <div class="text-xs text-slate-600 font-semibold mb-1">${top2.school}</div>
+            <div class="inline-block px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 text-[11px] font-bold mb-3">
+              ${top2.badge || 'Á Quân Sư Phạm'}
+            </div>
+          </div>
+          <div class="pt-3 border-t border-slate-200 flex items-center justify-between">
+            <span class="text-xs font-semibold text-slate-500">Streak: <b>${top2.streak} ngày</b></span>
+            <span class="font-extrabold text-base text-amber-700">🔥 ${top2.flame}</span>
+          </div>
+        </div>
+
+        <!-- TOP 1: VÀNG -->
+        <div class="card p-6 rounded-2xl border-2 border-amber-400 bg-gradient-to-b from-amber-50 via-white to-amber-50/40 text-center shadow-md ring-2 ring-amber-300 order-1 md:order-2 flex flex-col justify-between md:-translate-y-2">
+          <div>
+            <div class="inline-block px-4 py-1.5 rounded-full bg-gradient-to-r from-amber-400 to-yellow-500 text-amber-950 font-black text-xs shadow-xs mb-3 animate-bounce">
+              👑 QUÁN QUÂN (TOP 1)
+            </div>
+            <div class="w-24 h-24 mx-auto rounded-full bg-gradient-to-tr from-amber-100 to-yellow-200 border-4 border-amber-400 flex items-center justify-center text-5xl shadow-md mb-3 anim-float">
+              ${top1.petIcon || '🦉'}
+            </div>
+            <h4 class="font-extrabold text-lg text-slate-900 font-fun">${top1.name}</h4>
+            <div class="text-xs text-amber-900 font-bold mb-1">${top1.school}</div>
+            <div class="inline-block px-3 py-1 rounded-full bg-amber-100 text-amber-900 text-xs font-extrabold border border-amber-300 mb-3">
+              ${top1.badge || '👑 Thủ Khoa Tri Thức'}
+            </div>
+          </div>
+          <div class="pt-3 border-t border-amber-200 flex items-center justify-between">
+            <span class="text-xs font-semibold text-amber-800">Streak: <b>${top1.streak} ngày</b></span>
+            <span class="font-extrabold text-xl text-amber-800">🔥 ${top1.flame}</span>
+          </div>
+        </div>
+
+        <!-- TOP 3: ĐỒNG -->
+        <div class="card p-5 rounded-2xl border-2 border-amber-700/30 bg-gradient-to-b from-orange-50/40 to-white text-center shadow-sm order-3 md:order-3 flex flex-col justify-between">
+          <div>
+            <div class="inline-block px-3 py-1 rounded-full bg-orange-100 text-orange-900 font-extrabold text-xs mb-3">
+              🥉 HẠNG BA (TOP 3)
+            </div>
+            <div class="w-20 h-20 mx-auto rounded-full bg-orange-100 border-4 border-amber-600/40 flex items-center justify-center text-4xl shadow-inner mb-3">
+              ${top3.petIcon || '🦅'}
+            </div>
+            <h4 class="font-extrabold text-base text-slate-900 font-fun">${top3.name}</h4>
+            <div class="text-xs text-slate-600 font-semibold mb-1">${top3.school}</div>
+            <div class="inline-block px-2.5 py-0.5 rounded-full bg-orange-50 text-orange-800 text-[11px] font-bold mb-3">
+              ${top3.badge || 'Chiến Thần Nghiên Cứu'}
+            </div>
+          </div>
+          <div class="pt-3 border-t border-slate-200 flex items-center justify-between">
+            <span class="text-xs font-semibold text-slate-500">Streak: <b>${top3.streak} ngày</b></span>
+            <span class="font-extrabold text-base text-amber-700">🔥 ${top3.flame}</span>
+          </div>
+        </div>
+      </div>
+    ` : ''}
+
+    <!-- BẢNG TOÀN BỘ DANH SÁCH -->
+    <div class="card p-4 rounded-2xl border border-slate-200 bg-white shadow-sm overflow-hidden">
+      <!-- BỘ LỌC TABS -->
+      <div class="flex items-center justify-between flex-wrap gap-2 mb-4 pb-3 border-b border-slate-100">
+        <div class="flex flex-wrap gap-2">
+          <button class="tab ${curTab==='all'?'on':'bg-white'}" onclick="window.LEADERBOARD_TAB='all';render()">
+            Toàn Trường (${allList.length})
+          </button>
+          <button class="tab ${curTab==='k49'?'on':'bg-white'}" onclick="window.LEADERBOARD_TAB='k49';render()">
+            Khóa K49
+          </button>
+          <button class="tab ${curTab==='k50'?'on':'bg-white'}" onclick="window.LEADERBOARD_TAB='k50';render()">
+            Khóa K50
+          </button>
+          <button class="tab ${curTab==='k51'?'on':'bg-white'}" onclick="window.LEADERBOARD_TAB='k51';render()">
+            Khóa K51
+          </button>
+        </div>
+
+        <div class="text-xs text-slate-500 font-semibold">
+          Cập nhật thời gian thực
+        </div>
+      </div>
+
+      <!-- BẢNG XẾP HẠNG -->
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-xs sm:text-sm">
+          <thead>
+            <tr class="text-slate-500 border-b border-slate-200 text-[11px] font-bold uppercase tracking-wider">
+              <th class="py-2.5 px-3">Hạng</th>
+              <th class="py-2.5 px-3">Học Viên Sư Phạm</th>
+              <th class="py-2.5 px-3">Chuyên Ngành / Khóa</th>
+              <th class="py-2.5 px-3">Danh Hiệu / Cảnh Giới</th>
+              <th class="py-2.5 px-3 text-center">Streak</th>
+              <th class="py-2.5 px-3 text-right">Điểm Lửa 🔥</th>
+              <th class="py-2.5 px-3 text-center">Động Viên</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100">
+            ${filtered.map((item, idx) => {
+              const rank = idx + 1;
+              const isMe = item.isMe || (S.user && item.name === S.user.name);
+              const rankBadge = rank === 1 ? '🥇' : (rank === 2 ? '🥈' : (rank === 3 ? '🥉' : `#${rank}`));
+
+              return `
+              <tr class="transition hover:bg-amber-50/40 ${isMe ? 'bg-amber-100/50 font-bold border-l-4 border-l-amber-500' : ''}">
+                <td class="py-3 px-3 font-extrabold text-center sm:text-left ${rank <= 3 ? 'text-base' : 'text-slate-600'}">
+                  ${rankBadge}
+                </td>
+                <td class="py-3 px-3">
+                  <div class="flex items-center gap-2">
+                    <span class="text-xl">${item.petIcon || '🌱'}</span>
+                    <div>
+                      <div class="font-extrabold text-slate-900 ${isMe ? 'text-amber-900' : ''}">
+                        ${item.name} ${isMe ? '<span class="text-[10px] px-1.5 py-0.5 rounded bg-amber-200 text-amber-900 ml-1">Bạn</span>' : ''}
+                      </div>
+                      <div class="text-[10px] text-slate-500">${item.petName ? 'Đồng hành: ' + item.petName : ''}</div>
+                    </div>
+                  </div>
+                </td>
+                <td class="py-3 px-3 text-slate-600 font-medium">
+                  ${item.school || 'Sư Phạm Toán HPU2'}
+                </td>
+                <td class="py-3 px-3">
+                  <span class="px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-800 text-[11px] font-bold border border-emerald-200">
+                    ${item.badge || 'Học viên'}
+                  </span>
+                </td>
+                <td class="py-3 px-3 text-center font-bold text-slate-700">
+                  ⚡ ${item.streak || 1}d
+                </td>
+                <td class="py-3 px-3 text-right font-black text-amber-700 text-sm">
+                  ${item.flame || 0}
+                </td>
+                <td class="py-3 px-3 text-center">
+                  <button class="px-2 py-1 rounded-full bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 text-xs font-bold transition active:scale-95 flex items-center gap-1 mx-auto" onclick="cheerLeaderboardUser('${item.id}')" title="Gửi tim động viên">
+                    <span>❤️</span> <span>${item.cheers || 0}</span>
+                  </button>
+                </td>
+              </tr>
+              `;
+            }).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  `;
+}
 
 /* ==================== 14. HIỆU ỨNG LÁ BAY KHU VƯỜN (CANVAS) ==================== */
 function setupGardenCanvas(){
