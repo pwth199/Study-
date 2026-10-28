@@ -30,7 +30,7 @@ body{
 }
 h1,h2,h3,.font-fun{font-family:'Quicksand',sans-serif}
 .card{
-  background:rgba(255,255,255,0.94);
+  background:rgba(255,255,255,0.95);
   backdrop-filter:blur(10px);
   border-radius:24px;
   padding:22px;
@@ -229,10 +229,18 @@ const TODAY=()=>new Date().toDateString();
 /* ==================== 2. ÂM THANH WEBAUDIO (OFFLINE) ==================== */
 const Sound={
   ctx:null,
-  init(){if(!this.ctx)this.ctx=new(window.AudioContext||window.webkitAudioContext)()},
+  init(){
+    if(!this.ctx){
+      try{this.ctx=new(window.AudioContext||window.webkitAudioContext)()}catch(e){}
+    }
+    if(this.ctx&&this.ctx.state==='suspended'){
+      try{this.ctx.resume()}catch(e){}
+    }
+  },
   drop(){
-    if(S.muted)return;this.init();
+    if(!S||S.muted)return;this.init();
     try{
+      if(!this.ctx)return;
       const o=this.ctx.createOscillator(),g=this.ctx.createGain();
       o.type='sine';o.frequency.setValueAtTime(500,this.ctx.currentTime);
       o.frequency.exponentialRampToValueAtTime(1200,this.ctx.currentTime+0.12);
@@ -243,8 +251,9 @@ const Sound={
     }catch(e){}
   },
   correct(){
-    if(S.muted)return;this.init();
+    if(!S||S.muted)return;this.init();
     try{
+      if(!this.ctx)return;
       [523.25,659.25,783.99].forEach((f,i)=>{
         const o=this.ctx.createOscillator(),g=this.ctx.createGain();
         o.type='triangle';o.frequency.setValueAtTime(f,this.ctx.currentTime+i*0.08);
@@ -256,8 +265,9 @@ const Sound={
     }catch(e){}
   },
   tada(){
-    if(S.muted)return;this.init();
+    if(!S||S.muted)return;this.init();
     try{
+      if(!this.ctx)return;
       [440,554.37,659.25,880].forEach((f,i)=>{
         const o=this.ctx.createOscillator(),g=this.ctx.createGain();
         o.type='sine';o.frequency.setValueAtTime(f,this.ctx.currentTime+i*0.1);
@@ -271,11 +281,11 @@ const Sound={
 };
 function toggleAudio(){
   S.muted=!S.muted;save();
-  $('#btnAudio').innerHTML=S.muted?'🔇 Đã tắt':'🔊 Âm thanh';
+  const b=$('#btnAudio');if(b)b.innerHTML=S.muted?'🔇 Đã tắt':'🔊 Âm thanh';
   toast(S.muted?'Đã tắt âm thanh khu vườn':'Đã bật âm thanh sinh động');
 }
 
-/* ==================== 3. DỮ LIỆU CỐT LÕI (NGUỒN GỐC TỪ BẢN GỐC) ==================== */
+/* ==================== 3. DỮ LIỆU CỐT LÕI (NGUỒN GỐC TOÁN GIẢI TÍCH) ==================== */
 const DEFAULT_TOPICS=[
   'Giới hạn dãy số và hàm số',
   'Hàm liên tục',
@@ -313,14 +323,13 @@ const DEFAULT_ORAL=[
 ];
 
 let CONTENT={
-  MCQ:DEFAULT_MCQ,
-  ESSAY:DEFAULT_ESSAY,
-  ORAL:DEFAULT_ORAL,
-  TOPICS:DEFAULT_TOPICS,
-  KNOW:DEFAULT_KNOW
+  MCQ:[...DEFAULT_MCQ],
+  ESSAY:[...DEFAULT_ESSAY],
+  ORAL:[...DEFAULT_ORAL],
+  TOPICS:[...DEFAULT_TOPICS],
+  KNOW:[...DEFAULT_KNOW]
 };
 
-// Khôi phục dữ liệu tùy biến từ LocalStorage (hỗ trợ cả khóa cũ sa_content và mới sa_garden_content)
 try{
   const savedC=JSON.parse(localStorage.getItem('sa_garden_content')||localStorage.getItem('sa_content')||'{}');
   for(const k in savedC){
@@ -337,22 +346,45 @@ function saveContent(){
   }catch(e){}
 }
 
-/* ==================== 4. TRẠNG THÁI NGƯỜI DÙNG & TIẾN ĐỘ ==================== */
+/* ==================== 4. TRẠNG THÁI NGƯỜI DÙNG & AN TOÀN DỮ LIỆU ==================== */
+const defaultSt = { kt: 40, vd: 30, gn: 35, bp: 25, px: 30 };
 let S={
-  xp:45,streak:1,last:TODAY(),done:1,grade:'Đại học năm 1',subject:'Toán giải tích',hrs:2,files:[],focus:CONTENT.KNOW,plan:[],tab:'learn',exam:'mcq',remind:'20:00',mode:'week4',user:null,muted:false,
-  st:{kt:40,vd:30,gn:35,bp:25,px:30}
+  xp:45,
+  streak:1,
+  last:TODAY(),
+  done:1,
+  grade:'Đại học năm 1',
+  subject:'Toán giải tích',
+  hrs:2,
+  files:[],
+  focus:[...DEFAULT_KNOW],
+  plan:[],
+  tab:'learn',
+  exam:'mcq',
+  remind:'20:00',
+  mode:'week4',
+  user:null,
+  muted:false,
+  st:{...defaultSt}
 };
 
-// Khôi phục trạng thái từ LocalStorage (hỗ trợ cả khóa cũ mochi và mới mochi_garden)
 try{
   const savedS=JSON.parse(localStorage.getItem('mochi_garden')||localStorage.getItem('mochi')||'{}');
   Object.assign(S,savedS);
 }catch(e){}
 
-// Nếu chưa có focus, gán mặc định
-if(!S.focus||!S.focus.length)S.focus=[...CONTENT.KNOW];
+// Đảm bảo không bao giờ bị rỗng hoặc undefined
+if(!S.st||typeof S.st!=='object') S.st={...defaultSt};
+else S.st=Object.assign({...defaultSt},S.st);
+if(!S.mode) S.mode='week4';
+if(!S.hrs) S.hrs=2;
+if(!S.tab) S.tab='learn';
+if(!S.exam) S.exam='mcq';
+if(!S.remind) S.remind='20:00';
+if(S.xp===undefined||isNaN(S.xp)) S.xp=45;
+if(S.streak===undefined||isNaN(S.streak)) S.streak=1;
+if(!S.focus||!Array.isArray(S.focus)||!S.focus.length) S.focus=[...CONTENT.KNOW];
 
-// Hàm lưu trạng thái
 const save=()=>{
   try{
     localStorage.setItem('mochi_garden',JSON.stringify(S));
@@ -376,7 +408,7 @@ function gain(xp,k,d){
     S.streak=S.last===y?S.streak+1:1;S.last=TODAY();
   }
   S.xp=(S.xp||0)+xp;
-  if(k&&S.st[k]!==undefined)S.st[k]=Math.min(100,S.st[k]+d);
+  if(k&&S.st&&S.st[k]!==undefined) S.st[k]=Math.min(100,S.st[k]+d);
   save();
   Sound.drop();
   if(lvl()>before){
@@ -430,11 +462,15 @@ function go(t){
 }
 
 function render(){
-  head();
+  try{head()}catch(e){}
   if(location.hash==='#admin'){openAdminModal();return;}
   const appEl=$('#app');
   if(appEl){
-    appEl.innerHTML={learn:vLearn,exam:vExam,pet:vPet}[S.tab]();
+    try{
+      appEl.innerHTML={learn:vLearn,exam:vExam,pet:vPet}[S.tab]();
+    }catch(err){
+      appEl.innerHTML=`<div class="card text-center p-6"><h3 class="font-bold text-rose-600">Đang phục hồi dữ liệu...</h3><button class="btn g sm mt-3" onclick="location.reload()">Làm Mới Trang</button></div>`;
+    }
   }
 }
 addEventListener('hashchange',()=>{if(location.hash==='#admin')openAdminModal()});
@@ -445,24 +481,27 @@ const MODES=[
   ['week4','🚀 Nhanh (1 tháng: 4 tuần)'],
   ['week12','🌿 Chuẩn (3 tháng: 12 tuần)']
 ];
-const unit=()=>S.mode==='day7'?'Ngày':'Tuần',tevery=()=>S.mode==='day7'?3:2,
-rng=i=>{const D={day7:7,week4:28,week12:90}[S.mode],N={day7:7,week4:4,week12:12}[S.mode];return[Math.round(i*D/N)+1,Math.round((i+1)*D/N)]},
-hrsOf=i=>S.hrs*(rng(i)[1]-rng(i)[0]+1),
-lab=i=>{const[a,b]=rng(i);return S.mode==='day7'?'Ngày '+(i+1):'Tuần '+(i+1)+' (Tháng '+(Math.floor((a-1)/30)+1)+', ngày '+a+'–'+b+')'};
+const unit=()=>S.mode==='day7'?'Ngày':'Tuần';
+const tevery=()=>S.mode==='day7'?3:2;
 
-// Đảm bảo lộ trình được khởi tạo nếu chưa có
+const rng=i=>{
+  const mode=S.mode||'week4';
+  const D={day7:7,week4:28,week12:90}[mode]||28;
+  const N={day7:7,week4:4,week12:12}[mode]||4;
+  return [Math.round(i*D/N)+1, Math.round((i+1)*D/N)];
+};
+const hrsOf=i=>{
+  const r=rng(i);
+  return (S.hrs||2)*(r[1]-r[0]+1);
+};
+const lab=i=>{
+  const[a,b]=rng(i);
+  return (S.mode==='day7')?'Ngày '+(i+1):'Tuần '+(i+1)+' (Tháng '+(Math.floor((a-1)/30)+1)+', ngày '+a+'–'+b+')';
+};
+
 function ensurePlan(){
-  if(!S.plan||!S.plan.length){
-    const it=(S.focus&&S.focus.length)?S.focus:CONTENT.TOPICS;
-    const N={day7:7,week4:4,week12:12}[S.mode]||4;
-    S.plan=Array.from({length:N},(_,i)=>{
-      const a=Math.floor(i*it.length/N),b=Math.floor((i+1)*it.length/N);
-      return{
-        t:b>a?it.slice(a,b).join('; '):'Tổng ôn chuyên đề & luyện đề củng cố phản xạ',
-        d:i===0
-      };
-    });
-    save();
+  if(!S.plan||!Array.isArray(S.plan)||!S.plan.length){
+    suggest();
   }
 }
 
@@ -552,7 +591,7 @@ function vLearn(){
 
       <!-- DANH SÁCH CÁC MỐC HỌC TẬP -->
       <div class="space-y-2.5 max-h-[560px] overflow-y-auto pr-1">
-        ${S.plan.map((p,i)=>`
+        ${(S.plan||[]).map((p,i)=>`
           <div class="p-3.5 rounded-2xl border ${p.d?'bg-emerald-100/60 border-emerald-300':'bg-white border-emerald-100'} hover:border-emerald-300 transition flex items-center gap-3">
             <input type="checkbox" class="w-5 h-5 accent-emerald-600 rounded cursor-pointer" ${p.d?'checked':''} onchange="doneWeek(${i},this.checked)" title="Đánh dấu hoàn thành mốc này">
             <div class="flex-1">
@@ -580,12 +619,12 @@ function vLearn(){
 }
 
 function upload(f){
-  if(!f.length)return;
+  if(!f||!f.length)return;
   S.files=[...f].map(x=>x.name);
   const a=$('#aiStatus');
-  a.innerHTML='<span class="inline-block animate-spin mr-1">🔄</span> AI đang đọc tài liệu và lọc kiến thức trọng tâm…';
+  if(a) a.innerHTML='<span class="inline-block animate-spin mr-1">🔄</span> AI đang đọc tài liệu và lọc kiến thức trọng tâm…';
   setTimeout(()=>{
-    S.focus=CONTENT.KNOW;
+    S.focus=[...CONTENT.KNOW];
     save();
     gain(20,'bp',12);
     toast('Đã phân tích tài liệu! Mochi hấp thu thêm dinh dưỡng');
@@ -595,12 +634,13 @@ function upload(f){
 
 function suggest(){
   const it=(S.focus&&S.focus.length)?S.focus:CONTENT.TOPICS;
-  const N={day7:7,week4:4,week12:12}[S.mode];
+  const modeMap={day7:7,week4:4,week12:12};
+  const N=modeMap[S.mode]||4;
   S.plan=Array.from({length:N},(_,i)=>{
     const a=Math.floor(i*it.length/N),b=Math.floor((i+1)*it.length/N);
     return{
       t:b>a?it.slice(a,b).join('; '):'Tổng ôn chuyên đề & luyện đề củng cố phản xạ',
-      d:false
+      d:i===0
     };
   });
   save();
@@ -616,9 +656,11 @@ function mv(i,d){
 }
 
 function doneWeek(i,v){
-  S.plan[i].d=v;
-  if(v){gain(25,'gn',8);Sound.correct();toast(`Xuất sắc! Hoàn thành ${lab(i)} 🎉`)}
-  else save();
+  if(S.plan&&S.plan[i]){
+    S.plan[i].d=v;
+    if(v){gain(25,'gn',8);Sound.correct();toast(`Xuất sắc! Hoàn thành ${lab(i)} 🎉`)}
+    else save();
+  }
 }
 
 function miniTest(){
@@ -640,11 +682,12 @@ function docHtml(){
 }
 function exportDoc(){
   const b=new Blob(['<html><meta charset="utf-8"><body>'+docHtml()+'</body></html>'],{type:'application/msword'});
-  const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=`On-Tap-${S.subject.replace(/\s+/g,'-')}.doc`;a.click();
+  const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=`On-Tap-${(S.subject||'mon-hoc').replace(/\s+/g,'-')}.doc`;a.click();
   gain(5,'gn',3);
 }
 function exportPdf(){
   const w=open('','_blank');
+  if(!w){toast('Trình duyệt đã chặn popup, hãy cho phép mở popup nhé');return}
   w.document.write('<meta charset="utf-8"><title>Tài liệu ôn tập</title><body style="font-family:sans-serif;padding:30px">'+docHtml()+'</body>');
   w.document.close();w.print();gain(5,'gn',3);
 }
@@ -674,7 +717,8 @@ function vExam(){
 }
 
 function vMcq(){
-  const list=CONTENT.MCQ;
+  const list=CONTENT.MCQ||[];
+  if(!list.length)return `<p class="text-center py-6 text-slate-500">Chưa có câu hỏi trắc nghiệm nào.</p>`;
   if(M.done){
     const pct=Math.round((M.s/list.length)*100);
     return `
@@ -703,7 +747,7 @@ function vMcq(){
     <h2 class="text-lg sm:text-xl font-extrabold text-emerald-950 font-fun mb-4 leading-relaxed">${q.q}</h2>
 
     <div class="space-y-2">
-      ${q.o.map((o,idx)=>`
+      ${(q.o||[]).map((o,idx)=>`
         <button class="opt" onclick="pick(${idx})">
           <span class="inline-block w-7 h-7 rounded-full bg-emerald-100 text-emerald-900 text-xs font-extrabold text-center leading-7 mr-2">${String.fromCharCode(65+idx)}</span>
           ${o}
@@ -717,7 +761,8 @@ function vMcq(){
 }
 
 function pick(i){
-  const q=CONTENT.MCQ[M.i];if(M.lock)return;M.lock=true;
+  const list=CONTENT.MCQ||[];
+  const q=list[M.i];if(!q||M.lock)return;M.lock=true;
   $$('.opt').forEach((b,k)=>{
     if(k===q.a)b.classList.add('ok');
     else if(k===i)b.classList.add('no');
@@ -730,29 +775,33 @@ function pick(i){
     gain(3,'gn',1);
   }
 
-  $('#exBox').innerHTML=`
-    <div class="p-4 rounded-2xl ${isOk?'bg-teal-50 border border-teal-200 text-teal-950':'bg-rose-50 border border-rose-200 text-rose-950'}">
-      <div class="font-extrabold text-sm flex items-center gap-1.5">
-        <span>${isOk?'🎉 Chính xác tuyệt đối!':'💡 Chưa chính xác'}</span>
+  const exBox=$('#exBox');
+  if(exBox){
+    exBox.innerHTML=`
+      <div class="p-4 rounded-2xl ${isOk?'bg-teal-50 border border-teal-200 text-teal-950':'bg-rose-50 border border-rose-200 text-rose-950'}">
+        <div class="font-extrabold text-sm flex items-center gap-1.5">
+          <span>${isOk?'🎉 Chính xác tuyệt đối!':'💡 Chưa chính xác'}</span>
+        </div>
+        <p class="text-xs sm:text-sm mt-1.5">${q.e||''}</p>
+        <button class="btn ${isOk?'g':'y'} sm mt-3" onclick="nextQ()">
+          ${M.i+1<list.length?'Tiếp Tục Câu Tiếp Theo ➜':'Xem Bảng Tổng Kết 🏆'}
+        </button>
       </div>
-      <p class="text-xs sm:text-sm mt-1.5">${q.e}</p>
-      <button class="btn ${isOk?'g':'y'} sm mt-3" onclick="nextQ()">
-        ${M.i+1<CONTENT.MCQ.length?'Tiếp Tục Câu Tiếp Theo ➜':'Xem Bảng Tổng Kết 🏆'}
-      </button>
-    </div>
-  `;
+    `;
+  }
 }
 
 function nextQ(){
   M.lock=false;M.i++;
-  if(M.i>=CONTENT.MCQ.length){
+  if(M.i>=(CONTENT.MCQ||[]).length){
     M.done=true;S.done++;gain(25,'px',10);Sound.tada();
   }
   render();
 }
 
 function vEssay(){
-  const list=CONTENT.ESSAY;
+  const list=CONTENT.ESSAY||[];
+  if(!list.length)return `<p class="text-center py-6 text-slate-500">Chưa có bài tự luận nào.</p>`;
   return `
   <div class="space-y-6">
     <div class="bg-emerald-50/70 p-3.5 rounded-2xl border border-emerald-200 text-xs text-emerald-900 flex items-center gap-2">
@@ -776,21 +825,26 @@ function vEssay(){
 }
 
 function hint(i){
-  $('#eh_'+i).innerHTML=`
-    <div class="p-3 bg-amber-50 border border-amber-200 rounded-xl text-xs text-amber-900 leading-relaxed">
-      <b>🌿 AI Gợi Ý Định Hướng:</b> ${CONTENT.ESSAY[i].h}
-    </div>
-  `;
+  const el=$('#eh_'+i);
+  if(el&&CONTENT.ESSAY&&CONTENT.ESSAY[i]){
+    el.innerHTML=`
+      <div class="p-3 bg-amber-50 border border-amber-200 rounded-xl text-xs text-amber-900 leading-relaxed">
+        <b>🌿 AI Gợi Ý Định Hướng:</b> ${CONTENT.ESSAY[i].h}
+      </div>
+    `;
+  }
 }
 function submitEssay(i){
-  const v=$('#es_'+i).value.trim();
+  const ta=$('#es_'+i);if(!ta)return;
+  const v=ta.value.trim();
+  const el=$('#eh_'+i);if(!el)return;
   if(v.length<20){
-    $('#eh_'+i).innerHTML=`<div class="p-2.5 bg-rose-50 border border-rose-200 rounded-xl text-xs text-rose-800">⚠️ Bài làm còn ngắn. Hãy trình bày ít nhất các bước chính.</div>`;
+    el.innerHTML=`<div class="p-2.5 bg-rose-50 border border-rose-200 rounded-xl text-xs text-rose-800">⚠️ Bài làm còn ngắn. Hãy trình bày ít nhất các bước chính.</div>`;
     return;
   }
   S.done++;
   gain(20,'kt',6);Sound.correct();
-  $('#eh_'+i).innerHTML=`
+  el.innerHTML=`
     <div class="p-3 bg-teal-50 border border-teal-200 rounded-xl text-xs text-teal-900 leading-relaxed">
       <b>✅ Đã nộp bài thành công (+20 XP)!</b><br/>
       <b>AI nhận xét:</b> Lập luận có cấu trúc, hãy kiểm tra lại điều kiện áp dụng định lý.<br/>
@@ -800,7 +854,8 @@ function submitEssay(i){
 }
 
 function vOral(){
-  const list=CONTENT.ORAL;
+  const list=CONTENT.ORAL||[];
+  if(!list.length)return `<p class="text-center py-6 text-slate-500">Chưa có câu hỏi vấn đáp nào.</p>`;
   if(!O.log.length&&!O.over){
     O.log.push({r:'ai',t:'Chào em, hôm nay thầy sẽ hỏi vấn đáp dựa trên tài liệu em đã học. ' + list[0].q});
   }
@@ -850,43 +905,51 @@ function vOral(){
 
 function speakLastAI(){
   if(!('speechSynthesis' in window)){toast('Trình duyệt chưa hỗ trợ Text-to-Speech');return}
-  const lastAi=[...O.log].reverse().find(m=>m.r==='ai');
-  if(!lastAi)return;
-  window.speechSynthesis.cancel();
-  const u=new SpeechSynthesisUtterance(lastAi.t);
-  u.lang='vi-VN';u.rate=0.95;
-  window.speechSynthesis.speak(u);
+  try{
+    const lastAi=[...O.log].reverse().find(m=>m.r==='ai');
+    if(!lastAi)return;
+    window.speechSynthesis.cancel();
+    const u=new SpeechSynthesisUtterance(lastAi.t);
+    u.lang='vi-VN';u.rate=0.95;
+    window.speechSynthesis.speak(u);
+  }catch(e){toast('Không thể phát âm: '+e.message)}
 }
 
 function micOral(){
-  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
-  if(!SR){toast('Trình duyệt chưa hỗ trợ nhận diện giọng nói, em hãy gõ bàn phím nhé');return}
-  const r=new SR();r.lang='vi-VN';
-  toast('Đang lắng nghe câu trả lời…');
-  r.onresult=e=>{
-    const txt=e.results[0][0].transcript;
-    $('#oaInput').value=txt;
-    toast('Đã nhận: "'+txt+'"');
-  };
-  r.start();
+  try{
+    const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+    if(!SR){toast('Trình duyệt chưa hỗ trợ nhận diện giọng nói, em hãy gõ bàn phím nhé');return}
+    const r=new SR();r.lang='vi-VN';
+    toast('Đang lắng nghe câu trả lời…');
+    r.onresult=e=>{
+      const txt=e.results[0][0].transcript;
+      const inp=$('#oaInput');if(inp)inp.value=txt;
+      toast('Đã nhận: "'+txt+'"');
+    };
+    r.onerror=e=>{toast('Lỗi micro: '+(e.error||'không thể nhận diện'))};
+    r.start();
+  }catch(e){toast('Micro: '+e.message)}
 }
 
 function ansOral(){
-  const el=$('#oaInput'),v=el.value.trim();if(!v)return;
+  const el=$('#oaInput');if(!el)return;
+  const v=el.value.trim();if(!v)return;
   O.log.push({r:'u',t:v});
-  const q=CONTENT.ORAL[O.i];
-  const hit=q.k.some(k=>v.toLowerCase().includes(k.toLowerCase()));
+  const list=CONTENT.ORAL||[];
+  const q=list[O.i];
+  if(!q){render();return}
+  const hit=(q.k||[]).some(k=>v.toLowerCase().includes(k.toLowerCase()));
 
   if(hit||O.tries>=1){
-    const reply=(hit?'Tốt, ý của em đúng hướng. ':'Không sao, thầy giải thích nhanh: '+q.hint+' ')+
-      (O.i+1<CONTENT.ORAL.length?'Đi sâu hơn nhé: '+CONTENT.ORAL[O.i+1].q:'Đó là câu cuối. Em đã hoàn thành buổi vấn đáp!');
+    const reply=(hit?'Tốt, ý của em đúng hướng. ':'Không sao, thầy giải thích nhanh: '+(q.hint||'')+' ')+
+      (O.i+1<list.length?'Đi sâu hơn nhé: '+list[O.i+1].q:'Đó là câu cuối. Em đã hoàn thành buổi vấn đáp!');
     O.log.push({r:'ai',t:reply});
     if(hit){gain(15,'vd',10);Sound.correct()}else{gain(5,'vd',4)}
     O.i++;O.tries=0;
-    if(O.i>=CONTENT.ORAL.length){O.over=true;S.done++;save()}
+    if(O.i>=list.length){O.over=true;S.done++;save()}
   }else{
     O.tries++;
-    O.log.push({r:'ai',t:'Chưa đủ ý. '+q.hint+' Em thử lại nhé.'});
+    O.log.push({r:'ai',t:'Chưa đủ ý. '+(q.hint||'')+' Em thử lại nhé.'});
   }
   render();
   setTimeout(()=>{const b=$('#chatBox');if(b)b.scrollTop=b.scrollHeight},50);
@@ -925,13 +988,13 @@ function mood(){
 function radar(){
   const L=['Kiến thức','Vấn đáp','Ghi nhớ','Độ bao phủ','Phản xạ'],K=['kt','vd','gn','bp','px'],c=110,R=78;
   const P=(i,r)=>{const a=-Math.PI/2+i*2*Math.PI/5;return[(c+r*Math.cos(a)).toFixed(1),(c+r*Math.sin(a)).toFixed(1)]};
-  const poly=K.map((k,i)=>P(i,R*(S.st[k]||20)/100).join(',')).join(' ');
+  const poly=K.map((k,i)=>P(i,R*((S.st&&S.st[k])||20)/100).join(',')).join(' ');
   return `
   <svg viewBox="0 0 220 220" class="w-full max-w-[270px] mx-auto select-none" role="img" aria-label="Biểu đồ radar 5 chiều">
     ${[.33,.66,1].map(f=>`<polygon points="${K.map((k,i)=>P(i,R*f).join(',')).join(' ')}" fill="none" stroke="#b7e4c7" stroke-width="1.2" stroke-dasharray="${f===1?'none':'2,2'}"/>`).join('')}
     <polygon points="${poly}" fill="rgba(46,196,182,0.4)" stroke="#2ec4b6" stroke-width="2.5"/>
-    ${K.map((k,i)=>{const[x,y]=P(i,R*(S.st[k]||20)/100);return`<circle cx="${x}" cy="${y}" r="3.5" fill="#1b4332"/>`}).join('')}
-    ${L.map((l,i)=>{const[x,y]=P(i,R+18);return`<text x="${x}" y="${y}" font-size="9.5" font-weight="700" text-anchor="middle" fill="#0f382c">${l} (${S.st[K[i]]||0}%)</text>`}).join('')}
+    ${K.map((k,i)=>{const[x,y]=P(i,R*((S.st&&S.st[k])||20)/100);return`<circle cx="${x}" cy="${y}" r="3.5" fill="#1b4332"/>`}).join('')}
+    ${L.map((l,i)=>{const[x,y]=P(i,R+18);return`<text x="${x}" y="${y}" font-size="9.5" font-weight="700" text-anchor="middle" fill="#0f382c">${l} (${(S.st&&S.st[K[i]])||0}%)</text>`}).join('')}
   </svg>
   `;
 }
@@ -1050,23 +1113,25 @@ function waterPlant(){
 
 function remind(){
   if(!('Notification' in window)){toast('Trình duyệt chưa hỗ trợ thông báo');return}
-  Notification.requestPermission().then(p=>{
-    if(p==='granted'){
-      new Notification('Mochi nhắc bạn',{
-        body:'Đến giờ học rồi, Mochi đang chờ!'
-      });
-      toast('Đã bật nhắc nhở lúc '+S.remind);
-    }else toast('Bạn chưa cho phép thông báo');
-  });
+  try{
+    Notification.requestPermission().then(p=>{
+      if(p==='granted'){
+        try{new Notification('Mochi nhắc bạn',{body:'Đến giờ học rồi, Mochi đang chờ!'})}catch(e){}
+        toast('Đã bật nhắc nhở lúc '+S.remind);
+      }else toast('Bạn chưa cho phép thông báo');
+    }).catch(e=>{toast('Thông báo: '+e.message)});
+  }catch(e){toast('Thông báo: '+e.message)}
 }
 setInterval(()=>{
-  const n=new Date(),h=String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0');
-  if(h===S.remind&&S.last!==TODAY()){
-    toast('Đến giờ học rồi, Mochi đang chờ!');
-    if('Notification' in window&&Notification.permission==='granted'){
-      new Notification('Đến giờ học rồi!',{body:'Mochi đang chờ em học bài.'});
+  try{
+    const n=new Date(),h=String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0');
+    if(h===S.remind&&S.last!==TODAY()){
+      toast('Đến giờ học rồi, Mochi đang chờ!');
+      if('Notification' in window&&Notification.permission==='granted'){
+        try{new Notification('Đến giờ học rồi!',{body:'Mochi đang chờ em học bài.'})}catch(e){}
+      }
     }
-  }
+  }catch(e){}
 },30000);
 
 /* ==================== 9. ĐĂNG NHẬP / NGƯỜI DÙNG ==================== */
@@ -1143,7 +1208,8 @@ function renderAdminView(){
 }
 
 function verifyAdminPin(){
-  const v=$('#adminPinInput').value.trim();
+  const inp=$('#adminPinInput');if(!inp)return;
+  const v=inp.value.trim();
   if(v===ADMIN_PIN||v==='admin'||v==='123456'||v==='studyarena'){
     ADM=true;toast('Xác thực quản trị thành công!');
     renderAdminView();
@@ -1196,13 +1262,13 @@ function vAdminMcq(){
             <button class="text-rose-600 font-bold hover:underline" onclick="delMcq(${idx})">Xóa</button>
           </div>
           <div class="grid grid-cols-2 gap-1.5 mt-2">
-            ${q.o.map((o,oidx)=>`
+            ${(q.o||[]).map((o,oidx)=>`
               <div class="p-1.5 rounded-lg ${oidx===q.a?'bg-emerald-100 font-bold text-emerald-900':'bg-slate-50 text-slate-700'}">
                 ${String.fromCharCode(65+oidx)}. ${o}
               </div>
             `).join('')}
           </div>
-          <div class="mt-2 text-slate-500 italic">Giải thích: ${q.e}</div>
+          <div class="mt-2 text-slate-500 italic">Giải thích: ${q.e||''}</div>
         </div>
       `).join('')}
     </div>
@@ -1297,9 +1363,9 @@ function vAdminOral(){
           </div>
           <div class="mt-1.5 flex flex-wrap gap-1">
             <span class="text-slate-500 font-semibold">Từ khóa bắt:</span>
-            ${o.k.map(k=>`<span class="bg-teal-100 text-teal-800 px-2 py-0.5 rounded font-mono font-bold">${k}</span>`).join('')}
+            ${(o.k||[]).map(k=>`<span class="bg-teal-100 text-teal-800 px-2 py-0.5 rounded font-mono font-bold">${k}</span>`).join('')}
           </div>
-          <div class="mt-1 text-slate-600 italic">Gợi ý định hướng: ${o.hint}</div>
+          <div class="mt-1 text-slate-600 italic">Gợi ý định hướng: ${o.hint||''}</div>
         </div>
       `).join('')}
     </div>
