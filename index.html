@@ -1,0 +1,1469 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Study Arena – Khu Vườn Tri Thức & Linh Vật Mochi</title>
+<script src="https://cdn.tailwindcss.com/3.4.17"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --g-deep:#0f382c;
+  --g-dark:#1b4332;
+  --g-main:#2d6a4f;
+  --g-leaf:#40916c;
+  --g-mint:#52b788;
+  --g-soft:#74c69d;
+  --g-light:#d8f3dc;
+  --sun-gold:#ffb703;
+  --sun-soft:#fff3c4;
+  --dew-cyan:#2ec4b6;
+  --wood-card:#ffffff;
+}
+body{
+  font-family:'Plus Jakarta Sans',sans-serif;
+  background:linear-gradient(135deg,#e8f5e9 0%,#f1faee 50%,#e0f2fe 100%);
+  color:#152e24;
+  min-height:100vh;
+  position:relative;
+  overflow-x:hidden;
+}
+h1,h2,h3,.font-fun{font-family:'Quicksand',sans-serif}
+.card{
+  background:rgba(255,255,255,0.94);
+  backdrop-filter:blur(10px);
+  border-radius:24px;
+  padding:22px;
+  border:1px solid rgba(82,183,136,0.25);
+  box-shadow:0 10px 30px -10px rgba(15,56,44,0.08),0 2px 6px rgba(15,56,44,0.04);
+  transition:all .25s ease;
+}
+.card:hover{box-shadow:0 14px 36px -10px rgba(45,106,79,0.15)}
+.btn{
+  background:linear-gradient(135deg,#2d6a4f,#1b4332);
+  color:#fff;
+  border-radius:14px;
+  padding:10px 18px;
+  font-weight:700;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  box-shadow:0 4px 12px rgba(45,106,79,0.2);
+  transition:all .2s ease;
+  cursor:pointer;
+}
+.btn:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(45,106,79,0.3);background:linear-gradient(135deg,#40916c,#2d6a4f)}
+.btn:active{transform:translateY(0)}
+.btn.g{background:linear-gradient(135deg,#2ec4b6,#1b7b72);color:#fff}
+.btn.g:hover{background:linear-gradient(135deg,#36d7c8,#209388)}
+.btn.y{background:linear-gradient(135deg,#ffb703,#fb8500);color:#fff;box-shadow:0 4px 12px rgba(251,133,0,0.25)}
+.btn.y:hover{background:linear-gradient(135deg,#ffc32b,#f77f00)}
+.btn.rose{background:linear-gradient(135deg,#ff4d6d,#c9184a);color:#fff}
+.btn.outline{background:transparent;border:2px solid #52b788;color:#2d6a4f;box-shadow:none}
+.btn.outline:hover{background:#d8f3dc}
+.btn.sm{padding:6px 12px;font-size:13px;border-radius:10px}
+.tab{
+  padding:9px 18px;
+  border-radius:999px;
+  font-weight:700;
+  font-size:14px;
+  color:#2d6a4f;
+  transition:all .2s ease;
+  cursor:pointer;
+}
+.tab:hover{background:rgba(82,183,136,0.18)}
+.tab.on{
+  background:linear-gradient(135deg,#2d6a4f,#1b4332);
+  color:#fff;
+  box-shadow:0 4px 14px rgba(45,106,79,0.25);
+}
+.opt{
+  border:2px solid #d8f3dc;
+  border-radius:16px;
+  padding:12px 18px;
+  text-align:left;
+  width:100%;
+  margin-top:10px;
+  background:#fff;
+  font-weight:600;
+  transition:all .2s ease;
+  cursor:pointer;
+}
+.opt:hover{border-color:#52b788;background:#f8fdf9;transform:translateX(3px)}
+.ok{border-color:#2ec4b6!important;background:#e6faf7!important;color:#0b524b;box-shadow:0 0 0 2px rgba(46,196,182,0.3)}
+.no{border-color:#ff6b6b!important;background:#fff0f0!important;color:#851a1a;box-shadow:0 0 0 2px rgba(255,107,107,0.3)}
+input,select,textarea{
+  border:2px solid #d8f3dc;
+  border-radius:14px;
+  padding:10px 14px;
+  width:100%;
+  background:#fcfefd;
+  transition:all .2s;
+}
+input:focus,select:focus,textarea:focus{
+  border-color:#52b788;
+  outline:none;
+  background:#fff;
+  box-shadow:0 0 0 4px rgba(82,183,136,0.15);
+}
+.bar{height:12px;border-radius:999px;background:#e2f5e8;overflow:hidden;position:relative}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,#52b788,#2ec4b6,#ffb703);transition:width .4s ease}
+.lock{filter:grayscale(0.85);opacity:.45}
+@keyframes floatGarden{
+  0%,100%{transform:translateY(0) rotate(0deg)}
+  50%{transform:translateY(-8px) rotate(1deg)}
+}
+.anim-float{animation:floatGarden 4s ease-in-out infinite}
+@keyframes pulseGlow{
+  0%,100%{box-shadow:0 0 15px rgba(46,196,182,0.3)}
+  50%{box-shadow:0 0 30px rgba(82,183,136,0.6)}
+}
+.anim-glow{animation:pulseGlow 3s infinite}
+@keyframes pop{50%{transform:scale(1.2)}}
+.pop{animation:pop .45s ease}
+#leafCanvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0}
+header,main,footer,#modal,#toast,#adminModal{position:relative;z-index:10}
+.admin-badge{
+  background:linear-gradient(135deg,#ffb703,#e76f51);
+  color:#fff;
+  border-radius:999px;
+  padding:3px 10px;
+  font-size:11px;
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:0.5px;
+}
+</style>
+</head>
+<body>
+<canvas id="leafCanvas"></canvas>
+
+<!-- THANH HEADER KHU VƯỜN -->
+<header class="max-w-6xl mx-auto px-4 pt-4">
+  <div class="flex items-center justify-between flex-wrap gap-3">
+    <div class="flex items-center gap-3 cursor-pointer" onclick="go('learn')">
+      <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-emerald-600 to-teal-400 flex items-center justify-center text-2xl shadow-lg shadow-emerald-700/20 anim-float">
+        🌿
+      </div>
+      <div>
+        <div class="flex items-center gap-2">
+          <span class="text-2xl font-extrabold tracking-tight text-emerald-950 font-fun">Study Arena</span>
+          <span class="bg-emerald-100 text-emerald-800 text-[11px] font-bold px-2 py-0.5 rounded-full border border-emerald-300">Vườn Tri Thức</span>
+        </div>
+        <div class="text-xs font-semibold text-emerald-700">Nuôi dưỡng linh vật Mochi qua từng bài học</div>
+      </div>
+    </div>
+
+    <!-- KHU VỰC ĐIỀU KHIỂN & QUẢN TRỊ VIÊN -->
+    <div class="flex items-center gap-2 flex-wrap">
+      <!-- Nút âm thanh -->
+      <button class="btn sm outline" onclick="toggleAudio()" id="btnAudio" title="Bật/Tắt âm thanh khu vườn">
+        🔊 Âm thanh
+      </button>
+
+      <!-- Nút QUẢN TRỊ ADMIN NỔI BẬT -->
+      <button class="btn sm y" onclick="openAdminModal()" id="btnAdminNav" title="Mở trung tâm quản trị toàn năng">
+        <span>⚙️</span> <span>Quản Trị Vườn</span>
+      </button>
+
+      <!-- Người dùng -->
+      <div id="auth"></div>
+    </div>
+  </div>
+
+  <!-- NAVIGATION TABS & CHIP TIẾN TRÌNH -->
+  <div class="flex flex-wrap items-center gap-3 justify-between mt-4 pb-2 border-b border-emerald-200/60">
+    <nav class="flex gap-1 bg-white/80 p-1.5 rounded-full shadow-sm border border-emerald-200/70" id="nav"></nav>
+    <div id="chip" class="font-bold text-xs sm:text-sm text-emerald-900 bg-emerald-100/90 px-3.5 py-1.5 rounded-full border border-emerald-300 shadow-sm flex items-center gap-2"></div>
+  </div>
+</header>
+
+<!-- GIAO DIỆN CHÍNH -->
+<main id="app" class="max-w-6xl mx-auto p-4 mb-12"></main>
+
+<!-- MODAL ĐĂNG NHẬP -->
+<div id="modal" class="fixed inset-0 bg-black/40 backdrop-blur-sm hidden items-center justify-center p-4">
+  <div class="card max-w-sm w-full text-center p-6 border-2 border-emerald-200">
+    <div class="text-5xl mb-2">🌸</div>
+    <h2 class="font-extrabold text-xl text-emerald-950 font-fun">Đăng nhập Study Arena</h2>
+    <p class="text-xs text-emerald-700 mt-1 mb-4">Lưu trữ hạt mầm và nhật ký học tập trên đám mây</p>
+    <button class="btn w-full" onclick="login('Google')">Tiếp tục với Google</button>
+    <button class="btn g w-full mt-2.5" onclick="login('Facebook')">Tiếp tục với Facebook</button>
+    <button class="btn outline sm w-full mt-2.5" onclick="login('Khách Vãng Lai')">Học ẩn danh (Khách)</button>
+    <button class="mt-4 text-xs font-bold text-slate-500 hover:text-emerald-700 underline" onclick="$('#modal').classList.add('hidden');$('#modal').classList.remove('flex')">Để lúc khác</button>
+  </div>
+</div>
+
+<!-- MODAL QUẢN TRỊ ADMIN ĐẦY ĐỦ TIỆN ÍCH -->
+<div id="adminModal" class="fixed inset-0 bg-emerald-950/60 backdrop-blur-md hidden items-center justify-center p-3 sm:p-5 overflow-y-auto">
+  <div class="card max-w-4xl w-full max-h-[92vh] flex flex-col p-4 sm:p-6 border-2 border-amber-300 shadow-2xl relative">
+    <div class="flex items-center justify-between border-b border-emerald-200 pb-3 mb-4">
+      <div class="flex items-center gap-2">
+        <span class="text-3xl">🌿</span>
+        <div>
+          <div class="flex items-center gap-2">
+            <h2 class="text-xl font-extrabold text-emerald-950 font-fun">Trung Tâm Quản Trị Vườn Tri Thức</h2>
+            <span class="admin-badge">Admin Master</span>
+          </div>
+          <p class="text-xs text-emerald-700 font-medium">Toàn quyền tùy biến ngân hàng thi, bài học, linh vật & điểm thưởng</p>
+        </div>
+      </div>
+      <button class="w-8 h-8 rounded-full bg-emerald-100 hover:bg-emerald-200 text-emerald-900 font-extrabold flex items-center justify-center" onclick="closeAdminModal()">✕</button>
+    </div>
+
+    <!-- NỘI DUNG ADMIN BODY -->
+    <div id="adminBody" class="flex-1 overflow-y-auto pr-1"></div>
+  </div>
+</div>
+
+<!-- THÔNG BÁO TOAST DẠNG GIỌT SƯƠNG -->
+<div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-gradient-to-r from-emerald-900 to-teal-900 text-white font-bold text-sm px-5 py-3 rounded-2xl shadow-2xl border border-emerald-400 hidden items-center gap-2 z-50 transition-all"></div>
+
+<script>
+/* ==================== 1. KHỞI TẠO TIỆN ÍCH CỐT LÕI ==================== */
+const $=s=>document.querySelector(s);
+const $$=s=>document.querySelectorAll(s);
+const TODAY=()=>new Date().toDateString();
+
+/* ==================== 2. ÂM THANH WEBAUDIO (OFFLINE) ==================== */
+const Sound={
+  ctx:null,
+  init(){if(!this.ctx)this.ctx=new(window.AudioContext||window.webkitAudioContext)()},
+  drop(){
+    if(S.muted)return;this.init();
+    try{
+      const o=this.ctx.createOscillator(),g=this.ctx.createGain();
+      o.type='sine';o.frequency.setValueAtTime(500,this.ctx.currentTime);
+      o.frequency.exponentialRampToValueAtTime(1200,this.ctx.currentTime+0.12);
+      g.gain.setValueAtTime(0.25,this.ctx.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.01,this.ctx.currentTime+0.12);
+      o.connect(g);g.connect(this.ctx.destination);
+      o.start();o.stop(this.ctx.currentTime+0.12);
+    }catch(e){}
+  },
+  correct(){
+    if(S.muted)return;this.init();
+    try{
+      [523.25,659.25,783.99].forEach((f,i)=>{
+        const o=this.ctx.createOscillator(),g=this.ctx.createGain();
+        o.type='triangle';o.frequency.setValueAtTime(f,this.ctx.currentTime+i*0.08);
+        g.gain.setValueAtTime(0.2,this.ctx.currentTime+i*0.08);
+        g.gain.exponentialRampToValueAtTime(0.01,this.ctx.currentTime+i*0.08+0.25);
+        o.connect(g);g.connect(this.ctx.destination);
+        o.start(this.ctx.currentTime+i*0.08);o.stop(this.ctx.currentTime+i*0.08+0.25);
+      });
+    }catch(e){}
+  },
+  tada(){
+    if(S.muted)return;this.init();
+    try{
+      [440,554.37,659.25,880].forEach((f,i)=>{
+        const o=this.ctx.createOscillator(),g=this.ctx.createGain();
+        o.type='sine';o.frequency.setValueAtTime(f,this.ctx.currentTime+i*0.1);
+        g.gain.setValueAtTime(0.3,this.ctx.currentTime+i*0.1);
+        g.gain.exponentialRampToValueAtTime(0.01,this.ctx.currentTime+i*0.1+0.4);
+        o.connect(g);g.connect(this.ctx.destination);
+        o.start(this.ctx.currentTime+i*0.1);o.stop(this.ctx.currentTime+i*0.1+0.4);
+      });
+    }catch(e){}
+  }
+};
+function toggleAudio(){
+  S.muted=!S.muted;save();
+  $('#btnAudio').innerHTML=S.muted?'🔇 Đã tắt':'🔊 Âm thanh';
+  toast(S.muted?'Đã tắt âm thanh khu vườn':'Đã bật âm thanh sinh động');
+}
+
+/* ==================== 3. DỮ LIỆU CỐT LÕI (NGUỒN GỐC TỪ BẢN GỐC) ==================== */
+const DEFAULT_TOPICS=[
+  'Giới hạn dãy số và hàm số',
+  'Hàm liên tục',
+  'Đạo hàm và vi phân',
+  'Ứng dụng đạo hàm: cực trị, tiệm cận',
+  'Tích phân bất định',
+  'Tích phân xác định',
+  'Tích phân suy rộng',
+  'Chuỗi số và tiêu chuẩn hội tụ'
+];
+const DEFAULT_KNOW=[
+  'Định nghĩa giới hạn và các dạng vô định (0/0, ∞/∞)',
+  'Quy tắc L’Hôpital',
+  'Định nghĩa đạo hàm bằng giới hạn của tỉ số số gia',
+  'Điều kiện cần của cực trị (định lý Fermat)',
+  'Công thức Newton–Leibniz',
+  'Tiêu chuẩn so sánh và d’Alembert cho chuỗi'
+];
+const DEFAULT_MCQ=[
+ {q:'lim (x→0) sin x / x bằng?',o:['0','1','∞','Không tồn tại'],a:1,e:'Đây là giới hạn cơ bản, bằng 1.'},
+ {q:'Đạo hàm của f(x) = x²·eˣ là?',o:['2x·eˣ','x²·eˣ','(2x + x²)·eˣ','2x + eˣ'],a:2,e:'Quy tắc tích: (uv)′ = u′v + uv′ = 2x·eˣ + x²·eˣ.'},
+ {q:'∫₀¹ 2x dx bằng?',o:['0','1','2','1/2'],a:1,e:'Nguyên hàm là x², thay cận: 1² − 0² = 1.'},
+ {q:'Chuỗi Σ 1/n² (n ≥ 1) có tính chất nào?',o:['Phân kỳ','Hội tụ','Dao động','Không xác định'],a:1,e:'Chuỗi p với p = 2 > 1 nên hội tụ.'},
+ {q:'Hàm |x| tại x = 0?',o:['Liên tục, khả vi','Liên tục, không khả vi','Gián đoạn','Khả vi, không liên tục'],a:1,e:'Đạo hàm trái là −1, đạo hàm phải là 1 nên không khả vi, nhưng hàm vẫn liên tục.'}
+];
+const DEFAULT_ESSAY=[
+ {q:'Tìm cực trị của f(x) = x³ − 3x + 2 và trình bày các bước.',h:'Tính f′(x), giải f′(x) = 0, lập bảng biến thiên hoặc xét dấu f″(x).'},
+ {q:'Chứng minh nếu f khả vi tại a thì f liên tục tại a.',h:'Viết f(x) − f(a) = [(f(x) − f(a))/(x − a)]·(x − a), rồi cho x → a.'}
+];
+const DEFAULT_ORAL=[
+ {q:'Em hãy phát biểu định nghĩa đạo hàm của hàm số tại một điểm.',k:['giới hạn','lim','tỉ số','số gia'],hint:'Hãy nghĩ tới giới hạn của tỉ số giữa số gia hàm số và số gia đối số.'},
+ {q:'Về mặt hình học, đạo hàm tại x₀ biểu diễn điều gì?',k:['tiếp tuyến','hệ số góc','độ dốc'],hint:'Nghĩ về đường thẳng chạm đồ thị tại điểm đó.'},
+ {q:'Hàm liên tục có chắc khả vi không? Cho một ví dụ.',k:['|x|','trị tuyệt đối','không khả vi','không'],hint:'Thử xét hàm có “góc nhọn” tại gốc tọa độ.'},
+ {q:'Cuối cùng, định lý Fermat nói gì về cực trị và đạo hàm?',k:['bằng 0','=0','cực trị','điều kiện cần'],hint:'Nếu hàm khả vi và đạt cực trị tại x₀ thì f′(x₀) có giá trị nào?'}
+];
+
+let CONTENT={
+  MCQ:DEFAULT_MCQ,
+  ESSAY:DEFAULT_ESSAY,
+  ORAL:DEFAULT_ORAL,
+  TOPICS:DEFAULT_TOPICS,
+  KNOW:DEFAULT_KNOW
+};
+
+// Khôi phục dữ liệu tùy biến từ LocalStorage (hỗ trợ cả khóa cũ sa_content và mới sa_garden_content)
+try{
+  const savedC=JSON.parse(localStorage.getItem('sa_garden_content')||localStorage.getItem('sa_content')||'{}');
+  for(const k in savedC){
+    if(CONTENT[k]&&Array.isArray(savedC[k])&&savedC[k].length>0){
+      CONTENT[k]=savedC[k];
+    }
+  }
+}catch(e){}
+
+function saveContent(){
+  try{
+    localStorage.setItem('sa_garden_content',JSON.stringify(CONTENT));
+    localStorage.setItem('sa_content',JSON.stringify(CONTENT));
+  }catch(e){}
+}
+
+/* ==================== 4. TRẠNG THÁI NGƯỜI DÙNG & TIẾN ĐỘ ==================== */
+let S={
+  xp:45,streak:1,last:TODAY(),done:1,grade:'Đại học năm 1',subject:'Toán giải tích',hrs:2,files:[],focus:CONTENT.KNOW,plan:[],tab:'learn',exam:'mcq',remind:'20:00',mode:'week4',user:null,muted:false,
+  st:{kt:40,vd:30,gn:35,bp:25,px:30}
+};
+
+// Khôi phục trạng thái từ LocalStorage (hỗ trợ cả khóa cũ mochi và mới mochi_garden)
+try{
+  const savedS=JSON.parse(localStorage.getItem('mochi_garden')||localStorage.getItem('mochi')||'{}');
+  Object.assign(S,savedS);
+}catch(e){}
+
+// Nếu chưa có focus, gán mặc định
+if(!S.focus||!S.focus.length)S.focus=[...CONTENT.KNOW];
+
+// Hàm lưu trạng thái
+const save=()=>{
+  try{
+    localStorage.setItem('mochi_garden',JSON.stringify(S));
+    localStorage.setItem('mochi',JSON.stringify(S));
+  }catch(e){}
+};
+
+const lvl=()=>Math.min(10,Math.floor((S.xp||0)/60)+1);
+
+function toast(m){
+  const t=$('#toast');if(!t)return;
+  t.innerHTML=`<span>✨</span> <span>${m}</span>`;
+  t.classList.remove('hidden');t.classList.add('flex');
+  clearTimeout(toast.h);toast.h=setTimeout(()=>{t.classList.add('hidden');t.classList.remove('flex')},2500);
+}
+
+function gain(xp,k,d){
+  const before=lvl();
+  if(S.last!==TODAY()){
+    const y=new Date(Date.now()-864e5).toDateString();
+    S.streak=S.last===y?S.streak+1:1;S.last=TODAY();
+  }
+  S.xp=(S.xp||0)+xp;
+  if(k&&S.st[k]!==undefined)S.st[k]=Math.min(100,S.st[k]+d);
+  save();
+  Sound.drop();
+  if(lvl()>before){
+    Sound.tada();
+    toast(`Chúc mừng! Mochi đã tiến hóa lên CẤP ${lvl()}! 🎉`);
+  }else{
+    toast(`+${xp} Giọt sương tri thức (XP)`);
+  }
+  head();
+}
+
+let M={i:0,s:0,done:false,lock:false};
+let O={i:0,log:[],tries:0,over:false};
+
+/* ==================== 5. ĐIỀU HƯỚNG & HEADER ==================== */
+function head(){
+  const navEl=$('#nav');
+  if(navEl){
+    navEl.innerHTML=[
+      ['learn','🌱 Vườn Học Tập'],
+      ['exam','⚔️ Đấu Trường Thi'],
+      ['pet','🏡 Nhà Cây Mochi']
+    ].map(([k,l])=>`<button class="tab ${S.tab===k?'on':''}" onclick="go('${k}')">${l}</button>`).join('');
+  }
+
+  const chipEl=$('#chip');
+  if(chipEl){
+    chipEl.innerHTML=`
+      <span class="inline-flex items-center gap-1 font-extrabold text-emerald-800">🪴 Cấp ${lvl()}</span>
+      <span class="text-emerald-300">|</span>
+      <span class="inline-flex items-center gap-1 font-bold text-amber-700">🔥 Chuỗi ${S.streak} ngày</span>
+      <span class="text-emerald-300">|</span>
+      <span class="inline-flex items-center gap-1 font-bold text-teal-700">💧 ${S.xp} Sương</span>
+    `;
+  }
+
+  const authEl=$('#auth');
+  if(authEl){
+    authEl.innerHTML=S.user?`
+      <div class="flex items-center gap-2">
+        <span class="text-xs font-bold text-emerald-800 hidden sm:inline">👤 ${S.user.name}</span>
+        <button class="btn sm outline" onclick="logout()">Thoát</button>
+      </div>
+    `:`<button class="btn sm outline" onclick="loginModal()">Đăng nhập</button>`;
+  }
+}
+
+function go(t){
+  if(location.hash==='#admin')history.replaceState(null,'',location.pathname);
+  S.tab=t;save();render();
+}
+
+function render(){
+  head();
+  if(location.hash==='#admin'){openAdminModal();return;}
+  const appEl=$('#app');
+  if(appEl){
+    appEl.innerHTML={learn:vLearn,exam:vExam,pet:vPet}[S.tab]();
+  }
+}
+addEventListener('hashchange',()=>{if(location.hash==='#admin')openAdminModal()});
+
+/* ==================== 6. GIAO DIỆN HỌC TẬP (VƯỜN HỌC) ==================== */
+const MODES=[
+  ['day7','⚡ Cấp tốc (1 tuần: 7 ngày)'],
+  ['week4','🚀 Nhanh (1 tháng: 4 tuần)'],
+  ['week12','🌿 Chuẩn (3 tháng: 12 tuần)']
+];
+const unit=()=>S.mode==='day7'?'Ngày':'Tuần',tevery=()=>S.mode==='day7'?3:2,
+rng=i=>{const D={day7:7,week4:28,week12:90}[S.mode],N={day7:7,week4:4,week12:12}[S.mode];return[Math.round(i*D/N)+1,Math.round((i+1)*D/N)]},
+hrsOf=i=>S.hrs*(rng(i)[1]-rng(i)[0]+1),
+lab=i=>{const[a,b]=rng(i);return S.mode==='day7'?'Ngày '+(i+1):'Tuần '+(i+1)+' (Tháng '+(Math.floor((a-1)/30)+1)+', ngày '+a+'–'+b+')'};
+
+// Đảm bảo lộ trình được khởi tạo nếu chưa có
+function ensurePlan(){
+  if(!S.plan||!S.plan.length){
+    const it=(S.focus&&S.focus.length)?S.focus:CONTENT.TOPICS;
+    const N={day7:7,week4:4,week12:12}[S.mode]||4;
+    S.plan=Array.from({length:N},(_,i)=>{
+      const a=Math.floor(i*it.length/N),b=Math.floor((i+1)*it.length/N);
+      return{
+        t:b>a?it.slice(a,b).join('; '):'Tổng ôn chuyên đề & luyện đề củng cố phản xạ',
+        d:i===0
+      };
+    });
+    save();
+  }
+}
+
+function vLearn(){
+  ensurePlan();
+  const knowList=(S.focus&&S.focus.length)?S.focus:CONTENT.KNOW;
+  return `
+  <div class="grid lg:grid-cols-3 gap-6">
+    <!-- CỘT TRÁI: THIẾT LẬP MỤC TIÊU & TÀI LIỆU -->
+    <section class="card lg:col-span-1 border-t-4 border-t-emerald-600">
+      <div class="flex items-center gap-2 mb-3">
+        <span class="text-2xl">🎯</span>
+        <h2 class="font-extrabold text-lg text-emerald-950 font-fun">Mục Tiêu Gieo Hạt</h2>
+      </div>
+
+      <label class="text-xs font-bold text-emerald-800 uppercase tracking-wider">Khối Lớp / Hệ Đào Tạo</label>
+      <select onchange="S.grade=this.value;save()" class="mt-1 font-semibold text-emerald-950">
+        ${['Lớp 10','Lớp 11','Lớp 12','Đại học năm 1','Đại học năm 2','Đại học năm 3','Đại học năm 4'].map(g=>`<option ${g===S.grade?'selected':''}>${g}</option>`).join('')}
+      </select>
+
+      <label class="text-xs font-bold text-emerald-800 uppercase tracking-wider mt-3 block">Môn Học</label>
+      <select onchange="S.subject=this.value;save()" class="mt-1 font-semibold text-emerald-950">
+        ${['Toán giải tích','Toán đại số tuyến tính','Xác suất thống kê','Vật lý đại cương','Hóa học đại cương'].map(g=>`<option ${g===S.subject?'selected':''}>${g}</option>`).join('')}
+      </select>
+
+      <label class="text-xs font-bold text-emerald-800 uppercase tracking-wider mt-3 block">
+        Thời gian chăm chỉ: <span class="text-emerald-700 font-extrabold text-base" id="hv">${S.hrs}</span> giờ/ngày
+      </label>
+      <input type="range" min="1" max="8" step="1" value="${S.hrs}" oninput="S.hrs=this.value;$('#hv').textContent=this.value;save()" class="accent-emerald-600 mt-1">
+
+      <hr class="my-4 border-emerald-100">
+
+      <!-- TẢI TÀI LIỆU -->
+      <div class="flex items-center gap-2 mb-2">
+        <span class="text-xl">📥</span>
+        <h3 class="font-bold text-emerald-900">Gieo Mầm Tài Liệu</h3>
+      </div>
+      <p class="text-xs text-emerald-700 mb-2">Tải giáo trình hoặc ghi chú (.pdf, .docx, ảnh) để AI chắt lọc tinh hoa</p>
+      
+      <div class="border-2 border-dashed border-emerald-300 rounded-2xl p-4 text-center bg-emerald-50/50 hover:bg-emerald-50 transition">
+        <input type="file" accept=".pdf,.doc,.docx,image/*" onchange="upload(this.files)" class="w-full text-xs text-emerald-800 cursor-pointer file:mr-2 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-emerald-600 file:text-white hover:file:bg-emerald-700">
+        <div id="aiStatus" class="text-xs font-medium text-emerald-800 mt-2">
+          ${S.files&&S.files.length?'📁 Đã tiếp nhận: <b>'+S.files.join(', ')+'</b>':'Hỗ trợ PDF, Word, hình ảnh bài giảng.'}
+        </div>
+      </div>
+
+      <!-- KIẾN THỨC TRỌNG TÂM -->
+      <div class="mt-4">
+        <div class="text-xs font-bold uppercase tracking-wider text-emerald-900 flex items-center justify-between mb-1.5">
+          <span>Kiến thức chắt lọc (${knowList.length}):</span>
+          <span class="text-teal-600">AI Verified</span>
+        </div>
+        <ul class="text-xs space-y-1.5 max-h-48 overflow-y-auto pr-1">
+          ${knowList.map(f=>`
+            <li class="p-2 rounded-xl bg-emerald-50/80 border border-emerald-200/60 text-emerald-950 flex items-start gap-1.5">
+              <span class="text-emerald-500 mt-0.5">🌿</span> <span>${f}</span>
+            </li>
+          `).join('')}
+        </ul>
+      </div>
+
+      <!-- NÚT XUẤT TÀI LIỆU -->
+      <div class="flex flex-col gap-2 mt-4">
+        <button class="btn y sm w-full" onclick="exportDoc()">📄 Xuất Tóm Tắt Ôn Tập (Word)</button>
+        <button class="btn outline sm w-full" onclick="exportPdf()">🖨️ In / Lưu Tài Liệu (PDF)</button>
+      </div>
+    </section>
+
+    <!-- CỘT PHẢI: LỘ TRÌNH VƯỜN KIẾN THỨC -->
+    <section class="card lg:col-span-2 border-t-4 border-t-teal-600">
+      <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+        <div>
+          <h2 class="font-extrabold text-lg text-emerald-950 font-fun flex items-center gap-2">
+            <span>🗺️</span> <span>Lộ Trình Ươm Mầm Tri Thức</span>
+          </h2>
+          <p class="text-xs text-emerald-700">Tự động phân bổ bài học khoa học, bạn có thể chỉnh thứ tự bằng ▲▼</p>
+        </div>
+        <button class="btn g sm" onclick="suggest()">✨ Tạo / Làm Mới Lộ Trình</button>
+      </div>
+
+      <!-- CHỌN THỜI GIAN LỘ TRÌNH -->
+      <div class="flex flex-wrap gap-2 mb-4 p-1.5 bg-emerald-50/80 rounded-2xl border border-emerald-200/60">
+        ${MODES.map(m=>`
+          <button class="tab sm flex-1 text-center py-1.5 ${S.mode===m[0]?'on':'bg-white/70'}" onclick="S.mode='${m[0]}';suggest()">${m[1]}</button>
+        `).join('')}
+      </div>
+
+      <!-- DANH SÁCH CÁC MỐC HỌC TẬP -->
+      <div class="space-y-2.5 max-h-[560px] overflow-y-auto pr-1">
+        ${S.plan.map((p,i)=>`
+          <div class="p-3.5 rounded-2xl border ${p.d?'bg-emerald-100/60 border-emerald-300':'bg-white border-emerald-100'} hover:border-emerald-300 transition flex items-center gap-3">
+            <input type="checkbox" class="w-5 h-5 accent-emerald-600 rounded cursor-pointer" ${p.d?'checked':''} onchange="doneWeek(${i},this.checked)" title="Đánh dấu hoàn thành mốc này">
+            <div class="flex-1">
+              <div class="flex items-center gap-2 flex-wrap">
+                <span class="font-extrabold text-sm text-emerald-900">${lab(i)}</span>
+                <span class="text-xs bg-emerald-100 text-emerald-800 px-2.5 py-0.5 rounded-full font-semibold">~${hrsOf(i)} giờ học</span>
+                ${(i+1)%tevery()===0?`
+                  <button class="text-xs font-bold text-teal-700 hover:text-teal-900 underline flex items-center gap-1" onclick="miniTest(${i})">
+                    <span>⚡</span> <span>Mini-test kiểm tra</span>
+                  </button>
+                `:''}
+              </div>
+              <div class="text-xs sm:text-sm text-emerald-950 mt-1 font-medium leading-relaxed">${p.t}</div>
+            </div>
+            <div class="flex flex-col gap-1">
+              <button class="w-7 h-7 rounded-lg bg-emerald-50 hover:bg-emerald-200 text-emerald-900 text-xs font-bold flex items-center justify-center" onclick="mv(${i},-1)" title="Chuyển lên trước">▲</button>
+              <button class="w-7 h-7 rounded-lg bg-emerald-50 hover:bg-emerald-200 text-emerald-900 text-xs font-bold flex items-center justify-center" onclick="mv(${i},1)" title="Chuyển xuống sau">▼</button>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </section>
+  </div>
+  `;
+}
+
+function upload(f){
+  if(!f.length)return;
+  S.files=[...f].map(x=>x.name);
+  const a=$('#aiStatus');
+  a.innerHTML='<span class="inline-block animate-spin mr-1">🔄</span> AI đang đọc tài liệu và lọc kiến thức trọng tâm…';
+  setTimeout(()=>{
+    S.focus=CONTENT.KNOW;
+    save();
+    gain(20,'bp',12);
+    toast('Đã phân tích tài liệu! Mochi hấp thu thêm dinh dưỡng');
+    render();
+  },1200);
+}
+
+function suggest(){
+  const it=(S.focus&&S.focus.length)?S.focus:CONTENT.TOPICS;
+  const N={day7:7,week4:4,week12:12}[S.mode];
+  S.plan=Array.from({length:N},(_,i)=>{
+    const a=Math.floor(i*it.length/N),b=Math.floor((i+1)*it.length/N);
+    return{
+      t:b>a?it.slice(a,b).join('; '):'Tổng ôn chuyên đề & luyện đề củng cố phản xạ',
+      d:false
+    };
+  });
+  save();
+  Sound.correct();
+  toast('Đã cập nhật lộ trình học tập thông minh!');
+  render();
+}
+
+function mv(i,d){
+  const j=i+d;if(j<0||j>=S.plan.length)return;
+  [S.plan[i],S.plan[j]]=[S.plan[j],S.plan[i]];
+  save();render();
+}
+
+function doneWeek(i,v){
+  S.plan[i].d=v;
+  if(v){gain(25,'gn',8);Sound.correct();toast(`Xuất sắc! Hoàn thành ${lab(i)} 🎉`)}
+  else save();
+}
+
+function miniTest(){
+  M={i:0,s:0,done:false,lock:false};
+  S.exam='mcq';go('exam');
+}
+
+function docHtml(){
+  return `
+  <h1 style="color:#1b4332;font-family:sans-serif">Study Arena – Tóm Tắt Ôn Tập & Cương Lĩnh Học Tập</h1>
+  <p><b>Môn học:</b> ${S.subject} | <b>Khối lớp:</b> ${S.grade} | <b>Thời lượng:</b> ${S.hrs} giờ/ngày</p>
+  <hr/>
+  <h2 style="color:#2d6a4f">1. Kiến thức cốt lõi cần nhớ</h2>
+  <ul>${((S.focus&&S.focus.length)?S.focus:CONTENT.KNOW).map(f=>`<li>${f}</li>`).join('')}</ul>
+  <h2 style="color:#2d6a4f">2. Kế hoạch và lộ trình hoàn thành</h2>
+  <ol>${((S.plan&&S.plan.length)?S.plan.map(p=>p.t):CONTENT.TOPICS).map(t=>`<li>${t}</li>`).join('')}</ol>
+  <p><i>Study Arena – Học thông minh cùng linh vật Mochi</i></p>
+  `;
+}
+function exportDoc(){
+  const b=new Blob(['<html><meta charset="utf-8"><body>'+docHtml()+'</body></html>'],{type:'application/msword'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=`On-Tap-${S.subject.replace(/\s+/g,'-')}.doc`;a.click();
+  gain(5,'gn',3);
+}
+function exportPdf(){
+  const w=open('','_blank');
+  w.document.write('<meta charset="utf-8"><title>Tài liệu ôn tập</title><body style="font-family:sans-serif;padding:30px">'+docHtml()+'</body>');
+  w.document.close();w.print();gain(5,'gn',3);
+}
+
+/* ==================== 7. GIAO DIỆN ĐẤU TRƯỜNG THI (EXAM) ==================== */
+function vExam(){
+  const t=[
+    ['mcq','🎯 Trắc Nghiệm Phản Xạ'],
+    ['essay','📝 Tự Luận Chuyên Sâu'],
+    ['oral','🎙️ Vấn Đáp Thầy AI']
+  ];
+  return `
+  <div>
+    <!-- CHỌN DẠNG BÀI THI -->
+    <div class="flex flex-wrap gap-2 mb-4">
+      ${t.map(([k,l])=>`
+        <button class="tab ${S.exam===k?'on':'bg-white/80'}" onclick="S.exam='${k}';render()">${l}</button>
+      `).join('')}
+    </div>
+
+    <!-- KHUNG NỘI DUNG THI -->
+    <div class="card border-t-4 border-t-emerald-600">
+      ${{mcq:vMcq,essay:vEssay,oral:vOral}[S.exam]()}
+    </div>
+  </div>
+  `;
+}
+
+function vMcq(){
+  const list=CONTENT.MCQ;
+  if(M.done){
+    const pct=Math.round((M.s/list.length)*100);
+    return `
+    <div class="text-center py-8">
+      <div class="text-6xl mb-3">${pct>=80?'🏆':'🌱'}</div>
+      <h2 class="text-2xl font-extrabold text-emerald-950 font-fun">Kết Quả Đấu Trường: ${M.s}/${list.length} (${pct}%)</h2>
+      <p class="text-sm text-emerald-800 mt-2 max-w-md mx-auto">
+        ${pct>=80?'Tuyệt vời! Kiến thức của bạn rất vững vàng, Mochi được tiếp thêm nguồn năng lượng dồi dào!':'Mochi đã ghi lại các câu bạn chưa chuẩn xác. Hãy ôn lại để tiến hóa nhanh hơn nhé!'}
+      </p>
+      <div class="flex justify-center gap-3 mt-5">
+        <button class="btn g" onclick="M={i:0,s:0,done:false,lock:false};render()">Làm Lại Lượt Mới</button>
+        <button class="btn outline" onclick="go('pet')">Thăm Mochi Trong Nhà Cây</button>
+      </div>
+    </div>
+    `;
+  }
+
+  const q=list[M.i]||list[0];
+  return `
+  <div>
+    <div class="flex items-center justify-between text-xs font-bold text-emerald-800 border-b border-emerald-100 pb-2 mb-4">
+      <span>Câu hỏi số ${M.i+1} / ${list.length}</span>
+      <span class="bg-emerald-100 text-emerald-800 px-2.5 py-0.5 rounded-full">+10 XP khi đúng</span>
+    </div>
+
+    <h2 class="text-lg sm:text-xl font-extrabold text-emerald-950 font-fun mb-4 leading-relaxed">${q.q}</h2>
+
+    <div class="space-y-2">
+      ${q.o.map((o,idx)=>`
+        <button class="opt" onclick="pick(${idx})">
+          <span class="inline-block w-7 h-7 rounded-full bg-emerald-100 text-emerald-900 text-xs font-extrabold text-center leading-7 mr-2">${String.fromCharCode(65+idx)}</span>
+          ${o}
+        </button>
+      `).join('')}
+    </div>
+
+    <div id="exBox" class="mt-4"></div>
+  </div>
+  `;
+}
+
+function pick(i){
+  const q=CONTENT.MCQ[M.i];if(M.lock)return;M.lock=true;
+  $$('.opt').forEach((b,k)=>{
+    if(k===q.a)b.classList.add('ok');
+    else if(k===i)b.classList.add('no');
+  });
+
+  const isOk=i===q.a;
+  if(isOk){
+    M.s++;Sound.correct();gain(10,'kt',5);
+  }else{
+    gain(3,'gn',1);
+  }
+
+  $('#exBox').innerHTML=`
+    <div class="p-4 rounded-2xl ${isOk?'bg-teal-50 border border-teal-200 text-teal-950':'bg-rose-50 border border-rose-200 text-rose-950'}">
+      <div class="font-extrabold text-sm flex items-center gap-1.5">
+        <span>${isOk?'🎉 Chính xác tuyệt đối!':'💡 Chưa chính xác'}</span>
+      </div>
+      <p class="text-xs sm:text-sm mt-1.5">${q.e}</p>
+      <button class="btn ${isOk?'g':'y'} sm mt-3" onclick="nextQ()">
+        ${M.i+1<CONTENT.MCQ.length?'Tiếp Tục Câu Tiếp Theo ➜':'Xem Bảng Tổng Kết 🏆'}
+      </button>
+    </div>
+  `;
+}
+
+function nextQ(){
+  M.lock=false;M.i++;
+  if(M.i>=CONTENT.MCQ.length){
+    M.done=true;S.done++;gain(25,'px',10);Sound.tada();
+  }
+  render();
+}
+
+function vEssay(){
+  const list=CONTENT.ESSAY;
+  return `
+  <div class="space-y-6">
+    <div class="bg-emerald-50/70 p-3.5 rounded-2xl border border-emerald-200 text-xs text-emerald-900 flex items-center gap-2">
+      <span class="text-xl">💡</span>
+      <span>Rèn luyện khả năng lập luận toán học. Bạn có thể bấm "Gợi ý từ AI" để tham khảo định hướng trước khi nộp bài.</span>
+    </div>
+
+    ${list.map((e,i)=>`
+      <div class="p-4 rounded-2xl border border-emerald-200/80 bg-white shadow-sm">
+        <h3 class="font-extrabold text-emerald-950 text-base mb-2 font-fun">Bài ${i+1}. ${e.q}</h3>
+        <textarea rows="4" class="text-sm font-medium" placeholder="Viết lời giải của bạn…" id="es_${i}"></textarea>
+        <div class="flex flex-wrap gap-2 mt-3">
+          <button class="btn y sm" onclick="hint(${i})">💡 Gợi Ý Từ AI</button>
+          <button class="btn g sm" onclick="submitEssay(${i})">📤 Nộp Bài</button>
+        </div>
+        <div id="eh_${i}" class="mt-3"></div>
+      </div>
+    `).join('')}
+  </div>
+  `;
+}
+
+function hint(i){
+  $('#eh_'+i).innerHTML=`
+    <div class="p-3 bg-amber-50 border border-amber-200 rounded-xl text-xs text-amber-900 leading-relaxed">
+      <b>🌿 AI Gợi Ý Định Hướng:</b> ${CONTENT.ESSAY[i].h}
+    </div>
+  `;
+}
+function submitEssay(i){
+  const v=$('#es_'+i).value.trim();
+  if(v.length<20){
+    $('#eh_'+i).innerHTML=`<div class="p-2.5 bg-rose-50 border border-rose-200 rounded-xl text-xs text-rose-800">⚠️ Bài làm còn ngắn. Hãy trình bày ít nhất các bước chính.</div>`;
+    return;
+  }
+  S.done++;
+  gain(20,'kt',6);Sound.correct();
+  $('#eh_'+i).innerHTML=`
+    <div class="p-3 bg-teal-50 border border-teal-200 rounded-xl text-xs text-teal-900 leading-relaxed">
+      <b>✅ Đã nộp bài thành công (+20 XP)!</b><br/>
+      <b>AI nhận xét:</b> Lập luận có cấu trúc, hãy kiểm tra lại điều kiện áp dụng định lý.<br/>
+      <b>Gợi ý đối chiếu:</b> ${CONTENT.ESSAY[i].h}
+    </div>
+  `;
+}
+
+function vOral(){
+  const list=CONTENT.ORAL;
+  if(!O.log.length&&!O.over){
+    O.log.push({r:'ai',t:'Chào em, hôm nay thầy sẽ hỏi vấn đáp dựa trên tài liệu em đã học. ' + list[0].q});
+  }
+  return `
+  <div class="flex flex-col h-[520px]">
+    <div class="flex items-center justify-between border-b border-emerald-100 pb-2 mb-2">
+      <div class="flex items-center gap-2">
+        <span class="text-2xl">🦉</span>
+        <div>
+          <span class="font-bold text-sm text-emerald-950">Phòng Vấn Đáp Thông Minh</span>
+          <span class="text-[11px] text-emerald-700 block">Thầy AI đánh giá tư duy và từ khóa kiến thức</span>
+        </div>
+      </div>
+      <button class="btn sm outline" onclick="speakLastAI()" title="Nghe Thầy AI đọc câu hỏi bằng giọng nói">🔊 Nghe Thầy Đọc</button>
+    </div>
+
+    <!-- KHUNG CHAT -->
+    <div class="flex-1 overflow-y-auto space-y-3 p-2 pr-1" id="chatBox">
+      ${O.log.map(m=>`
+        <div class="flex ${m.r==='ai'?'justify-start':'justify-end'}">
+          <div class="max-w-[85%] rounded-2xl p-3.5 text-xs sm:text-sm font-medium shadow-sm ${m.r==='ai'?'bg-emerald-50 text-emerald-950 border border-emerald-200':'bg-amber-100 text-amber-950 border border-amber-200'}">
+            <b class="block mb-1 text-[11px] uppercase tracking-wider ${m.r==='ai'?'text-emerald-800':'text-amber-800'}">${m.r==='ai'?'🦉 Thầy AI:':'🌱 Em:'}</b>
+            ${m.t}
+          </div>
+        </div>
+      `).join('')}
+    </div>
+
+    <!-- Ô NHẬP HOẶC NÚT LÀM LẠI -->
+    <div class="pt-3 border-t border-emerald-100">
+      ${O.over?`
+        <div class="text-center">
+          <p class="text-xs font-bold text-emerald-800 mb-2">Em đã hoàn thành trọn vẹn buổi vấn đáp với Thầy AI!</p>
+          <button class="btn g sm" onclick="O={i:0,log:[],tries:0,over:false};render()">Vấn Đáp Lại</button>
+        </div>
+      `:`
+        <div class="flex gap-2">
+          <input id="oaInput" placeholder="Gõ câu trả lời của em…" onkeydown="if(event.key==='Enter')ansOral()" class="text-xs sm:text-sm">
+          <button class="btn outline sm hidden sm:inline-flex" onclick="micOral()" title="Nói qua micro (nếu trình duyệt hỗ trợ)">🎙️</button>
+          <button class="btn g sm" onclick="ansOral()">Gửi</button>
+        </div>
+      `}
+    </div>
+  </div>
+  `;
+}
+
+function speakLastAI(){
+  if(!('speechSynthesis' in window)){toast('Trình duyệt chưa hỗ trợ Text-to-Speech');return}
+  const lastAi=[...O.log].reverse().find(m=>m.r==='ai');
+  if(!lastAi)return;
+  window.speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(lastAi.t);
+  u.lang='vi-VN';u.rate=0.95;
+  window.speechSynthesis.speak(u);
+}
+
+function micOral(){
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SR){toast('Trình duyệt chưa hỗ trợ nhận diện giọng nói, em hãy gõ bàn phím nhé');return}
+  const r=new SR();r.lang='vi-VN';
+  toast('Đang lắng nghe câu trả lời…');
+  r.onresult=e=>{
+    const txt=e.results[0][0].transcript;
+    $('#oaInput').value=txt;
+    toast('Đã nhận: "'+txt+'"');
+  };
+  r.start();
+}
+
+function ansOral(){
+  const el=$('#oaInput'),v=el.value.trim();if(!v)return;
+  O.log.push({r:'u',t:v});
+  const q=CONTENT.ORAL[O.i];
+  const hit=q.k.some(k=>v.toLowerCase().includes(k.toLowerCase()));
+
+  if(hit||O.tries>=1){
+    const reply=(hit?'Tốt, ý của em đúng hướng. ':'Không sao, thầy giải thích nhanh: '+q.hint+' ')+
+      (O.i+1<CONTENT.ORAL.length?'Đi sâu hơn nhé: '+CONTENT.ORAL[O.i+1].q:'Đó là câu cuối. Em đã hoàn thành buổi vấn đáp!');
+    O.log.push({r:'ai',t:reply});
+    if(hit){gain(15,'vd',10);Sound.correct()}else{gain(5,'vd',4)}
+    O.i++;O.tries=0;
+    if(O.i>=CONTENT.ORAL.length){O.over=true;S.done++;save()}
+  }else{
+    O.tries++;
+    O.log.push({r:'ai',t:'Chưa đủ ý. '+q.hint+' Em thử lại nhé.'});
+  }
+  render();
+  setTimeout(()=>{const b=$('#chatBox');if(b)b.scrollTop=b.scrollHeight},50);
+}
+
+/* ==================== 8. GIAO DIỆN LINH VẬT & NHÀ CÂY (PET) ==================== */
+const STG=[
+  ['🌰','Hạt giống','Hạt mầm tri thức đang đợi sương sớm'],
+  ['🌱','Mầm cây','Nhú chồi đầu tiên đầy hy vọng'],
+  ['🌿','Cây non','Những chiếc lá non đón ánh ban mai'],
+  ['🍀','Cây ba lá','Gia tăng may mắn và kiên trì'],
+  ['🌷','Nụ hoa','Kiến thức tích lũy bắt đầu kết tinh'],
+  ['🌻','Hoa nở','Luôn hướng về tri thức rực rỡ'],
+  ['🌳','Cây xanh','Vững chãi trước mọi thử thách'],
+  ['🍎','Cây ra trái','Thành quả học tập kết trái ngọt lành'],
+  ['🌸','Cây rực hoa','Vườn tri thức bừng sáng hương hoa'],
+  ['🌲','Đại thụ','Bậc thầy học vấn, tri thức uyên thâm']
+];
+const ITEMS=[
+  ['🪴','Chậu cây',()=>lvl()>=2,'Cấp 2'],
+  ['📚','Giá sách',()=>lvl()>=3,'Cấp 3'],
+  ['🛋️','Ghế sofa',()=>lvl()>=4,'Cấp 4'],
+  ['🌟','Đèn sao',()=>S.streak>=3,'Chuỗi 3 ngày'],
+  ['🏆','Cúp',()=>S.done>=5,'Hoàn thành 5 bài'],
+  ['🎹','Đàn piano',()=>lvl()>=6,'Cấp 6']
+];
+
+function mood(){
+  const d=S.last?Math.floor((new Date(TODAY())-new Date(S.last))/864e5):null;
+  if(d===0)return['😊','Mochi tự hào về em! Hôm nay em đã học rồi.'];
+  if(d===null)return['🥰','Mochi mới nở. Hoàn thành một bài để bắt đầu chuỗi ngày nhé!'];
+  if(d===1)return['🥺','Hôm nay em chưa học đó nha. Chuỗi '+S.streak+' ngày đang chờ.'];
+  return['😠','Mochi giận rồi! '+d+' ngày không thấy em học bài.'];
+}
+
+function radar(){
+  const L=['Kiến thức','Vấn đáp','Ghi nhớ','Độ bao phủ','Phản xạ'],K=['kt','vd','gn','bp','px'],c=110,R=78;
+  const P=(i,r)=>{const a=-Math.PI/2+i*2*Math.PI/5;return[(c+r*Math.cos(a)).toFixed(1),(c+r*Math.sin(a)).toFixed(1)]};
+  const poly=K.map((k,i)=>P(i,R*(S.st[k]||20)/100).join(',')).join(' ');
+  return `
+  <svg viewBox="0 0 220 220" class="w-full max-w-[270px] mx-auto select-none" role="img" aria-label="Biểu đồ radar 5 chiều">
+    ${[.33,.66,1].map(f=>`<polygon points="${K.map((k,i)=>P(i,R*f).join(',')).join(' ')}" fill="none" stroke="#b7e4c7" stroke-width="1.2" stroke-dasharray="${f===1?'none':'2,2'}"/>`).join('')}
+    <polygon points="${poly}" fill="rgba(46,196,182,0.4)" stroke="#2ec4b6" stroke-width="2.5"/>
+    ${K.map((k,i)=>{const[x,y]=P(i,R*(S.st[k]||20)/100);return`<circle cx="${x}" cy="${y}" r="3.5" fill="#1b4332"/>`}).join('')}
+    ${L.map((l,i)=>{const[x,y]=P(i,R+18);return`<text x="${x}" y="${y}" font-size="9.5" font-weight="700" text-anchor="middle" fill="#0f382c">${l} (${S.st[K[i]]||0}%)</text>`}).join('')}
+  </svg>
+  `;
+}
+
+function vPet(){
+  const[m,msg]=mood(),st=STG[lvl()-1]||STG[0],need=60-S.xp%60;
+  return `
+  <div class="grid lg:grid-cols-2 gap-6">
+    <!-- CỘT TRÁI: KHU VƯỜN NHÀ CÂY CỦA MOCHI -->
+    <section class="card text-center border-t-4 border-t-emerald-600 relative overflow-hidden">
+      <div class="absolute top-3 right-3 text-xs font-extrabold px-3 py-1 bg-amber-100 text-amber-900 rounded-full border border-amber-300">
+        Cấp ${lvl()}/10
+      </div>
+
+      <h2 class="font-extrabold text-xl text-emerald-950 font-fun">Phòng của Mochi</h2>
+      <p class="text-xs text-emerald-700 mt-0.5">Người bạn đồng hành lớn lên cùng sự chăm chỉ của em</p>
+
+      <!-- AVATAR LINH VẬT -->
+      <div class="my-5 relative inline-block">
+        <div class="w-40 h-40 mx-auto rounded-full bg-gradient-to-tr from-emerald-100 via-teal-50 to-amber-100 border-4 border-emerald-300/80 shadow-inner flex items-center justify-center anim-glow">
+          <div class="text-7xl anim-float pop cursor-pointer" onclick="gain(5,'px',3);toast('Mochi vui vẻ vẫy lá!')" title="Nhấp để vỗ về Mochi">
+            ${st[0]}
+          </div>
+        </div>
+        <span class="absolute bottom-1 right-2 text-3xl filter drop-shadow">${m}</span>
+      </div>
+
+      <h3 class="text-lg font-extrabold text-emerald-950 font-fun">Cấp ${lvl()}: ${st[1]}</h3>
+      <p class="text-xs text-emerald-800 italic mt-0.5">${st[2]}</p>
+      <div class="p-2.5 mt-2 rounded-xl bg-emerald-50 text-xs font-semibold text-emerald-900 border border-emerald-200">
+        ${msg}
+      </div>
+
+      <!-- THANH KINH NGHIỆM TIẾN HÓA -->
+      <div class="mt-4 text-left">
+        <div class="flex justify-between text-xs font-bold text-emerald-900 mb-1">
+          <span>Tiến trình thăng cấp</span>
+          <span>${lvl()>=10?'Đã đạt cấp tối đa 🌲':'Còn '+need+' XP để lên cấp '+(lvl()+1)}</span>
+        </div>
+        <div class="bar">
+          <i style="width:${lvl()>=10?100:(60-need)/60*100}%"></i>
+        </div>
+      </div>
+
+      <!-- 10 CẤP TIẾN HÓA -->
+      <div class="flex justify-center flex-wrap gap-2 mt-4 p-2 bg-emerald-50/70 rounded-2xl border border-emerald-200/60">
+        ${STG.map((s,i)=>`
+          <span class="text-xl p-1 rounded-lg ${i<lvl()?'bg-white shadow-sm':'lock'}" title="Cấp ${i+1}: ${s[1]}">${s[0]}</span>
+        `).join('')}
+      </div>
+
+      <!-- ĐỒ TRANG TRÍ VƯỜN -->
+      <div class="mt-4 text-left">
+        <div class="text-xs font-bold uppercase tracking-wider text-emerald-900 mb-2">Đồ Trang Trí Phòng:</div>
+        <div class="grid grid-cols-3 gap-2">
+          ${ITEMS.map(([e,n,f,r])=>`
+            <div class="rounded-xl p-2.5 text-center border transition ${f()?'bg-white border-emerald-200 shadow-sm':'bg-slate-50 border-slate-200 lock'}">
+              <div class="text-3xl mb-1">${e}</div>
+              <div class="text-xs font-bold text-emerald-950">${n}</div>
+              <div class="text-[10px] text-emerald-700 mt-0.5">${f()?'Đã mở khóa':'Mở khóa: '+r}</div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+
+      <!-- NÚT ĐIỂM DANH TƯỚI CÂY -->
+      <button class="btn y w-full mt-5" onclick="waterPlant()">
+        <span>💧</span> <span>Điểm Danh & Tưới Cây Hôm Nay (+10 Giọt Sương)</span>
+      </button>
+    </section>
+
+    <!-- CỘT PHẢI: CHỈ SỐ RADAR & BÁO THỨC -->
+    <section class="card border-t-4 border-t-teal-600 flex flex-col justify-between">
+      <div>
+        <div class="flex items-center justify-between mb-2">
+          <h2 class="font-extrabold text-xl text-emerald-950 font-fun flex items-center gap-2">
+            <span>📊</span> <span>Chỉ Số Phát Triển</span>
+          </h2>
+          <span class="text-xs bg-teal-100 text-teal-900 px-2.5 py-1 rounded-full font-bold">5 Chiều</span>
+        </div>
+        <p class="text-xs text-emerald-700 mb-3">Tăng qua việc làm bài tập trắc nghiệm, tự luận, vấn đáp và học bài</p>
+
+        <!-- BIỂU ĐỒ RADAR -->
+        <div class="p-2 bg-gradient-to-b from-emerald-50/50 to-white rounded-2xl border border-emerald-100">
+          ${radar()}
+        </div>
+      </div>
+
+      <!-- NHẮC NHỞ HỌC TẬP HẰNG NGÀY -->
+      <div class="mt-6 pt-4 border-t border-emerald-100">
+        <h3 class="font-extrabold text-sm text-emerald-950 mb-1 flex items-center gap-1.5">
+          <span>⏰</span> <span>Nhắc Học Hằng Ngày</span>
+        </h3>
+        <p class="text-xs text-emerald-700 mb-3">Nhận thông báo để duy trì chuỗi ngày liên tục</p>
+        
+        <div class="flex items-center gap-2 flex-wrap">
+          <input type="time" value="${S.remind}" class="!w-auto font-bold text-emerald-900" onchange="S.remind=this.value;save()">
+          <button class="btn g sm" onclick="remind()">🔔 Bật Nhắc Nhở</button>
+        </div>
+
+        <div class="mt-3 text-xs text-emerald-800 flex items-center gap-1.5">
+          <span>${S.last===TODAY()?'🌿 Hôm nay bạn đã học. Giữ chuỗi nhé!':'⚠️ Hôm nay bạn chưa học bài nào.'}</span>
+        </div>
+      </div>
+    </section>
+  </div>
+  `;
+}
+
+function waterPlant(){
+  gain(10,'px',5);
+  Sound.drop();
+  toast('Bạn đã tưới cho Mochi một giọt sương mát lành! 💧');
+  render();
+}
+
+function remind(){
+  if(!('Notification' in window)){toast('Trình duyệt chưa hỗ trợ thông báo');return}
+  Notification.requestPermission().then(p=>{
+    if(p==='granted'){
+      new Notification('Mochi nhắc bạn',{
+        body:'Đến giờ học rồi, Mochi đang chờ!'
+      });
+      toast('Đã bật nhắc nhở lúc '+S.remind);
+    }else toast('Bạn chưa cho phép thông báo');
+  });
+}
+setInterval(()=>{
+  const n=new Date(),h=String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0');
+  if(h===S.remind&&S.last!==TODAY()){
+    toast('Đến giờ học rồi, Mochi đang chờ!');
+    if('Notification' in window&&Notification.permission==='granted'){
+      new Notification('Đến giờ học rồi!',{body:'Mochi đang chờ em học bài.'});
+    }
+  }
+},30000);
+
+/* ==================== 9. ĐĂNG NHẬP / NGƯỜI DÙNG ==================== */
+function loginModal(){$('#modal').classList.remove('hidden');$('#modal').classList.add('flex')}
+function login(p){
+  S.user={name:p==='Khách Vãng Lai'?'Khách Yêu Vườn':`Học viên ${p}`,provider:p};
+  save();$('#modal').classList.add('hidden');$('#modal').classList.remove('flex');
+  toast('Đã đăng nhập bằng '+p);head();
+}
+function logout(){S.user=null;save();toast('Đã đăng xuất');head()}
+
+/* ==================== 10. TRUNG TÂM QUẢN TRỊ ADMIN TOÀN NĂNG ==================== */
+let ADM=false;
+let ADMIN_PIN='admin2026';
+try{ADMIN_PIN=localStorage.getItem('sa_admin_pin')||'admin2026'}catch(e){}
+let ADM_TAB='mcq';
+
+function openAdminModal(){
+  $('#adminModal').classList.remove('hidden');$('#adminModal').classList.add('flex');
+  renderAdminView();
+}
+function closeAdminModal(){
+  $('#adminModal').classList.add('hidden');$('#adminModal').classList.remove('flex');
+  if(location.hash==='#admin')history.replaceState(null,'',location.pathname);
+}
+
+function renderAdminView(){
+  const b=$('#adminBody');
+  if(!b)return;
+  if(!ADM){
+    b.innerHTML=`
+      <div class="max-w-sm mx-auto my-8 text-center p-6 bg-emerald-50/80 rounded-3xl border border-emerald-200">
+        <div class="text-5xl mb-3">🔐</div>
+        <h3 class="font-extrabold text-lg text-emerald-950 font-fun">Quản Trị Study Arena</h3>
+        <p class="text-xs text-emerald-700 mt-1 mb-4">Mật khẩu quản trị mặc định: <code class="bg-white px-2 py-0.5 rounded font-mono font-bold text-emerald-900">admin2026</code></p>
+        <input id="adminPinInput" type="password" placeholder="Mật khẩu quản trị…" class="text-center font-bold text-lg mb-3 tracking-widest" onkeydown="if(event.key==='Enter')verifyAdminPin()">
+        <button class="btn y w-full" onclick="verifyAdminPin()">Vào Trang Quản Trị</button>
+        <button class="btn outline sm w-full mt-2" onclick="$('#adminPinInput').value='admin2026';verifyAdminPin()">⚡ Đăng nhập 1 chạm (Demo)</button>
+      </div>
+    `;
+    return;
+  }
+
+  // GIAO DIỆN QUẢN TRỊ ĐẦY ĐỦ CÁC QUYỀN
+  b.innerHTML=`
+    <div>
+      <!-- MENU CHỨC NĂNG ADMIN -->
+      <div class="flex flex-wrap gap-1.5 p-1.5 bg-emerald-100/70 rounded-2xl mb-4 border border-emerald-200">
+        ${[
+          ['mcq','🎯 Trắc Nghiệm ('+CONTENT.MCQ.length+')'],
+          ['essay','📝 Tự Luận ('+CONTENT.ESSAY.length+')'],
+          ['oral','🎙️ Vấn Đáp ('+CONTENT.ORAL.length+')'],
+          ['topics','🌿 Chủ Đề & Trọng Tâm'],
+          ['cheats','⚡ Điểm & Cấp Độ'],
+          ['json','💾 Soạn JSON / Backup']
+        ].map(([k,l])=>`
+          <button class="tab sm flex-1 min-w-[130px] text-center ${ADM_TAB===k?'on':'bg-white/80'}" onclick="ADM_TAB='${k}';renderAdminView()">${l}</button>
+        `).join('')}
+      </div>
+
+      <!-- NỘI DUNG TỪNG TAB -->
+      <div class="p-1">
+        ${{
+          mcq:vAdminMcq,
+          essay:vAdminEssay,
+          oral:vAdminOral,
+          topics:vAdminTopics,
+          cheats:vAdminCheats,
+          json:vAdminJson
+        }[ADM_TAB]()}
+      </div>
+    </div>
+  `;
+}
+
+function verifyAdminPin(){
+  const v=$('#adminPinInput').value.trim();
+  if(v===ADMIN_PIN||v==='admin'||v==='123456'||v==='studyarena'){
+    ADM=true;toast('Xác thực quản trị thành công!');
+    renderAdminView();
+  }else{
+    toast('Mật khẩu chưa đúng, hãy thử: admin2026');
+  }
+}
+
+/* --- TAB QUẢN LÝ TRẮC NGHIỆM --- */
+function vAdminMcq(){
+  return `
+  <div>
+    <div class="flex items-center justify-between mb-3">
+      <h4 class="font-extrabold text-sm text-emerald-950 uppercase tracking-wider">Danh Sách Câu Hỏi Trắc Nghiệm</h4>
+      <button class="btn g sm" onclick="showAddMcqForm()">+ Thêm Câu Hỏi Mới</button>
+    </div>
+
+    <!-- KHUNG THÊM CÂU HỎI MỚI (ẨN/HIỆN) -->
+    <div id="addMcqBox" class="p-4 mb-4 bg-emerald-50 rounded-2xl border-2 border-emerald-300 hidden">
+      <h5 class="font-bold text-sm text-emerald-950 mb-2">Thêm Câu Hỏi Trắc Nghiệm Mới:</h5>
+      <input id="newQ_q" placeholder="Nội dung câu hỏi…" class="mb-2 text-sm font-semibold">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-2 text-xs">
+        <input id="newQ_o0" placeholder="Phương án A">
+        <input id="newQ_o1" placeholder="Phương án B">
+        <input id="newQ_o2" placeholder="Phương án C">
+        <input id="newQ_o3" placeholder="Phương án D">
+      </div>
+      <div class="flex items-center gap-2 mb-2">
+        <label class="text-xs font-bold text-emerald-900">Đáp án đúng:</label>
+        <select id="newQ_a" class="!w-auto text-xs font-bold">
+          <option value="0">Phương án A</option>
+          <option value="1">Phương án B</option>
+          <option value="2">Phương án C</option>
+          <option value="3">Phương án D</option>
+        </select>
+      </div>
+      <textarea id="newQ_e" rows="2" placeholder="Lời giải thích chi tiết…" class="text-xs mb-3"></textarea>
+      <div class="flex gap-2">
+        <button class="btn g sm" onclick="saveNewMcq()">Lưu Câu Hỏi</button>
+        <button class="btn outline sm" onclick="$('#addMcqBox').classList.add('hidden')">Hủy</button>
+      </div>
+    </div>
+
+    <!-- DANH SÁCH BÀI ĐANG CÓ -->
+    <div class="space-y-3 max-h-96 overflow-y-auto pr-1">
+      ${CONTENT.MCQ.map((q,idx)=>`
+        <div class="p-3 bg-white rounded-2xl border border-emerald-200 text-xs">
+          <div class="flex items-start justify-between gap-2">
+            <div class="font-extrabold text-emerald-950 text-sm">#${idx+1}. ${q.q}</div>
+            <button class="text-rose-600 font-bold hover:underline" onclick="delMcq(${idx})">Xóa</button>
+          </div>
+          <div class="grid grid-cols-2 gap-1.5 mt-2">
+            ${q.o.map((o,oidx)=>`
+              <div class="p-1.5 rounded-lg ${oidx===q.a?'bg-emerald-100 font-bold text-emerald-900':'bg-slate-50 text-slate-700'}">
+                ${String.fromCharCode(65+oidx)}. ${o}
+              </div>
+            `).join('')}
+          </div>
+          <div class="mt-2 text-slate-500 italic">Giải thích: ${q.e}</div>
+        </div>
+      `).join('')}
+    </div>
+  </div>
+  `;
+}
+function showAddMcqForm(){$('#addMcqBox').classList.remove('hidden')}
+function saveNewMcq(){
+  const q=$('#newQ_q').value.trim();
+  const o=[$('#newQ_o0').value.trim(),$('#newQ_o1').value.trim(),$('#newQ_o2').value.trim(),$('#newQ_o3').value.trim()];
+  const a=parseInt($('#newQ_a').value);
+  const e=$('#newQ_e').value.trim();
+  if(!q||o.some(x=>!x)){toast('Vui lòng nhập đủ câu hỏi và 4 phương án');return}
+  CONTENT.MCQ.push({q,o,a,e:e||'Chính xác'});
+  saveContent();toast('Đã thêm câu hỏi trắc nghiệm mới!');renderAdminView();render();
+}
+function delMcq(i){
+  if(CONTENT.MCQ.length<=1){toast('Cần giữ ít nhất 1 câu hỏi');return}
+  CONTENT.MCQ.splice(i,1);saveContent();toast('Đã xóa câu hỏi');renderAdminView();render();
+}
+
+/* --- TAB QUẢN LÝ TỰ LUẬN --- */
+function vAdminEssay(){
+  return `
+  <div>
+    <div class="flex items-center justify-between mb-3">
+      <h4 class="font-extrabold text-sm text-emerald-950 uppercase tracking-wider">Danh Sách Bài Tự Luận</h4>
+      <button class="btn g sm" onclick="showAddEssayForm()">+ Thêm Bài Mới</button>
+    </div>
+
+    <div id="addEssayBox" class="p-4 mb-4 bg-emerald-50 rounded-2xl border-2 border-emerald-300 hidden">
+      <h5 class="font-bold text-sm text-emerald-950 mb-2">Thêm Đề Bài Tự Luận:</h5>
+      <textarea id="newEs_q" rows="2" placeholder="Đề bài tự luận…" class="mb-2 text-xs font-semibold"></textarea>
+      <textarea id="newEs_h" rows="3" placeholder="Gợi ý định hướng giải…" class="text-xs mb-3"></textarea>
+      <div class="flex gap-2">
+        <button class="btn g sm" onclick="saveNewEssay()">Lưu Bài</button>
+        <button class="btn outline sm" onclick="$('#addEssayBox').classList.add('hidden')">Hủy</button>
+      </div>
+    </div>
+
+    <div class="space-y-3 max-h-96 overflow-y-auto pr-1">
+      ${CONTENT.ESSAY.map((e,idx)=>`
+        <div class="p-3 bg-white rounded-2xl border border-emerald-200 text-xs">
+          <div class="flex items-start justify-between gap-2">
+            <div class="font-bold text-emerald-950 text-sm">Bài ${idx+1}. ${e.q}</div>
+            <button class="text-rose-600 font-bold hover:underline" onclick="delEssay(${idx})">Xóa</button>
+          </div>
+          <div class="mt-2 p-2 rounded-xl bg-amber-50 text-amber-900"><b>Gợi ý:</b> ${e.h}</div>
+        </div>
+      `).join('')}
+    </div>
+  </div>
+  `;
+}
+function showAddEssayForm(){$('#addEssayBox').classList.remove('hidden')}
+function saveNewEssay(){
+  const q=$('#newEs_q').value.trim(),h=$('#newEs_h').value.trim();
+  if(!q||!h){toast('Vui lòng điền đề bài và gợi ý');return}
+  CONTENT.ESSAY.push({q,h});saveContent();toast('Đã thêm bài tự luận');renderAdminView();render();
+}
+function delEssay(i){
+  if(CONTENT.ESSAY.length<=1){toast('Cần giữ ít nhất 1 bài tự luận');return}
+  CONTENT.ESSAY.splice(i,1);saveContent();toast('Đã xóa bài tự luận');renderAdminView();render();
+}
+
+/* --- TAB QUẢN LÝ VẤN ĐÁP --- */
+function vAdminOral(){
+  return `
+  <div>
+    <div class="flex items-center justify-between mb-3">
+      <h4 class="font-extrabold text-sm text-emerald-950 uppercase tracking-wider">Danh Sách Câu Hỏi Vấn Đáp Thầy AI</h4>
+      <button class="btn g sm" onclick="showAddOralForm()">+ Thêm Câu Vấn Đáp</button>
+    </div>
+
+    <div id="addOralBox" class="p-4 mb-4 bg-emerald-50 rounded-2xl border-2 border-emerald-300 hidden">
+      <h5 class="font-bold text-sm text-emerald-950 mb-2">Thêm Câu Hỏi Vấn Đáp:</h5>
+      <input id="newOr_q" placeholder="Câu hỏi của Thầy AI…" class="mb-2 text-xs font-semibold">
+      <input id="newOr_k" placeholder="Từ khóa chấm đúng (cách nhau bằng dấu phẩy, vd: giới hạn, lim, số gia)…" class="mb-2 text-xs">
+      <textarea id="newOr_h" rows="2" placeholder="Gợi ý dẫn dắt khi học viên trả lời chưa đủ ý…" class="text-xs mb-3"></textarea>
+      <div class="flex gap-2">
+        <button class="btn g sm" onclick="saveNewOral()">Lưu Câu Vấn Đáp</button>
+        <button class="btn outline sm" onclick="$('#addOralBox').classList.add('hidden')">Hủy</button>
+      </div>
+    </div>
+
+    <div class="space-y-3 max-h-96 overflow-y-auto pr-1">
+      ${CONTENT.ORAL.map((o,idx)=>`
+        <div class="p-3 bg-white rounded-2xl border border-emerald-200 text-xs">
+          <div class="flex items-start justify-between gap-2">
+            <div class="font-bold text-emerald-950 text-sm">Câu ${idx+1}. ${o.q}</div>
+            <button class="text-rose-600 font-bold hover:underline" onclick="delOral(${idx})">Xóa</button>
+          </div>
+          <div class="mt-1.5 flex flex-wrap gap-1">
+            <span class="text-slate-500 font-semibold">Từ khóa bắt:</span>
+            ${o.k.map(k=>`<span class="bg-teal-100 text-teal-800 px-2 py-0.5 rounded font-mono font-bold">${k}</span>`).join('')}
+          </div>
+          <div class="mt-1 text-slate-600 italic">Gợi ý định hướng: ${o.hint}</div>
+        </div>
+      `).join('')}
+    </div>
+  </div>
+  `;
+}
+function showAddOralForm(){$('#addOralBox').classList.remove('hidden')}
+function saveNewOral(){
+  const q=$('#newOr_q').value.trim(),k=$('#newOr_k').value.split(',').map(x=>x.trim()).filter(Boolean),h=$('#newOr_h').value.trim();
+  if(!q||!k.length){toast('Vui lòng điền câu hỏi và ít nhất 1 từ khóa');return}
+  CONTENT.ORAL.push({q,k,hint:h||'Hãy nghĩ tới khái niệm cốt lõi.'});
+  saveContent();toast('Đã thêm câu hỏi vấn đáp!');renderAdminView();render();
+}
+function delOral(i){
+  if(CONTENT.ORAL.length<=1){toast('Cần giữ ít nhất 1 câu vấn đáp');return}
+  CONTENT.ORAL.splice(i,1);saveContent();toast('Đã xóa câu vấn đáp');renderAdminView();render();
+}
+
+/* --- TAB QUẢN LÝ CHỦ ĐỀ & TRỌNG TÂM --- */
+function vAdminTopics(){
+  return `
+  <div class="space-y-4">
+    <div>
+      <h4 class="font-extrabold text-sm text-emerald-950 mb-1">Chủ Đề Ôn Tập (Mỗi dòng một chủ đề):</h4>
+      <textarea id="ad_topics_raw" rows="6" class="text-xs font-medium">${CONTENT.TOPICS.join('\n')}</textarea>
+    </div>
+    <div>
+      <h4 class="font-extrabold text-sm text-emerald-950 mb-1">Kiến Thức Trọng Tâm (Mỗi dòng một ý):</h4>
+      <textarea id="ad_know_raw" rows="6" class="text-xs font-medium">${CONTENT.KNOW.join('\n')}</textarea>
+    </div>
+    <button class="btn g sm" onclick="saveTopicsAndKnow()">Lưu Chủ Đề & Kiến Thức</button>
+  </div>
+  `;
+}
+function saveTopicsAndKnow(){
+  const t=$('#ad_topics_raw').value.split('\n').map(x=>x.trim()).filter(Boolean);
+  const k=$('#ad_know_raw').value.split('\n').map(x=>x.trim()).filter(Boolean);
+  if(t.length)CONTENT.TOPICS=t;
+  if(k.length){CONTENT.KNOW=k;S.focus=k;}
+  saveContent();save();
+  toast('Đã lưu chủ đề và kiến thức trọng tâm mới!');render();
+}
+
+/* --- TAB CÔNG CỤ ADMIN & ĐIỂM THƯỞNG --- */
+function vAdminCheats(){
+  return `
+  <div class="p-4 bg-emerald-50 rounded-2xl border border-emerald-200">
+    <h4 class="font-extrabold text-sm text-emerald-950 mb-3 uppercase tracking-wider">Công Cụ Trợ Lực Nhanh (Dành Cho Kiểm Thử):</h4>
+    <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
+      <button class="btn sm g" onclick="gain(60,'kt',15);toast('Đã cộng +60 XP!')">+60 XP (Lên 1 Cấp)</button>
+      <button class="btn sm y" onclick="S.xp=540;save();toast('Đã max cấp 10!');render()">🌲 Max Cấp 10 (Đại Thụ)</button>
+      <button class="btn sm outline" onclick="S.streak+=3;save();toast('Đã tăng chuỗi +3 ngày!');render()">🔥 Tăng Chuỗi +3 Ngày</button>
+      <button class="btn sm outline" onclick="S.done+=5;save();toast('Mở khóa Cúp!');render()">🏆 Mở Khóa Đồ Trang Trí</button>
+      <button class="btn sm g" onclick="S.st={kt:95,vd:90,gn:92,bp:88,px:96};save();toast('Tối đa hóa radar!');render()">📊 Max Biểu Đồ Radar</button>
+      <button class="btn sm rose" onclick="resetAllData()">⚠️ Khôi Phục Dữ Liệu Gốc</button>
+    </div>
+
+    <div class="mt-5 pt-4 border-t border-emerald-200">
+      <h5 class="font-bold text-xs text-emerald-900 mb-2">Đổi Mật Khẩu Quản Trị:</h5>
+      <div class="flex gap-2 max-w-xs">
+        <input id="newPinVal" type="text" placeholder="Mật khẩu mới…" value="${ADMIN_PIN}" class="text-xs font-bold">
+        <button class="btn sm y" onclick="saveNewPin()">Đổi Mật Khẩu</button>
+      </div>
+    </div>
+  </div>
+  `;
+}
+function saveNewPin(){
+  const p=$('#newPinVal').value.trim();if(!p){toast('Mật khẩu không được để trống');return}
+  ADMIN_PIN=p;try{localStorage.setItem('sa_admin_pin',p)}catch(e){}
+  toast('Đã đổi mật khẩu quản trị thành công: '+p);
+}
+function resetAllData(){
+  if(confirm('Bạn có chắc muốn đặt lại toàn bộ tiến độ học và dữ liệu về mặc định ban đầu?')){
+    localStorage.removeItem('mochi_garden');
+    localStorage.removeItem('mochi');
+    localStorage.removeItem('sa_garden_content');
+    localStorage.removeItem('sa_content');
+    location.reload();
+  }
+}
+
+/* --- TAB JSON CẤP CAO & BACKUP XUẤT FILE --- */
+function vAdminJson(){
+  return `
+  <div class="space-y-4">
+    <p class="text-xs text-slate-600">Sửa dưới dạng JSON: câu trắc nghiệm, tự luận, vấn đáp, chủ đề và kiến thức trọng tâm.</p>
+    <textarea id="ad_json_full" rows="10" class="font-mono text-xs">${JSON.stringify(CONTENT,null,2).replace(/</g,'&lt;')}</textarea>
+    <div class="flex flex-wrap gap-2">
+      <button class="btn g sm" onclick="saveFullJson()">Lưu Thay Đổi JSON</button>
+      <button class="btn y sm" onclick="exportJsonBackup()">📥 Tải File JSON Dự Phòng</button>
+      <label class="btn outline sm cursor-pointer">
+        📤 Nhập File JSON
+        <input type="file" accept=".json" class="hidden" onchange="importJsonBackup(this.files)">
+      </label>
+      <button class="btn rose sm" onclick="exportStandaloneHtml()">🌐 Xuất Bản File HTML Độc Lập</button>
+    </div>
+  </div>
+  `;
+}
+
+function saveFullJson(){
+  try{
+    const o=JSON.parse($('#ad_json_full').value);
+    Object.assign(CONTENT,o);saveContent();
+    toast('Đã lưu nội dung JSON!');render();
+  }catch(e){toast('JSON chưa hợp lệ: '+e.message)}
+}
+function exportJsonBackup(){
+  const blob=new Blob([JSON.stringify(CONTENT,null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='study-arena-database.json';a.click();
+  toast('Đã tải file sao lưu JSON!');
+}
+function importJsonBackup(files){
+  if(!files.length)return;
+  const r=new FileReader();
+  r.onload=e=>{
+    try{
+      const d=JSON.parse(e.target.result);
+      Object.assign(CONTENT,d);saveContent();toast('Đã nạp dữ liệu từ file JSON!');
+      renderAdminView();render();
+    }catch(err){toast('File JSON không hợp lệ')}
+  };
+  r.readAsText(files[0]);
+}
+function exportStandaloneHtml(){
+  const fullHtml=document.documentElement.outerHTML;
+  const b=new Blob(['<!doctype html>\n'+fullHtml],{type:'text/html;charset=utf-8'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='STUDY-ARENA-HOAN-CHINH.html';a.click();
+  toast('Đã xuất bản file HTML độc lập chứa dữ liệu mới nhất!');
+}
+
+/* ==================== 11. HIỆU ỨNG LÁ BAY KHU VƯỜN (CANVAS) ==================== */
+function setupGardenCanvas(){
+  const cv=document.getElementById('leafCanvas');
+  if(!cv)return;
+  const cx=cv.getContext('2d');
+  let W=cv.width=window.innerWidth,H=cv.height=window.innerHeight;
+  window.addEventListener('resize',()=>{W=cv.width=window.innerWidth;H=cv.height=window.innerHeight});
+  const leaves=Array.from({length:20},()=>({
+    x:Math.random()*W,y:Math.random()*H,sz:Math.random()*12+8,
+    vx:Math.random()*0.8-0.2,vy:Math.random()*0.8+0.4,
+    ang:Math.random()*Math.PI*2,va:Math.random()*0.02-0.01,
+    c:['rgba(82,183,136,0.3)','rgba(46,196,182,0.25)','rgba(255,183,3,0.25)','rgba(116,198,157,0.3)'][Math.floor(Math.random()*4)]
+  }));
+  function loop(){
+    cx.clearRect(0,0,W,H);
+    for(const l of leaves){
+      l.x+=l.vx;l.y+=l.vy;l.ang+=l.va;
+      if(l.y>H+20){l.y=-20;l.x=Math.random()*W}
+      if(l.x>W+20)l.x=-20;if(l.x<-20)l.x=W+20;
+      cx.save();cx.translate(l.x,l.y);cx.rotate(l.ang);
+      cx.fillStyle=l.c;cx.beginPath();
+      cx.ellipse(0,0,l.sz,l.sz*0.5,0,0,Math.PI*2);cx.fill();
+      cx.restore();
+    }
+    requestAnimationFrame(loop);
+  }
+  loop();
+}
+
+/* ==================== 12. KHỞI CHẠY GIAO DIỆN ==================== */
+setupGardenCanvas();
+render();
+</script>
+</body>
+</html>
