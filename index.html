@@ -332,6 +332,77 @@ footer{position:relative;z-index:10}
 <!-- THÔNG BÁO TOAST DẠNG GIỌT SƯƠNG -->
 <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-gradient-to-r from-emerald-900 to-teal-900 text-white font-bold text-sm px-5 py-3 rounded-2xl shadow-2xl border border-emerald-400 hidden items-center gap-2 z-50 transition-all"></div>
 
+<!-- NÚT NỔI HỎI ĐÁP & TRA CỨU AI BẤT CỨ LÚC NÀO (FLOATING FAB) -->
+<button id="floatingAiBtn" 
+        class="fixed bottom-6 right-5 z-40 bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-700 text-white font-extrabold text-xs sm:text-sm py-2.5 px-4 rounded-full shadow-2xl hover:shadow-emerald-500/40 hover:scale-105 active:scale-95 transition-all flex items-center gap-2 border-2 border-white/90"
+        onclick="toggleFloatingAiChat()" 
+        title="Hỏi đáp & Tra cứu toán học bằng AI bất cứ lúc nào">
+  <span class="text-base sm:text-lg">💬</span>
+  <span>Hỏi Đáp AI</span>
+  <span class="w-2 h-2 rounded-full bg-emerald-300 animate-ping"></span>
+</button>
+
+<!-- HỘP THOẠI HỎI ĐÁP & TRA CỨU AI NỔI (FLOATING AI CHATBOX) -->
+<div id="floatingAiPanel" class="fixed bottom-20 right-3 sm:right-6 z-50 w-[94vw] sm:w-[440px] max-h-[82vh] h-[580px] bg-white/95 backdrop-blur-md rounded-3xl border-2 border-emerald-400 shadow-2xl flex flex-col overflow-hidden transition-all duration-300 hidden animate-fade-in">
+  <!-- Header -->
+  <div class="px-4 py-3 bg-gradient-to-r from-emerald-700 via-teal-700 to-emerald-800 text-white flex items-center justify-between shrink-0 shadow-sm">
+    <div class="flex items-center gap-2.5">
+      <div class="w-8 h-8 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center text-lg shadow-inner">
+        🏛️
+      </div>
+      <div>
+        <div class="flex items-center gap-1.5">
+          <h3 class="font-extrabold text-sm tracking-wide">Trợ Lý AI Tra Cứu Toán Học</h3>
+          <span class="text-[9px] font-extrabold px-1.5 py-0.2 rounded-full bg-emerald-400/30 text-emerald-100 border border-emerald-300/40">HPU2</span>
+        </div>
+        <p class="text-[10px] text-emerald-200">Giải đáp bài tập, định lý, công thức chuyên sâu</p>
+      </div>
+    </div>
+    <div class="flex items-center gap-1">
+      <button class="w-7 h-7 rounded-lg bg-white/10 hover:bg-white/20 text-white text-xs flex items-center justify-center transition" onclick="clearAiChat()" title="Xóa lịch sử chat">
+        🗑️
+      </button>
+      <button class="w-7 h-7 rounded-lg bg-white/10 hover:bg-white/20 text-white text-xs flex items-center justify-center transition font-bold" onclick="toggleFloatingAiChat(false)" title="Thu nhỏ khung chat">
+        ✕
+      </button>
+    </div>
+  </div>
+
+  <!-- Gợi ý câu hỏi nhanh -->
+  <div class="px-3 py-2 bg-emerald-50/80 border-b border-emerald-100 flex items-center gap-1.5 overflow-x-auto scrollbar-none text-[11px] shrink-0">
+    <span class="font-bold text-emerald-900 shrink-0 text-[10px] uppercase">Gợi ý:</span>
+    <button class="px-2 py-0.5 rounded-lg bg-white border border-emerald-200 text-emerald-800 hover:bg-emerald-100 font-medium shrink-0 transition" onclick="quickAiAsk('Định lý Bắt tay trong đồ thị là gì?')">💡 Bắt tay</button>
+    <button class="px-2 py-0.5 rounded-lg bg-white border border-emerald-200 text-emerald-800 hover:bg-emerald-100 font-medium shrink-0 transition" onclick="quickAiAsk('Điều kiện để ma trận vuông khả nghịch?')">📐 Ma trận</button>
+    <button class="px-2 py-0.5 rounded-lg bg-white border border-emerald-200 text-emerald-800 hover:bg-emerald-100 font-medium shrink-0 transition" onclick="quickAiAsk('Định lý giá trị trung bình Lagrange?')">📏 Lagrange</button>
+    <button class="px-2 py-0.5 rounded-lg bg-white border border-emerald-200 text-emerald-800 hover:bg-emerald-100 font-medium shrink-0 transition" onclick="quickAiAsk('Công thức Green trên mặt phẳng?')">📈 Green</button>
+    <button class="px-2 py-0.5 rounded-lg bg-white border border-emerald-200 text-emerald-800 hover:bg-emerald-100 font-medium shrink-0 transition" onclick="quickAiAsk('Công thức Bayes và xác suất toàn phần?')">🎲 Bayes</button>
+    <button class="px-2 py-0.5 rounded-lg bg-white border border-emerald-200 text-emerald-800 hover:bg-emerald-100 font-medium shrink-0 transition" onclick="quickAiAsk('Thuật toán Kruskal tìm cây khung?')">🌳 Kruskal</button>
+  </div>
+
+  <!-- Danh sách tin nhắn hội thoại -->
+  <div id="aiFloatingChatList" class="flex-1 p-3.5 space-y-3 overflow-y-auto text-xs leading-relaxed"></div>
+
+  <!-- Ô nhập và nút gửi -->
+  <div class="p-3 bg-emerald-50/70 border-t border-emerald-100 shrink-0">
+    <div class="flex gap-2">
+      <input id="aiFloatingInput" 
+             type="text" 
+             autocomplete="off" 
+             placeholder="Nhập câu hỏi bài tập hoặc định lý cần tra cứu…" 
+             class="text-xs sm:text-sm font-medium py-2 px-3 border border-emerald-300 rounded-2xl flex-1 bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500 shadow-inner" 
+             onkeydown="if(event.key==='Enter')submitAiChat('floating')">
+      <button class="btn g sm !py-2 !px-4 shrink-0 font-bold shadow-md flex items-center gap-1.5" onclick="submitAiChat('floating')" title="Gửi câu hỏi">
+        <span>Gửi</span>
+        <span>🚀</span>
+      </button>
+    </div>
+    <div class="flex items-center justify-between text-[10px] text-emerald-700/80 mt-1.5 px-1">
+      <span>⚡ Nhấn Enter để gửi nhanh</span>
+      <span>🏛️ Khoa Toán - ĐH Sư phạm Hà Nội 2</span>
+    </div>
+  </div>
+</div>
+
 <script>
 /* ==================== 1. KHỞI TẠO TIỆN ÍCH CỐT LÕI ==================== */
 const $=s=>document.querySelector(s);
@@ -997,6 +1068,16 @@ if (!S.cfg.petName) {
   const pFound = PETS_CATALOG.find(p => p.id === S.cfg.petId);
   S.cfg.petName = pFound ? pFound.name : 'Mochi';
 }
+if (!S.aiChatHistory || !Array.isArray(S.aiChatHistory) || !S.aiChatHistory.length) {
+  S.aiChatHistory = [
+    {
+      role: 'assistant',
+      text: 'Xin chào bạn! Mình là **Trợ Lý AI Tra Cứu & Hỏi Đáp Toán học (HPU2)** 🏛️✨.\n\nBạn có thể hỏi mình bất kỳ câu hỏi nào về bài tập, công thức hay bản chất lý thuyết các học phần: **Đại số tuyến tính, Giải tích 1 & 2, Xác suất thống kê, Toán rời rạc**.\n\nHãy nhập câu hỏi bên dưới hoặc chọn câu hỏi gợi ý để bắt đầu nhé!',
+      time: '08:00'
+    }
+  ];
+}
+if (S.aiChatOpen === undefined) S.aiChatOpen = false;
 
 const save=()=>{
   try{
@@ -1149,6 +1230,7 @@ function render(){
       appEl.innerHTML=`<div class="card text-center p-6"><h3 class="font-bold text-rose-600">Đang phục hồi dữ liệu...</h3><button class="btn g sm mt-3" onclick="location.reload()">Làm Mới Trang</button></div>`;
     }
   }
+  try{ updateAiChatUI(); }catch(e){}
 }
 
 /* ==================== 8. XỬ LÝ NÚT ĐĂNG NHẬP TRỰC TIẾP TẠI NÚT TRÊN CÙNG ==================== */
@@ -2377,9 +2459,48 @@ function vLearn(){
         </ul>
       </div>
 
-      <div class="flex flex-col gap-2 mt-4">
-        <button class="btn y sm w-full" onclick="exportDoc()">📄 Xuất Tóm Tắt Ôn Tập (Word)</button>
-        <button class="btn outline sm w-full" onclick="exportPdf()">🖨️ In / Lưu Tài Liệu (PDF)</button>
+      <!-- THAY THẾ 2 CHỨC NĂNG CŨ BẰNG TÍNH NĂNG MỚI: HỎI ĐÁP & TRA CỨU BẰNG AI -->
+      <div class="mt-4 pt-3.5 border-t border-emerald-100">
+        <div class="flex items-center justify-between mb-2">
+          <div class="flex items-center gap-1.5">
+            <span class="text-base">💬</span>
+            <h3 class="font-extrabold text-xs text-emerald-950 uppercase tracking-wider">Hỏi Đáp &amp; Tra Cứu AI</h3>
+          </div>
+          <div class="flex items-center gap-1">
+            <span class="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-teal-100 text-teal-800 border border-teal-200">HPU2 Math</span>
+            <button class="text-xs text-slate-400 hover:text-slate-700 p-1" onclick="clearAiChat()" title="Xóa lịch sử đoạn chat">🗑️</button>
+            <button class="text-xs text-emerald-600 hover:text-emerald-800 p-1 font-bold" onclick="toggleFloatingAiChat(true)" title="Phóng to khung chat nổi">⛶</button>
+          </div>
+        </div>
+
+        <div class="rounded-2xl border border-emerald-200/90 bg-emerald-50/50 p-2.5 shadow-2xs">
+          <!-- Lịch sử tin nhắn -->
+          <div id="aiSidebarChatList" class="space-y-2.5 max-h-52 overflow-y-auto pr-1 text-xs mb-2">
+            ${renderAiChatMessagesHtml()}
+          </div>
+
+          <!-- Gợi ý tra cứu nhanh -->
+          <div class="flex gap-1.5 overflow-x-auto pb-1.5 mb-2 scrollbar-none text-[10px]">
+            <button class="px-2 py-0.5 rounded-lg bg-white/90 border border-emerald-200 text-emerald-800 hover:bg-emerald-100 font-semibold shrink-0 transition" onclick="quickAiAsk('Định lý Bắt tay trong đồ thị là gì?')">💡 Bắt tay</button>
+            <button class="px-2 py-0.5 rounded-lg bg-white/90 border border-emerald-200 text-emerald-800 hover:bg-emerald-100 font-semibold shrink-0 transition" onclick="quickAiAsk('Điều kiện để ma trận khả nghịch?')">📐 Ma trận</button>
+            <button class="px-2 py-0.5 rounded-lg bg-white/90 border border-emerald-200 text-emerald-800 hover:bg-emerald-100 font-semibold shrink-0 transition" onclick="quickAiAsk('Ý nghĩa công thức Green là gì?')">📈 Green</button>
+            <button class="px-2 py-0.5 rounded-lg bg-white/90 border border-emerald-200 text-emerald-800 hover:bg-emerald-100 font-semibold shrink-0 transition" onclick="quickAiAsk('Công thức Bayes áp dụng ra sao?')">🎲 Bayes</button>
+            <button class="px-2 py-0.5 rounded-lg bg-white/90 border border-emerald-200 text-emerald-800 hover:bg-emerald-100 font-semibold shrink-0 transition" onclick="quickAiAsk('Thuật toán Dijkstra tìm đường đi ngắn nhất?')">🕸️ Dijkstra</button>
+          </div>
+
+          <!-- Ô nhập câu hỏi & Nút gửi -->
+          <div class="flex gap-1.5">
+            <input id="aiSidebarInput" 
+                   type="text" 
+                   autocomplete="off" 
+                   placeholder="Hỏi bài tập, định lý, công thức..." 
+                   class="text-xs font-medium py-1.5 px-2.5 border border-emerald-300 rounded-xl flex-1 bg-white focus:outline-none focus:ring-2 focus:ring-emerald-400" 
+                   onkeydown="if(event.key==='Enter')submitAiChat('sidebar')">
+            <button class="btn sm g !py-1.5 !px-3 shrink-0 text-xs font-bold shadow-xs flex items-center justify-center gap-1" onclick="submitAiChat('sidebar')" title="Gửi câu hỏi cho AI">
+              <span>Gửi</span> <span>🚀</span>
+            </button>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -3226,43 +3347,502 @@ function miniTest(){
   S.exam='mcq';go('exam');
 }
 
-function docHtml(){
-  const doc = S.docAnalysis;
-  return `
-  <h1 style="color:#1b4332;font-family:sans-serif">${S.cfg.siteName||'HPU2 Study Arena'} – Tóm Tắt Ôn Tập & Cương Lĩnh Học Tập</h1>
-  <p><b>Học phần:</b> ${S.subject} | <b>Năm học:</b> ${S.grade} (HPU2) | <b>Thời lượng:</b> ${S.hrs} giờ/ngày</p>
-  ${doc ? `
-    <div style="background:#e6f4ea;padding:12px;border-radius:8px;margin-bottom:16px;border:1px solid #b7e1cd">
-      <h3 style="margin:0 0 6px 0;color:#0d652d">📄 Tài liệu đã phân tích: ${doc.docName} (${doc.subject})</h3>
-      <p style="margin:0;font-size:13px;color:#137333">Thời gian phân tích: ${doc.timestamp}</p>
-    </div>
-  ` : ''}
-  <hr/>
-  <h2 style="color:#2d6a4f">1. Kiến thức cốt lõi cần nhớ</h2>
-  ${doc && doc.coreKnowledge && doc.coreKnowledge.length ? `
-    <ul>${doc.coreKnowledge.map(k=>`<li><b>[${k.type}] ${k.title}:</b> ${k.content} ${k.formula ? '<i>('+k.formula+')</i>' : ''}</li>`).join('')}</ul>
-  ` : `
-    <ul>${((S.focus&&S.focus.length)?S.focus:CONTENT.KNOW).map(f=>`<li>${f}</li>`).join('')}</ul>
-  `}
-  ${doc && doc.reviewQuestions && doc.reviewQuestions.length ? `
-    <h2 style="color:#2d6a4f">2. Bộ câu hỏi ôn tập bám sát tài liệu</h2>
-    <ol>${doc.reviewQuestions.map(q=>`<li><b>${q.type==='mcq'?'[Trắc nghiệm]':'[Tự luận]'} ${q.question}</b>${q.type==='mcq' ? '<br/>Đáp án đúng: '+q.options[q.answer]+' (Giải thích: '+q.explanation+')' : '<br/>Gợi ý: '+q.sampleAnswer}</li>`).join('')}</ol>
-  ` : ''}
-  <h2 style="color:#2d6a4f">3. Kế hoạch và lộ trình hoàn thành</h2>
-  <ol>${((S.plan&&S.plan.length)?S.plan.map(p=>p.t):CONTENT.TOPICS).map(t=>`<li>${t}</li>`).join('')}</ol>
-  <p><i>${S.cfg.siteName||'HPU2 Study Arena'} – Học tập & rèn luyện nghiệp vụ Sư phạm Hà Nội 2 cùng ${S.cfg.petName||'Cú Mèo HPU2'}</i></p>
-  `;
+/* ==================== 11.3 TÍNH NĂNG MỚI: HỎI ĐÁP & TRA CỨU BẰNG AI (HPU2 MATH AI ASSISTANT) ==================== */
+function renderAiChatMessage(text){
+  if(!text) return '';
+  let s = String(text);
+  s = s.replace(/^### (.*$)/gim, '<div class="font-extrabold text-sm text-emerald-950 mt-2 mb-1 flex items-center gap-1.5"><span class="text-teal-600">🔹</span><span>$1</span></div>');
+  s = s.replace(/^## (.*$)/gim, '<div class="font-extrabold text-base text-emerald-950 mt-2 mb-1 flex items-center gap-1.5"><span class="text-teal-600">🏛️</span><span>$1</span></div>');
+  s = s.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
+  s = s.replace(/\*(.*?)\*/g, '<i>$1</i>');
+  s = s.replace(/^- (.*$)/gim, '<div class="pl-2.5 my-0.5 flex items-start gap-1.5"><span class="text-emerald-500 font-bold">•</span><span>$1</span></div>');
+  s = s.replace(/\n\n/g, '<div class="h-2"></div>');
+  s = s.replace(/\n/g, '<br/>');
+  return formatMathText(s);
 }
-function exportDoc(){
-  const b=new Blob(['<html><meta charset="utf-8"><body>'+docHtml()+'</body></html>'],{type:'application/msword'});
-  const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=`HPU2-On-Tap-${(S.subject||'mon-hoc').replace(/\s+/g,'-')}.doc`;a.click();
-  gain(5,'gn',3);
+
+function renderAiChatMessagesHtml(isFloating = false){
+  const history = S.aiChatHistory || [];
+  if(!history.length){
+    return `<div class="p-4 text-center text-slate-400 italic text-[11px]">Chưa có đoạn hội thoại nào. Bạn hãy nhập câu hỏi toán học bất kỳ để bắt đầu!</div>`;
+  }
+  return history.map((m, idx) => {
+    const isUser = m.role === 'user';
+    return `
+      <div class="flex ${isUser ? 'justify-end' : 'justify-start'} animate-fade-in">
+        <div class="max-w-[92%] sm:max-w-[88%] rounded-2xl p-3 shadow-xs ${
+          isUser 
+            ? 'bg-gradient-to-r from-emerald-600 to-teal-700 text-white rounded-tr-none' 
+            : 'bg-white border border-emerald-200/90 text-emerald-950 rounded-tl-none'
+        }">
+          <div class="flex items-center justify-between gap-2 mb-1 pb-1 border-b ${isUser ? 'border-emerald-500/50' : 'border-emerald-100/80'}">
+            <span class="font-extrabold text-[10px] uppercase tracking-wider flex items-center gap-1 ${isUser ? 'text-emerald-100' : 'text-teal-700'}">
+              <span>${isUser ? '🎓 Bạn' : '🏛️ AI Trợ Giảng HPU2'}</span>
+            </span>
+            <span class="text-[9px] ${isUser ? 'text-emerald-200' : 'text-slate-400'}">${m.time || ''}</span>
+          </div>
+          <div class="leading-relaxed ${isUser ? 'text-white font-medium' : 'text-emerald-950 font-normal'}">
+            ${isUser ? formatMathText(m.text) : renderAiChatMessage(m.text)}
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
 }
-function exportPdf(){
-  const w=open('','_blank');
-  if(!w){toast('Trình duyệt đã chặn popup, hãy cho phép mở popup nhé');return}
-  w.document.write('<meta charset="utf-8"><title>HPU2 Tài Liệu Ôn Tập</title><body style="font-family:sans-serif;padding:30px">'+docHtml()+'</body>');
-  w.document.close();w.print();gain(5,'gn',3);
+
+function updateAiChatUI(){
+  const sList = $('#aiSidebarChatList');
+  if(sList){
+    sList.innerHTML = renderAiChatMessagesHtml();
+    sList.scrollTop = sList.scrollHeight;
+    if(window.renderMathInElement){
+      try { renderMathInElement(sList, { delimiters: [{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}], throwOnError: false }); } catch(e){}
+    }
+  }
+
+  const fList = $('#aiFloatingChatList');
+  if(fList){
+    fList.innerHTML = renderAiChatMessagesHtml(true);
+    fList.scrollTop = fList.scrollHeight;
+    if(window.renderMathInElement){
+      try { renderMathInElement(fList, { delimiters: [{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}], throwOnError: false }); } catch(e){}
+    }
+  }
+
+  const fPanel = $('#floatingAiPanel');
+  if(fPanel){
+    if(S.aiChatOpen){
+      fPanel.classList.remove('hidden');
+    } else {
+      fPanel.classList.add('hidden');
+    }
+  }
+}
+
+function toggleFloatingAiChat(forceState){
+  if(forceState !== undefined){
+    S.aiChatOpen = Boolean(forceState);
+  } else {
+    S.aiChatOpen = !S.aiChatOpen;
+  }
+  save();
+  updateAiChatUI();
+  if(S.aiChatOpen){
+    setTimeout(()=>{
+      const inp = $('#aiFloatingInput');
+      if(inp) inp.focus();
+    }, 120);
+  }
+}
+
+function quickAiAsk(text){
+  const inp = S.aiChatOpen ? $('#aiFloatingInput') : ($('#aiSidebarInput') || $('#aiFloatingInput'));
+  if(inp){
+    inp.value = text;
+    submitAiChat(S.aiChatOpen ? 'floating' : 'sidebar');
+  }
+}
+
+function clearAiChat(){
+  if(confirm('Bạn có chắc muốn xóa toàn bộ lịch sử hỏi đáp của phiên làm việc này?')){
+    S.aiChatHistory = [
+      {
+        role: 'assistant',
+        text: 'Lịch sử đoạn chat đã được làm mới. Em hãy nhập câu hỏi về bài tập hoặc lý thuyết các môn Toán HPU2 bất cứ lúc nào nhé!',
+        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+      }
+    ];
+    save();
+    updateAiChatUI();
+    toast('Đã dọn dẹp lịch sử hỏi đáp AI');
+  }
+}
+
+function submitAiChat(source){
+  const inputEl = source === 'sidebar' ? $('#aiSidebarInput') : $('#aiFloatingInput');
+  if(!inputEl) return;
+  const q = inputEl.value.trim();
+  if(!q){
+    toast('Vui lòng nhập câu hỏi bạn cần tra cứu');
+    return;
+  }
+
+  const now = new Date();
+  const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+  if(!S.aiChatHistory) S.aiChatHistory = [];
+  S.aiChatHistory.push({
+    role: 'user',
+    text: q,
+    time: timeStr
+  });
+
+  inputEl.value = '';
+  const otherInput = source === 'sidebar' ? $('#aiFloatingInput') : $('#aiSidebarInput');
+  if(otherInput) otherInput.value = '';
+
+  save();
+  updateAiChatUI();
+
+  // Tạo phản hồi chuyên sâu từ AI Trợ Giảng Toán HPU2
+  setTimeout(() => {
+    const replyText = generateAiResponse(q);
+    const replyTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    S.aiChatHistory.push({
+      role: 'assistant',
+      text: replyText,
+      time: replyTime
+    });
+
+    gain(5, 'kt', 2);
+    Sound.correct && Sound.correct();
+    save();
+    updateAiChatUI();
+  }, 450);
+}
+
+function generateAiResponse(query){
+  const q = (query || '').toLowerCase().trim();
+  const activeSubj = S.subject || 'Đại số tuyến tính';
+
+  // 1. Lý thuyết đồ thị: Định lý Bắt tay (Handshaking Lemma)
+  if(q.includes('bắt tay') || q.includes('bat tay') || q.includes('handshaking') || (q.includes('bậc') && q.includes('cạnh'))){
+    return `### Định lý Bắt tay (Handshaking Lemma) trong Lý thuyết Đồ thị
+
+**1. Bản chất toán học:**
+Trong mọi đơn đồ thị vô hướng $G = (V, E)$, mỗi cạnh $e = (u, v)$ kết nối đúng 2 đầu mút, do đó mỗi cạnh sẽ đóng góp chính xác 2 đơn vị vào tổng bậc của toàn bộ các đỉnh trong đồ thị.
+
+**2. Công thức cốt lõi:**
+$$\\sum_{v \\in V} \\text{deg}(v) = 2|E|$$
+
+**3. Hệ quả quan trọng (Thường gặp trong đề thi):**
+- Trong bất kỳ đồ thị vô hướng nào, **số lượng các đỉnh có bậc lẻ luôn luôn là một số chẵn**.
+- Không bao giờ tồn tại một đồ thị mà tổng bậc của các đỉnh là số lẻ.
+
+**4. Ví dụ minh họa:**
+- *Bài toán:* Một đồ thị có 10 đỉnh, trong đó mỗi đỉnh đều có bậc bằng 3. Tính số cạnh của đồ thị.
+- *Lời giải:* Theo định lý bắt tay:
+  $$2|E| = \\sum_{v \\in V} \\text{deg}(v) = 10 \\times 3 = 30 \\implies |E| = 15 \\text{ cạnh}.$$
+
+**5. Góc nhìn Sư phạm HPU2:**
+Khi dạy học sinh, giáo viên nên dùng hình ảnh ẩn dụ: "Trong một buổi họp, nếu 2 người bắt tay nhau thì có 1 cái bắt tay xảy ra, nhưng có 2 lượt chìa tay được tính". Đây là ví dụ trực quan tuyệt vời để học sinh ghi nhớ bản chất của định lý.`;
+  }
+
+  // 2. Lý thuyết đồ thị: Đồ thị Euler & Chu trình Euler
+  if(q.includes('euler') || q.includes('chu trình euler') || q.includes('đường đi euler')){
+    return `### Đồ thị Euler, Chu trình Euler & Đường đi Euler
+
+**1. Khái niệm nền tảng:**
+- **Chu trình Euler:** Là một đường đi khép kín (chu trình) đi qua **mọi cạnh** của đồ thị đúng một lần và quay về đỉnh xuất phát.
+- **Đường đi Euler:** Là đường đi đơn đi qua **mọi cạnh** của đồ thị đúng một lần (đỉnh bắt đầu và kết thúc khác nhau).
+
+**2. Định lý Euler (Điều kiện cần và đủ):**
+Cho đồ thị vô hướng liên thông $G = (V, E)$:
+- $G$ có **chu trình Euler** $\\iff$ Mọi đỉnh của $G$ đều có bậc chẵn:
+  $$\\forall v \\in V, \\; \\text{deg}(v) \\equiv 0 \\pmod 2$$
+- $G$ có **đường đi Euler** $\\iff$ $G$ có đúng **2 đỉnh bậc lẻ** (đường đi sẽ bắt đầu ở đỉnh bậc lẻ này và kết thúc ở đỉnh bậc lẻ kia).
+
+**3. Thuật toán tìm chu trình:**
+Thuật toán **Fleury** hoặc thuật toán **Hierholzer** với độ phức tạp $\\mathcal{O}(|E|)$. Nguyên tắc Fleury: "Chỉ đi qua cầu khi không còn con đường nào khác".`;
+  }
+
+  // 3. Thuật toán Dijkstra tìm đường đi ngắn nhất
+  if(q.includes('dijkstra') || q.includes('ngắn nhất') || q.includes('ngan nhat')){
+    return `### Thuật toán Dijkstra Tìm Đường đi Ngắn nhất
+
+**1. Bản chất thuật toán:**
+Dijkstra là thuật toán thuộc chiến lược **Tham lam (Greedy Strategy)**, tìm đường đi ngắn nhất từ một đỉnh nguồn $s$ đến tất cả các đỉnh còn lại trên đồ thị có trọng số.
+
+**2. Điều kiện tiên quyết:**
+- Trọng số của tất cả các cạnh **bắt buộc phải không âm**: $w(e) \\ge 0, \\; \\forall e \\in E$.
+- *(Lưu ý: Nếu đồ thị có trọng số âm, phải dùng thuật toán Bellman-Ford hoặc Floyd-Warshall).*
+
+**3. Công thức cập nhật khoảng cách (Relaxation):**
+$$d[v] = \\min(d[v], \\; d[u] + w(u, v))$$
+
+**4. Độ phức tạp tính toán:**
+- Dùng mảng tìm cực tiểu: $\\mathcal{O}(|V|^2)$.
+- Dùng hàng đợi ưu tiên (Min-Heap / Binary Heap): $\\mathcal{O}((|E| + |V|) \\log |V|)$.`;
+  }
+
+  // 4. Cây khung nhỏ nhất (MST - Kruskal & Prim)
+  if(q.includes('kruskal') || q.includes('prim') || q.includes('cây khung') || q.includes('cay khung') || q.includes('mst')){
+    return `### Cây Khung Nhỏ Nhất (Minimum Spanning Tree - MST)
+
+**1. Định nghĩa Cây khung:**
+Cây khung của đồ thị liên thông $G = (V, E)$ là một đồ thị con không chứa chu trình, kết nối tất cả $|V|$ đỉnh và có đúng **$|V| - 1$ cạnh**:
+$$|E_{\\text{MST}}| = |V| - 1$$
+
+**2. Thuật toán Kruskal (Dựa trên cạnh):**
+- *Bước 1:* Sắp xếp toàn bộ các cạnh của đồ thị theo trọng số tăng dần: $w(e_1) \\le w(e_2) \\le \\dots \\le w(e_m)$.
+- *Bước 2:* Khởi tạo cây $T = \\emptyset$.
+- *Bước 3:* Lần lượt duyệt từng cạnh: Nếu thêm cạnh $e$ vào $T$ **không tạo thành chu trình** (dùng Disjoint Set Union - DSU), nạp $e$ vào $T$. Ngược lại bỏ qua.
+- *Bước 4:* Dừng lại khi cây $T$ thu nạp đủ $|V| - 1$ cạnh.
+- *Độ phức tạp:* $\\mathcal{O}(|E| \\log |E|)$ do chi phí sắp xếp cạnh.
+
+**3. So sánh Kruskal vs Prim:**
+- Kruskal thích hợp cho đồ thị thưa ($|E| \\ll |V|^2$).
+- Prim phát triển từ một đỉnh nguồn, thích hợp cho đồ thị dày ($|E| \\approx |V|^2$).`;
+  }
+
+  // 5. Nguyên lý bù trừ (Inclusion-Exclusion)
+  if(q.includes('bù trừ') || q.includes('bu tru') || q.includes('bao hàm') || q.includes('inclusion')){
+    return `### Nguyên lý Bù trừ (Inclusion - Exclusion Principle)
+
+**1. Bản chất:**
+Công thức tính lực lượng (số phần tử) của hợp các tập hợp hữu hạn bằng cách cộng tổng số phần tử từng tập, trừ đi giao của từng cặp đôi, cộng lại giao của từng bộ ba...
+
+**2. Công thức 2 và 3 tập hợp:**
+- Cho 2 tập hợp:
+  $$|A \\cup B| = |A| + |B| - |A \\cap B|$$
+- Cho 3 tập hợp:
+  $$|A \\cup B \\cup C| = (|A| + |B| + |C|) - (|A \\cap B| + |B \\cap C| + |C \\cap A|) + |A \\cap B \\cap C|$$
+
+**3. Ứng dụng phổ biến:**
+- Đếm số học sinh giỏi ít nhất một môn.
+- Bài toán tìm số số nguyên dương nhỏ hơn $N$ nguyên tố cùng nhau với các thừa số nguyên tố.
+- Bài toán tìm số hoán vị mất tích (Derangements) - không phần tử nào ở đúng vị trí cũ.`;
+  }
+
+  // 6. Đại số tuyến tính: Ma trận nghịch đảo & Khả nghịch
+  if(q.includes('nghịch đảo') || q.includes('nghich dao') || q.includes('khả nghịch') || q.includes('kha nghich') || q.includes('ma trận')){
+    return `### Ma Trận Nghịch Đảo & Điều Kiện Khả Nghịch
+
+**1. Điều kiện cần và đủ:**
+Ma trận vuông $A$ cấp $n$ khả nghịch (tồn tại $A^{-1}$) khi và chỉ khi:
+$$\\det(A) \\neq 0 \\iff \\text{rank}(A) = n$$
+Khi đó tích giữa ma trận và nghịch đảo bằng ma trận đơn vị:
+$$A \\cdot A^{-1} = A^{-1} \\cdot A = I_n$$
+
+**2. Phương pháp tìm $A^{-1}$:**
+- **Cách 1 (Ma trận phụ hợp):**
+  $$A^{-1} = \\frac{1}{\\det(A)} P_A^T$$
+  Trong đó $P_A$ là ma trận gồm các phần bù đại số $C_{ij} = (-1)^{i+j} M_{ij}$.
+- **Cách 2 (Khử Gauss-Jordan - Khuyên dùng):**
+  Ghép ma trận đơn vị $[A \\mid I_n]$, dùng các phép biến đổi sơ cấp theo hàng để đưa về dạng $[I_n \\mid A^{-1}]$.
+
+**3. Tính chất cần nhớ:**
+- $(AB)^{-1} = B^{-1} A^{-1}$
+- $\\det(A^{-1}) = \\frac{1}{\\det(A)}$
+- $(A^T)^{-1} = (A^{-1})^T$`;
+  }
+
+  // 7. Định lý Kronecker-Capelli & Nghiệm hệ phương trình tuyến tính
+  if(q.includes('kronecker') || q.includes('capelli') || q.includes('hệ phương trình') || q.includes('he phuong trinh') || q.includes('hạng')){
+    return `### Định lý Kronecker - Capelli & Biện Luận Hệ Phương Trình
+
+**1. Định lý Kronecker - Capelli:**
+Hệ phương trình đại số tuyến tính $Ax = b$ có nghiệm khi và chỉ khi **hạng của ma trận hệ số bằng hạng của ma trận mở rộng**:
+$$\\text{rank}(A) = \\text{rank}(\\bar{A}) \\quad \\text{với } \\bar{A} = [A \\mid b]$$
+
+**2. Các trường hợp nghiệm cụ thể (với $n$ là số ẩn):**
+- **Vô nghiệm:** Khi $\\text{rank}(A) < \\text{rank}(\\bar{A})$.
+- **Nghiệm duy nhất:** Khi $\\text{rank}(A) = \\text{rank}(\\bar{A}) = n$.
+- **Vô số nghiệm:** Khi $\\text{rank}(A) = \\text{rank}(\\bar{A}) = r < n$. Khi đó nghiệm phụ thuộc vào $n - r$ tham số tự do.
+
+**3. Quy trình giải hệ theo chuẩn HPU2:**
+1. Lập ma trận mở rộng $\\bar{A} = [A \\mid b]$.
+2. Dùng phép biến đổi hàng đưa $\\bar{A}$ về dạng bậc thang.
+3. Đếm số dòng khác 0 để xác định hạng và kết luận nghiệm.`;
+  }
+
+  // 8. Không gian vectơ, Cơ sở & Số chiều
+  if(q.includes('không gian vectơ') || q.includes('khong gian vecto') || q.includes('cơ sở') || q.includes('co so') || q.includes('số chiều') || q.includes('độc lập tuyến tính')){
+    return `### Không Gian Vectơ, Độc Lập Tuyến Tính & Cơ Sở
+
+**1. Độc lập tuyến tính (ĐLTT):**
+Hệ vectơ $\\{v_1, v_2, \\dots, v_k\\}$ được gọi là ĐLTT nếu:
+$$c_1 v_1 + c_2 v_2 + \\dots + c_k v_k = 0 \\implies c_1 = c_2 = \\dots = c_k = 0$$
+Nếu tồn tại bộ số không đồng thời bằng 0 thì hệ là **Phụ thuộc tuyến tính (PTTT)**.
+
+**2. Cơ sở và Số chiều:**
+- Hệ $S = \\{e_1, e_2, \\dots, e_n\\}$ là một cơ sở của không gian $V$ nếu $S$ vừa **ĐLTT** vừa là **hệ sinh** của $V$.
+- Số lượng vectơ trong một cơ sở bất kỳ được gọi là **số chiều** của không gian, ký hiệu là $\\dim(V)$.
+- *Hệ quả:* Trong không gian $\\mathbb{R}^n$, bất kỳ hệ nào có đúng $n$ vectơ ĐLTT đều là một cơ sở. Mọi hệ có $> n$ vectơ đều chắc chắn PTTT.`;
+  }
+
+  // 9. Định lý Giá trị Trung bình Lagrange
+  if(q.includes('lagrange') || q.includes('rolle') || q.includes('giá trị trung bình') || q.includes('gia tri trung binh')){
+    return `### Định lý Giá trị Trung bình Lagrange (Giải tích 1)
+
+**1. Phát biểu định lý:**
+Cho hàm số $f(x)$ thỏa mãn 2 điều kiện:
+1. Liên tục trên đoạn đóng $[a, b]$.
+2. Khả vi trên khoảng mở $(a, b)$.
+Khi đó, tồn tại ít nhất một điểm $c \\in (a, b)$ sao cho:
+$$f(b) - f(a) = f'(c)(b - a)$$
+
+**2. Ý nghĩa hình học:**
+Hệ số góc của tiếp tuyến tại điểm $c$ bằng hệ số góc của cát tuyến nối 2 điểm mút $A(a, f(a))$ và $B(b, f(b))$. Nói cách khác, tiếp tuyến tại $c$ song song với dây cung $AB$.
+
+**3. Ứng dụng quan trọng:**
+- **Chứng minh bất đẳng thức:** Xét hàm $f(t) = \\ln(1+t)$ trên $[0, x]$ với $x > 0$. Theo Lagrange: $\\frac{\\ln(1+x) - \\ln 1}{x} = \\frac{1}{1+c} < 1 \\implies \\ln(1+x) < x$.
+- **Định lý hàm không đổi:** Nếu $f'(x) = 0, \\forall x \\in (a, b)$ thì $f(x) = \\text{const}$.`;
+  }
+
+  // 10. Khai triển Taylor & Maclaurin
+  if(q.includes('taylor') || q.includes('maclaurin') || q.includes('khai triển') || q.includes('khai trien')){
+    return `### Khai Triển Taylor & Maclaurin (Giải tích 1)
+
+**1. Công thức Maclaurin tổng quát:**
+Nếu $f(x)$ khả vi $n$ lần tại $x = 0$, khai triển Maclaurin với phần dư Peano là:
+$$f(x) = \\sum_{k=0}^n \\frac{f^{(k)}(0)}{k!} x^k + o(x^n) = f(0) + f'(0)x + \\frac{f''(0)}{2!}x^2 + \\dots + \\frac{f^{(n)}(0)}{n!}x^n + o(x^n)$$
+
+**2. Các khai triển kinh điển cần học thuộc:**
+- $e^x = 1 + x + \\frac{x^2}{2!} + \\frac{x^3}{3!} + \\dots + \\frac{x^n}{n!} + o(x^n)$
+- $\\sin x = x - \\frac{x^3}{3!} + \\frac{x^5}{5!} - \\dots + (-1)^n \\frac{x^{2n+1}}{(2n+1)!} + o(x^{2n+2})$
+- $\\cos x = 1 - \\frac{x^2}{2!} + \\frac{x^4}{4!} - \\dots + (-1)^n \\frac{x^{2n}}{(2n)!} + o(x^{2n+1})$
+- $\\ln(1 + x) = x - \\frac{x^2}{2} + \\frac{x^3}{3} - \\dots + (-1)^{n-1} \\frac{x^n}{n} + o(x^n)$
+
+**3. Ứng dụng:** Khử các dạng giới hạn vô định $\\left[\\frac{0}{0}\\right]$ cực kỳ nhanh mà L'Hôpital gặp khó khăn khi đạo hàm nhiều lần.`;
+  }
+
+  // 11. Quy tắc L'Hôpital
+  if(q.includes('l\'hopital') || q.includes('lhopital') || q.includes('l\'h') || q.includes('vô định') || q.includes('vo dinh')){
+    return `### Quy tắc L'Hôpital Khử Dạng Vô Định
+
+**1. Điều kiện áp dụng:**
+Quy tắc L'Hôpital **chỉ áp dụng** cho hai dạng vô định chính quy:
+$$\\left[\\frac{0}{0}\\right] \\quad \\text{hoặc} \\quad \\left[\\frac{\\infty}{\\infty}\\right]$$
+
+**2. Công thức:**
+$$\\lim_{x \\to x_0} \\frac{f(x)}{g(x)} = \\lim_{x \\to x_0} \\frac{f'(x)}{g'(x)}$$
+*(nếu giới hạn của tỉ số đạo hàm tồn tại hữu hạn hoặc bằng $\\pm\\infty$)*.
+
+**3. Cảnh báo lỗi sai phổ biến của sinh viên:**
+- Tuyệt đối không dùng công thức đạo hàm thương $\\left(\\frac{u}{v}\\right)'$. Phải đạo hàm riêng tử số và đạo hàm riêng mẫu số!
+- Phải luôn luôn thay số kiểm tra lại xem biểu thức còn ở dạng $\\frac{0}{0}$ hay $\\frac{\\infty}{\\infty}$ không trước khi áp dụng đạo hàm lần 2.`;
+  }
+
+  // 12. Cực trị hàm nhiều biến & Ma trận Hessian (Giải tích 2)
+  if(q.includes('cực trị') || q.includes('cuc tri') || q.includes('hessian') || q.includes('yên ngựa') || q.includes('yen ngua')){
+    return `### Cực Trị Tự Do Của Hàm Hai Biến & Ma Trận Hessian (Giải tích 2)
+
+**1. Bước 1: Tìm điểm dừng**
+Giải hệ phương trình đạo hàm riêng cấp 1 bằng 0:
+$$\\begin{cases} f'_x(x, y) = 0 \\\\ f'_y(x, y) = 0 \\end{cases} \\implies \\text{Điểm dừng } M_0(x_0, y_0)$$
+
+**2. Bước 2: Tính đạo hàm riêng cấp 2 tại $M_0$**
+Đặt: $A = f''_{xx}(M_0)$, $B = f''_{xy}(M_0)$, $C = f''_{yy}(M_0)$ và định thức Hessian:
+$$\\Delta = \\det(H) = AC - B^2$$
+
+**3. Bước 3: Kết luận cực trị**
+- **Trường hợp 1:** $\\Delta > 0$ và $A > 0 \\implies$ Hàm đạt **Cực tiểu địa phương** tại $M_0$.
+- **Trường hợp 2:** $\\Delta > 0$ và $A < 0 \\implies$ Hàm đạt **Cực đại địa phương** tại $M_0$.
+- **Trường hợp 3:** $\\Delta < 0 \\implies$ $M_0$ là **Điểm yên ngựa** (không là cực trị).
+- **Trường hợp 4:** $\\Delta = 0 \\implies$ Chưa thể kết luận, cần khảo sát vi phân cấp cao hơn hoặc dấu của số gia $\\Delta f$.`;
+  }
+
+  // 13. Công thức Green & Tích phân đường (Giải tích 2)
+  if(q.includes('green') || q.includes('tích phân đường') || q.includes('tich phan duong')){
+    return `### Công Thức Green Trên Mặt Phẳng (Giải tích 2)
+
+**1. Phát biểu định lý:**
+Cho miền phẳng $D$ đóng và bị chặn có biên $C^+$ là đường cong trơn từng khúc định hướng dương (ngược chiều kim đồng hồ). Nếu các hàm số $P(x, y)$ và $Q(x, y)$ có các đạo hàm riêng liên tục trên $D$, thì:
+$$\\oint_{C^+} (P \\, dx + Q \\, dy) = \\iint_D \\left(\\frac{\\partial Q}{\\partial x} - \\frac{\\partial P}{\\partial y}\\right) dxdy$$
+
+**2. Điều kiện tích phân đường độc lập đường đi:**
+Trong miền đơn liên $D$, tích phân đường loại 2 $\\int_C Pdx + Qdy$ không phụ thuộc đường đi nối 2 điểm $A$ và $B$ khi và chỉ khi:
+$$\\frac{\\partial Q}{\\partial x} = \\frac{\\partial P}{\\partial y}$$
+*(tương đương biểu thức $Pdx + Qdy$ là vi phân toàn phần của một hàm thế $U(x, y)$ nào đó).*`;
+  }
+
+  // 14. Công thức Bayes & Xác suất toàn phần (Xác suất thống kê)
+  if(q.includes('bayes') || q.includes('xác suất toàn phần') || q.includes('xac suat toan phan') || q.includes('hậu nghiệm') || q.includes('tiên nghiệm')){
+    return `### Công Thức Xác Suất Toàn Phần & Định Lý Bayes
+
+**1. Công thức Xác suất Toàn phần:**
+Cho hệ biến cố đầy đủ $\\{A_1, A_2, \\dots, A_n\\}$ (xung khắc từng đôi và $\\sum P(A_i) = 1$). Khi đó với mọi biến cố $B$:
+$$P(B) = \\sum_{i=1}^n P(A_i) P(B \\mid A_i)$$
+
+**2. Công thức Bayes:**
+Cho phép tính xác suất của nguyên nhân $A_k$ khi đã biết kết quả $B$ đã xảy ra:
+$$P(A_k \\mid B) = \\frac{P(A_k) P(B \\mid A_k)}{\\sum_{i=1}^n P(A_i) P(B \\mid A_i)}$$
+
+**3. Ý nghĩa thực tiễn:**
+- $P(A_k)$: Xác suất **tiên nghiệm** (trước khi có thông tin kiểm thử).
+- $P(A_k \\mid B)$: Xác suất **hậu nghiệm** (được cập nhật sau khi có dữ liệu thực tế $B$).
+- Ứng dụng rộng rãi trong y khoa (chẩn đoán bệnh), lọc thư rác (Spam Filter) và trí tuệ nhân tạo.`;
+  }
+
+  // 15. Phân phối chuẩn Gauss & Quy tắc 3-Sigma
+  if(q.includes('phân phối chuẩn') || q.includes('phan phoi chuan') || q.includes('gauss') || q.includes('3-sigma') || q.includes('kỳ vọng') || q.includes('phương sai')){
+    return `### Quy Luật Phân Phối Chuẩn Gauss & Quy Tắc 3-Sigma
+
+**1. Định nghĩa:**
+Biến ngẫu nhiên liên tục $X$ có phân phối chuẩn ký hiệu $X \\sim \\mathcal{N}(\\mu, \\sigma^2)$, với hàm mật độ xác suất dạng chuông đối xứng qua kỳ vọng $\\mu$:
+$$f(x) = \\frac{1}{\\sigma \\sqrt{2\\pi}} e^{-\\frac{(x - \\mu)^2}{2\\sigma^2}}$$
+- Kỳ vọng: $E(X) = \\mu$
+- Phương sai: $\\text{Var}(X) = \\sigma^2$
+
+**2. Chuẩn hóa về $\\mathcal{N}(0, 1)$:**
+Đặt biến đổi chuẩn hóa: $Z = \\frac{X - \\mu}{\\sigma} \\sim \\mathcal{N}(0, 1)$.
+
+**3. Quy tắc 3-Sigma kinh điển:**
+- $P(\\mu - \\sigma \\le X \\le \\mu + \\sigma) \\approx 68.27\\%$
+- $P(\\mu - 2\\sigma \\le X \\le \\mu + 2\\sigma) \\approx 95.45\\%$
+- $P(\\mu - 3\\sigma \\le X \\le \\mu + 3\\sigma) \\approx 99.73\\%$
+*(Hầu như toàn bộ dữ liệu mẫu trong tự nhiên và điểm số thi đều nằm trọn vẹn trong khoảng $\\pm 3\\sigma$).*`;
+  }
+
+  // 16. Định lý Giới hạn Trung tâm (CLT)
+  if(q.includes('clt') || q.includes('giới hạn trung tâm') || q.includes('gioi han trung tam')){
+    return `### Định Lý Giới Hạn Trung Tâm (Central Limit Theorem - CLT)
+
+**1. Nội dung định lý:**
+Cho dãy biến ngẫu nhiên độc lập cùng phân phối (I.I.D) $X_1, X_2, \\dots, X_n$ có cùng kỳ vọng $\\mu$ và phương sai $\\sigma^2 < \\infty$. Khi cỡ mẫu $n$ đủ lớn ($n \\ge 30$), phân phối của trung bình mẫu $\\bar{X}_n = \\frac{1}{n} \\sum_{i=1}^n X_i$ sẽ hội tụ về phân phối chuẩn:
+$$\\bar{X}_n \\xrightarrow{d} \\mathcal{N}\\left(\\mu, \\; \\frac{\\sigma^2}{n}\\right)$$
+
+**2. Tầm quan trọng đối với Sư phạm & Nghiên cứu GD:**
+CLT là chiếc chìa khóa vạn năng của thống kê: **Bất kể phân phối gốc của tổng thể là gì** (đồng đều, nhị thức hay lệch), điểm số trung bình của các lớp học sinh khi lấy mẫu ngẫu nhiên đủ lớn luôn có phân phối xấp xỉ chuẩn. Nhờ đó giáo viên có thể an tâm áp dụng kiểm định $t$-test hoặc ANOVA để so sánh hiệu quả của các phương pháp giảng dạy mới.`;
+  }
+
+  // 17. Kiến trúc máy tính & Bộ nhớ RAM
+  if(q.includes('ram') || q.includes('sram') || q.includes('dram') || q.includes('ktmt') || q.includes('bộ nhớ')){
+    return `### Kiến Trúc Máy Tính & Phân Loại Bộ Nhớ RAM
+
+**1. So sánh SRAM vs DRAM:**
+- **SRAM (Static RAM):** Cấu tạo từ các mạch lật Flip-Flop (4-6 transistor). Tốc độ cực nhanh (1-10ns), không cần chu kỳ làm tươi, tiêu thụ ít điện năng khi nghỉ. Do chi phí sản xuất cao nên dùng làm bộ nhớ đệm Cache (L1, L2, L3) của CPU.
+- **DRAM (Dynamic RAM):** Cấu tạo từ 1 transistor và 1 tụ điện (1T-1C). Mật độ lưu trữ cực cao và giá rẻ, nhưng tụ điện bị rò rỉ điện tích nên **bắt buộc phải có chu kỳ nạp lại (Refresh Cycle)** định kỳ. Dùng làm thanh RAM chính.
+
+**2. Công nghệ DDR SDRAM (Double Data Rate):**
+DDR truyền dữ liệu ở cả 2 sườn của xung nhịp (sườn lên Rising edge và sườn xuống Falling edge), giúp nhân đôi băng thông truyền tải mà không cần tăng tần số xung clock cơ sở.`;
+  }
+
+  // 18. Lời khuyên học tập sư phạm HPU2
+  if(q.includes('học tập') || q.includes('phương pháp') || q.includes('hpu2') || q.includes('sư phạm') || q.includes('giảng viên')){
+    return `### Lời Khuyên Phương Pháp Học Tập Dành Cho Sinh Viên Toán HPU2
+
+**1. Nắm chắc bản chất định lý trước khi làm bài tập:**
+Đừng chỉ học thuộc vẹt công thức. Hãy tự đặt câu hỏi: "Tại sao định lý này cần điều kiện này?", "Nếu bỏ điều kiện đó thì phản ví dụ là gì?". Ví dụ: Định lý Lagrange nếu bỏ tính khả vi thì tiếp tuyến có còn tồn tại không?
+
+**2. Rèn luyện kỹ năng trình bày lập luận logic:**
+Là sinh viên Sư phạm Toán, chữ viết bảng và lập luận sư phạm phải chuẩn chỉ từng dấu suy ra $(\\implies)$, tương đương $(\\iff)$, tập xác định và giả thiết.
+
+**3. Vận dụng tính năng của Study Arena:**
+- **Vườn Học Tập:** Tải giáo trình lên để AI phân tích kiến thức cốt lõi và tra cứu nhanh bài tập qua khung chat AI.
+- **Đấu Trường Thi:** Làm trắc nghiệm phản xạ, luyện tự luận và vấn đáp cùng Giảng viên ảo HPU2.
+- **Nhà Cây Linh Vật:** Chăm chỉ làm bài mỗi ngày để tích lũy XP giúp linh vật độ kiếp lên Cảnh giới cao nhất!`;
+  }
+
+  // 19. Fallback trả lời tổng quát
+  return `### Phản hồi Phân Tích từ AI Trợ Giảng Toán HPU2
+
+**Câu hỏi của bạn:** *"{{q}}"*
+**Học phần liên quan:** **{{subj}} (HPU2)**
+
+**1. Bản chất & Định hướng giải quyết:**
+Vấn đề bạn đang hỏi thuộc khối kiến thức trọng tâm của học phần **{{subj}}**. Để giải quyết bài toán dạng này một cách bài bản theo chuẩn mực Sư phạm Toán, em cần tuân thủ 3 bước logic:
+
+**2. Quy trình 3 bước chuẩn mực:**
+- **Bước 1 (Xác định mô hình):** Thiết lập các tiên đề, điều kiện xác định và cấu trúc đại số/giải tích tương ứng.
+- **Bước 2 (Vận dụng định lý):** Áp dụng công thức biến đổi tương đương hoặc các định lý then chốt (như Định lý Kronecker-Capelli, Định lý Bắt tay, Định lý Green hoặc Công thức Bayes).
+- **Bước 3 (Kiểm tra & Kết luận):** Đối chiếu nghiệm với miền xác định ban đầu và liên hệ với ý nghĩa hình học/sư phạm.
+
+**3. Lời khuyên:**
+Em có thể gõ các câu hỏi cụ thể hơn (ví dụ: *"Cách tìm ma trận nghịch đảo cấp 3"*, *"Định lý Bắt tay trong đồ thị"*, *"Công thức Bayes"*...) hoặc nhấn vào các nút gợi ý nhanh để nhận được bài giải chi tiết kèm công thức KaTeX toán học chuẩn nhé!`
+    .replace('{{q}}', query)
+    .replace(/\{\{subj\}\}/g, activeSubj);
 }
 
 /* ==================== 12. ĐẤU TRƯỜNG THI ==================== */
