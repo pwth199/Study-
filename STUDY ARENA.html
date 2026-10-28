@@ -10,6 +10,8 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
 <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<!-- Mammoth.js cho đọc tài liệu Word .docx trực tiếp trên trình duyệt -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
 <style>
 :root{
   --g-deep:#0f382c;
@@ -1488,7 +1490,8 @@ function vAdminView(){
         ['oral','🎙️ Vấn Đáp ('+CONTENT.ORAL.length+')'],
         ['topics','🌿 Chủ Đề & Trọng Tâm'],
         ['cheats','⚡ Điểm & Cấp Độ'],
-        ['json','💾 Soạn JSON / Backup']
+        ['json','💾 Soạn JSON / Backup'],
+        ['ai_config','🤖 Cấu Hình AI & API']
       ].map(([k,l])=>`
         <button class="tab sm flex-1 min-w-[125px] text-center ${ADM_TAB===k?'on':'bg-white/80'}" onclick="ADM_TAB='${k}';render()">${l}</button>
       `).join('')}
@@ -1506,7 +1509,8 @@ function vAdminView(){
         oral:vAdminOral,
         topics:vAdminTopics,
         cheats:vAdminCheats,
-        json:vAdminJson
+        json:vAdminJson,
+        ai_config:vAdminAiConfig
       }[ADM_TAB]()}
     </div>
   </div>
@@ -2340,6 +2344,65 @@ function exportStandaloneHtml(){
   toast('Đã xuất bản file HTML độc lập chứa dữ liệu mới nhất!');
 }
 
+function vAdminAiConfig(){
+  const savedKey = localStorage.getItem('study_arena_gemini_key') || '';
+  return `
+  <div class="p-4 bg-white/95 rounded-2xl border border-emerald-200 shadow-xs space-y-4">
+    <div class="flex items-center justify-between pb-3 border-b border-emerald-100 flex-wrap gap-2">
+      <div>
+        <h4 class="font-extrabold text-sm text-emerald-950 flex items-center gap-2">
+          <span>🤖</span> <span>Cấu Hình Tích Hợp AI (Gemini 2.5 Flash & Document Parser)</span>
+        </h4>
+        <p class="text-xs text-emerald-700 mt-0.5">Quản lý kết nối AI để đọc tài liệu (.pdf, .docx, .txt) và hỗ trợ sinh viên HPU2 tra cứu toán học</p>
+      </div>
+      <a href="ai-doc-analyzer.html" target="_blank" class="btn sm g gap-1 text-xs">
+        <span>⚡ Mở Trang Phân Tích Độc Lập</span> <span>↗</span>
+      </a>
+    </div>
+
+    <div class="p-3.5 bg-emerald-50/70 rounded-2xl border border-emerald-200 space-y-2">
+      <label class="block text-xs font-bold text-emerald-950">Gemini API Key (Google AI Studio):</label>
+      <div class="flex gap-2">
+        <input type="password" id="adminGeminiApiKeyInput" value="${savedKey}" placeholder="Dán Gemini API Key (AIzaSy...)" class="flex-1 p-2 text-xs border border-emerald-300 rounded-xl bg-white text-emerald-950 font-mono">
+        <button class="btn sm g" onclick="saveAdminGeminiKey()">Lưu Key 💾</button>
+        <button class="btn sm outline" onclick="clearAdminGeminiKey()">Xóa</button>
+      </div>
+      <p class="text-[11px] text-emerald-700 italic">
+        Khóa API được lưu an toàn trong trình duyệt cục bộ (localStorage) của bạn. Khi có khóa, hệ thống sẽ gọi trực tiếp mô hình <b>gemini-2.5-flash</b> để xử lý PDF và văn bản. Khi không có khóa, hệ thống sử dụng bộ giả lập thông minh toán học HPU2.
+      </p>
+    </div>
+
+    <div class="grid sm:grid-cols-2 gap-3 text-xs">
+      <div class="p-3 rounded-xl bg-slate-50 border border-slate-200">
+        <div class="font-bold text-slate-800 mb-1">📄 Trích xuất DOCX (Mammoth.js):</div>
+        <div class="text-slate-600">${typeof mammoth !== 'undefined' ? '✅ Đã tích hợp sẵn sàng trong trình duyệt' : '⚠️ Đang tải thư viện'}</div>
+      </div>
+      <div class="p-3 rounded-xl bg-slate-50 border border-slate-200">
+        <div class="font-bold text-slate-800 mb-1">📐 Hiển thị công thức Toán (KaTeX):</div>
+        <div class="text-slate-600">${typeof katex !== 'undefined' ? '✅ KaTeX 0.16.9 MathML & HTML Ready' : '⚠️ Đang tải KaTeX'}</div>
+      </div>
+    </div>
+  </div>
+  `;
+}
+
+function saveAdminGeminiKey(){
+  const input = $('#adminGeminiApiKeyInput');
+  if(!input) return;
+  const k = input.value.trim();
+  localStorage.setItem('study_arena_gemini_key', k);
+  toast(k ? '🎉 Đã lưu Gemini API Key thành công!' : 'Đã xóa API Key');
+  render();
+}
+
+function clearAdminGeminiKey(){
+  localStorage.removeItem('study_arena_gemini_key');
+  const input = $('#adminGeminiApiKeyInput');
+  if(input) input.value = '';
+  toast('Đã gỡ bỏ Gemini API Key');
+  render();
+}
+
 /* ==================== 11. VƯỜN HỌC TẬP (STUDY VIEW) ==================== */
 const MODES=[
   ['day7','⚡ Cấp tốc (1 tuần: 7 ngày)'],
@@ -2409,7 +2472,12 @@ function vLearn(){
         </div>
         ${isAuth ? `<span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800">Đã mở khóa</span>` : `<span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 flex items-center gap-1">🔒 Cần đăng nhập</span>`}
       </div>
-      <p class="text-xs text-emerald-700 mb-2">Tải giáo trình hoặc ghi chú (.pdf, .docx, ảnh) để AI chắt lọc tinh hoa</p>
+      <div class="flex items-center justify-between gap-2 mb-2 flex-wrap">
+        <p class="text-xs text-emerald-700">Tải giáo trình hoặc ghi chú (.pdf, .docx, ảnh) để AI chắt lọc tinh hoa</p>
+        <a href="ai-doc-analyzer.html" target="_blank" class="inline-flex items-center gap-1 text-[11px] font-bold text-teal-700 hover:text-teal-900 bg-teal-100/90 hover:bg-teal-200/90 px-2 py-0.5 rounded-lg border border-teal-300 transition shadow-2xs">
+          <span>⚡ Mở Tool AI Độc Lập</span> <span>↗</span>
+        </a>
+      </div>
       
       ${!isAuth ? `
         <!-- Khóa upload đối với người dùng vãng lai / chưa đăng nhập -->
@@ -2550,38 +2618,162 @@ function vLearn(){
 }
 
 /* ==================== 11.2 KẾT QUẢ AI PHÂN TÍCH TÀI LIỆU & BỘ CÂU HỎI ÔN TẬP ==================== */
+let showSavedDocModal = false;
+const STORE_DOC_SAVED = "docAnalysis.saved.v1";
+
+function getSavedDocAnalyses(){
+  try{ return JSON.parse(localStorage.getItem(STORE_DOC_SAVED) || "[]"); }catch(e){ return []; }
+}
+function putSavedDocAnalyses(list){
+  try{ localStorage.setItem(STORE_DOC_SAVED, JSON.stringify(list)); return true; }catch(e){
+    toast("Không thể lưu (bộ nhớ trình duyệt đầy hoặc bị chặn)"); return false;
+  }
+}
+function toggleSavedDocModal(){
+  showSavedDocModal = !showSavedDocModal;
+  render();
+}
+function openSavedDoc(id){
+  const list = getSavedDocAnalyses();
+  const item = list.find(x => x.id == id);
+  if(item){
+    S.docAnalysis = item.data;
+    S.docQuizAnswers = {};
+    S.files = [item.name];
+    showSavedDocModal = false;
+    save();
+    render();
+    toast(`📂 Đã mở bộ ôn tập: ${item.name}`);
+  }
+}
+function deleteSavedDoc(id){
+  let list = getSavedDocAnalyses();
+  list = list.filter(x => x.id != id);
+  putSavedDocAnalyses(list);
+  toast('Đã xóa bộ ôn tập đã lưu');
+  render();
+}
+function setDocAnalysisTab(t){
+  S.docAnalysisTab = t;
+  render();
+}
+function saveDocAnalysisSet(){
+  if(!S.docAnalysis) return;
+  const list = getSavedDocAnalyses();
+  const title = S.docAnalysis.title || S.docAnalysis.docName || "Bộ ôn tập HPU2";
+  list.unshift({
+    id: Date.now(),
+    name: title,
+    at: new Date().toLocaleString("vi-VN"),
+    data: S.docAnalysis
+  });
+  if(putSavedDocAnalyses(list.slice(0, 25))){
+    Sound.correct && Sound.correct();
+    toast(`💾 Đã lưu bộ ôn tập: ${title}!`);
+    render();
+  }
+}
+function downloadDocAnalysisJson(){
+  if(!S.docAnalysis) return;
+  const data = S.docAnalysis;
+  const u = URL.createObjectURL(new Blob([JSON.stringify(data, null, 2)], { type: "application/json" }));
+  const a = document.createElement("a");
+  a.href = u;
+  a.download = ((data.title || data.docName || "on-tap").replace(/[^\w\-]+/g, "_")) + ".json";
+  a.click();
+  URL.revokeObjectURL(u);
+  toast("📥 Đã tải tệp JSON về máy!");
+}
+function applyDocPlanToRoadmap(){
+  if(!S.docAnalysis || !S.docAnalysis.plan) return;
+  S.plan = S.docAnalysis.plan.map((p, idx) => ({
+    t: `[${p.priority}] ${p.topic}: ${p.reason.slice(0, 80)}...`,
+    d: idx === 0
+  }));
+  save();
+  Sound.correct && Sound.correct();
+  toast('🎉 Đã cập nhật kế hoạch từ tài liệu vào Lộ trình học tập!');
+  render();
+}
+
 function renderDocAnalysisSection(doc){
   if(!doc) return '';
   const answers = S.docQuizAnswers || {};
+  const currentTab = S.docAnalysisTab || 'sum';
+  const s = doc.summary || {};
+  const keyPoints = (s.key_points && s.key_points.length) ? s.key_points : (doc.coreKnowledge || []);
+  const formulas = (s.formulas && s.formulas.length) ? s.formulas : [];
+  const mcqs = (doc.mcq && doc.mcq.length) ? doc.mcq : (doc.reviewQuestions || []).filter(q => q.type === 'mcq').map(q => ({
+    question: q.question,
+    options: q.options,
+    answer_index: q.answer,
+    explanation: q.explanation
+  }));
+  const essays = (doc.essay && doc.essay.length) ? doc.essay : (doc.reviewQuestions || []).filter(q => q.type === 'essay').map(q => ({
+    question: q.question,
+    suggested_answer: q.sampleAnswer,
+    keywords: q.keywords || []
+  }));
+  const plans = (doc.plan && doc.plan.length) ? doc.plan : [
+    { topic: "Hệ thống định lý & tiên đề then chốt", priority: "Cao", reason: "Nền tảng tiên quyết để hiểu các bài toán tính toán và chứng minh phức tạp." },
+    { topic: "Bài tập rèn luyện kỹ năng tính toán & biến đổi", priority: "Cao", reason: "Chiếm 60% cấu trúc điểm số bài thi kết thúc học phần." },
+    { topic: "Phân tích các trường hợp đặc biệt & phản ví dụ", priority: "Trung bình", reason: "Giúp tránh bẫy trong câu hỏi trắc nghiệm lý thuyết sâu." }
+  ];
+
+  const mcqDoneCount = Object.keys(answers).length;
+  const mcqCorrectCount = Object.keys(answers).filter(idx => {
+    const q = mcqs[idx];
+    if(!q) return false;
+    const ansIdx = q.answer_index !== undefined ? q.answer_index : q.answer;
+    return answers[idx] === ansIdx;
+  }).length;
+
+  const ordMap = { cao: 1, 'trung bình': 2, 'tb': 2, thap: 3, 'thấp': 3 };
+  const badgeCls = p => {
+    const k = String(p || '').toLowerCase();
+    if(k.includes('cao')) return 'bg-rose-100 text-rose-800 border-rose-300';
+    if(k.includes('trung') || k.includes('tb')) return 'bg-amber-100 text-amber-800 border-amber-300';
+    return 'bg-emerald-100 text-emerald-800 border-emerald-300';
+  };
+
   return `
-  <section class="card lg:col-span-3 border-2 border-teal-500/80 bg-gradient-to-br from-emerald-50/90 via-teal-50/40 to-cyan-50/50 shadow-lg relative overflow-hidden mb-2 animate-fade-in">
+  <section class="card lg:col-span-3 border-2 border-teal-500/80 bg-gradient-to-br from-emerald-50/90 via-teal-50/40 to-cyan-50/50 shadow-lg relative overflow-hidden mb-4 animate-fade-in">
     <!-- Header kết quả phân tích -->
-    <div class="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-teal-200/80 mb-4">
+    <div class="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-teal-200/80 mb-3">
       <div class="flex items-center gap-3">
         <div class="w-10 h-10 rounded-2xl bg-teal-600 text-white flex items-center justify-center text-xl shadow-md">
           ✨
         </div>
         <div>
-          <div class="flex items-center gap-2">
+          <div class="flex items-center gap-2 flex-wrap">
             <h2 class="font-extrabold text-base sm:text-lg text-emerald-950 font-fun">
-              KẾT QUẢ AI PHÂN TÍCH TÀI LIỆU
+              ${doc.title || doc.docName || 'PHÂN TÍCH TÀI LIỆU BẰNG AI'}
             </h2>
             <span class="px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-teal-600 text-white shadow-xs">
               AI VERIFIED
             </span>
+            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-900 border border-amber-300">
+              Độ khó: ${doc.difficulty || 'Trung bình'}
+            </span>
           </div>
           <p class="text-xs text-emerald-800 flex items-center gap-1.5 flex-wrap mt-0.5">
-            <span>📁 Tệp: <b>${doc.docName}</b> (${doc.docSize||'Đã quét'})</span>
+            <span>📁 Tệp: <b>${doc.docName || doc.title}</b> (${doc.docSize||'Đã quét'})</span>
             <span class="text-emerald-400">•</span>
-            <span>Học phần: <b>${doc.subject}</b></span>
+            <span>Học phần: <b>${doc.subject || S.subject || 'Toán HPU2'}</b></span>
             <span class="text-emerald-400">•</span>
-            <span class="text-slate-500">${doc.timestamp}</span>
+            <span class="text-slate-500">${doc.timestamp || 'Vừa xong'}</span>
           </p>
         </div>
       </div>
-      <div class="flex items-center gap-2">
+      <div class="flex items-center gap-2 flex-wrap">
         <button class="btn sm g gap-1.5 text-xs shadow-sm" onclick="startDocQuiz()">
-          <span>🚀</span> <span>Vào Đấu Trường Luyện Đề Này</span>
+          <span>🚀</span> <span>Vào Đấu Trường Luyện Đề</span>
+        </button>
+        <button class="btn sm outline text-xs border-teal-300 bg-white hover:bg-teal-50 text-teal-900" onclick="saveDocAnalysisSet()" title="Lưu bộ ôn tập vào bộ nhớ máy">
+          <span>💾</span> <span>Lưu Bộ Ôn Tập</span>
+        </button>
+        <button class="btn sm outline text-xs border-teal-300 bg-white hover:bg-teal-50 text-teal-900" onclick="downloadDocAnalysisJson()" title="Tải file JSON về máy">
+          <span>📥</span> <span>Tải JSON</span>
         </button>
         <button class="btn sm outline !p-2 text-slate-500 hover:text-slate-800" onclick="clearDocAnalysis()" title="Đóng kết quả phân tích">
           ✕
@@ -2589,108 +2781,315 @@ function renderDocAnalysisSection(doc){
       </div>
     </div>
 
-    <!-- 2 Phần kết quả: KIẾN THỨC CỐT LÕI & BỘ CÂU HỎI ÔN TẬP -->
-    <div class="grid md:grid-cols-2 gap-5">
-      <!-- PHẦN 1: KIẾN THỨC CỐT LÕI (CORE KNOWLEDGE) -->
-      <div class="bg-white/95 rounded-2xl p-4 border border-emerald-200/90 shadow-xs flex flex-col">
-        <div class="flex items-center justify-between pb-2.5 mb-3 border-b border-emerald-100">
-          <h3 class="font-extrabold text-sm text-emerald-950 flex items-center gap-2">
-            <span class="text-lg">💡</span>
-            <span>1. Kiến Thức Cốt Lõi (Core Knowledge)</span>
-          </h3>
-          <span class="text-[11px] font-bold text-emerald-800 bg-emerald-100 px-2 py-0.5 rounded-lg border border-emerald-200">
-            ${(doc.coreKnowledge||[]).length} Trọng tâm
-          </span>
-        </div>
-        <p class="text-[11px] text-emerald-700 mb-3 italic">
-          Các định lý, công thức và ý chính then chốt được AI chắt lọc từ tài liệu vừa tải lên:
-        </p>
-        <div class="space-y-3 overflow-y-auto max-h-[460px] pr-1.5">
-          ${(doc.coreKnowledge||[]).map((item, idx) => `
-            <div class="p-3.5 rounded-2xl bg-white/95 border border-emerald-200/90 hover:border-emerald-300 transition shadow-xs">
-              <div class="flex items-center justify-between gap-2 mb-1.5">
-                <span class="font-bold text-xs text-emerald-950 flex items-center gap-1.5">
-                  <span class="w-5 h-5 rounded-md bg-emerald-600 text-white text-[10px] font-extrabold flex items-center justify-center shadow-2xs">${idx+1}</span>
-                  <span>${formatMathText(item.title)}</span>
-                </span>
-                <span class="text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-900 border border-emerald-200/70">${item.type}</span>
-              </div>
-              <div class="text-xs text-emerald-950 leading-relaxed font-normal mt-1 pl-6.5">
-                ${formatMathText(item.content)}
-              </div>
-              ${item.formula ? `
-                <div class="mt-2.5 px-3.5 py-2 bg-gradient-to-r from-emerald-50/80 via-white to-teal-50/80 rounded-xl border border-emerald-200/80 shadow-2xs text-center text-sm sm:text-base text-emerald-950 overflow-x-auto math-display">
-                  ${renderMath(item.formula, true)}
-                </div>
-              ` : ''}
+    <!-- Thanh chuyển 4 Tab chuyên sâu theo thiết kế AI -->
+    <div class="flex flex-wrap gap-2 p-1 bg-teal-100/60 rounded-2xl mb-4 border border-teal-200">
+      <button class="px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 ${currentTab === 'sum' ? 'bg-teal-700 text-white shadow-xs' : 'bg-white/80 text-teal-950 hover:bg-white'}" onclick="setDocAnalysisTab('sum')">
+        <span>📌</span> <span>Tóm Tắt & Kiến Thức Cốt Lõi</span>
+      </button>
+      <button class="px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 ${currentTab === 'quiz' ? 'bg-teal-700 text-white shadow-xs' : 'bg-white/80 text-teal-950 hover:bg-white'}" onclick="setDocAnalysisTab('quiz')">
+        <span>🎯</span> <span>Làm Trắc Nghiệm</span>
+        <span class="text-[10px] px-1.5 py-0.2 rounded-full ${currentTab === 'quiz' ? 'bg-white/20 text-white' : 'bg-teal-200 text-teal-900'}">${mcqs.length}</span>
+      </button>
+      <button class="px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 ${currentTab === 'essay' ? 'bg-teal-700 text-white shadow-xs' : 'bg-white/80 text-teal-950 hover:bg-white'}" onclick="setDocAnalysisTab('essay')">
+        <span>📝</span> <span>Tự Luận & Vấn Đáp</span>
+        <span class="text-[10px] px-1.5 py-0.2 rounded-full ${currentTab === 'essay' ? 'bg-white/20 text-white' : 'bg-teal-200 text-teal-900'}">${essays.length}</span>
+      </button>
+      <button class="px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 ${currentTab === 'plan' ? 'bg-teal-700 text-white shadow-xs' : 'bg-white/80 text-teal-950 hover:bg-white'}" onclick="setDocAnalysisTab('plan')">
+        <span>🗺️</span> <span>Hướng Ôn Tập</span>
+        <span class="text-[10px] px-1.5 py-0.2 rounded-full ${currentTab === 'plan' ? 'bg-white/20 text-white' : 'bg-teal-200 text-teal-900'}">${plans.length}</span>
+      </button>
+    </div>
+
+    <!-- TAB 1: TÓM TẮT & KIẾN THỨC CỐT LÕI -->
+    ${currentTab === 'sum' ? `
+      <div class="space-y-4">
+        ${s.overview ? `
+          <div class="bg-white/95 rounded-2xl p-4 border border-teal-200/90 shadow-xs">
+            <h3 class="font-extrabold text-sm text-teal-950 flex items-center gap-2 mb-2">
+              <span class="text-base">📖</span>
+              <span>Tổng Quan Nội Dung Tài Liệu</span>
+            </h3>
+            <p class="text-xs text-slate-700 leading-relaxed">${formatMathText(s.overview)}</p>
+          </div>
+        ` : ''}
+
+        <div class="grid md:grid-cols-2 gap-4">
+          <!-- Cột 1: Kiến thức cốt lõi -->
+          <div class="bg-white/95 rounded-2xl p-4 border border-emerald-200/90 shadow-xs flex flex-col">
+            <div class="flex items-center justify-between pb-2 mb-3 border-b border-emerald-100">
+              <h3 class="font-extrabold text-sm text-emerald-950 flex items-center gap-2">
+                <span class="text-lg">💡</span>
+                <span>Kiến Thức Cốt Lõi (${keyPoints.length})</span>
+              </h3>
+              <span class="text-[10px] font-bold text-emerald-800 bg-emerald-100 px-2 py-0.5 rounded-lg border border-emerald-200">
+                Trọng tâm định lý
+              </span>
             </div>
-          `).join('')}
+            <div class="space-y-3 overflow-y-auto max-h-[500px] pr-1.5">
+              ${keyPoints.map((item, idx) => `
+                <div class="p-3 rounded-xl bg-emerald-50/50 border border-emerald-200/80 hover:border-emerald-300 transition">
+                  <div class="flex items-center justify-between gap-2 mb-1.5">
+                    <span class="font-bold text-xs text-emerald-950 flex items-center gap-1.5">
+                      <span class="w-5 h-5 rounded-md bg-emerald-600 text-white text-[10px] font-extrabold flex items-center justify-center shrink-0">${idx+1}</span>
+                      <span>${formatMathText(item.title)}</span>
+                    </span>
+                    ${item.type ? `<span class="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-900 border border-emerald-200">${item.type}</span>` : ''}
+                  </div>
+                  <div class="text-xs text-emerald-950 leading-relaxed pl-6.5">
+                    ${formatMathText(item.detail || item.content || '')}
+                  </div>
+                  ${item.formula ? `
+                    <div class="mt-2 px-3 py-1.5 bg-white rounded-lg border border-emerald-200 shadow-2xs text-center text-xs sm:text-sm text-emerald-950 overflow-x-auto math-display">
+                      ${renderMath(item.formula, true)}
+                    </div>
+                  ` : ''}
+                </div>
+              `).join('')}
+            </div>
+          </div>
+
+          <!-- Cột 2: Công thức và Định lý toán học chuẩn KaTeX -->
+          <div class="bg-white/95 rounded-2xl p-4 border border-teal-200/90 shadow-xs flex flex-col">
+            <div class="flex items-center justify-between pb-2 mb-3 border-b border-teal-100">
+              <h3 class="font-extrabold text-sm text-teal-950 flex items-center gap-2">
+                <span class="text-lg">📐</span>
+                <span>Công Thức & Định Lý Toán Học (${formulas.length || keyPoints.filter(k=>k.formula).length})</span>
+              </h3>
+              <span class="text-[10px] font-bold text-teal-800 bg-teal-100 px-2 py-0.5 rounded-lg border border-teal-200">
+                KaTeX Rendered
+              </span>
+            </div>
+            <div class="space-y-3 overflow-y-auto max-h-[500px] pr-1.5">
+              ${(formulas.length ? formulas : keyPoints.filter(k => k.formula).map(k => ({ name: k.title, latex: k.formula, explanation: k.detail || k.content }))).map((f, fIdx) => `
+                <div class="p-3 rounded-xl bg-amber-50/40 border-l-4 border-l-amber-400 border border-amber-200 hover:border-amber-300 transition">
+                  <div class="flex items-center justify-between gap-2 mb-1">
+                    <span class="font-bold text-xs text-amber-950 flex items-center gap-1.5">
+                      <span class="w-4 h-4 rounded-full bg-amber-500 text-white text-[9px] font-bold flex items-center justify-center">F${fIdx+1}</span>
+                      <span>${formatMathText(f.name)}</span>
+                    </span>
+                  </div>
+                  <div class="my-2 p-2.5 bg-white rounded-lg border border-amber-200/80 text-center text-sm sm:text-base text-slate-900 overflow-x-auto math-display shadow-2xs">
+                    ${renderMath(f.latex, true)}
+                  </div>
+                  <div class="text-[11px] text-slate-600 leading-relaxed italic">
+                    ${formatMathText(f.explanation || '')}
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
         </div>
       </div>
+    ` : ''}
 
-      <!-- PHẦN 2: BỘ CÂU HỎI ÔN TẬP (REVIEW QUESTIONS) -->
-      <div class="bg-white/95 rounded-2xl p-4 border border-teal-200/90 shadow-xs flex flex-col">
-        <div class="flex items-center justify-between pb-2.5 mb-3 border-b border-teal-100">
-          <h3 class="font-extrabold text-sm text-teal-950 flex items-center gap-2">
-            <span class="text-lg">📝</span>
-            <span>2. Bộ Câu Hỏi Ôn Tập (Review Questions)</span>
-          </h3>
-          <span class="text-[11px] font-bold text-teal-800 bg-teal-100 px-2 py-0.5 rounded-lg border border-teal-200">
-            ${(doc.reviewQuestions||[]).length} Câu hỏi bám sát
-          </span>
+    <!-- TAB 2: LÀM TRẮC NGHIỆM -->
+    ${currentTab === 'quiz' ? `
+      <div class="bg-white/95 rounded-2xl p-4 border border-teal-200 shadow-xs">
+        <div class="flex flex-wrap items-center justify-between gap-2 pb-3 mb-4 border-b border-teal-100">
+          <div>
+            <h3 class="font-extrabold text-sm text-teal-950 flex items-center gap-2">
+              <span class="text-lg">🎯</span>
+              <span>Luyện Tập Trắc Nghiệm Tự Động Từ Tài Liệu</span>
+            </h3>
+            <p class="text-xs text-teal-700 mt-0.5">Bấm chọn phương án để kiểm tra ngay phản xạ và xem giải thích chi tiết</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-extrabold px-3 py-1 rounded-full bg-teal-100 text-teal-900 border border-teal-200">
+              ${mcqDoneCount === mcqs.length ? `🎉 Hoàn thành: ${mcqCorrectCount}/${mcqs.length} câu đúng` : `Tiến độ: ${mcqDoneCount}/${mcqs.length} câu · Đúng ${mcqCorrectCount}`}
+            </span>
+            <button class="btn sm outline text-xs border-teal-300 hover:bg-teal-50" onclick="S.docQuizAnswers={};save();render()">
+              🔄 Làm lại
+            </button>
+          </div>
         </div>
-        <p class="text-[11px] text-teal-700 mb-3 italic">
-          Hệ thống AI tự động sinh câu hỏi trắc nghiệm & tự luận để bạn kiểm tra phản xạ ngay:
-        </p>
-        <div class="space-y-3.5 overflow-y-auto max-h-[460px] pr-1.5">
-          ${(doc.reviewQuestions||[]).map((q, qIdx) => `
-            <div class="p-3 rounded-xl bg-teal-50/60 border border-teal-200 hover:border-teal-300 transition">
-              <div class="flex items-center justify-between gap-2 mb-1.5">
-                <span class="font-bold text-xs text-teal-950 flex items-center gap-1.5">
-                  <span class="w-5 h-5 rounded-md bg-teal-600 text-white text-[10px] font-extrabold flex items-center justify-center">Q${qIdx+1}</span>
-                  <span class="uppercase tracking-wider text-[10px] px-1.5 py-0.5 rounded font-extrabold ${q.type==='mcq'?'bg-blue-100 text-blue-800':'bg-purple-100 text-purple-800'}">
-                    ${q.type==='mcq'?'Trắc nghiệm':'Tự luận / Vấn đáp'}
+
+        <div class="space-y-4">
+          ${mcqs.map((q, qIdx) => {
+            const picked = answers[qIdx];
+            const ansIndex = q.answer_index !== undefined ? q.answer_index : q.answer;
+            const isAnswered = picked !== undefined;
+            return `
+              <div class="p-3.5 rounded-2xl border ${isAnswered ? (picked === ansIndex ? 'bg-emerald-50/50 border-emerald-300' : 'bg-rose-50/50 border-rose-300') : 'bg-teal-50/40 border-teal-200'} transition">
+                <div class="flex items-center justify-between gap-2 mb-2">
+                  <span class="font-extrabold text-xs text-teal-950 flex items-center gap-1.5">
+                    <span class="w-5 h-5 rounded-md bg-teal-600 text-white text-[10px] font-bold flex items-center justify-center">Q${qIdx+1}</span>
+                    <span>Câu hỏi trắc nghiệm</span>
                   </span>
-                </span>
-                ${q.type==='mcq'&&answers[qIdx]!==undefined ? `
-                  <span class="text-[11px] font-bold ${answers[qIdx]===q.answer?'text-emerald-700':'text-rose-600'}">
-                    ${answers[qIdx]===q.answer?'✓ Đúng':'✗ Chưa chuẩn'}
-                  </span>
-                `:''}
-              </div>
-              <div class="text-xs font-bold text-emerald-950 mb-2 leading-relaxed">
-                ${formatMathText(q.question)}
-              </div>
-              ${q.type === 'mcq' ? `
-                <div class="space-y-1.5 mt-2">
-                  ${(q.options||[]).map((opt, optIdx) => `
-                    <button class="w-full text-left p-2 rounded-lg border text-xs font-semibold transition flex items-start gap-2 ${getDocQuizBtnClass(qIdx, optIdx)}" onclick="answerDocQuiz(${qIdx}, ${optIdx})">
-                      <span class="w-4 h-4 rounded-full bg-slate-200 text-slate-800 text-[10px] font-bold flex items-center justify-center shrink-0 mt-0.5">${String.fromCharCode(65+optIdx)}</span>
-                      <span class="flex-1">${formatMathText(opt)}</span>
-                    </button>
-                  `).join('')}
+                  ${isAnswered ? `
+                    <span class="text-xs font-bold px-2 py-0.5 rounded-full ${picked === ansIndex ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'}">
+                      ${picked === ansIndex ? '✓ Chính xác' : '✗ Chưa đúng'}
+                    </span>
+                  ` : ''}
                 </div>
-                ${answers[qIdx] !== undefined ? `
-                  <div class="mt-2.5 p-2 rounded-lg bg-teal-100/80 text-[11px] text-teal-950 border border-teal-300/60 leading-relaxed">
-                    <span class="font-bold">💡 Lời giải chi tiết:</span> ${formatMathText(q.explanation)}
+                <div class="text-xs font-bold text-slate-900 mb-2.5 leading-relaxed">
+                  ${formatMathText(q.question)}
+                </div>
+                <div class="space-y-1.5">
+                  ${(q.options || []).map((opt, optIdx) => {
+                    let btnCls = 'border-slate-200 bg-white hover:bg-teal-50 text-slate-800';
+                    if(isAnswered){
+                      if(optIdx === ansIndex){
+                        btnCls = 'border-emerald-500 bg-emerald-100 text-emerald-950 font-bold ring-2 ring-emerald-400';
+                      } else if(optIdx === picked){
+                        btnCls = 'border-rose-400 bg-rose-50 text-rose-950 font-semibold line-through';
+                      } else {
+                        btnCls = 'border-slate-200 bg-slate-50 text-slate-400 opacity-60';
+                      }
+                    }
+                    return `
+                      <button class="w-full text-left p-2.5 rounded-xl border text-xs font-medium transition flex items-start gap-2 ${btnCls}" onclick="answerDocQuiz(${qIdx}, ${optIdx})" ${isAnswered ? 'disabled' : ''}>
+                        <span class="w-4 h-4 rounded-full bg-slate-200 text-slate-800 text-[10px] font-bold flex items-center justify-center shrink-0 mt-0.5">${String.fromCharCode(65+optIdx)}</span>
+                        <span class="flex-1">${formatMathText(opt)}</span>
+                      </button>
+                    `;
+                  }).join('')}
+                </div>
+                ${isAnswered ? `
+                  <div class="mt-3 p-2.5 rounded-xl bg-white border border-teal-200 text-xs text-slate-800 leading-relaxed shadow-2xs">
+                    <span class="font-bold text-teal-800">💡 Giải thích:</span> ${formatMathText(q.explanation || 'Đáp án được rút trích trực tiếp từ nội dung giáo trình.')}
                   </div>
                 ` : ''}
-              ` : `
-                <div class="mt-2 p-2.5 rounded-lg bg-purple-50/80 border border-purple-200 text-xs">
-                  <div class="text-[11px] font-bold text-purple-900 mb-1 flex items-center gap-1">
-                    <span>🗝️</span> <span>Gợi ý lời giải chuẩn sư phạm:</span>
-                  </div>
-                  <div class="text-purple-950 leading-relaxed mb-2 whitespace-pre-line">${formatMathText(q.sampleAnswer)}</div>
-                  <div class="flex flex-wrap gap-1">
-                    ${(q.keywords||[]).map(kw => `<span class="px-2 py-0.5 rounded-md bg-purple-200/70 text-purple-900 text-[10px] font-bold">#${kw}</span>`).join('')}
-                  </div>
+              </div>
+            `;
+          }).join('')}
+        </div>
+      </div>
+    ` : ''}
+
+    <!-- TAB 3: TỰ LUẬN & VẤN ĐÁP -->
+    ${currentTab === 'essay' ? `
+      <div class="bg-white/95 rounded-2xl p-4 border border-teal-200 shadow-xs">
+        <div class="flex items-center justify-between pb-3 mb-4 border-b border-teal-100">
+          <div>
+            <h3 class="font-extrabold text-sm text-teal-950 flex items-center gap-2">
+              <span class="text-lg">📝</span>
+              <span>Câu Hỏi Tự Luận & Vấn Đáp Sư Phạm HPU2</span>
+            </h3>
+            <p class="text-xs text-teal-700 mt-0.5">Rèn luyện khả năng giải thích bản chất toán học và kỹ năng thuyết trình sư phạm</p>
+          </div>
+          <span class="text-xs font-bold px-2.5 py-1 rounded-full bg-purple-100 text-purple-900 border border-purple-200">
+            ${essays.length} Câu hỏi chuyên sâu
+          </span>
+        </div>
+
+        <div class="space-y-3.5">
+          ${essays.map((e, eIdx) => `
+            <div class="p-3.5 rounded-2xl bg-purple-50/50 border border-purple-200 hover:border-purple-300 transition">
+              <div class="flex items-center justify-between gap-2 mb-2">
+                <span class="font-bold text-xs text-purple-950 flex items-center gap-1.5">
+                  <span class="w-5 h-5 rounded-md bg-purple-600 text-white text-[10px] font-bold flex items-center justify-center">E${eIdx+1}</span>
+                  <span>Câu hỏi Tự luận / Vấn đáp</span>
+                </span>
+              </div>
+              <div class="text-xs font-bold text-slate-900 leading-relaxed mb-2.5">
+                ${formatMathText(e.question)}
+              </div>
+              <details class="bg-white rounded-xl p-3 border border-purple-200/80 shadow-2xs group">
+                <summary class="cursor-pointer text-xs font-bold text-purple-800 hover:text-purple-950 flex items-center gap-1.5">
+                  <span>🗝️ Xem gợi ý lời giải chuẩn sư phạm</span>
+                  <span class="text-[10px] text-purple-500 group-open:rotate-180 transition">▼</span>
+                </summary>
+                <div class="mt-2 text-xs text-slate-800 leading-relaxed pt-2 border-t border-purple-100">
+                  ${formatMathText(e.suggested_answer || e.sampleAnswer || '')}
                 </div>
-              `}
+                ${e.keywords && e.keywords.length ? `
+                  <div class="flex flex-wrap gap-1 mt-2.5 pt-2 border-t border-purple-50">
+                    ${e.keywords.map(kw => `<span class="px-2 py-0.5 rounded-md bg-purple-100 text-purple-900 text-[10px] font-bold">#${kw}</span>`).join('')}
+                  </div>
+                ` : ''}
+              </details>
             </div>
           `).join('')}
         </div>
       </div>
+    ` : ''}
+
+    <!-- TAB 4: HƯỚNG ÔN TẬP & KẾ HOẠCH -->
+    ${currentTab === 'plan' ? `
+      <div class="bg-white/95 rounded-2xl p-4 border border-teal-200 shadow-xs">
+        <div class="flex items-center justify-between pb-3 mb-4 border-b border-teal-100">
+          <div>
+            <h3 class="font-extrabold text-sm text-teal-950 flex items-center gap-2">
+              <span class="text-lg">🗺️</span>
+              <span>Gợi Ý Hướng Ôn Tập & Phân Loại Mức Độ Ưu Tiên</span>
+            </h3>
+            <p class="text-xs text-teal-700 mt-0.5">Được AI tính toán dựa trên mức độ quan trọng và độ khó trong cấu trúc đề thi HPU2</p>
+          </div>
+          <button class="btn sm g text-xs" onclick="applyDocPlanToRoadmap()">
+            <span>⚡</span> <span>Áp Dụng Vào Lộ Trình Học</span>
+          </button>
+        </div>
+
+        <div class="space-y-3">
+          ${[...plans].sort((a,b) => (ordMap[String(a.priority).toLowerCase()]||2) - (ordMap[String(b.priority).toLowerCase()]||2)).map((p, pIdx) => `
+            <div class="p-3.5 rounded-2xl bg-white border border-slate-200 hover:border-teal-300 transition shadow-2xs flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div class="flex-1">
+                <div class="flex items-center gap-2 mb-1">
+                  <span class="font-bold text-xs text-slate-900">${pIdx+1}. ${formatMathText(p.topic)}</span>
+                  <span class="text-[10px] font-bold px-2 py-0.5 rounded-full border ${badgeCls(p.priority)}">
+                    Ưu tiên ${p.priority}
+                  </span>
+                </div>
+                <p class="text-xs text-slate-600 leading-relaxed">${formatMathText(p.reason)}</p>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    ` : ''}
+
+    <!-- Thanh tiện ích dưới cùng -->
+    <div class="flex flex-wrap items-center justify-between gap-2 pt-3 border-t border-teal-200/80 mt-4">
+      <div class="flex items-center gap-2 flex-wrap">
+        <button class="btn sm outline text-xs border-teal-300 bg-white hover:bg-teal-50 text-teal-900" onclick="saveDocAnalysisSet()">
+          <span>💾</span> <span>Lưu Bộ Ôn Tập</span>
+        </button>
+        <button class="btn sm outline text-xs border-teal-300 bg-white hover:bg-teal-50 text-teal-900" onclick="toggleSavedDocModal()">
+          <span>📂</span> <span>Bộ Ôn Tập Đã Lưu (${getSavedDocAnalyses().length})</span>
+        </button>
+        <button class="btn sm outline text-xs border-teal-300 bg-white hover:bg-teal-50 text-teal-900" onclick="downloadDocAnalysisJson()">
+          <span>📥</span> <span>Tải Về (.json)</span>
+        </button>
+      </div>
+      <div class="flex items-center gap-2 flex-wrap">
+        <a href="ai-doc-analyzer.html" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold shadow-xs transition">
+          <span>⚡</span> <span>Mở Công Cụ AI Độc Lập</span> <span>↗</span>
+        </a>
+        <button class="btn sm outline text-xs border-slate-300 text-slate-600 hover:text-slate-900" onclick="clearDocAnalysis()">
+          <span>🔄</span> <span>Phân Tích Tệp Khác</span>
+        </button>
+      </div>
     </div>
+
+    <!-- Modal xem danh sách bộ ôn tập đã lưu -->
+    ${showSavedDocModal ? `
+      <div class="mt-4 p-4 rounded-2xl bg-white border-2 border-teal-300 shadow-md animate-fade-in">
+        <div class="flex items-center justify-between pb-2 mb-3 border-b border-teal-100">
+          <h4 class="font-extrabold text-xs text-teal-950 flex items-center gap-1.5">
+            <span>📂</span> <span>Danh Sách Bộ Ôn Tập Đã Lưu Trên Trình Duyệt</span>
+          </h4>
+          <button class="text-xs text-slate-400 hover:text-slate-700" onclick="toggleSavedDocModal()">✕ Đóng</button>
+        </div>
+        ${getSavedDocAnalyses().length ? `
+          <ul class="space-y-2 max-h-48 overflow-y-auto pr-1">
+            ${getSavedDocAnalyses().map(item => `
+              <li class="p-2.5 rounded-xl bg-teal-50/60 border border-teal-200 flex items-center justify-between gap-2 text-xs">
+                <div>
+                  <div class="font-bold text-teal-950">${item.name}</div>
+                  <div class="text-[10px] text-slate-400">${item.at}</div>
+                </div>
+                <div class="flex items-center gap-1.5">
+                  <button class="btn sm g !py-1 !px-2.5 text-[11px]" onclick="openSavedDoc(${item.id})">Mở</button>
+                  <button class="btn sm outline !py-1 !px-2 text-[11px] text-rose-600 hover:bg-rose-50" onclick="deleteSavedDoc(${item.id})">Xóa</button>
+                </div>
+              </li>
+            `).join('')}
+          </ul>
+        ` : `
+          <p class="text-xs text-slate-500 italic py-2 text-center">Chưa có bộ ôn tập nào được lưu.</p>
+        `}
+      </div>
+    ` : ''}
   </section>
   `;
 }
@@ -2708,8 +3107,11 @@ function getDocQuizBtnClass(qIdx, optIdx){
     return 'border-teal-200 bg-white hover:bg-teal-50 text-teal-950';
   }
   const picked = answers[qIdx];
-  const q = S.docAnalysis.reviewQuestions[qIdx];
-  if(optIdx === q.answer){
+  const mcqs = (S.docAnalysis && S.docAnalysis.mcq) || (S.docAnalysis && S.docAnalysis.reviewQuestions) || [];
+  const q = mcqs[qIdx];
+  if(!q) return 'border-teal-200 bg-white hover:bg-teal-50 text-teal-950';
+  const ansIdx = q.answer_index !== undefined ? q.answer_index : q.answer;
+  if(optIdx === ansIdx){
     return 'border-emerald-500 bg-emerald-100 text-emerald-950 font-bold ring-2 ring-emerald-400';
   }
   if(optIdx === picked){
@@ -2719,14 +3121,21 @@ function getDocQuizBtnClass(qIdx, optIdx){
 }
 
 function answerDocQuiz(qIdx, optIdx){
-  if(!S.docAnalysis || !S.docAnalysis.reviewQuestions) return;
-  const q = S.docAnalysis.reviewQuestions[qIdx];
-  if(!q || q.type !== 'mcq') return;
+  if(!S.docAnalysis) return;
+  const mcqs = S.docAnalysis.mcq || (S.docAnalysis.reviewQuestions || []).filter(q => q.type === 'mcq').map(q => ({
+    question: q.question,
+    options: q.options,
+    answer_index: q.answer,
+    explanation: q.explanation
+  }));
+  const q = mcqs[qIdx];
+  if(!q) return;
   if(!S.docQuizAnswers) S.docQuizAnswers = {};
   if(S.docQuizAnswers[qIdx] !== undefined) return;
   
   S.docQuizAnswers[qIdx] = optIdx;
-  const isCorrect = optIdx === q.answer;
+  const ansIdx = q.answer_index !== undefined ? q.answer_index : q.answer;
+  const isCorrect = optIdx === ansIdx;
   if(isCorrect){
     Sound.correct && Sound.correct();
     gain(10, 'kt', 5);
@@ -2740,17 +3149,30 @@ function answerDocQuiz(qIdx, optIdx){
 }
 
 function startDocQuiz(){
-  if(!S.docAnalysis || !S.docAnalysis.reviewQuestions) return;
-  const newMcq = S.docAnalysis.reviewQuestions.filter(q => q.type === 'mcq').map(q => ({
-    q: `[Từ tài liệu: ${S.docAnalysis.docName}] ` + q.question,
+  if(!S.docAnalysis) return;
+  const docName = S.docAnalysis.title || S.docAnalysis.docName || 'Tài liệu';
+  const mcqs = S.docAnalysis.mcq || (S.docAnalysis.reviewQuestions || []).filter(q => q.type === 'mcq').map(q => ({
+    question: q.question,
+    options: q.options,
+    answer_index: q.answer,
+    explanation: q.explanation
+  }));
+  const essays = S.docAnalysis.essay || (S.docAnalysis.reviewQuestions || []).filter(q => q.type === 'essay').map(q => ({
+    question: q.question,
+    suggested_answer: q.sampleAnswer,
+    keywords: q.keywords || []
+  }));
+
+  const newMcq = mcqs.map(q => ({
+    q: `[Từ tài liệu: ${docName}] ` + q.question,
     o: q.options,
-    a: q.answer,
+    a: q.answer_index !== undefined ? q.answer_index : (q.answer || 0),
     ex: q.explanation
   }));
-  const newEssay = S.docAnalysis.reviewQuestions.filter(q => q.type === 'essay').map(q => ({
-    q: `[Từ tài liệu: ${S.docAnalysis.docName}] ` + q.question,
-    k: q.keywords || [],
-    hint: q.sampleAnswer
+  const newEssay = essays.map(q => ({
+    q: `[Từ tài liệu: ${docName}] ` + q.question,
+    k: q.keywords || ['Tài liệu phân tích'],
+    hint: q.suggested_answer || q.sampleAnswer || ''
   }));
 
   if(newMcq.length){
@@ -3259,30 +3681,233 @@ function generateAIAnalysis(fileName, file){
     ];
   }
 
+  const mcqs = reviewQuestions.filter(q => q.type === 'mcq').map(q => ({
+    question: q.question,
+    options: q.options,
+    answer_index: q.answer,
+    explanation: q.explanation
+  }));
+  const essays = reviewQuestions.filter(q => q.type === 'essay').map(q => ({
+    question: q.question,
+    suggested_answer: q.sampleAnswer,
+    keywords: q.keywords || ['HPU2']
+  }));
+  const formulas = coreKnowledge.filter(k => k.formula).map(k => ({
+    name: k.title,
+    latex: k.formula,
+    explanation: k.content
+  }));
+  const defaultPlan = [
+    { topic: "Hệ thống định lý & tiên đề then chốt", priority: "Cao", reason: "Nền tảng tiên quyết để hiểu các bài toán tính toán và chứng minh phức tạp." },
+    { topic: "Bài tập rèn luyện kỹ năng tính toán & biến đổi", priority: "Cao", reason: "Chiếm 60% cấu trúc điểm số bài thi kết thúc học phần." },
+    { topic: "Phân tích các trường hợp đặc biệt & phản ví dụ", priority: "Trung bình", reason: "Giúp tránh bẫy câu hỏi trắc nghiệm lý thuyết sâu." },
+    { topic: "Ứng dụng thực tiễn & liên hệ sư phạm", priority: "Thấp", reason: "Rèn kỹ năng giải thích bản chất cho người học." }
+  ];
+
   return {
+    title: fileName,
     docName: fileName,
     docSize: file ? formatFileSize(file.size) : '1.4 MB',
     subject: detectedSubj,
+    difficulty: 'Trung bình',
     timestamp: new Date().toLocaleTimeString('vi-VN', {hour:'2-digit', minute:'2-digit'}) + ' - ' + new Date().toLocaleDateString('vi-VN'),
+    summary: {
+      overview: `Tài liệu môn ${detectedSubj} theo chuẩn chương trình đào tạo của Trường Đại học Sư phạm Hà Nội 2. Bao gồm các định lý cốt lõi, công thức then chốt và hệ thống câu hỏi rèn luyện phản xạ.`,
+      key_points: coreKnowledge.map(k => ({ title: k.title, detail: k.content, type: k.type, formula: k.formula })),
+      formulas: formulas
+    },
     coreKnowledge: coreKnowledge,
-    reviewQuestions: reviewQuestions
+    reviewQuestions: reviewQuestions,
+    mcq: mcqs,
+    essay: essays,
+    plan: defaultPlan
   };
 }
 
-function upload(f){
+/* ==================== CƠ CHẾ GỌI GEMINI 2.5 FLASH & MAMMOTH.JS TRÍCH XUẤT TÀI LIỆU ==================== */
+const toB64 = buf => {
+  let s = "", b = new Uint8Array(buf);
+  for(let i = 0; i < b.length; i += 0x8000) s += String.fromCharCode.apply(null, b.subarray(i, i + 0x8000));
+  return btoa(s);
+};
+const readFileAsArrayBuffer = f => new Promise((ok, no) => {
+  const r = new FileReader();
+  r.onload = () => ok(r.result);
+  r.onerror = () => no(new Error("Không đọc được tệp tin."));
+  r.readAsArrayBuffer(f);
+});
+const readFileAsText = f => new Promise((ok, no) => {
+  const r = new FileReader();
+  r.onload = () => ok(r.result);
+  r.onerror = () => no(new Error("Không đọc được tệp tin."));
+  r.readAsText(f);
+});
+
+const GEMINI_DOC_SCHEMA = {
+  type: "OBJECT",
+  required: ["title", "difficulty", "summary", "mcq", "essay", "plan"],
+  properties: {
+    title: { type: "STRING" },
+    difficulty: { type: "STRING", description: "Dễ, Trung bình hoặc Khó" },
+    summary: {
+      type: "OBJECT",
+      required: ["overview", "key_points", "formulas"],
+      properties: {
+        overview: { type: "STRING" },
+        key_points: { type: "ARRAY", items: { type: "OBJECT", required: ["title", "detail"], properties: { title: { type: "STRING" }, detail: { type: "STRING" } } } },
+        formulas: { type: "ARRAY", items: { type: "OBJECT", required: ["name", "latex", "explanation"], properties: { name: { type: "STRING" }, latex: { type: "STRING" }, explanation: { type: "STRING" } } } }
+      }
+    },
+    mcq: { type: "ARRAY", items: { type: "OBJECT", required: ["question", "options", "answer_index", "explanation"], properties: { question: { type: "STRING" }, options: { type: "ARRAY", items: { type: "STRING" } }, answer_index: { type: "INTEGER" }, explanation: { type: "STRING" } } } },
+    essay: { type: "ARRAY", items: { type: "OBJECT", required: ["question", "suggested_answer"], properties: { question: { type: "STRING" }, suggested_answer: { type: "STRING" } } } },
+    plan: { type: "ARRAY", items: { type: "OBJECT", required: ["topic", "priority", "reason"], properties: { topic: { type: "STRING" }, priority: { type: "STRING", description: "Cao, Trung bình hoặc Thấp" }, reason: { type: "STRING" } } } }
+  }
+};
+
+const GEMINI_DOC_PROMPT = `Bạn là trợ lý học tập cho sinh viên Trường Đại học Sư phạm Hà Nội 2 (HPU2). Đọc kỹ tài liệu được cung cấp và trả về JSON theo schema, viết bằng tiếng Việt.
+Quy tắc:
+- Chỉ dùng thông tin có trong tài liệu, không bịa thêm.
+- summary: overview 2-3 câu; key_points 5-10 ý chính (định lý, định nghĩa, kết luận quan trọng); formulas là các công thức/định lý có trong tài liệu (mảng rỗng nếu không có).
+- Công thức viết bằng LaTeX thuần, KHÔNG kèm dấu $. Trong các trường văn bản khác, công thức nội dòng đặt trong $...$.
+- mcq: 8-10 câu trắc nghiệm, mỗi câu đúng 4 lựa chọn (không ghi sẵn A/B/C/D), answer_index tính từ 0, explanation giải thích ngắn.
+- essay: 4-5 câu tự luận/vấn đáp kèm suggested_answer ngắn gọn.
+- plan: 4-6 mục cần ôn kỹ, priority là Cao/Trung bình/Thấp, kèm lý do dựa trên độ khó và độ quan trọng. difficulty đánh giá chung cả tài liệu.`;
+
+async function callGeminiDocAnalysis(parts, apiKey){
+  const body = {
+    contents: [{ role: "user", parts: [...parts, { text: GEMINI_DOC_PROMPT }] }],
+    generationConfig: {
+      responseMimeType: "application/json",
+      responseSchema: GEMINI_DOC_SCHEMA,
+      temperature: 0.3
+    }
+  };
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent`;
+  const res = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "x-goog-api-key": apiKey
+    },
+    body: JSON.stringify(body)
+  });
+  if(!res.ok){
+    let m = ""; try{ m = (await res.json()).error?.message || ""; }catch(e){}
+    throw new Error(`Gemini API (${res.status}): ${m}`);
+  }
+  const j = await res.json();
+  const txt = j.candidates?.[0]?.content?.parts?.map(p => p.text || "").join("") || "";
+  if(!txt) throw new Error("AI không trả về nội dung.");
+  return JSON.parse(txt.replace(/^```json|```$/g, "").trim());
+}
+
+function normalizeGeminiDocResult(res, fileName, file){
+  const s = res.summary || {};
+  const coreK = (s.key_points || []).map(kp => ({
+    title: kp.title,
+    type: 'Trọng tâm',
+    content: kp.detail,
+    formula: ''
+  }));
+  (s.formulas || []).forEach(f => {
+    coreK.push({
+      title: f.name,
+      type: 'Công thức & Định lý',
+      content: f.explanation,
+      formula: f.latex
+    });
+  });
+
+  const reviewQs = [];
+  (res.mcq || []).forEach(q => {
+    reviewQs.push({
+      type: 'mcq',
+      question: q.question,
+      options: q.options,
+      answer: q.answer_index !== undefined ? q.answer_index : 0,
+      explanation: q.explanation || ''
+    });
+  });
+  (res.essay || []).forEach(e => {
+    reviewQs.push({
+      type: 'essay',
+      question: e.question,
+      sampleAnswer: e.suggested_answer,
+      keywords: ['HPU2', 'Sư phạm', 'Phương pháp']
+    });
+  });
+
+  return {
+    title: res.title || fileName,
+    docName: fileName,
+    docSize: file ? formatFileSize(file.size) : 'Đã quét AI',
+    subject: S.subject || 'Học phần HPU2',
+    difficulty: res.difficulty || 'Trung bình',
+    timestamp: new Date().toLocaleTimeString('vi-VN', {hour:'2-digit', minute:'2-digit'}) + ' - ' + new Date().toLocaleDateString('vi-VN'),
+    summary: {
+      overview: s.overview || '',
+      key_points: s.key_points || [],
+      formulas: s.formulas || []
+    },
+    coreKnowledge: coreK,
+    reviewQuestions: reviewQs,
+    mcq: res.mcq || [],
+    essay: res.essay || [],
+    plan: res.plan || []
+  };
+}
+
+async function upload(f){
   if(!isUserLoggedIn()){
     promptLoginForUpload();
     return;
   }
-  if(!f||!f.length) return;
+  if(!f || !f.length) return;
   const file = f[0];
   const fileName = file.name;
+  const ext = (fileName.split('.').pop() || '').toLowerCase();
   S.files = [fileName];
 
   const a = $('#aiStatus');
   if(a) a.innerHTML = `<span class="inline-block animate-spin mr-1">🔄</span> Đang đọc tệp <b>${fileName}</b> (${formatFileSize(file.size)})...`;
 
-  // Mô phỏng quá trình AI đọc và phân tích văn bản thực tế qua nhiều pha
+  let extractedText = '';
+  let pdfParts = null;
+
+  try {
+    if(ext === 'docx' && typeof mammoth !== 'undefined'){
+      const buf = await readFileAsArrayBuffer(file);
+      const res = await mammoth.extractRawText({ arrayBuffer: buf });
+      extractedText = (res.value || '').trim();
+    } else if(ext === 'pdf'){
+      const buf = await readFileAsArrayBuffer(file);
+      pdfParts = [{ inline_data: { mime_type: "application/pdf", data: toB64(buf) } }];
+    } else if(ext === 'txt'){
+      extractedText = await readFileAsText(file);
+    }
+  } catch(readErr){
+    console.warn('Lỗi đọc nội dung file cục bộ:', readErr);
+  }
+
+  const apiKey = (localStorage.getItem('study_arena_gemini_key') || '').trim();
+
+  if(apiKey && (pdfParts || (extractedText && extractedText.length > 30))){
+    if(a) a.innerHTML = `<span class="inline-block animate-pulse mr-1">🧠</span> Đang kết nối Gemini 2.5 Flash phân tích tài liệu chuyên sâu...`;
+    try {
+      const parts = pdfParts || [{ text: "NỘI DUNG TÀI LIỆU:\n" + extractedText.slice(0, 120000) }];
+      const geminiResult = await callGeminiDocAnalysis(parts, apiKey);
+      if(geminiResult){
+        const analysis = normalizeGeminiDocResult(geminiResult, fileName, file);
+        finishAnalysisSuccess(analysis, fileName);
+        return;
+      }
+    } catch(geminiErr){
+      console.warn('Lỗi gọi Gemini API trực tiếp, tự động chuyển sang bộ phân tích nội bộ HPU2:', geminiErr);
+      toast('⚠️ Lỗi Gemini: ' + (geminiErr.message || '') + '. Đang dùng bộ phân tích dự phòng...');
+    }
+  }
+
+  // Quá trình phân tích mô phỏng qua nhiều pha
   setTimeout(() => {
     const a2 = $('#aiStatus');
     if(a2) a2.innerHTML = `<span class="inline-block animate-pulse mr-1">🧠</span> AI đang quét văn bản, trích xuất thực thể, định lý & công thức...`;
@@ -3295,20 +3920,25 @@ function upload(f){
 
   setTimeout(() => {
     const analysis = generateAIAnalysis(fileName, file);
-    S.docAnalysis = analysis;
-    S.docQuizAnswers = {};
-
-    if(analysis.coreKnowledge && analysis.coreKnowledge.length){
-      S.focus = analysis.coreKnowledge.map(k => `[${k.type}] ${k.title}: ${k.content.slice(0, 95)}...`);
-    }
-
-    gain(25, 'bp', 15);
-    gain(15, 'kt', 10);
-    Sound.correct && Sound.correct();
-    toast(`🎉 AI đã phân tích thành công: ${fileName}!`);
-    save();
-    render();
+    finishAnalysisSuccess(analysis, fileName);
   }, 1300);
+}
+
+function finishAnalysisSuccess(analysis, fileName){
+  S.docAnalysis = analysis;
+  S.docQuizAnswers = {};
+  S.docAnalysisTab = 'sum';
+
+  if(analysis.coreKnowledge && analysis.coreKnowledge.length){
+    S.focus = analysis.coreKnowledge.map(k => `[${k.type || 'Trọng tâm'}] ${k.title}: ${(k.content||k.detail||'').slice(0, 95)}...`);
+  }
+
+  gain(25, 'bp', 15);
+  gain(15, 'kt', 10);
+  Sound.correct && Sound.correct();
+  toast(`🎉 AI đã phân tích thành công: ${fileName}!`);
+  save();
+  render();
 }
 
 function suggest(){
