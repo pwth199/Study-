@@ -561,29 +561,52 @@ function toggleAudio(){
   toast(S.muted?'Đã tắt âm thanh khu vườn':'Đã bật âm thanh sinh động');
 }
 
-/* ==================== 4. DỮ LIỆU CỐT LÕI (CHƯƠNG TRÌNH ĐÀO TẠO ĐH SƯ PHẠM HÀ NỘI 2 - HPU2) ==================== */
-const DEFAULT_TOPICS=[
-  'HPU2 - Giải tích 1: Giới hạn dãy số, hàm số và hàm số liên tục',
-  'HPU2 - Giải tích 1: Phép tính vi phân hàm một biến & Định lý Fermat, Rolle, Lagrange',
-  'HPU2 - Giải tích 1: Tích phân Riemann & Định lý cơ bản của Giải tích (Newton-Leibniz)',
-  'HPU2 - Giải tích 1: Chuỗi số dương, chuỗi đan dấu & Tiêu chuẩn hội tụ (d’Alembert, Cauchy, Leibniz)',
+/* ==================== 4. DỮ LIỆU CỐT LÕI (5 HỌC PHẦN TOÁN TRỌNG TÂM ĐH SƯ PHẠM HÀ NỘI 2 - HPU2) ==================== */
+const HPU2_SUBJECTS = [
+  'Đại số tuyến tính',
+  'Giải tích 1',
+  'Giải tích 2',
+  'Xác suất thống kê',
+  'Toán rời rạc'
+];
+
+const DEFAULT_TOPICS = [
   'HPU2 - Đại số tuyến tính: Không gian vectơ, độc lập tuyến tính, cơ sở và số chiều',
-  'HPU2 - Đại số tuyến tính: Ma trận, định thức và hệ phương trình đại số tuyến tính (Gauss-Jordan)',
-  'HPU2 - Đại số tuyến tính: Ánh xạ tuyến tính, trị riêng, vectơ riêng & Chéo hóa ma trận',
-  'HPU2 - PPDH Toán: Dạy học phát triển phẩm chất, năng lực học sinh theo CT GDPT 2018',
-  'HPU2 - PPDH Toán: Xây dựng Kế hoạch bài dạy (Giáo án) môn Toán theo Công văn 5512/BGDĐT',
-  'HPU2 - Tâm lý học SP: Đặc điểm tâm lý lứa tuổi học sinh THCS/THPT & Kỹ năng sư phạm của người thầy'
+  'HPU2 - Đại số tuyến tính: Ma trận, định thức, hệ phương trình đại số tuyến tính & Chéo hóa ma trận',
+  'HPU2 - Giải tích 1: Giới hạn dãy số, hàm số liên tục & Đạo hàm vi phân một biến',
+  'HPU2 - Giải tích 1: Tích phân Riemann & Chuỗi số, chuỗi hàm hội tụ',
+  'HPU2 - Giải tích 2: Phép tính vi phân hàm nhiều biến, đạo hàm riêng & Cực trị có điều kiện',
+  'HPU2 - Giải tích 2: Tích phân bội (kép, ba lớp), tích phân đường mặt & Công thức Green, Gauss-Ostrogradsky',
+  'HPU2 - Xác suất thống kê: Biến ngẫu nhiên, phân phối xác suất (Nhị thức, Poisson, Phân phối chuẩn)',
+  'HPU2 - Xác suất thống kê: Thống kê toán học, ước lượng khoảng & Kiểm định giả thuyết trong nghiên cứu GD',
+  'HPU2 - Toán rời rạc: Lý thuyết đồ thị (Bậc đỉnh, chu trình Euler, Hamilton, Cây khung nhỏ nhất)',
+  'HPU2 - Toán rời rạc: Đại số Boole, suy luận logic toán học & Các bài toán đếm tổ hợp nâng cao'
 ];
-const DEFAULT_KNOW=[
-  'Ngôn ngữ ε - δ trong định nghĩa giới hạn hàm số (Giải tích 1 HPU2)',
-  'Định lý Lagrange: Tồn tại c ∈ (a, b) sao cho f(b) - f(a) = f′(c)(b - a)',
-  'Điều kiện khả tích Riemann và công thức tích phân từng phần: ∫u dv = uv - ∫v du',
-  'Hạng ma trận r(A) và Định lý Kronecker-Capelli về nghiệm hệ phương trình tuyến tính',
-  'Định nghĩa không gian con, cơ sở, số chiều dim(V) của không gian vectơ',
-  'Quy trình 4 bước thiết kế hoạt động học theo CV 5512: Khởi động - Hình thành kiến thức - Luyện tập - Vận dụng',
-  'Các năng lực toán học cốt lõi theo GDPT 2018: Tư duy & lập luận toán học, Mô hình hóa, Giải quyết vấn đề, Giao tiếp toán học, Sử dụng công cụ/phương tiện'
+
+const DEFAULT_KNOW = [
+  '[Đại số tuyến tính] Hạng ma trận r(A) và Định lý Kronecker-Capelli về nghiệm hệ phương trình',
+  '[Đại số tuyến tính] Định nghĩa không gian con, cơ sở, số chiều dim(V) của không gian vectơ ℝⁿ',
+  '[Giải tích 1] Ngôn ngữ ε - δ trong định nghĩa giới hạn & Định lý giá trị trung bình Lagrange',
+  '[Giải tích 1] Điều kiện hội tụ của chuỗi số Riemann ∑ 1/n^α (hội tụ khi α > 1)',
+  '[Giải tích 2] Vi phân toàn phần, ma trận Jacobi & Cực trị tự do qua dấu của Δ = AC - B²',
+  '[Giải tích 2] Định lý Green liên hệ giữa tích phân đường loại hai và tích phân kép trên miền D',
+  '[Xác suất thống kê] Công thức Bayes, kỳ vọng E(X), phương sai V(X) và quy tắc 3-sigma phân phối chuẩn',
+  '[Toán rời rạc] Định lý bắt tay trong đồ thị: Tổng bậc của các đỉnh bằng 2 lần số cạnh',
+  '[Toán rời rạc] Thuật toán Kruskal và Dijkstra tìm cây khung nhỏ nhất và đường đi ngắn nhất'
 ];
-const DEFAULT_MCQ=[
+
+const DEFAULT_MCQ = [
+  {
+    q: '[Đại số tuyến tính - HPU2] Hệ gồm n vectơ trong không gian vectơ ℝⁿ là một cơ sở khi và chỉ khi:',
+    o: [
+      'Hệ vectơ đó trực giao từng đôi một',
+      'Hệ vectơ đó độc lập tuyến tính',
+      'Hệ vectơ đó có ít nhất một vectơ bằng vectơ không',
+      'Định thức tạo bởi tọa độ của chúng bằng 0'
+    ],
+    a: 1,
+    e: 'Trong không gian n chiều, một hệ gồm đúng n vectơ độc lập tuyến tính thì luôn là một cơ sở của không gian đó.'
+  },
   {
     q: '[Giải tích 1 - HPU2] Cho hàm số f(x) liên tục trên đoạn [a, b] và khả vi trên khoảng (a, b). Theo định lý Lagrange, khẳng định nào sau đây là đúng?',
     o: [
@@ -596,15 +619,37 @@ const DEFAULT_MCQ=[
     e: 'Định lý giá trị trung bình Lagrange khẳng định tồn tại ít nhất một điểm c ∈ (a, b) sao cho f(b) - f(a) = f′(c)(b - a).'
   },
   {
-    q: '[Đại số tuyến tính - HPU2] Hệ gồm n vectơ trong không gian vectơ ℝⁿ là một cơ sở khi và chỉ khi:',
+    q: '[Giải tích 2 - HPU2] Xét hàm hai biến z = f(x, y) có đạo hàm cấp 2 liên tục tại điểm dừng M₀, đặt A = f″ₓₓ, B = f″ₓᵧ, C = f″ᵧᵧ và Δ = AC - B². Hàm số đạt cực tiểu địa phương tại M₀ khi:',
     o: [
-      'Hệ vectơ đó trực giao từng đôi một',
-      'Hệ vectơ đó độc lập tuyến tính',
-      'Hệ vectơ đó có ít nhất một vectơ khác vectơ không',
-      'Định thức tạo bởi các tọa độ của chúng bằng 0'
+      'Δ > 0 và A > 0',
+      'Δ > 0 và A < 0',
+      'Δ < 0',
+      'Δ = 0'
+    ],
+    a: 0,
+    e: 'Điều kiện đủ của cực trị: Khi Δ = AC - B² > 0 và A > 0 thì hàm số đạt cực tiểu tại điểm dừng M₀.'
+  },
+  {
+    q: '[Xác suất thống kê - HPU2] Cho biến ngẫu nhiên X tuân theo phân phối nhị thức B(n, p). Kỳ vọng E(X) và phương sai V(X) của X lần lượt là:',
+    o: [
+      'E(X) = np; V(X) = np',
+      'E(X) = np; V(X) = np(1 - p)',
+      'E(X) = n/p; V(X) = np(1 - p)',
+      'E(X) = np(1 - p); V(X) = np'
     ],
     a: 1,
-    e: 'Trong không gian n chiều, một hệ gồm đúng n vectơ độc lập tuyến tính thì luôn là một cơ sở của không gian đó (định thức khác 0).'
+    e: 'Biến ngẫu nhiên nhị thức có kỳ vọng E(X) = np và phương sai V(X) = npq = np(1 - p).'
+  },
+  {
+    q: '[Toán rời rạc - HPU2] Trong một đơn đồ thị vô hướng G có 10 đỉnh, nếu mỗi đỉnh đều có bậc bằng 4 thì số cạnh của đồ thị G là:',
+    o: [
+      '10',
+      '20',
+      '40',
+      '15'
+    ],
+    a: 1,
+    e: 'Theo Định lý bắt tay: Tổng bậc của các đỉnh = 2 lần số cạnh. Ta có 10 × 4 = 2 × |E| ⇒ |E| = 20 cạnh.'
   },
   {
     q: '[Giải tích 1 - HPU2] Chuỗi số Riemann ∑ (1 / n^α) với n chạy từ 1 đến vô cùng hội tụ khi và chỉ khi:',
@@ -618,95 +663,68 @@ const DEFAULT_MCQ=[
     e: 'Chuỗi Dirichlet (Riemann p-series) ∑ 1/n^α hội tụ khi α > 1 và phân kỳ khi α ≤ 1.'
   },
   {
-    q: '[PPDH Toán - HPU2] Theo Công văn 5512/BGDĐT, mỗi hoạt động học của học sinh trong Kế hoạch bài dạy cần gồm 4 bước tổ chức nào?',
-    o: [
-      'Giáo viên giảng bài - Học sinh nghe - Làm bài tập mẫu - Chấm điểm',
-      'Chuyển giao nhiệm vụ - Thực hiện nhiệm vụ - Báo cáo, thảo luận - Kết luận, nhận định',
-      'Kiểm tra bài cũ - Dạy bài mới - Củng cố kiến thức - Dặn dò bài tập về nhà',
-      'Đặt câu hỏi - Học sinh trả lời - Chép bài vào vở - Làm bài kiểm tra 15 phút'
-    ],
-    a: 1,
-    e: 'Khung 4 bước tổ chức hoạt động học chuẩn CV 5512 gồm: 1. Chuyển giao nhiệm vụ; 2. Thực hiện nhiệm vụ; 3. Báo cáo, thảo luận; 4. Kết luận, nhận định.'
-  },
-  {
-    q: '[GDPT 2018 - HPU2] Năng lực nào sau đây KHÔNG thuộc 5 thành tố năng lực toán học chuyên biệt theo Chương trình GDPT 2018 môn Toán?',
-    o: [
-      'Năng lực mô hình hóa toán học',
-      'Năng lực tư duy và lập luận toán học',
-      'Năng lực viết văn nghị luận văn học',
-      'Năng lực sử dụng công cụ, phương tiện học toán'
-    ],
-    a: 2,
-    e: '5 thành tố năng lực toán học theo CT GDPT 2018 gồm: Tư duy & lập luận, Mô hình hóa, Giải quyết vấn đề toán học, Giao tiếp toán học, Sử dụng công cụ/phương tiện học toán.'
-  },
-  {
-    q: '[Giải tích 1 - HPU2] Giới hạn lim (x → 0) (e^x - 1 - x) / x² có giá trị bằng:',
-    o: [
-      '0',
-      '1/2',
-      '1',
-      '+∞'
-    ],
-    a: 1,
-    e: 'Sử dụng khai triển Maclaurin e^x = 1 + x + x²/2 + o(x²) hoặc dùng quy tắc L’Hôpital hai lần, ta thu được kết quả 1/2.'
-  },
-  {
     q: '[Đại số tuyến tính - HPU2] Cho ma trận vuông A cấp n. Điều kiện cần và đủ để ma trận A khả nghịch (tồn tại A⁻¹) là:',
     o: [
       'det(A) = 0',
       'det(A) ≠ 0',
       'rank(A) < n',
-      'A là ma trận đường chéo'
+      'A là ma trận đối xứng'
     ],
     a: 1,
-    e: 'Ma trận vuông cấp n khả nghịch khi và chỉ khi định thức của nó khác 0 (det(A) ≠ 0), tương đương hạng r(A) = n.'
+    e: 'Ma trận vuông cấp n khả nghịch khi và chỉ khi định thức của nó khác 0 (det(A) ≠ 0).'
   },
   {
-    q: '[Nghiệp vụ Sư phạm - HPU2] Khẩu hiệu hành động và triết lý đào tạo nổi tiếng của Trường ĐH Sư phạm Hà Nội 2 gắn liền với phương châm nào?',
+    q: '[Toán rời rạc - HPU2] Một đồ thị liên thông vô hướng G có chu trình Euler khi và chỉ khi:',
     o: [
-      'Tiên học lễ, hậu học văn',
-      'Kỷ cương - Tình thương - Trách nhiệm & Đổi mới sáng tạo',
-      'Học đi đôi với hành',
-      'Vững chuyên môn, sáng đạo đức, chuẩn mực tác phong người giáo viên nhân dân'
+      'Đồ thị có đúng 2 đỉnh bậc lẻ',
+      'Mọi đỉnh của đồ thị đều có bậc chẵn',
+      'Đồ thị là đồ thị phẳng',
+      'Đồ thị không có chu trình đơn'
     ],
     a: 1,
-    e: 'Trường Đại học Sư phạm Hà Nội 2 luôn nêu cao tinh thần: "Kỷ cương - Tình thương - Trách nhiệm", hướng đến đào tạo người thầy mẫu mực, năng động, hội nhập và sáng tạo.'
+    e: 'Định lý Euler khẳng định: Đồ thị liên thông G có chu trình Euler khi và chỉ khi mọi đỉnh của G đều có bậc chẵn.'
   }
 ];
-const DEFAULT_ESSAY=[
+
+const DEFAULT_ESSAY = [
   {
-    q: '[Giải tích 1 - HPU2] Chứng minh rằng nếu hàm số f(x) khả vi tại điểm x₀ thì f(x) liên tục tại điểm x₀. Chiều ngược lại có luôn đúng không? Nêu một phản ví dụ kinh điển.',
-    h: 'Hướng dẫn Sư phạm Toán HPU2: Biểu diễn f(x) - f(x₀) = [(f(x) - f(x₀))/(x - x₀)] · (x - x₀). Lấy lim khi x → x₀, ta được lim (f(x) - f(x₀)) = f′(x₀) · 0 = 0 ⇒ lim f(x) = f(x₀) nên liên tục. Chiều ngược lại KHÔNG đúng: Xét phản ví dụ f(x) = |x| tại x₀ = 0 liên tục nhưng không khả vi (đạo hàm trái bằng -1, đạo hàm phải bằng 1).'
+    q: '[Giải tích 1 - HPU2] Chứng minh rằng nếu hàm số f(x) khả vi tại điểm x₀ thì f(x) liên tục tại x₀. Chiều ngược lại có đúng không? Nêu một phản ví dụ kinh điển.',
+    h: 'Hướng dẫn Sư phạm Toán HPU2: Biểu diễn f(x) - f(x₀) = [(f(x) - f(x₀))/(x - x₀)] · (x - x₀). Lấy lim khi x → x₀ được 0 ⇒ lim f(x) = f(x₀) nên liên tục. Chiều ngược lại không đúng: f(x) = |x| liên tục tại 0 nhưng không khả vi tại 0.'
   },
   {
-    q: '[PPDH Toán - HPU2] Thầy/Cô hãy phân tích quy trình 4 bước tổ chức một hoạt động học theo Công văn 5512/BGDĐT và lấy ví dụ minh họa cho hoạt động "Hình thành định lý Pytago" trong môn Toán THCS.',
-    h: 'Hướng dẫn Sư phạm Toán HPU2: 1. Chuyển giao nhiệm vụ (GV giao phiếu học tập ghép 8 tam giác vuông vào 2 hình vuông cạnh a+b); 2. Thực hiện nhiệm vụ (HS thảo luận nhóm, so sánh diện tích phần còn lại c² và a²+b²); 3. Báo cáo, thảo luận (Đại diện nhóm trình bày kết quả c² = a²+b²); 4. Kết luận, nhận định (GV chuẩn hóa kiến thức thành Định lý Pytago).'
+    q: '[Đại số tuyến tính - HPU2] Trình bày thuật toán khử Gauss - Jordan để tìm nghiệm tổng quát của hệ phương trình đại số tuyến tính AX = B và biện luận nghiệm theo định lý Kronecker - Capelli.',
+    h: 'Hướng dẫn Sư phạm Toán HPU2: Dùng biến đổi sơ cấp trên dòng đưa [A|B] về ma trận bậc thang thu gọn. Biện luận: r(A) < r(A|B) thì vô nghiệm; r(A) = r(A|B) = n thì nghiệm duy nhất; r(A) = r(A|B) < n thì vô số nghiệm phụ thuộc (n - r) ẩn tự do.'
   },
   {
-    q: '[Đại số tuyến tính - HPU2] Trình bày thuật toán khử Gauss - Jordan để tìm hạng của ma trận và tìm nghiệm của hệ phương trình đại số tuyến tính tổng quát.',
-    h: 'Hướng dẫn Sư phạm Toán HPU2: Sử dụng 3 phép biến đổi sơ cấp trên dòng đưa ma trận hệ số bổ sung [A|B] về dạng ma trận bậc thang thu gọn (ma trận hình thang). So sánh r(A) và r(A|B) theo Định lý Kronecker-Capelli để kết luận vô nghiệm (r(A) < r(A|B)), có nghiệm duy nhất (r(A) = r(A|B) = n), hay vô số nghiệm phụ thuộc (n - r) ẩn tự do.'
+    q: '[Toán rời rạc - HPU2] Trình bày thuật toán Kruskal để tìm cây khung có trọng số nhỏ nhất của một đồ thị liên thông có trọng số và chứng minh tính tối ưu của thuật toán.',
+    h: 'Hướng dẫn Sư phạm Toán HPU2: Sắp xếp các cạnh theo thứ tự trọng số tăng dần. Duyệt lần lượt từng cạnh, thêm cạnh vào cây khung nếu không tạo thành chu trình với các cạnh đã chọn. Dừng lại khi đã chọn đủ (V - 1) cạnh.'
+  },
+  {
+    q: '[Xác suất thống kê - HPU2] Trình bày bài toán kiểm định giả thuyết thống kê về kỳ vọng của biến ngẫu nhiên tuân theo quy luật phân phối chuẩn khi biết phương sai: Cặp giả thuyết H₀: μ = μ₀ và H₁: μ ≠ μ₀.',
+    h: 'Hướng dẫn Sư phạm Toán HPU2: Sử dụng tiêu chuẩn kiểm định Z = (X̄ - μ₀) / (σ / √n). Với mức ý nghĩa α, xác định miền bác bỏ W_α = { |Z| > z_{α/2} }. Nếu giá trị quan sát z_qs ∈ W_α thì bác bỏ H₀, ngược lại chấp nhận H₀.'
   }
 ];
-const DEFAULT_ORAL=[
+
+const DEFAULT_ORAL = [
   {
-    q: 'Thầy chào em, sinh viên Sư phạm Toán HPU2! Trước hết, em hãy phát biểu ý nghĩa hình học của đạo hàm và ứng dụng của nó trong việc viết phương trình tiếp tuyến của đồ thị hàm số.',
+    q: 'Thầy/Cô chào em, sinh viên Sư phạm Toán HPU2! Trước hết, trong học phần Giải tích 1, em hãy phát biểu ý nghĩa hình học của đạo hàm và ứng dụng của nó trong việc viết phương trình tiếp tuyến đồ thị hàm số.',
     k: ['tiếp tuyến', 'hệ số góc', 'độ dốc', 'y - y0', 'f\'(x0)'],
-    hint: 'Hãy nêu bản chất hệ số góc k = f′(x₀) của tiếp tuyến và dạng phương trình y = f′(x₀)(x - x₀) + f(x₀).'
+    hint: 'Nêu bản chất hệ số góc k = f′(x₀) và dạng phương trình y = f′(x₀)(x - x₀) + f(x₀).'
   },
   {
-    q: 'Trong chương trình đào tạo Sư phạm Toán HPU2, Công văn 5512/BGDĐT đóng vai trò kim chỉ nam. Em hãy nêu tên 4 bước tổ chức một hoạt động dạy học trên lớp.',
-    k: ['chuyển giao', 'thực hiện', 'báo cáo', 'kết luận', 'nhận định', 'thảo luận', 'nhiệm vụ'],
-    hint: 'Gồm: Chuyển giao nhiệm vụ -> Thực hiện nhiệm vụ -> Báo cáo, thảo luận -> Kết luận, nhận định.'
+    q: 'Trong học phần Đại số tuyến tính, thế nào là một hệ vectơ độc lập tuyến tính trong không gian vectơ V? Điều kiện để một hệ n vectơ trở thành cơ sở của không gian n chiều ℝⁿ là gì?',
+    k: ['tổ hợp', 'bằng 0', 'độc lập', 'cơ sở', 'số chiều', 'hệ sinh'],
+    hint: 'Tổ hợp tuyến tính c₁v₁ + ... + cₖvₖ = 0 chỉ xảy ra khi c₁ = ... = cₖ = 0. Trong không gian n chiều, chỉ cần n vectơ độc lập tuyến tính.'
   },
   {
-    q: 'Cho không gian vectơ V có n chiều. Thế nào là một cơ sở của V và một hệ n vectơ có điều kiện gì thì trở thành cơ sở?',
-    k: ['độc lập tuyến tính', 'sinh ra', 'hệ sinh', 'số chiều', 'cơ sở', 'dư thừa'],
-    hint: 'Cơ sở là hệ vừa độc lập tuyến tính vừa là hệ sinh. Trong không gian n chiều, chỉ cần n vectơ độc lập tuyến tính.'
+    q: 'Trong học phần Giải tích 2, vectơ Gradient ∇f của hàm nhiều biến có ý nghĩa hình học và vật lý như thế nào đối với hướng biến thiên của hàm số?',
+    k: ['gradient', 'tăng nhanh nhất', 'pháp tuyến', 'hướng', 'đạo hàm riêng', 'độ dốc'],
+    hint: 'Vectơ gradient chỉ hướng mà tại đó hàm số tăng nhanh nhất, và độ lớn của nó biểu diễn tốc độ tăng lớn nhất đó.'
   },
   {
-    q: 'Là một giáo viên tương lai trưởng thành từ cái nôi HPU2 - Xuân Hòa, theo em làm thế nào để bồi dưỡng năng lực giải quyết vấn đề toán học cho học sinh THCS/THPT?',
-    k: ['thực tiễn', 'tình huống', 'chủ động', 'vận dụng', 'tư duy', 'mô hình', 'học sinh', 'tích cực'],
-    hint: 'Gợi mở qua các tình huống thực tiễn, khuyến khích học sinh mô hình hóa bài toán, tự tìm kiếm chiến lược giải và tự kiểm tra đánh giá.'
+    q: 'Trong học phần Toán rời rạc và Xác suất thống kê, em hãy nêu một ví dụ thực tiễn về ứng dụng của Lý thuyết đồ thị hoặc Quy luật phân phối chuẩn trong thực tế đời sống hoặc nghiên cứu khoa học sư phạm.',
+    k: ['đồ thị', 'ngắn nhất', 'phân phối chuẩn', 'điểm số', 'dijkstra', 'mạng lưới', 'thống kê', 'học sinh'],
+    hint: 'Có thể nói về thuật toán Dijkstra tìm lộ trình ngắn nhất trên Google Maps, hoặc đường cong phân phối chuẩn Gauss mô tả phổ điểm thi của học sinh.'
   }
 ];
 
@@ -718,7 +736,7 @@ let CONTENT={
   KNOW:[...DEFAULT_KNOW]
 };
 
-const HPU2_VERSION = 'hpu2_v2.0';
+const HPU2_VERSION = 'hpu2_v3.0';
 try{
   const curVer = localStorage.getItem('sa_hpu2_version');
   if (curVer !== HPU2_VERSION) {
@@ -756,7 +774,7 @@ let S={
   last:TODAY(),
   done:1,
   grade:'Năm 1',
-  subject:'Giải tích 1 (Hàm 1 biến & Chuỗi)',
+  subject:'Đại số tuyến tính',
   hrs:2,
   files:[],
   focus:[...DEFAULT_KNOW],
@@ -796,8 +814,9 @@ const VALID_GRADES = ['Năm 1', 'Năm 2', 'Năm 3', 'Năm 4'];
 if (!S.grade || !VALID_GRADES.includes(S.grade)) {
   S.grade = 'Năm 1';
 }
-if (!S.subject || S.subject === 'Toán học') {
-  S.subject = 'Giải tích 1 (Hàm 1 biến & Chuỗi)';
+// Xác thực môn học thuộc 5 học phần cốt lõi HPU2
+if (!S.subject || !HPU2_SUBJECTS.includes(S.subject)) {
+  S.subject = 'Đại số tuyến tính';
 }
 
 // Cập nhật thương hiệu HPU2 nếu đang dùng cấu hình mặc định cũ
@@ -2106,26 +2125,7 @@ function vLearn(){
 
       <label class="text-xs font-bold text-emerald-800 uppercase tracking-wider mt-3 block">Học Phần Đào Tạo (HPU2)</label>
       <select onchange="S.subject=this.value;save();toast('Đã chọn học phần: '+this.value)" class="mt-1 font-semibold text-emerald-950">
-        <optgroup label="Toán Đại Cương & Cơ Sở (Năm 1 - Năm 2)">
-          ${[
-            'Giải tích 1 (Hàm 1 biến & Chuỗi)',
-            'Giải tích 2 (Hàm nhiều biến & Tích phân bội)',
-            'Đại số tuyến tính & Hình học giải tích',
-            'Đại số đại cương & Lý thuyết số',
-            'Hình học Afin & Euclid',
-            'Xác suất & Thống kê toán học'
-          ].map(s=>`<option ${s===S.subject?'selected':''}>${s}</option>`).join('')}
-        </optgroup>
-        <optgroup label="Nghiệp Vụ Sư Phạm & Phương Pháp Dạy Học (Năm 3 - Năm 4)">
-          ${[
-            'Phương pháp dạy học môn Toán (PPDH Toán)',
-            'Thiết kế kế hoạch bài dạy Toán theo CV 5512',
-            'Ứng dụng CNTT trong dạy học Toán (GeoGebra, LaTeX)',
-            'Kiểm tra & Đánh giá kết quả học tập môn Toán',
-            'Tâm lý học sư phạm & Giáo dục học đại cương',
-            'Rèn luyện nghiệp vụ sư phạm thường xuyên'
-          ].map(s=>`<option ${s===S.subject?'selected':''}>${s}</option>`).join('')}
-        </optgroup>
+        ${HPU2_SUBJECTS.map(s=>`<option ${s===S.subject?'selected':''}>${s}</option>`).join('')}
       </select>
 
       <label class="text-xs font-bold text-emerald-800 uppercase tracking-wider mt-3 block">
