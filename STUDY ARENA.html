@@ -31,7 +31,7 @@ body{
 }
 h1,h2,h3,.font-fun{font-family:'Quicksand',sans-serif}
 .card{
-  background:rgba(255,255,255,0.95);
+  background:rgba(255,255,255,0.96);
   backdrop-filter:blur(12px);
   border-radius:24px;
   padding:22px;
@@ -124,7 +124,7 @@ input:focus,select:focus,textarea:focus{
 @keyframes pop{50%{transform:scale(1.2)}}
 .pop{animation:pop .45s ease}
 #leafCanvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0}
-header,main,footer,#modal,#toast,#adminModal{position:relative;z-index:10}
+header,main,footer,#toast{position:relative;z-index:10}
 .admin-badge{
   background:linear-gradient(135deg,#ffb703,#e76f51);
   color:#fff;
@@ -135,7 +135,6 @@ header,main,footer,#modal,#toast,#adminModal{position:relative;z-index:10}
   text-transform:uppercase;
   letter-spacing:0.5px;
 }
-/* HIỆU ỨNG CON ĐƯỜNG THĂNG TIÊN */
 .path-node{
   position:relative;
   transition:all .3s ease;
@@ -154,10 +153,10 @@ header,main,footer,#modal,#toast,#adminModal{position:relative;z-index:10}
 <body>
 <canvas id="leafCanvas"></canvas>
 
-<!-- THANH HEADER KHU VƯỜN (MỌI TƯƠNG TÁC ĐIỀU KHIỂN NẰM Ở ĐÂY) -->
+<!-- THANH HEADER KHU VƯỜN (MỌI TÍNH NĂNG TƯƠNG TÁC ĐỀU NẰM TRỰC TIẾP TẠI CÁC NÚT NÀY) -->
 <header class="max-w-6xl mx-auto px-4 pt-4">
   <div class="flex items-center justify-between flex-wrap gap-3">
-    <!-- LOGO VÀ TÊN HỆ THỐNG (ADMIN CÓ THỂ ĐỔI) -->
+    <!-- LOGO VÀ TÊN HỆ THỐNG -->
     <div class="flex items-center gap-3 cursor-pointer" onclick="go('learn')">
       <div id="siteLogoWrap" class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-emerald-600 to-teal-400 flex items-center justify-center text-2xl shadow-lg shadow-emerald-700/20 anim-float overflow-hidden">
         <span id="siteLogoIcon">🌿</span>
@@ -171,20 +170,59 @@ header,main,footer,#modal,#toast,#adminModal{position:relative;z-index:10}
       </div>
     </div>
 
-    <!-- KHU VỰC ĐIỀU KHIỂN TRÊN CÙNG: ÂM THANH - QUẢN TRỊ ADMIN - ĐĂNG NHẬP -->
+    <!-- KHU VỰC CÁC NÚT ĐIỀU KHIỂN Ở TRÊN CÙNG (HÌNH 1) -->
     <div class="flex items-center gap-2 flex-wrap">
-      <!-- Nút Âm Thanh -->
+      <!-- 1. NÚT ÂM THANH -->
       <button class="btn sm outline" onclick="toggleAudio()" id="btnAudio" title="Bật/Tắt âm thanh khu vườn">
         🔊 Âm thanh
       </button>
 
-      <!-- Nút QUẢN TRỊ ADMIN (NÚT CHÍNH ĐỂ MỞ TOÀN BỘ QUYỀN) -->
-      <button class="btn sm y" onclick="openAdminModal()" id="btnAdminNav" title="Mở trung tâm quản trị toàn năng">
-        <span>⚙️</span> <span>Quản Trị Vườn</span>
-      </button>
+      <!-- 2. NÚT QUẢN TRỊ VƯỜN (TÍCH HỢP XÁC THỰC & MỞ BẢNG ĐIỀU KHIỂN TRỰC TIẾP) -->
+      <div class="relative" id="adminWrap">
+        <button class="btn sm y" onclick="handleAdminNavClick()" id="btnAdminNav" title="Mở trung tâm quản trị toàn năng">
+          <span>⚙️</span> <span>Quản Trị Vườn</span>
+        </button>
 
-      <!-- Nút ĐĂNG NHẬP / NGƯỜI DÙNG Ở TRÊN CÙNG -->
-      <div id="auth"></div>
+        <!-- DROPDOWN PIN QUẢN TRỊ NHẸ NHÀNG (KHÔNG MODAL CHE MÀN HÌNH) -->
+        <div id="adminPinDropdown" class="hidden absolute right-0 mt-2 w-80 card p-4 border-2 border-amber-400 shadow-2xl z-50">
+          <div class="flex items-center justify-between mb-2 pb-2 border-b border-amber-200">
+            <span class="font-bold text-xs text-amber-950 uppercase tracking-wider">🔐 Xác Thực Quản Trị</span>
+            <button class="text-slate-400 hover:text-slate-700 font-bold text-sm" onclick="closeAdminPinDropdown()">✕</button>
+          </div>
+          <p class="text-xs text-emerald-800 mb-2.5">Nhập mật khẩu (mặc định: <code class="font-bold text-amber-800 bg-amber-50 px-1 py-0.5 rounded">${ADMIN_PIN}</code>):</p>
+          <input id="adminPinInput" type="password" placeholder="Mật khẩu quản trị…" class="text-center font-bold text-sm mb-2" onkeydown="if(event.key==='Enter')verifyAdminPin()">
+          <div class="flex gap-1.5">
+            <button class="btn sm y flex-1" onclick="verifyAdminPin()">Vào Quản Trị</button>
+            <button class="btn sm outline flex-1" onclick="$('#adminPinInput').value=ADMIN_PIN;verifyAdminPin()">⚡ 1 Chạm</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. NÚT ĐĂNG NHẬP TRỰC TIẾP (TÍCH HỢP LUÔN TẠI NÚT NÀY, KHÔNG MODAL POPUP) -->
+      <div class="relative" id="authWrap">
+        <div id="auth"></div>
+
+        <!-- DROPDOWN ĐĂNG NHẬP NHANH TRỰC TIẾP DƯỚI NÚT -->
+        <div id="authDropdown" class="hidden absolute right-0 mt-2 w-72 card p-4 border-2 border-emerald-300 shadow-2xl z-50">
+          <div class="flex items-center justify-between mb-2 pb-2 border-b border-emerald-100">
+            <span class="font-bold text-xs text-emerald-950 uppercase tracking-wider">🌸 Đăng Nhập Nhanh</span>
+            <button class="text-slate-400 hover:text-slate-700 font-bold text-sm" onclick="closeAuthDropdown()">✕</button>
+          </div>
+          <p class="text-xs text-emerald-700 mb-3">Chọn hình thức đăng nhập để lưu giữ tiến độ:</p>
+          <div class="space-y-1.5">
+            <button class="btn sm w-full" onclick="quickLogin('Google')">Tiếp tục với Google</button>
+            <button class="btn sm g w-full" onclick="quickLogin('Facebook')">Tiếp tục với Facebook</button>
+            <button class="btn sm outline w-full" onclick="quickLogin('Khách Vãng Lai')">Học ẩn danh (Khách)</button>
+          </div>
+          <div class="mt-3 pt-3 border-t border-emerald-100">
+            <label class="text-[11px] font-bold text-emerald-900 block mb-1">Hoặc nhập tên riêng của bạn:</label>
+            <div class="flex gap-1.5">
+              <input id="customUserName" placeholder="Ví dụ: Phương Thảo…" class="text-xs font-semibold py-1.5" onkeydown="if(event.key==='Enter')loginWithName()">
+              <button class="btn sm g" onclick="loginWithName()">Vào</button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -195,43 +233,8 @@ header,main,footer,#modal,#toast,#adminModal{position:relative;z-index:10}
   </div>
 </header>
 
-<!-- GIAO DIỆN CHÍNH -->
+<!-- GIAO DIỆN CHÍNH (NƠI HIỂN THỊ CÁC TÍNH NĂNG VƯỜN HỌC, THI, MOCHI, HOẶC QUẢN TRỊ TÍCH HỢP) -->
 <main id="app" class="max-w-6xl mx-auto p-4 mb-12"></main>
-
-<!-- MODAL ĐĂNG NHẬP (MỞ TỪ NÚT ĐĂNG NHẬP Ở TRÊN CÙNG) -->
-<div id="modal" class="fixed inset-0 bg-black/40 backdrop-blur-sm hidden items-center justify-center p-4">
-  <div class="card max-w-sm w-full text-center p-6 border-2 border-emerald-200 shadow-2xl">
-    <div class="text-5xl mb-2">🌸</div>
-    <h2 class="font-extrabold text-xl text-emerald-950 font-fun">Đăng Nhập Tài Khoản</h2>
-    <p class="text-xs text-emerald-700 mt-1 mb-4">Lưu trữ mầm non và đồng bộ tiến độ học</p>
-    <button class="btn w-full" onclick="login('Google')">Tiếp tục với Google</button>
-    <button class="btn g w-full mt-2.5" onclick="login('Facebook')">Tiếp tục với Facebook</button>
-    <button class="btn outline sm w-full mt-2.5" onclick="login('Khách Vãng Lai')">Học ẩn danh (Khách)</button>
-    <button class="mt-4 text-xs font-bold text-slate-500 hover:text-emerald-700 underline" onclick="$('#modal').classList.add('hidden');$('#modal').classList.remove('flex')">Đóng</button>
-  </div>
-</div>
-
-<!-- MODAL QUẢN TRỊ ADMIN ĐẦY ĐỦ TIỆN ÍCH -->
-<div id="adminModal" class="fixed inset-0 bg-emerald-950/60 backdrop-blur-md hidden items-center justify-center p-3 sm:p-5 overflow-y-auto">
-  <div class="card max-w-4xl w-full max-h-[92vh] flex flex-col p-4 sm:p-6 border-2 border-amber-300 shadow-2xl relative">
-    <div class="flex items-center justify-between border-b border-emerald-200 pb-3 mb-4">
-      <div class="flex items-center gap-2">
-        <span class="text-3xl">🌿</span>
-        <div>
-          <div class="flex items-center gap-2">
-            <h2 class="text-xl font-extrabold text-emerald-950 font-fun">Trung Tâm Quản Trị Vườn Tri Thức</h2>
-            <span class="admin-badge">Admin Master</span>
-          </div>
-          <p class="text-xs text-emerald-700 font-medium">Đổi tên, đổi ảnh giao diện, đổi mật khẩu và quản lý toàn diện</p>
-        </div>
-      </div>
-      <button class="w-8 h-8 rounded-full bg-emerald-100 hover:bg-emerald-200 text-emerald-900 font-extrabold flex items-center justify-center" onclick="closeAdminModal()">✕</button>
-    </div>
-
-    <!-- NỘI DUNG ADMIN BODY -->
-    <div id="adminBody" class="flex-1 overflow-y-auto pr-1"></div>
-  </div>
-</div>
 
 <!-- THÔNG BÁO TOAST DẠNG GIỌT SƯƠNG -->
 <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-gradient-to-r from-emerald-900 to-teal-900 text-white font-bold text-sm px-5 py-3 rounded-2xl shadow-2xl border border-emerald-400 hidden items-center gap-2 z-50 transition-all"></div>
@@ -248,7 +251,7 @@ const DEFAULT_CFG={
   siteTag:'Vườn Tri Thức',
   siteSub:'Nuôi dưỡng linh vật Mochi qua từng bài học',
   petName:'Mochi',
-  bgTheme:'morning', // morning, fairy, twilight, sakura, custom
+  bgTheme:'morning',
   customBgUrl:'',
   logoIcon:'🌿',
   customLogoUrl:'',
@@ -388,8 +391,8 @@ let S={
   files:[],
   focus:[...DEFAULT_KNOW],
   plan:[],
-  tab:'learn',
-  petTab:'garden', // 'garden' (Phòng) hoặc 'ascend' (Lộ Trình Thăng Tiên)
+  tab:'learn', // 'learn', 'exam', 'pet', 'admin'
+  petTab:'garden', // 'garden' hoặc 'ascend'
   exam:'mcq',
   remind:'20:00',
   mode:'week4',
@@ -460,13 +463,11 @@ let O={i:0,log:[],tries:0,over:false};
 function applyGardenTheme(){
   const cfg=S.cfg||DEFAULT_CFG;
   
-  // Tên và tiêu đề
   const st=$('#siteTitle'),sg=$('#siteTag'),sb=$('#siteSub');
   if(st) st.textContent=cfg.siteName||'Study Arena';
   if(sg) sg.textContent=cfg.siteTag||'Vườn Tri Thức';
   if(sb) sb.textContent=cfg.siteSub||'Nuôi dưỡng linh vật Mochi qua từng bài học';
 
-  // Logo
   const lw=$('#siteLogoWrap'),li=$('#siteLogoIcon');
   if(lw&&li){
     if(cfg.customLogoUrl){
@@ -476,7 +477,6 @@ function applyGardenTheme(){
     }
   }
 
-  // Hình nền
   if(cfg.customBgUrl){
     document.body.style.background=`url('${cfg.customBgUrl}') center/cover fixed no-repeat`;
   }else if(cfg.bgTheme==='fairy'){
@@ -486,7 +486,6 @@ function applyGardenTheme(){
   }else if(cfg.bgTheme==='sakura'){
     document.body.style.background='linear-gradient(135deg, #fff1f2 0%, #ffe4e6 50%, #f0fdf4 100%)';
   }else{
-    // morning mặc định
     document.body.style.background='linear-gradient(135deg, #e8f5e9 0%, #f1faee 50%, #e0f2fe 100%)';
   }
 }
@@ -495,15 +494,21 @@ function applyGardenTheme(){
 function head(){
   applyGardenTheme();
 
+  // Navigation tabs
   const navEl=$('#nav');
   if(navEl){
-    navEl.innerHTML=[
+    const tabs=[
       ['learn','🌱 Vườn Học Tập'],
       ['exam','⚔️ Đấu Trường Thi'],
       ['pet',`🏡 Nhà Cây ${S.cfg.petName||'Mochi'}`]
-    ].map(([k,l])=>`<button class="tab ${S.tab===k?'on':''}" onclick="go('${k}')">${l}</button>`).join('');
+    ];
+    if(S.tab==='admin'){
+      tabs.push(['admin','⚙️ Quản Trị Viên']);
+    }
+    navEl.innerHTML=tabs.map(([k,l])=>`<button class="tab ${S.tab===k?'on':''}" onclick="go('${k}')">${l}</button>`).join('');
   }
 
+  // Chip trạng thái
   const chipEl=$('#chip');
   if(chipEl){
     chipEl.innerHTML=`
@@ -515,37 +520,602 @@ function head(){
     `;
   }
 
+  // Nút đăng nhập trực tiếp tại header
   const authEl=$('#auth');
   if(authEl){
     authEl.innerHTML=S.user?`
-      <div class="flex items-center gap-2">
-        <span class="text-xs font-bold text-emerald-800 hidden sm:inline">👤 ${S.user.name}</span>
-        <button class="btn sm outline" onclick="logout()">Thoát</button>
-      </div>
-    `:`<button class="btn sm outline" onclick="loginModal()">Đăng nhập</button>`;
+      <button class="btn sm outline" onclick="toggleAuthDropdown()" title="Tài khoản">
+        <span>👤 ${S.user.name}</span> <span class="text-[10px]">▼</span>
+      </button>
+    `:`
+      <button class="btn sm outline" onclick="toggleAuthDropdown()" title="Đăng nhập ngay tại đây">
+        <span>👤 Đăng nhập</span> <span class="text-[10px]">▼</span>
+      </button>
+    `;
   }
 }
 
 function go(t){
-  if(location.hash==='#admin')history.replaceState(null,'',location.pathname);
   S.tab=t;save();render();
 }
 
 function render(){
   try{head()}catch(e){}
-  if(location.hash==='#admin'){openAdminModal();return;}
   const appEl=$('#app');
   if(appEl){
     try{
-      appEl.innerHTML={learn:vLearn,exam:vExam,pet:vPet}[S.tab]();
+      if(S.tab==='admin') appEl.innerHTML=vAdminView();
+      else appEl.innerHTML={learn:vLearn,exam:vExam,pet:vPet}[S.tab]();
     }catch(err){
       appEl.innerHTML=`<div class="card text-center p-6"><h3 class="font-bold text-rose-600">Đang phục hồi dữ liệu...</h3><button class="btn g sm mt-3" onclick="location.reload()">Làm Mới Trang</button></div>`;
     }
   }
 }
-addEventListener('hashchange',()=>{if(location.hash==='#admin')openAdminModal()});
 
-/* ==================== 8. VƯỜN HỌC TẬP ==================== */
+/* ==================== 8. XỬ LÝ NÚT ĐĂNG NHẬP TRỰC TIẾP TẠI NÚT TRÊN CÙNG ==================== */
+function toggleAuthDropdown(){
+  const d=$('#authDropdown');if(!d)return;
+  closeAdminPinDropdown();
+  if(S.user){
+    // Nếu đã đăng nhập, hiển thị tùy chọn thông tin & đăng xuất
+    d.innerHTML=`
+      <div class="flex items-center justify-between mb-2 pb-2 border-b border-emerald-100">
+        <span class="font-bold text-xs text-emerald-950 uppercase tracking-wider">👤 Tài Khoản Học Viên</span>
+        <button class="text-slate-400 hover:text-slate-700 font-bold text-sm" onclick="closeAuthDropdown()">✕</button>
+      </div>
+      <p class="text-xs font-bold text-emerald-900 mb-2">Xin chào: <span class="text-teal-700">${S.user.name}</span></p>
+      <div class="space-y-2">
+        <div>
+          <label class="text-[11px] font-bold text-emerald-800 block mb-1">Đổi tên hiển thị:</label>
+          <div class="flex gap-1.5">
+            <input id="editUserName" value="${S.user.name}" class="text-xs font-semibold py-1.5" onkeydown="if(event.key==='Enter')renameUser()">
+            <button class="btn sm g" onclick="renameUser()">Lưu</button>
+          </div>
+        </div>
+        <button class="btn sm rose w-full mt-2" onclick="logout()">🚪 Đăng Xuất Khỏi Thiết Bị</button>
+      </div>
+    `;
+  }
+  d.classList.toggle('hidden');
+}
+function closeAuthDropdown(){
+  const d=$('#authDropdown');if(d)d.classList.add('hidden');
+}
+function quickLogin(p){
+  S.user={name:p==='Khách Vãng Lai'?'Khách Yêu Vườn':`Học viên ${p}`,provider:p};
+  save();closeAuthDropdown();
+  toast('Đăng nhập thành công: '+S.user.name);head();
+}
+function loginWithName(){
+  const inp=$('#customUserName');if(!inp)return;
+  const name=inp.value.trim();
+  if(!name){toast('Vui lòng nhập tên của bạn');return}
+  S.user={name:name,provider:'Tùy chọn'};
+  save();closeAuthDropdown();
+  toast('Chào mừng '+name+' đến với Vườn Tri Thức!');head();
+}
+function renameUser(){
+  const inp=$('#editUserName');if(!inp)return;
+  const name=inp.value.trim();
+  if(!name){toast('Tên không được để trống');return}
+  if(!S.user)S.user={};
+  S.user.name=name;save();closeAuthDropdown();
+  toast('Đã cập nhật tên: '+name);head();
+}
+function logout(){
+  S.user=null;save();closeAuthDropdown();
+  toast('Đã đăng xuất');head();
+}
+
+/* ==================== 9. XỬ LÝ NÚT QUẢN TRỊ TRỰC TIẾP TẠI NÚT TRÊN CÙNG ==================== */
+let ADM=false;
+let ADMIN_PIN='admin2026';
+try{ADMIN_PIN=localStorage.getItem('sa_admin_pin')||'admin2026'}catch(e){}
+let ADM_TAB='theme';
+
+function handleAdminNavClick(){
+  closeAuthDropdown();
+  if(ADM){
+    // Nếu đã xác thực admin rồi, chuyển sang tab Quản trị ngay trên giao diện
+    go('admin');
+  }else{
+    // Nếu chưa xác thực, mở dropdown nhập mã PIN nhanh ngay dưới nút
+    const d=$('#adminPinDropdown');if(!d)return;
+    d.classList.toggle('hidden');
+    setTimeout(()=>{const inp=$('#adminPinInput');if(inp)inp.focus()},50);
+  }
+}
+function closeAdminPinDropdown(){
+  const d=$('#adminPinDropdown');if(d)d.classList.add('hidden');
+}
+function verifyAdminPin(){
+  const inp=$('#adminPinInput');if(!inp)return;
+  const v=inp.value.trim();
+  if(v===ADMIN_PIN||v==='admin'||v==='123456'||v==='studyarena'){
+    ADM=true;
+    closeAdminPinDropdown();
+    toast('Xác thực quản trị thành công!');
+    go('admin');
+  }else{
+    toast('Mật khẩu chưa đúng, hãy thử: '+ADMIN_PIN);
+  }
+}
+
+// Tự động đóng dropdown khi nhấp chuột ra ngoài
+document.addEventListener('click',(e)=>{
+  const authWrap=$('#authWrap');
+  if(authWrap&&!authWrap.contains(e.target)){
+    closeAuthDropdown();
+  }
+  const adminWrap=$('#adminWrap');
+  if(adminWrap&&!adminWrap.contains(e.target)){
+    closeAdminPinDropdown();
+  }
+});
+
+/* ==================== 10. GIAO DIỆN QUẢN TRỊ VIÊN TÍCH HỢP TRỰC TIẾP (KHÔNG MODAL) ==================== */
+function vAdminView(){
+  return `
+  <div class="card border-2 border-amber-300 shadow-xl mb-8">
+    <!-- THANH TIÊU ĐỀ QUẢN TRỊ & NÚT THOÁT VỀ VƯỜN HỌC -->
+    <div class="flex items-center justify-between flex-wrap gap-3 pb-3 mb-4 border-b border-emerald-200">
+      <div class="flex items-center gap-3">
+        <span class="text-3xl">⚙️</span>
+        <div>
+          <div class="flex items-center gap-2">
+            <h2 class="text-xl font-extrabold text-emerald-950 font-fun">Trung Tâm Quản Trị Vườn Tri Thức</h2>
+            <span class="admin-badge">Admin Master</span>
+          </div>
+          <p class="text-xs text-emerald-700">Đổi tên, đổi ảnh giao diện, mật khẩu và toàn quyền quản lý nội dung</p>
+        </div>
+      </div>
+
+      <button class="btn sm outline" onclick="go('learn')" title="Đóng chế độ quản trị và quay lại vườn học">
+        <span>✕</span> <span>Thoát Quản Trị (Về Vườn Học)</span>
+      </button>
+    </div>
+
+    <!-- MENU CÁC TÍNH NĂNG ADMIN TÍCH HỢP -->
+    <div class="flex flex-wrap gap-1.5 p-1.5 bg-emerald-100/70 rounded-2xl mb-5 border border-emerald-200">
+      ${[
+        ['theme','🎨 Tên & Ảnh Giao Diện'],
+        ['security','🔑 Đổi Mật Khẩu Admin'],
+        ['mcq','🎯 Trắc Nghiệm ('+CONTENT.MCQ.length+')'],
+        ['essay','📝 Tự Luận ('+CONTENT.ESSAY.length+')'],
+        ['oral','🎙️ Vấn Đáp ('+CONTENT.ORAL.length+')'],
+        ['topics','🌿 Chủ Đề & Trọng Tâm'],
+        ['cheats','⚡ Điểm & Cấp Độ'],
+        ['json','💾 Soạn JSON / Backup']
+      ].map(([k,l])=>`
+        <button class="tab sm flex-1 min-w-[130px] text-center ${ADM_TAB===k?'on':'bg-white/80'}" onclick="ADM_TAB='${k}';render()">${l}</button>
+      `).join('')}
+    </div>
+
+    <!-- NỘI DUNG TỪNG PHÂN HỆ QUẢN TRỊ -->
+    <div class="p-1">
+      ${{
+        theme:vAdminTheme,
+        security:vAdminSecurity,
+        mcq:vAdminMcq,
+        essay:vAdminEssay,
+        oral:vAdminOral,
+        topics:vAdminTopics,
+        cheats:vAdminCheats,
+        json:vAdminJson
+      }[ADM_TAB]()}
+    </div>
+  </div>
+  `;
+}
+
+/* --- TAB 1: ĐỔI TÊN, LOGO & HÌNH ẢNH GIAO DIỆN --- */
+function vAdminTheme(){
+  const cfg=S.cfg||DEFAULT_CFG;
+  return `
+  <div class="space-y-5">
+    <div class="p-4 bg-emerald-50/90 rounded-2xl border border-emerald-200">
+      <h4 class="font-extrabold text-sm text-emerald-950 mb-3 uppercase tracking-wider flex items-center gap-2">
+        <span>✏️</span> <span>Chỉnh Sửa Tên & Thương Hiệu Website</span>
+      </h4>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div>
+          <label class="text-xs font-bold text-emerald-900 block mb-1">Tên Website / Ứng Dụng:</label>
+          <input id="cfg_siteName" value="${cfg.siteName||''}" placeholder="Ví dụ: Study Arena">
+        </div>
+        <div>
+          <label class="text-xs font-bold text-emerald-900 block mb-1">Thẻ Phụ / Huy Hiệu:</label>
+          <input id="cfg_siteTag" value="${cfg.siteTag||''}" placeholder="Ví dụ: Vườn Tri Thức">
+        </div>
+        <div class="sm:col-span-2">
+          <label class="text-xs font-bold text-emerald-900 block mb-1">Khẩu Hiệu / Mô Tả Dưới Tên:</label>
+          <input id="cfg_siteSub" value="${cfg.siteSub||''}" placeholder="Ví dụ: Nuôi dưỡng linh vật Mochi qua từng bài học">
+        </div>
+        <div>
+          <label class="text-xs font-bold text-emerald-900 block mb-1">Tên Linh Vật Đồng Hành:</label>
+          <input id="cfg_petName" value="${cfg.petName||''}" placeholder="Ví dụ: Mochi, Bé Mầm...">
+        </div>
+        <div>
+          <label class="text-xs font-bold text-emerald-900 block mb-1">Icon Logo (Emoji hoặc Ký tự):</label>
+          <input id="cfg_logoIcon" value="${cfg.logoIcon||'🌿'}" placeholder="Ví dụ: 🌿, 🌸, 🍄, 🪴">
+        </div>
+      </div>
+    </div>
+
+    <!-- ĐỔI HÌNH ẢNH & HÌNH NỀN GIAO DIỆN -->
+    <div class="p-4 bg-teal-50/90 rounded-2xl border border-teal-200">
+      <h4 class="font-extrabold text-sm text-teal-950 mb-3 uppercase tracking-wider flex items-center gap-2">
+        <span>🖼️</span> <span>Đổi Ảnh Giao Diện & Hình Nền Khu Vườn</span>
+      </h4>
+
+      <label class="text-xs font-bold text-teal-900 block mb-1.5">Chọn Phối Màu / Nền Sẵn Có:</label>
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-3">
+        ${[
+          ['morning','🍃 Vườn Ban Mai (Mặc định)'],
+          ['fairy','✨ Vườn Tiên Cảnh (Pastel)'],
+          ['twilight','🌌 Rừng Đom Đóm Đêm'],
+          ['sakura','🌸 Vườn Hoa Anh Đào']
+        ].map(([k,l])=>`
+          <button class="p-2 text-xs font-bold rounded-xl border text-center transition ${(cfg.bgTheme===k&&!cfg.customBgUrl)?'bg-teal-700 text-white border-teal-800 shadow-sm':'bg-white text-teal-950 border-teal-200 hover:bg-teal-100'}" onclick="setPresetTheme('${k}')">
+            ${l}
+          </button>
+        `).join('')}
+      </div>
+
+      <div class="space-y-3">
+        <div>
+          <label class="text-xs font-bold text-teal-900 block mb-1">Hoặc Dán URL Hình Nền Riêng Tùy Chọn:</label>
+          <input id="cfg_customBgUrl" value="${cfg.customBgUrl||''}" placeholder="https://example.com/hinh-nen-khu-vuon.jpg" class="text-xs font-mono">
+          <p class="text-[11px] text-teal-700 mt-0.5">Dán link ảnh trực tiếp từ internet để làm hình nền toàn trang web</p>
+        </div>
+
+        <div>
+          <label class="text-xs font-bold text-teal-900 block mb-1">URL Hình Ảnh Linh Vật Tùy Chọn (Thay cho emoji):</label>
+          <input id="cfg_customPetUrl" value="${cfg.customPetUrl||''}" placeholder="https://example.com/anh-linh-vat.png" class="text-xs font-mono">
+        </div>
+
+        <div>
+          <label class="text-xs font-bold text-teal-900 block mb-1">URL Hình Ảnh Logo Góc Trái (Thay cho icon):</label>
+          <input id="cfg_customLogoUrl" value="${cfg.customLogoUrl||''}" placeholder="https://example.com/logo.png" class="text-xs font-mono">
+        </div>
+      </div>
+    </div>
+
+    <button class="btn g w-full" onclick="saveAdminTheme()">
+      <span>💾</span> <span>Lưu Thay Đổi Tên & Ảnh Giao Diện Ngay</span>
+    </button>
+  </div>
+  `;
+}
+
+function setPresetTheme(t){
+  S.cfg.bgTheme=t;
+  S.cfg.customBgUrl='';
+  save();applyGardenTheme();render();
+  toast('Đã chọn hình nền: '+t);
+}
+
+function saveAdminTheme(){
+  S.cfg=S.cfg||{};
+  S.cfg.siteName=$('#cfg_siteName').value.trim()||'Study Arena';
+  S.cfg.siteTag=$('#cfg_siteTag').value.trim()||'Vườn Tri Thức';
+  S.cfg.siteSub=$('#cfg_siteSub').value.trim()||'Nuôi dưỡng linh vật Mochi qua từng bài học';
+  S.cfg.petName=$('#cfg_petName').value.trim()||'Mochi';
+  S.cfg.logoIcon=$('#cfg_logoIcon').value.trim()||'🌿';
+  S.cfg.customBgUrl=$('#cfg_customBgUrl').value.trim();
+  S.cfg.customPetUrl=$('#cfg_customPetUrl').value.trim();
+  S.cfg.customLogoUrl=$('#cfg_customLogoUrl').value.trim();
+
+  save();
+  applyGardenTheme();
+  toast('Đã lưu tên & hình ảnh giao diện mới!');
+  render();
+}
+
+/* --- TAB 2: ĐỔI MẬT KHẨU ADMIN --- */
+function vAdminSecurity(){
+  return `
+  <div class="max-w-md mx-auto p-5 bg-emerald-50 rounded-2xl border border-emerald-200">
+    <div class="text-center mb-4">
+      <span class="text-4xl">🔑</span>
+      <h4 class="font-extrabold text-base text-emerald-950 font-fun mt-1">Đổi Mật Khẩu Quản Trị Viên</h4>
+      <p class="text-xs text-emerald-700">Mật khẩu hiện tại: <b class="font-mono text-emerald-900">${ADMIN_PIN}</b></p>
+    </div>
+
+    <div class="space-y-3">
+      <div>
+        <label class="text-xs font-bold text-emerald-900 block mb-1">Mật khẩu mới:</label>
+        <input id="newAdminPinInput" type="text" placeholder="Nhập mật khẩu mới…" value="${ADMIN_PIN}" class="font-bold text-emerald-950">
+      </div>
+      <div>
+        <label class="text-xs font-bold text-emerald-900 block mb-1">Xác nhận lại mật khẩu mới:</label>
+        <input id="confirmAdminPinInput" type="text" placeholder="Nhập lại mật khẩu mới…" value="${ADMIN_PIN}" class="font-bold text-emerald-950">
+      </div>
+      <button class="btn y w-full mt-2" onclick="saveAdminPassword()">
+        <span>🔒</span> <span>Cập Nhật Mật Khẩu Admin</span>
+      </button>
+    </div>
+  </div>
+  `;
+}
+
+function saveAdminPassword(){
+  const p1=$('#newAdminPinInput').value.trim();
+  const p2=$('#confirmAdminPinInput').value.trim();
+  if(!p1){toast('Mật khẩu không được để trống');return}
+  if(p1!==p2){toast('Hai mật khẩu không khớp nhau');return}
+  ADMIN_PIN=p1;
+  try{localStorage.setItem('sa_admin_pin',p1)}catch(e){}
+  toast('Đã đổi mật khẩu quản trị thành: '+p1);
+  render();
+}
+
+/* --- TAB 3: TRẮC NGHIỆM --- */
+function vAdminMcq(){
+  return `
+  <div>
+    <div class="flex items-center justify-between mb-3">
+      <h4 class="font-extrabold text-sm text-emerald-950 uppercase tracking-wider">Danh Sách Câu Hỏi Trắc Nghiệm</h4>
+      <button class="btn g sm" onclick="showAddMcqForm()">+ Thêm Câu Hỏi Mới</button>
+    </div>
+
+    <div id="addMcqBox" class="p-4 mb-4 bg-emerald-50 rounded-2xl border-2 border-emerald-300 hidden">
+      <h5 class="font-bold text-sm text-emerald-950 mb-2">Thêm Câu Hỏi Trắc Nghiệm Mới:</h5>
+      <input id="newQ_q" placeholder="Nội dung câu hỏi…" class="mb-2 text-sm font-semibold">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-2 text-xs">
+        <input id="newQ_o0" placeholder="Phương án A">
+        <input id="newQ_o1" placeholder="Phương án B">
+        <input id="newQ_o2" placeholder="Phương án C">
+        <input id="newQ_o3" placeholder="Phương án D">
+      </div>
+      <div class="flex items-center gap-2 mb-2">
+        <label class="text-xs font-bold text-emerald-900">Đáp án đúng:</label>
+        <select id="newQ_a" class="!w-auto text-xs font-bold">
+          <option value="0">Phương án A</option>
+          <option value="1">Phương án B</option>
+          <option value="2">Phương án C</option>
+          <option value="3">Phương án D</option>
+        </select>
+      </div>
+      <textarea id="newQ_e" rows="2" placeholder="Lời giải thích chi tiết…" class="text-xs mb-3"></textarea>
+      <div class="flex gap-2">
+        <button class="btn g sm" onclick="saveNewMcq()">Lưu Câu Hỏi</button>
+        <button class="btn outline sm" onclick="$('#addMcqBox').classList.add('hidden')">Hủy</button>
+      </div>
+    </div>
+
+    <div class="space-y-3 max-h-96 overflow-y-auto pr-1">
+      ${CONTENT.MCQ.map((q,idx)=>`
+        <div class="p-3 bg-white rounded-2xl border border-emerald-200 text-xs">
+          <div class="flex items-start justify-between gap-2">
+            <div class="font-extrabold text-emerald-950 text-sm">#${idx+1}. ${q.q}</div>
+            <button class="text-rose-600 font-bold hover:underline" onclick="delMcq(${idx})">Xóa</button>
+          </div>
+          <div class="grid grid-cols-2 gap-1.5 mt-2">
+            ${(q.o||[]).map((o,oidx)=>`
+              <div class="p-1.5 rounded-lg ${oidx===q.a?'bg-emerald-100 font-bold text-emerald-900':'bg-slate-50 text-slate-700'}">
+                ${String.fromCharCode(65+oidx)}. ${o}
+              </div>
+            `).join('')}
+          </div>
+          <div class="mt-2 text-slate-500 italic">Giải thích: ${q.e||''}</div>
+        </div>
+      `).join('')}
+    </div>
+  </div>
+  `;
+}
+function showAddMcqForm(){$('#addMcqBox').classList.remove('hidden')}
+function saveNewMcq(){
+  const q=$('#newQ_q').value.trim();
+  const o=[$('#newQ_o0').value.trim(),$('#newQ_o1').value.trim(),$('#newQ_o2').value.trim(),$('#newQ_o3').value.trim()];
+  const a=parseInt($('#newQ_a').value);
+  const e=$('#newQ_e').value.trim();
+  if(!q||o.some(x=>!x)){toast('Vui lòng nhập đủ câu hỏi và 4 phương án');return}
+  CONTENT.MCQ.push({q,o,a,e:e||'Chính xác'});
+  saveContent();toast('Đã thêm câu hỏi trắc nghiệm mới!');render();
+}
+function delMcq(i){
+  if(CONTENT.MCQ.length<=1){toast('Cần giữ ít nhất 1 câu hỏi');return}
+  CONTENT.MCQ.splice(i,1);saveContent();toast('Đã xóa câu hỏi');render();
+}
+
+/* --- TAB 4: TỰ LUẬN --- */
+function vAdminEssay(){
+  return `
+  <div>
+    <div class="flex items-center justify-between mb-3">
+      <h4 class="font-extrabold text-sm text-emerald-950 uppercase tracking-wider">Danh Sách Bài Tự Luận</h4>
+      <button class="btn g sm" onclick="showAddEssayForm()">+ Thêm Bài Mới</button>
+    </div>
+
+    <div id="addEssayBox" class="p-4 mb-4 bg-emerald-50 rounded-2xl border-2 border-emerald-300 hidden">
+      <h5 class="font-bold text-sm text-emerald-950 mb-2">Thêm Đề Bài Tự Luận:</h5>
+      <textarea id="newEs_q" rows="2" placeholder="Đề bài tự luận…" class="mb-2 text-xs font-semibold"></textarea>
+      <textarea id="newEs_h" rows="3" placeholder="Gợi ý định hướng giải…" class="text-xs mb-3"></textarea>
+      <div class="flex gap-2">
+        <button class="btn g sm" onclick="saveNewEssay()">Lưu Bài</button>
+        <button class="btn outline sm" onclick="$('#addEssayBox').classList.add('hidden')">Hủy</button>
+      </div>
+    </div>
+
+    <div class="space-y-3 max-h-96 overflow-y-auto pr-1">
+      ${CONTENT.ESSAY.map((e,idx)=>`
+        <div class="p-3 bg-white rounded-2xl border border-emerald-200 text-xs">
+          <div class="flex items-start justify-between gap-2">
+            <div class="font-bold text-emerald-950 text-sm">Bài ${idx+1}. ${e.q}</div>
+            <button class="text-rose-600 font-bold hover:underline" onclick="delEssay(${idx})">Xóa</button>
+          </div>
+          <div class="mt-2 p-2 rounded-xl bg-amber-50 text-amber-900"><b>Gợi ý:</b> ${e.h}</div>
+        </div>
+      `).join('')}
+    </div>
+  </div>
+  `;
+}
+function showAddEssayForm(){$('#addEssayBox').classList.remove('hidden')}
+function saveNewEssay(){
+  const q=$('#newEs_q').value.trim(),h=$('#newEs_h').value.trim();
+  if(!q||!h){toast('Vui lòng điền đề bài và gợi ý');return}
+  CONTENT.ESSAY.push({q,h});saveContent();toast('Đã thêm bài tự luận');render();
+}
+function delEssay(i){
+  if(CONTENT.ESSAY.length<=1){toast('Cần giữ ít nhất 1 bài tự luận');return}
+  CONTENT.ESSAY.splice(i,1);saveContent();toast('Đã xóa bài tự luận');render();
+}
+
+/* --- TAB 5: VẤN ĐÁP --- */
+function vAdminOral(){
+  return `
+  <div>
+    <div class="flex items-center justify-between mb-3">
+      <h4 class="font-extrabold text-sm text-emerald-950 uppercase tracking-wider">Danh Sách Câu Hỏi Vấn Đáp Thầy AI</h4>
+      <button class="btn g sm" onclick="showAddOralForm()">+ Thêm Câu Vấn Đáp</button>
+    </div>
+
+    <div id="addOralBox" class="p-4 mb-4 bg-emerald-50 rounded-2xl border-2 border-emerald-300 hidden">
+      <h5 class="font-bold text-sm text-emerald-950 mb-2">Thêm Câu Hỏi Vấn Đáp:</h5>
+      <input id="newOr_q" placeholder="Câu hỏi của Thầy AI…" class="mb-2 text-xs font-semibold">
+      <input id="newOr_k" placeholder="Từ khóa chấm đúng (cách nhau bằng dấu phẩy, vd: giới hạn, lim, số gia)…" class="mb-2 text-xs">
+      <textarea id="newOr_h" rows="2" placeholder="Gợi ý dẫn dắt khi học viên trả lời chưa đủ ý…" class="text-xs mb-3"></textarea>
+      <div class="flex gap-2">
+        <button class="btn g sm" onclick="saveNewOral()">Lưu Câu Vấn Đáp</button>
+        <button class="btn outline sm" onclick="$('#addOralBox').classList.add('hidden')">Hủy</button>
+      </div>
+    </div>
+
+    <div class="space-y-3 max-h-96 overflow-y-auto pr-1">
+      ${CONTENT.ORAL.map((o,idx)=>`
+        <div class="p-3 bg-white rounded-2xl border border-emerald-200 text-xs">
+          <div class="flex items-start justify-between gap-2">
+            <div class="font-bold text-emerald-950 text-sm">Câu ${idx+1}. ${o.q}</div>
+            <button class="text-rose-600 font-bold hover:underline" onclick="delOral(${idx})">Xóa</button>
+          </div>
+          <div class="mt-1.5 flex flex-wrap gap-1">
+            <span class="text-slate-500 font-semibold">Từ khóa bắt:</span>
+            ${(o.k||[]).map(k=>`<span class="bg-teal-100 text-teal-800 px-2 py-0.5 rounded font-mono font-bold">${k}</span>`).join('')}
+          </div>
+          <div class="mt-1 text-slate-600 italic">Gợi ý định hướng: ${o.hint||''}</div>
+        </div>
+      `).join('')}
+    </div>
+  </div>
+  `;
+}
+function showAddOralForm(){$('#addOralBox').classList.remove('hidden')}
+function saveNewOral(){
+  const q=$('#newOr_q').value.trim(),k=$('#newOr_k').value.split(',').map(x=>x.trim()).filter(Boolean),h=$('#newOr_h').value.trim();
+  if(!q||!k.length){toast('Vui lòng điền câu hỏi và ít nhất 1 từ khóa');return}
+  CONTENT.ORAL.push({q,k,hint:h||'Hãy nghĩ tới khái niệm cốt lõi.'});
+  saveContent();toast('Đã thêm câu hỏi vấn đáp!');render();
+}
+function delOral(i){
+  if(CONTENT.ORAL.length<=1){toast('Cần giữ ít nhất 1 câu vấn đáp');return}
+  CONTENT.ORAL.splice(i,1);saveContent();toast('Đã xóa câu vấn đáp');render();
+}
+
+/* --- TAB 6: CHỦ ĐỀ & TRỌNG TÂM --- */
+function vAdminTopics(){
+  return `
+  <div class="space-y-4">
+    <div>
+      <h4 class="font-extrabold text-sm text-emerald-950 mb-1">Chủ Đề Ôn Tập (Mỗi dòng một chủ đề):</h4>
+      <textarea id="ad_topics_raw" rows="6" class="text-xs font-medium">${CONTENT.TOPICS.join('\n')}</textarea>
+    </div>
+    <div>
+      <h4 class="font-extrabold text-sm text-emerald-950 mb-1">Kiến Thức Trọng Tâm (Mỗi dòng một ý):</h4>
+      <textarea id="ad_know_raw" rows="6" class="text-xs font-medium">${CONTENT.KNOW.join('\n')}</textarea>
+    </div>
+    <button class="btn g sm" onclick="saveTopicsAndKnow()">Lưu Chủ Đề & Kiến Thức</button>
+  </div>
+  `;
+}
+function saveTopicsAndKnow(){
+  const t=$('#ad_topics_raw').value.split('\n').map(x=>x.trim()).filter(Boolean);
+  const k=$('#ad_know_raw').value.split('\n').map(x=>x.trim()).filter(Boolean);
+  if(t.length)CONTENT.TOPICS=t;
+  if(k.length){CONTENT.KNOW=k;S.focus=k;}
+  saveContent();save();
+  toast('Đã lưu chủ đề và kiến thức trọng tâm mới!');render();
+}
+
+/* --- TAB 7: ĐIỂM & CẤP ĐỘ --- */
+function vAdminCheats(){
+  return `
+  <div class="p-4 bg-emerald-50 rounded-2xl border border-emerald-200">
+    <h4 class="font-extrabold text-sm text-emerald-950 mb-3 uppercase tracking-wider">Công Cụ Trợ Lực Nhanh (Dành Cho Kiểm Thử):</h4>
+    <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
+      <button class="btn sm g" onclick="gain(60,'kt',15);toast('Đã cộng +60 XP!')">+60 XP (Lên 1 Cấp)</button>
+      <button class="btn sm y" onclick="S.xp=540;save();toast('Đã đạt Cảnh Giới Độ Kiếp!');render()">🌲 Đắc Đạo Độ Kiếp (Cấp 10)</button>
+      <button class="btn sm outline" onclick="S.streak+=3;save();toast('Đã tăng chuỗi +3 ngày!');render()">🔥 Tăng Chuỗi +3 Ngày</button>
+      <button class="btn sm outline" onclick="S.done+=5;save();toast('Mở khóa Cúp vàng!');render()">🏆 Mở Khóa Đồ Trang Trí</button>
+      <button class="btn sm g" onclick="S.st={kt:95,vd:90,gn:92,bp:88,px:96};save();toast('Tối đa hóa radar!');render()">📊 Max Biểu Đồ Radar</button>
+      <button class="btn sm rose" onclick="resetAllData()">⚠️ Khôi Phục Dữ Liệu Gốc</button>
+    </div>
+  </div>
+  `;
+}
+function resetAllData(){
+  if(confirm('Bạn có chắc muốn đặt lại toàn bộ tiến độ học và dữ liệu về mặc định ban đầu?')){
+    localStorage.removeItem('mochi_garden');
+    localStorage.removeItem('mochi');
+    localStorage.removeItem('sa_garden_content');
+    localStorage.removeItem('sa_content');
+    localStorage.removeItem('sa_admin_pin');
+    location.reload();
+  }
+}
+
+/* --- TAB 8: JSON & BACKUP --- */
+function vAdminJson(){
+  return `
+  <div class="space-y-4">
+    <p class="text-xs text-slate-600">Sửa dưới dạng JSON: câu trắc nghiệm, tự luận, vấn đáp, chủ đề và kiến thức trọng tâm.</p>
+    <textarea id="ad_json_full" rows="10" class="font-mono text-xs">${JSON.stringify(CONTENT,null,2).replace(/</g,'&lt;')}</textarea>
+    <div class="flex flex-wrap gap-2">
+      <button class="btn g sm" onclick="saveFullJson()">Lưu Thay Đổi JSON</button>
+      <button class="btn y sm" onclick="exportJsonBackup()">📥 Tải File JSON Dự Phòng</button>
+      <label class="btn outline sm cursor-pointer">
+        📤 Nhập File JSON
+        <input type="file" accept=".json" class="hidden" onchange="importJsonBackup(this.files)">
+      </label>
+      <button class="btn rose sm" onclick="exportStandaloneHtml()">🌐 Xuất Bản File HTML Độc Lập</button>
+    </div>
+  </div>
+  `;
+}
+
+function saveFullJson(){
+  try{
+    const o=JSON.parse($('#ad_json_full').value);
+    Object.assign(CONTENT,o);saveContent();
+    toast('Đã lưu nội dung JSON!');render();
+  }catch(e){toast('JSON chưa hợp lệ: '+e.message)}
+}
+function exportJsonBackup(){
+  const blob=new Blob([JSON.stringify(CONTENT,null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='study-arena-database.json';a.click();
+  toast('Đã tải file sao lưu JSON!');
+}
+function importJsonBackup(files){
+  if(!files.length)return;
+  const r=new FileReader();
+  r.onload=e=>{
+    try{
+      const d=JSON.parse(e.target.result);
+      Object.assign(CONTENT,d);saveContent();toast('Đã nạp dữ liệu từ file JSON!');
+      render();
+    }catch(err){toast('File JSON không hợp lệ')}
+  };
+  r.readAsText(files[0]);
+}
+function exportStandaloneHtml(){
+  const fullHtml=document.documentElement.outerHTML;
+  const b=new Blob(['<!doctype html>\n'+fullHtml],{type:'text/html;charset=utf-8'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='STUDY-ARENA-HOAN-CHINH.html';a.click();
+  toast('Đã xuất bản file HTML độc lập chứa dữ liệu mới nhất!');
+}
+
+/* ==================== 11. VƯỜN HỌC TẬP (STUDY VIEW) ==================== */
 const MODES=[
   ['day7','⚡ Cấp tốc (1 tuần: 7 ngày)'],
   ['week4','🚀 Nhanh (1 tháng: 4 tuần)'],
@@ -755,7 +1325,7 @@ function exportPdf(){
   w.document.close();w.print();gain(5,'gn',3);
 }
 
-/* ==================== 9. ĐẤU TRƯỜNG THI ==================== */
+/* ==================== 12. ĐẤU TRƯỜNG THI ==================== */
 function vExam(){
   const t=[
     ['mcq','🎯 Trắc Nghiệm Phản Xạ'],
@@ -1013,8 +1583,7 @@ function ansOral(){
   setTimeout(()=>{const b=$('#chatBox');if(b)b.scrollTop=b.scrollHeight},50);
 }
 
-/* ==================== 10. LINH VẬT & LỘ TRÌNH THĂNG TIÊN KHU VƯỜN ==================== */
-// 10 CẢNH GIỚI THĂNG TIÊN KHU VƯỜN
+/* ==================== 13. LINH VẬT & LỘ TRÌNH THĂNG TIÊN ==================== */
 const ASCENSION_STAGES=[
   {
     lvl:1,xp:0,realm:'Phàm Thai',name:'Hạt Giống Ngủ Say',icon:'🌰',
@@ -1107,7 +1676,6 @@ function vPet(){
 
   return `
   <div>
-    <!-- NÚT CHUYỂN ĐỔI CHẾ ĐỘ XEM: NHÀ CÂY HOẶC LỘ TRÌNH THĂNG TIÊN -->
     <div class="flex items-center justify-between flex-wrap gap-2 mb-4">
       <div class="flex gap-2">
         <button class="tab ${S.petTab==='garden'?'on':'bg-white/80'}" onclick="S.petTab='garden';render()">
@@ -1128,7 +1696,6 @@ function vPet(){
   `;
 }
 
-// GIAO DIỆN PHÒNG NHÀ CÂY MOCHI
 function vGardenRoom(m,msg,curStage,need){
   const curLvl=lvl();
   return `
@@ -1219,7 +1786,6 @@ function vGardenRoom(m,msg,curStage,need){
   `;
 }
 
-// GIAO DIỆN LỘ TRÌNH THĂNG TIÊN KHU VƯỜN (DẠNG BẢN ĐỒ VƯỜN TU TIÊN)
 function vAscensionMap(){
   const curLvl=lvl();
   return `
@@ -1230,7 +1796,6 @@ function vAscensionMap(){
       <p class="text-xs text-emerald-700 mt-1">Con đường tu luyện tri thức 10 cảnh giới từ Hạt Giống Phàm Thai đến Thần Mộc Độ Kiếp</p>
     </div>
 
-    <!-- CON ĐƯỜNG MÒN 10 CẢNH GIỚI UỐN LƯỢN -->
     <div class="space-y-3 max-w-2xl mx-auto">
       ${ASCENSION_STAGES.map((st,idx)=>{
         const isReached=curLvl>=st.lvl;
@@ -1313,503 +1878,7 @@ setInterval(()=>{
   }catch(e){}
 },30000);
 
-/* ==================== 11. ĐĂNG NHẬP / NGƯỜI DÙNG (CHỈ Ở TRÊN CÙNG) ==================== */
-function loginModal(){$('#modal').classList.remove('hidden');$('#modal').classList.add('flex')}
-function login(p){
-  S.user={name:p==='Khách Vãng Lai'?'Khách Yêu Vườn':`Học viên ${p}`,provider:p};
-  save();$('#modal').classList.add('hidden');$('#modal').classList.remove('flex');
-  toast('Đã đăng nhập bằng '+p);head();
-}
-function logout(){S.user=null;save();toast('Đã đăng xuất');head()}
-
-/* ==================== 12. TRUNG TÂM QUẢN TRỊ ADMIN TOÀN NĂNG ==================== */
-let ADM=false;
-let ADMIN_PIN='admin2026';
-try{ADMIN_PIN=localStorage.getItem('sa_admin_pin')||'admin2026'}catch(e){}
-let ADM_TAB='theme'; // Mặc định mở tab Giao diện & Đổi Tên theo yêu cầu người dùng
-
-function openAdminModal(){
-  $('#adminModal').classList.remove('hidden');$('#adminModal').classList.add('flex');
-  renderAdminView();
-}
-function closeAdminModal(){
-  $('#adminModal').classList.add('hidden');$('#adminModal').classList.remove('flex');
-  if(location.hash==='#admin')history.replaceState(null,'',location.pathname);
-}
-
-function renderAdminView(){
-  const b=$('#adminBody');
-  if(!b)return;
-  if(!ADM){
-    b.innerHTML=`
-      <div class="max-w-sm mx-auto my-8 text-center p-6 bg-emerald-50/80 rounded-3xl border border-emerald-200">
-        <div class="text-5xl mb-3">🔐</div>
-        <h3 class="font-extrabold text-lg text-emerald-950 font-fun">Quản Trị Study Arena</h3>
-        <p class="text-xs text-emerald-700 mt-1 mb-4">Mật khẩu quản trị hiện tại: <code class="bg-white px-2 py-0.5 rounded font-mono font-bold text-emerald-900">${ADMIN_PIN}</code></p>
-        <input id="adminPinInput" type="password" placeholder="Nhập mật khẩu quản trị…" class="text-center font-bold text-lg mb-3 tracking-widest" onkeydown="if(event.key==='Enter')verifyAdminPin()">
-        <button class="btn y w-full" onclick="verifyAdminPin()">Vào Bảng Quản Trị</button>
-        <button class="btn outline sm w-full mt-2" onclick="$('#adminPinInput').value='${ADMIN_PIN}';verifyAdminPin()">⚡ Đăng nhập 1 chạm (Demo)</button>
-      </div>
-    `;
-    return;
-  }
-
-  // GIAO DIỆN QUẢN TRỊ ĐẦY ĐỦ CÁC QUYỀN
-  b.innerHTML=`
-    <div>
-      <!-- MENU CHỨC NĂNG ADMIN -->
-      <div class="flex flex-wrap gap-1.5 p-1.5 bg-emerald-100/70 rounded-2xl mb-4 border border-emerald-200">
-        ${[
-          ['theme','🎨 Tên & Ảnh Giao Diện'],
-          ['security','🔑 Đổi Mật Khẩu Admin'],
-          ['mcq','🎯 Trắc Nghiệm ('+CONTENT.MCQ.length+')'],
-          ['essay','📝 Tự Luận ('+CONTENT.ESSAY.length+')'],
-          ['oral','🎙️ Vấn Đáp ('+CONTENT.ORAL.length+')'],
-          ['topics','🌿 Chủ Đề & Trọng Tâm'],
-          ['cheats','⚡ Điểm & Cấp Độ'],
-          ['json','💾 Soạn JSON / Backup']
-        ].map(([k,l])=>`
-          <button class="tab sm flex-1 min-w-[130px] text-center ${ADM_TAB===k?'on':'bg-white/80'}" onclick="ADM_TAB='${k}';renderAdminView()">${l}</button>
-        `).join('')}
-      </div>
-
-      <!-- NỘI DUNG TỪNG TAB -->
-      <div class="p-1">
-        ${{
-          theme:vAdminTheme,
-          security:vAdminSecurity,
-          mcq:vAdminMcq,
-          essay:vAdminEssay,
-          oral:vAdminOral,
-          topics:vAdminTopics,
-          cheats:vAdminCheats,
-          json:vAdminJson
-        }[ADM_TAB]()}
-      </div>
-    </div>
-  `;
-}
-
-function verifyAdminPin(){
-  const inp=$('#adminPinInput');if(!inp)return;
-  const v=inp.value.trim();
-  if(v===ADMIN_PIN||v==='admin'||v==='123456'||v==='studyarena'){
-    ADM=true;toast('Xác thực quản trị thành công!');
-    renderAdminView();
-  }else{
-    toast('Mật khẩu chưa đúng, hãy thử: '+ADMIN_PIN);
-  }
-}
-
-/* --- TAB 1: ĐỔI TÊN, LOGO & HÌNH ẢNH GIAO DIỆN --- */
-function vAdminTheme(){
-  const cfg=S.cfg||DEFAULT_CFG;
-  return `
-  <div class="space-y-5">
-    <div class="p-4 bg-emerald-50/90 rounded-2xl border border-emerald-200">
-      <h4 class="font-extrabold text-sm text-emerald-950 mb-3 uppercase tracking-wider flex items-center gap-2">
-        <span>✏️</span> <span>Chỉnh Sửa Tên & Thương Hiệu Website</span>
-      </h4>
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-        <div>
-          <label class="text-xs font-bold text-emerald-900 block mb-1">Tên Website / Ứng Dụng:</label>
-          <input id="cfg_siteName" value="${cfg.siteName||''}" placeholder="Ví dụ: Study Arena">
-        </div>
-        <div>
-          <label class="text-xs font-bold text-emerald-900 block mb-1">Thẻ Phụ / Huy Hiệu:</label>
-          <input id="cfg_siteTag" value="${cfg.siteTag||''}" placeholder="Ví dụ: Vườn Tri Thức">
-        </div>
-        <div class="sm:col-span-2">
-          <label class="text-xs font-bold text-emerald-900 block mb-1">Khẩu Hiệu / Mô Tả Dưới Tên:</label>
-          <input id="cfg_siteSub" value="${cfg.siteSub||''}" placeholder="Ví dụ: Nuôi dưỡng linh vật Mochi qua từng bài học">
-        </div>
-        <div>
-          <label class="text-xs font-bold text-emerald-900 block mb-1">Tên Linh Vật Đồng Hành:</label>
-          <input id="cfg_petName" value="${cfg.petName||''}" placeholder="Ví dụ: Mochi, Bé Mầm...">
-        </div>
-        <div>
-          <label class="text-xs font-bold text-emerald-900 block mb-1">Icon Logo (Emoji hoặc Ký tự):</label>
-          <input id="cfg_logoIcon" value="${cfg.logoIcon||'🌿'}" placeholder="Ví dụ: 🌿, 🌸, 🍄, 🪴">
-        </div>
-      </div>
-    </div>
-
-    <!-- ĐỔI HÌNH ẢNH & HÌNH NỀN GIAO DIỆN -->
-    <div class="p-4 bg-teal-50/90 rounded-2xl border border-teal-200">
-      <h4 class="font-extrabold text-sm text-teal-950 mb-3 uppercase tracking-wider flex items-center gap-2">
-        <span>🖼️</span> <span>Đổi Ảnh Giao Diện & Hình Nền Khu Vườn</span>
-      </h4>
-
-      <label class="text-xs font-bold text-teal-900 block mb-1.5">Chọn Phối Màu / Nền Sẵn Có:</label>
-      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-3">
-        ${[
-          ['morning','🍃 Vườn Ban Mai (Mặc định)'],
-          ['fairy','✨ Vườn Tiên Cảnh (Pastel)'],
-          ['twilight','🌌 Rừng Đom Đóm Đêm'],
-          ['sakura','🌸 Vườn Hoa Anh Đào']
-        ].map(([k,l])=>`
-          <button class="p-2 text-xs font-bold rounded-xl border text-center transition ${(cfg.bgTheme===k&&!cfg.customBgUrl)?'bg-teal-700 text-white border-teal-800 shadow-sm':'bg-white text-teal-950 border-teal-200 hover:bg-teal-100'}" onclick="setPresetTheme('${k}')">
-            ${l}
-          </button>
-        `).join('')}
-      </div>
-
-      <div class="space-y-3">
-        <div>
-          <label class="text-xs font-bold text-teal-900 block mb-1">Hoặc Dán URL Hình Nền Riêng Tùy Chọn:</label>
-          <input id="cfg_customBgUrl" value="${cfg.customBgUrl||''}" placeholder="https://example.com/hinh-nen-khu-vuon.jpg" class="text-xs font-mono">
-          <p class="text-[11px] text-teal-700 mt-0.5">Dán link ảnh trực tiếp từ internet để làm hình nền toàn trang web</p>
-        </div>
-
-        <div>
-          <label class="text-xs font-bold text-teal-900 block mb-1">URL Hình Ảnh Linh Vật Tùy Chọn (Thay cho emoji):</label>
-          <input id="cfg_customPetUrl" value="${cfg.customPetUrl||''}" placeholder="https://example.com/anh-linh-vat.png" class="text-xs font-mono">
-        </div>
-
-        <div>
-          <label class="text-xs font-bold text-teal-900 block mb-1">URL Hình Ảnh Logo Góc Trái (Thay cho icon):</label>
-          <input id="cfg_customLogoUrl" value="${cfg.customLogoUrl||''}" placeholder="https://example.com/logo.png" class="text-xs font-mono">
-        </div>
-      </div>
-    </div>
-
-    <button class="btn g w-full" onclick="saveAdminTheme()">
-      <span>💾</span> <span>Lưu Thay Đổi Tên & Ảnh Giao Diện Ngay</span>
-    </button>
-  </div>
-  `;
-}
-
-function setPresetTheme(t){
-  S.cfg.bgTheme=t;
-  S.cfg.customBgUrl='';
-  $('#cfg_customBgUrl').value='';
-  save();applyGardenTheme();renderAdminView();
-  toast('Đã chọn hình nền: '+t);
-}
-
-function saveAdminTheme(){
-  S.cfg=S.cfg||{};
-  S.cfg.siteName=$('#cfg_siteName').value.trim()||'Study Arena';
-  S.cfg.siteTag=$('#cfg_siteTag').value.trim()||'Vườn Tri Thức';
-  S.cfg.siteSub=$('#cfg_siteSub').value.trim()||'Nuôi dưỡng linh vật Mochi qua từng bài học';
-  S.cfg.petName=$('#cfg_petName').value.trim()||'Mochi';
-  S.cfg.logoIcon=$('#cfg_logoIcon').value.trim()||'🌿';
-  S.cfg.customBgUrl=$('#cfg_customBgUrl').value.trim();
-  S.cfg.customPetUrl=$('#cfg_customPetUrl').value.trim();
-  S.cfg.customLogoUrl=$('#cfg_customLogoUrl').value.trim();
-
-  save();
-  applyGardenTheme();
-  toast('Đã lưu tên & hình ảnh giao diện mới!');
-  render();
-}
-
-/* --- TAB 2: ĐỔI MẬT KHẨU ADMIN --- */
-function vAdminSecurity(){
-  return `
-  <div class="max-w-md mx-auto p-5 bg-emerald-50 rounded-2xl border border-emerald-200">
-    <div class="text-center mb-4">
-      <span class="text-4xl">🔑</span>
-      <h4 class="font-extrabold text-base text-emerald-950 font-fun mt-1">Đổi Mật Khẩu Quản Trị Viên</h4>
-      <p class="text-xs text-emerald-700">Mật khẩu hiện tại: <b class="font-mono text-emerald-900">${ADMIN_PIN}</b></p>
-    </div>
-
-    <div class="space-y-3">
-      <div>
-        <label class="text-xs font-bold text-emerald-900 block mb-1">Mật khẩu mới:</label>
-        <input id="newAdminPinInput" type="text" placeholder="Nhập mật khẩu mới…" value="${ADMIN_PIN}" class="font-bold text-emerald-950">
-      </div>
-      <div>
-        <label class="text-xs font-bold text-emerald-900 block mb-1">Xác nhận lại mật khẩu mới:</label>
-        <input id="confirmAdminPinInput" type="text" placeholder="Nhập lại mật khẩu mới…" value="${ADMIN_PIN}" class="font-bold text-emerald-950">
-      </div>
-      <button class="btn y w-full mt-2" onclick="saveAdminPassword()">
-        <span>🔒</span> <span>Cập Nhật Mật Khẩu Admin</span>
-      </button>
-    </div>
-  </div>
-  `;
-}
-
-function saveAdminPassword(){
-  const p1=$('#newAdminPinInput').value.trim();
-  const p2=$('#confirmAdminPinInput').value.trim();
-  if(!p1){toast('Mật khẩu không được để trống');return}
-  if(p1!==p2){toast('Hai mật khẩu không khớp nhau');return}
-  ADMIN_PIN=p1;
-  try{localStorage.setItem('sa_admin_pin',p1)}catch(e){}
-  toast('Đã đổi mật khẩu quản trị thành: '+p1);
-  renderAdminView();
-}
-
-/* --- TAB 3: QUẢN LÝ TRẮC NGHIỆM --- */
-function vAdminMcq(){
-  return `
-  <div>
-    <div class="flex items-center justify-between mb-3">
-      <h4 class="font-extrabold text-sm text-emerald-950 uppercase tracking-wider">Danh Sách Câu Hỏi Trắc Nghiệm</h4>
-      <button class="btn g sm" onclick="showAddMcqForm()">+ Thêm Câu Hỏi Mới</button>
-    </div>
-
-    <div id="addMcqBox" class="p-4 mb-4 bg-emerald-50 rounded-2xl border-2 border-emerald-300 hidden">
-      <h5 class="font-bold text-sm text-emerald-950 mb-2">Thêm Câu Hỏi Trắc Nghiệm Mới:</h5>
-      <input id="newQ_q" placeholder="Nội dung câu hỏi…" class="mb-2 text-sm font-semibold">
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-2 text-xs">
-        <input id="newQ_o0" placeholder="Phương án A">
-        <input id="newQ_o1" placeholder="Phương án B">
-        <input id="newQ_o2" placeholder="Phương án C">
-        <input id="newQ_o3" placeholder="Phương án D">
-      </div>
-      <div class="flex items-center gap-2 mb-2">
-        <label class="text-xs font-bold text-emerald-900">Đáp án đúng:</label>
-        <select id="newQ_a" class="!w-auto text-xs font-bold">
-          <option value="0">Phương án A</option>
-          <option value="1">Phương án B</option>
-          <option value="2">Phương án C</option>
-          <option value="3">Phương án D</option>
-        </select>
-      </div>
-      <textarea id="newQ_e" rows="2" placeholder="Lời giải thích chi tiết…" class="text-xs mb-3"></textarea>
-      <div class="flex gap-2">
-        <button class="btn g sm" onclick="saveNewMcq()">Lưu Câu Hỏi</button>
-        <button class="btn outline sm" onclick="$('#addMcqBox').classList.add('hidden')">Hủy</button>
-      </div>
-    </div>
-
-    <div class="space-y-3 max-h-96 overflow-y-auto pr-1">
-      ${CONTENT.MCQ.map((q,idx)=>`
-        <div class="p-3 bg-white rounded-2xl border border-emerald-200 text-xs">
-          <div class="flex items-start justify-between gap-2">
-            <div class="font-extrabold text-emerald-950 text-sm">#${idx+1}. ${q.q}</div>
-            <button class="text-rose-600 font-bold hover:underline" onclick="delMcq(${idx})">Xóa</button>
-          </div>
-          <div class="grid grid-cols-2 gap-1.5 mt-2">
-            ${(q.o||[]).map((o,oidx)=>`
-              <div class="p-1.5 rounded-lg ${oidx===q.a?'bg-emerald-100 font-bold text-emerald-900':'bg-slate-50 text-slate-700'}">
-                ${String.fromCharCode(65+oidx)}. ${o}
-              </div>
-            `).join('')}
-          </div>
-          <div class="mt-2 text-slate-500 italic">Giải thích: ${q.e||''}</div>
-        </div>
-      `).join('')}
-    </div>
-  </div>
-  `;
-}
-function showAddMcqForm(){$('#addMcqBox').classList.remove('hidden')}
-function saveNewMcq(){
-  const q=$('#newQ_q').value.trim();
-  const o=[$('#newQ_o0').value.trim(),$('#newQ_o1').value.trim(),$('#newQ_o2').value.trim(),$('#newQ_o3').value.trim()];
-  const a=parseInt($('#newQ_a').value);
-  const e=$('#newQ_e').value.trim();
-  if(!q||o.some(x=>!x)){toast('Vui lòng nhập đủ câu hỏi và 4 phương án');return}
-  CONTENT.MCQ.push({q,o,a,e:e||'Chính xác'});
-  saveContent();toast('Đã thêm câu hỏi trắc nghiệm mới!');renderAdminView();render();
-}
-function delMcq(i){
-  if(CONTENT.MCQ.length<=1){toast('Cần giữ ít nhất 1 câu hỏi');return}
-  CONTENT.MCQ.splice(i,1);saveContent();toast('Đã xóa câu hỏi');renderAdminView();render();
-}
-
-/* --- TAB 4: QUẢN LÝ TỰ LUẬN --- */
-function vAdminEssay(){
-  return `
-  <div>
-    <div class="flex items-center justify-between mb-3">
-      <h4 class="font-extrabold text-sm text-emerald-950 uppercase tracking-wider">Danh Sách Bài Tự Luận</h4>
-      <button class="btn g sm" onclick="showAddEssayForm()">+ Thêm Bài Mới</button>
-    </div>
-
-    <div id="addEssayBox" class="p-4 mb-4 bg-emerald-50 rounded-2xl border-2 border-emerald-300 hidden">
-      <h5 class="font-bold text-sm text-emerald-950 mb-2">Thêm Đề Bài Tự Luận:</h5>
-      <textarea id="newEs_q" rows="2" placeholder="Đề bài tự luận…" class="mb-2 text-xs font-semibold"></textarea>
-      <textarea id="newEs_h" rows="3" placeholder="Gợi ý định hướng giải…" class="text-xs mb-3"></textarea>
-      <div class="flex gap-2">
-        <button class="btn g sm" onclick="saveNewEssay()">Lưu Bài</button>
-        <button class="btn outline sm" onclick="$('#addEssayBox').classList.add('hidden')">Hủy</button>
-      </div>
-    </div>
-
-    <div class="space-y-3 max-h-96 overflow-y-auto pr-1">
-      ${CONTENT.ESSAY.map((e,idx)=>`
-        <div class="p-3 bg-white rounded-2xl border border-emerald-200 text-xs">
-          <div class="flex items-start justify-between gap-2">
-            <div class="font-bold text-emerald-950 text-sm">Bài ${idx+1}. ${e.q}</div>
-            <button class="text-rose-600 font-bold hover:underline" onclick="delEssay(${idx})">Xóa</button>
-          </div>
-          <div class="mt-2 p-2 rounded-xl bg-amber-50 text-amber-900"><b>Gợi ý:</b> ${e.h}</div>
-        </div>
-      `).join('')}
-    </div>
-  </div>
-  `;
-}
-function showAddEssayForm(){$('#addEssayBox').classList.remove('hidden')}
-function saveNewEssay(){
-  const q=$('#newEs_q').value.trim(),h=$('#newEs_h').value.trim();
-  if(!q||!h){toast('Vui lòng điền đề bài và gợi ý');return}
-  CONTENT.ESSAY.push({q,h});saveContent();toast('Đã thêm bài tự luận');renderAdminView();render();
-}
-function delEssay(i){
-  if(CONTENT.ESSAY.length<=1){toast('Cần giữ ít nhất 1 bài tự luận');return}
-  CONTENT.ESSAY.splice(i,1);saveContent();toast('Đã xóa bài tự luận');renderAdminView();render();
-}
-
-/* --- TAB 5: QUẢN LÝ VẤN ĐÁP --- */
-function vAdminOral(){
-  return `
-  <div>
-    <div class="flex items-center justify-between mb-3">
-      <h4 class="font-extrabold text-sm text-emerald-950 uppercase tracking-wider">Danh Sách Câu Hỏi Vấn Đáp Thầy AI</h4>
-      <button class="btn g sm" onclick="showAddOralForm()">+ Thêm Câu Vấn Đáp</button>
-    </div>
-
-    <div id="addOralBox" class="p-4 mb-4 bg-emerald-50 rounded-2xl border-2 border-emerald-300 hidden">
-      <h5 class="font-bold text-sm text-emerald-950 mb-2">Thêm Câu Hỏi Vấn Đáp:</h5>
-      <input id="newOr_q" placeholder="Câu hỏi của Thầy AI…" class="mb-2 text-xs font-semibold">
-      <input id="newOr_k" placeholder="Từ khóa chấm đúng (cách nhau bằng dấu phẩy, vd: giới hạn, lim, số gia)…" class="mb-2 text-xs">
-      <textarea id="newOr_h" rows="2" placeholder="Gợi ý dẫn dắt khi học viên trả lời chưa đủ ý…" class="text-xs mb-3"></textarea>
-      <div class="flex gap-2">
-        <button class="btn g sm" onclick="saveNewOral()">Lưu Câu Vấn Đáp</button>
-        <button class="btn outline sm" onclick="$('#addOralBox').classList.add('hidden')">Hủy</button>
-      </div>
-    </div>
-
-    <div class="space-y-3 max-h-96 overflow-y-auto pr-1">
-      ${CONTENT.ORAL.map((o,idx)=>`
-        <div class="p-3 bg-white rounded-2xl border border-emerald-200 text-xs">
-          <div class="flex items-start justify-between gap-2">
-            <div class="font-bold text-emerald-950 text-sm">Câu ${idx+1}. ${o.q}</div>
-            <button class="text-rose-600 font-bold hover:underline" onclick="delOral(${idx})">Xóa</button>
-          </div>
-          <div class="mt-1.5 flex flex-wrap gap-1">
-            <span class="text-slate-500 font-semibold">Từ khóa bắt:</span>
-            ${(o.k||[]).map(k=>`<span class="bg-teal-100 text-teal-800 px-2 py-0.5 rounded font-mono font-bold">${k}</span>`).join('')}
-          </div>
-          <div class="mt-1 text-slate-600 italic">Gợi ý định hướng: ${o.hint||''}</div>
-        </div>
-      `).join('')}
-    </div>
-  </div>
-  `;
-}
-function showAddOralForm(){$('#addOralBox').classList.remove('hidden')}
-function saveNewOral(){
-  const q=$('#newOr_q').value.trim(),k=$('#newOr_k').value.split(',').map(x=>x.trim()).filter(Boolean),h=$('#newOr_h').value.trim();
-  if(!q||!k.length){toast('Vui lòng điền câu hỏi và ít nhất 1 từ khóa');return}
-  CONTENT.ORAL.push({q,k,hint:h||'Hãy nghĩ tới khái niệm cốt lõi.'});
-  saveContent();toast('Đã thêm câu hỏi vấn đáp!');renderAdminView();render();
-}
-function delOral(i){
-  if(CONTENT.ORAL.length<=1){toast('Cần giữ ít nhất 1 câu vấn đáp');return}
-  CONTENT.ORAL.splice(i,1);saveContent();toast('Đã xóa câu vấn đáp');renderAdminView();render();
-}
-
-/* --- TAB 6: CHỦ ĐỀ & TRỌNG TÂM --- */
-function vAdminTopics(){
-  return `
-  <div class="space-y-4">
-    <div>
-      <h4 class="font-extrabold text-sm text-emerald-950 mb-1">Chủ Đề Ôn Tập (Mỗi dòng một chủ đề):</h4>
-      <textarea id="ad_topics_raw" rows="6" class="text-xs font-medium">${CONTENT.TOPICS.join('\n')}</textarea>
-    </div>
-    <div>
-      <h4 class="font-extrabold text-sm text-emerald-950 mb-1">Kiến Thức Trọng Tâm (Mỗi dòng một ý):</h4>
-      <textarea id="ad_know_raw" rows="6" class="text-xs font-medium">${CONTENT.KNOW.join('\n')}</textarea>
-    </div>
-    <button class="btn g sm" onclick="saveTopicsAndKnow()">Lưu Chủ Đề & Kiến Thức</button>
-  </div>
-  `;
-}
-function saveTopicsAndKnow(){
-  const t=$('#ad_topics_raw').value.split('\n').map(x=>x.trim()).filter(Boolean);
-  const k=$('#ad_know_raw').value.split('\n').map(x=>x.trim()).filter(Boolean);
-  if(t.length)CONTENT.TOPICS=t;
-  if(k.length){CONTENT.KNOW=k;S.focus=k;}
-  saveContent();save();
-  toast('Đã lưu chủ đề và kiến thức trọng tâm mới!');render();
-}
-
-/* --- TAB 7: ĐIỂM & CẤP ĐỘ --- */
-function vAdminCheats(){
-  return `
-  <div class="p-4 bg-emerald-50 rounded-2xl border border-emerald-200">
-    <h4 class="font-extrabold text-sm text-emerald-950 mb-3 uppercase tracking-wider">Công Cụ Trợ Lực Nhanh (Dành Cho Kiểm Thử):</h4>
-    <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
-      <button class="btn sm g" onclick="gain(60,'kt',15);toast('Đã cộng +60 XP!')">+60 XP (Lên 1 Cấp)</button>
-      <button class="btn sm y" onclick="S.xp=540;save();toast('Đã đạt Cảnh Giới Độ Kiếp!');render()">🌲 Đắc Đạo Độ Kiếp (Cấp 10)</button>
-      <button class="btn sm outline" onclick="S.streak+=3;save();toast('Đã tăng chuỗi +3 ngày!');render()">🔥 Tăng Chuỗi +3 Ngày</button>
-      <button class="btn sm outline" onclick="S.done+=5;save();toast('Mở khóa Cúp vàng!');render()">🏆 Mở Khóa Đồ Trang Trí</button>
-      <button class="btn sm g" onclick="S.st={kt:95,vd:90,gn:92,bp:88,px:96};save();toast('Tối đa hóa radar!');render()">📊 Max Biểu Đồ Radar</button>
-      <button class="btn sm rose" onclick="resetAllData()">⚠️ Khôi Phục Dữ Liệu Gốc</button>
-    </div>
-  </div>
-  `;
-}
-function resetAllData(){
-  if(confirm('Bạn có chắc muốn đặt lại toàn bộ tiến độ học và dữ liệu về mặc định ban đầu?')){
-    localStorage.removeItem('mochi_garden');
-    localStorage.removeItem('mochi');
-    localStorage.removeItem('sa_garden_content');
-    localStorage.removeItem('sa_content');
-    localStorage.removeItem('sa_admin_pin');
-    location.reload();
-  }
-}
-
-/* --- TAB 8: JSON & BACKUP --- */
-function vAdminJson(){
-  return `
-  <div class="space-y-4">
-    <p class="text-xs text-slate-600">Sửa dưới dạng JSON: câu trắc nghiệm, tự luận, vấn đáp, chủ đề và kiến thức trọng tâm.</p>
-    <textarea id="ad_json_full" rows="10" class="font-mono text-xs">${JSON.stringify(CONTENT,null,2).replace(/</g,'&lt;')}</textarea>
-    <div class="flex flex-wrap gap-2">
-      <button class="btn g sm" onclick="saveFullJson()">Lưu Thay Đổi JSON</button>
-      <button class="btn y sm" onclick="exportJsonBackup()">📥 Tải File JSON Dự Phòng</button>
-      <label class="btn outline sm cursor-pointer">
-        📤 Nhập File JSON
-        <input type="file" accept=".json" class="hidden" onchange="importJsonBackup(this.files)">
-      </label>
-      <button class="btn rose sm" onclick="exportStandaloneHtml()">🌐 Xuất Bản File HTML Độc Lập</button>
-    </div>
-  </div>
-  `;
-}
-
-function saveFullJson(){
-  try{
-    const o=JSON.parse($('#ad_json_full').value);
-    Object.assign(CONTENT,o);saveContent();
-    toast('Đã lưu nội dung JSON!');render();
-  }catch(e){toast('JSON chưa hợp lệ: '+e.message)}
-}
-function exportJsonBackup(){
-  const blob=new Blob([JSON.stringify(CONTENT,null,2)],{type:'application/json'});
-  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='study-arena-database.json';a.click();
-  toast('Đã tải file sao lưu JSON!');
-}
-function importJsonBackup(files){
-  if(!files.length)return;
-  const r=new FileReader();
-  r.onload=e=>{
-    try{
-      const d=JSON.parse(e.target.result);
-      Object.assign(CONTENT,d);saveContent();toast('Đã nạp dữ liệu từ file JSON!');
-      renderAdminView();render();
-    }catch(err){toast('File JSON không hợp lệ')}
-  };
-  r.readAsText(files[0]);
-}
-function exportStandaloneHtml(){
-  const fullHtml=document.documentElement.outerHTML;
-  const b=new Blob(['<!doctype html>\n'+fullHtml],{type:'text/html;charset=utf-8'});
-  const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='STUDY-ARENA-HOAN-CHINH.html';a.click();
-  toast('Đã xuất bản file HTML độc lập chứa dữ liệu mới nhất!');
-}
-
-/* ==================== 13. HIỆU ỨNG LÁ BAY KHU VƯỜN (CANVAS) ==================== */
+/* ==================== 14. HIỆU ỨNG LÁ BAY KHU VƯỜN (CANVAS) ==================== */
 function setupGardenCanvas(){
   const cv=document.getElementById('leafCanvas');
   if(!cv)return;
@@ -1838,7 +1907,7 @@ function setupGardenCanvas(){
   loop();
 }
 
-/* ==================== 14. KHỞI CHẠY GIAO DIỆN ==================== */
+/* ==================== 15. KHỞI CHẠY ==================== */
 setupGardenCanvas();
 render();
 </script>
