@@ -588,6 +588,76 @@ function savePetsCatalog(){
   try { localStorage.setItem('sa_pets_catalog', JSON.stringify(PETS_CATALOG)); } catch (e) {}
 }
 
+/* ==================== 2.3 LỘ TRÌNH THĂNG TIẾN & CẤP ĐỘ CHĂM CHỈ (ADMIN QUẢN LÝ) ==================== */
+const STORE_ASCENSION_STAGES = 'sa_ascension_stages_v2';
+const DEFAULT_ASCENSION_STAGES = [
+  {
+    lvl: 1, xp: 0, reqStreak: 0, reqDone: 0, realm: 'Tân Sinh Viên HPU2', name: 'Gieo Mầm Tri Thức Xuân Hòa', icon: '🌱',
+    desc: 'Bước chân vào cổng trường ĐH Sư phạm Hà Nội 2 tại Xuân Hòa, bắt đầu hành trình trở thành nhà giáo tương lai.',
+    reward: 'Khai mở Thư Viện HPU2 & Sổ Nhật Ký Nghiệp Vụ'
+  },
+  {
+    lvl: 2, xp: 60, reqStreak: 1, reqDone: 1, realm: 'Năm 1 - Nhập Môn', name: 'Chinh Phục Giải Tích & Đại Số', icon: '📐',
+    desc: 'Nắm vững giới hạn, vi phân, ma trận và không gian vectơ – nền móng vững chắc của toán học cao cấp.',
+    reward: 'Mở khóa Bảng Xanh Phấn Trắng & Tăng 10% Tốc Độ Tích Lũy Sương'
+  },
+  {
+    lvl: 3, xp: 120, reqStreak: 2, reqDone: 3, realm: 'Năm 2 - Vững Vàng', name: 'Cấu Trúc Đại Số & Hình Học', icon: '📚',
+    desc: 'Thấu hiểu cấu trúc nhóm, vành, trường và hình học giải tích – rèn luyện tư duy toán trừu tượng sâu sắc.',
+    reward: 'Mở khóa Giá Sách Giáo Trình HPU2 & Chế Độ Mini-Test Tự Động'
+  },
+  {
+    lvl: 4, xp: 180, reqStreak: 3, reqDone: 5, realm: 'Năm 2 - Khám Phá', name: 'Xác Suất & Thống Kê Sư Phạm', icon: '📊',
+    desc: 'Ứng dụng xác suất thống kê vào xử lý số liệu giáo dục và phương pháp nghiên cứu khoa học sư phạm.',
+    reward: 'Mở khóa Máy Tính Khoa Học & Tăng Vận May Trắc Nghiệm'
+  },
+  {
+    lvl: 5, xp: 240, reqStreak: 4, reqDone: 7, realm: 'Năm 3 - Chuyển Mình', name: 'Nghiên Cứu CV 5512 & GDPT 2018', icon: '📝',
+    desc: 'Tiếp cận phương pháp dạy học môn Toán hiện đại, phát triển phẩm chất và năng lực của học sinh.',
+    reward: 'Mở khóa Trợ Lý AI Thiết Kế Kế Hoạch Bài Dạy Chuẩn 5512'
+  },
+  {
+    lvl: 6, xp: 300, reqStreak: 5, reqDone: 10, realm: 'Năm 3 - Tỏa Sáng', name: 'Bậc Thầy Thiết Kế Kế Hoạch Bài Dạy', icon: '💡',
+    desc: 'Xây dựng tiến trình 4 bước hoạt động học sáng tạo, tích hợp phần mềm GeoGebra và bài giảng số.',
+    reward: 'Mở khóa Micro Giảng Đường & Phòng Vấn Đáp Nghiệp Vụ'
+  },
+  {
+    lvl: 7, xp: 360, reqStreak: 7, reqDone: 12, realm: 'Năm 4 - Thử Lửa', name: 'Tập Giảng & Hội Thi Nghiệp Vụ SP', icon: '🎤',
+    desc: 'Tự tin đứng trên bục giảng Hội thi nghiệp vụ sư phạm HPU2, làm chủ kỹ năng thuyết trình và tác phong người thầy.',
+    reward: 'Huy Hiệu Giảng Viên Tập Sự Xuất Sắc HPU2'
+  },
+  {
+    lvl: 8, xp: 420, reqStreak: 10, reqDone: 15, realm: 'Năm 4 - Bản Lĩnh', name: 'Thực Tập Sư Phạm Tại Phổ Thông', icon: '🏫',
+    desc: 'Trực tiếp đứng lớp giảng dạy tại trường THCS/THPT, truyền lửa say mê toán học cho thế hệ học trò.',
+    reward: 'Mở khóa Sổ Tay Chủ Nhiệm & Bằng Khen Thực Tập Xuất Sắc'
+  },
+  {
+    lvl: 9, xp: 480, reqStreak: 14, reqDone: 20, realm: 'Tốt Nghiệp', name: 'Cử Nhân Sư Phạm Toán Xuất Sắc', icon: '🎓',
+    desc: 'Bảo vệ thành công Khóa luận tốt nghiệp tại HPU2, nhận bằng Cử nhân Sư phạm Toán loại Giỏi/Xuất sắc.',
+    reward: 'Áo Cử Nhân Vinh Danh & Quyền Năng Sáng Tạo Ngân Hàng Đề HPU2'
+  },
+  {
+    lvl: 10, xp: 540, reqStreak: 21, reqDone: 25, realm: 'Đỉnh Cao Sự Nghiệp', name: 'Nhà Giáo Ưu Tú – Tự Hào HPU2', icon: '🏛️',
+    desc: 'Đắc đạo thăng hoa cùng sự nghiệp trồng người cao quý, ngọn hải đăng soi sáng tri thức cho bao thế hệ học trò.',
+    reward: 'Vinh Danh Bảng Vàng Cựu Sinh Viên Ưu Tú ĐH Sư Phạm Hà Nội 2'
+  }
+];
+
+let ASCENSION_STAGES = [...DEFAULT_ASCENSION_STAGES];
+try {
+  const savedStages = JSON.parse(localStorage.getItem(STORE_ASCENSION_STAGES) || localStorage.getItem('sa_ascension_stages') || '[]');
+  if (Array.isArray(savedStages) && savedStages.length > 0) {
+    ASCENSION_STAGES = savedStages;
+  }
+} catch (e) {}
+
+function saveAscensionStages(){
+  try {
+    localStorage.setItem(STORE_ASCENSION_STAGES, JSON.stringify(ASCENSION_STAGES));
+    localStorage.setItem('sa_ascension_stages', JSON.stringify(ASCENSION_STAGES));
+  } catch (e) {}
+}
+
 const DEFAULT_CFG={
   siteName:'HPU2 Study Arena',
   siteTag:'ĐH Sư Phạm Hà Nội 2',
@@ -1238,7 +1308,23 @@ const save=()=>{
   }catch(e){}
 };
 
-const lvl=()=>Math.min(10,Math.floor((S.xp||0)/60)+1);
+const lvl = () => {
+  const stages = ASCENSION_STAGES || [];
+  if (!stages.length) return Math.min(10, Math.floor((S.xp || 0) / 60) + 1);
+  let currentLevel = 1;
+  for (let i = 0; i < stages.length; i++) {
+    const st = stages[i];
+    const reachXp = (S.xp || 0) >= (st.xp || 0);
+    const reachStreak = !st.reqStreak || (S.streak || 0) >= st.reqStreak;
+    const reachDone = !st.reqDone || (S.done || 0) >= st.reqDone;
+    if (reachXp && reachStreak && reachDone) {
+      currentLevel = st.lvl || (i + 1);
+    } else {
+      break;
+    }
+  }
+  return Math.min(stages.length, currentLevel);
+};
 
 function toast(m){
   const t=$('#toast');if(!t)return;
@@ -1332,8 +1418,10 @@ function head(){
   // Chip trạng thái
   const chipEl=$('#chip');
   if(chipEl){
+    const curLvl = lvl();
+    const curStage = (ASCENSION_STAGES && ASCENSION_STAGES[curLvl - 1]) || (ASCENSION_STAGES && ASCENSION_STAGES[0]) || { realm: 'Cấp ' + curLvl };
     chipEl.innerHTML=`
-      <span class="inline-flex items-center gap-1 font-extrabold text-emerald-800">🪴 Cấp ${lvl()}</span>
+      <span class="inline-flex items-center gap-1 font-extrabold text-emerald-800" title="${curStage.realm}: ${curStage.name || ''}">🪴 Cấp ${curLvl} (${curStage.realm})</span>
       <span class="text-emerald-300">|</span>
       <span class="inline-flex items-center gap-1 font-bold text-amber-700">🔥 Chuỗi ${S.streak} ngày</span>
       <span class="text-emerald-300">|</span>
@@ -1638,6 +1726,7 @@ function vAdminView(){
         ['theme','🏷️ Tên & Logo Website'],
         ['themes_mgmt','🎨 Quản Lý Giao Diện ('+THEMES_CATALOG.length+')'],
         ['pets_mgmt','🐾 Kho Linh Vật ('+PETS_CATALOG.length+')'],
+        ['levels_mgmt','🏆 Lộ Trình Thăng Tiến ('+ASCENSION_STAGES.length+')'],
         ['security','🔑 Đổi Mật Khẩu Admin'],
         ['mcq','🎯 Trắc Nghiệm ('+CONTENT.MCQ.length+')'],
         ['essay','📝 Tự Luận ('+CONTENT.ESSAY.length+')'],
@@ -1657,6 +1746,7 @@ function vAdminView(){
         theme:vAdminTheme,
         themes_mgmt:vAdminThemesMgmt,
         pets_mgmt:vAdminPetsMgmt,
+        levels_mgmt:vAdminLevelsMgmt,
         security:vAdminSecurity,
         mcq:vAdminMcq,
         essay:vAdminEssay,
@@ -2421,18 +2511,358 @@ function saveTopicsAndKnow(){
   toast('Đã lưu chủ đề và kiến thức trọng tâm mới!');render();
 }
 
+/* ==================== 10.3 QUẢN LÝ LỘ TRÌNH THĂNG TIẾN & CẤP ĐỘ CHĂM CHỈ (ADMIN) ==================== */
+let adminEditingStageIdx = -1; // -1: adding / viewing, >= 0: editing
+let adminShowStageForm = false;
+
+function vAdminLevelsMgmt(){
+  const stages = ASCENSION_STAGES || [];
+  const isEditing = adminEditingStageIdx >= 0 && adminEditingStageIdx < stages.length;
+  const target = isEditing ? stages[adminEditingStageIdx] : {
+    lvl: stages.length + 1,
+    xp: stages.length ? ((stages[stages.length - 1].xp || 0) + 60) : 0,
+    reqStreak: 0,
+    reqDone: 0,
+    realm: `Cấp ${stages.length + 1}`,
+    name: 'Danh Hiệu Chăm Chỉ Mới',
+    icon: '🌱',
+    desc: 'Mô tả hành trình và ý nghĩa của cấp độ chăm chỉ này.',
+    reward: 'Huy hiệu thành tựu mới'
+  };
+
+  const curLvl = lvl();
+  const curStage = stages[curLvl - 1] || stages[0] || { realm: 'Cấp ' + curLvl };
+
+  return `
+  <div class="space-y-6">
+    <!-- THANH ĐIỀU KHIỂN & TỔNG QUAN -->
+    <div class="p-4 bg-emerald-50/90 rounded-2xl border border-emerald-200 flex items-center justify-between flex-wrap gap-3 shadow-2xs">
+      <div>
+        <div class="flex items-center gap-2">
+          <span class="text-2xl">🏆</span>
+          <h3 class="font-extrabold text-base text-emerald-950 font-fun">Quản Lý Lộ Trình Thăng Tiến &amp; Cấp Độ Chăm Chỉ</h3>
+          <span class="text-xs bg-emerald-200 text-emerald-900 font-bold px-2.5 py-0.5 rounded-full border border-emerald-300">
+            ${stages.length} Cấp bậc
+          </span>
+        </div>
+        <p class="text-xs text-emerald-700 mt-1">
+          Tùy chỉnh tên gọi (Mầm non, Chồi, Lá...), mốc cấp bậc, điều kiện điểm XP, số ngày streak chăm chỉ và số bài thi/học hoàn thành.
+        </p>
+        <div class="mt-2 text-xs font-semibold text-emerald-900 bg-white/80 px-2.5 py-1 rounded-xl border border-emerald-200/80 inline-flex items-center gap-2">
+          <span>👀 Xem trước vị trí học viên hiện tại:</span>
+          <span class="text-emerald-700 font-bold">Cấp ${curLvl} - ${curStage.realm}</span>
+          <span class="text-slate-400">|</span>
+          <span class="text-amber-800">🔥 Chuỗi: ${S.streak} ngày</span>
+          <span class="text-slate-400">|</span>
+          <span class="text-teal-800">💧 XP: ${S.xp}</span>
+          <span class="text-slate-400">|</span>
+          <span class="text-emerald-800">✅ Đã hoàn thành: ${S.done} bài</span>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2 flex-wrap">
+        <button class="btn sm g" onclick="adminEditingStageIdx=-1;adminShowStageForm=!adminShowStageForm;render()">
+          <span>${adminShowStageForm && !isEditing ? '✕ Đóng Form' : '➕ Thêm Cấp Bậc Mới'}</span>
+        </button>
+        <button class="btn sm outline" onclick="resetAscensionStagesToDefault()" title="Khôi phục về 10 cấp bậc chuẩn ĐH Sư Phạm Hà Nội 2">
+          <span>↺ Khôi Phục 10 Cấp Chuẩn HPU2</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- KHỐI FORM THÊM / CHỈNH SỬA CẤP BẬC -->
+    ${(adminShowStageForm || isEditing) ? `
+      <section class="card border-2 border-emerald-400 bg-white shadow-md animate-fade-in">
+        <div class="flex items-center justify-between pb-3 mb-4 border-b border-emerald-100">
+          <div class="flex items-center gap-2">
+            <span class="text-xl">${isEditing ? '✏️' : '✨'}</span>
+            <h4 class="font-extrabold text-sm text-emerald-950 uppercase tracking-wider">
+              ${isEditing ? `Chỉnh Sửa Cấp Bậc #${adminEditingStageIdx + 1}: ${target.realm}` : 'Thêm Mốc Cấp Bậc Thăng Tiến Mới'}
+            </h4>
+          </div>
+          <button class="text-xs text-slate-400 hover:text-slate-700 font-bold p-1" onclick="adminEditingStageIdx=-1;adminShowStageForm=false;render()">✕ Đóng</button>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3.5">
+          <div>
+            <label class="text-xs font-bold text-emerald-900 block mb-1">Tên Cấp Độ / Danh Hiệu Chăm Chỉ (*):</label>
+            <input id="ad_stage_realm" 
+                   type="text" 
+                   value="${target.realm || ''}" 
+                   placeholder="Ví dụ: Mầm non, Cấp Chồi, Lá xanh, Bậc 1..." 
+                   class="font-bold text-xs">
+          </div>
+
+          <div>
+            <label class="text-xs font-bold text-emerald-900 block mb-1">Tên Chủ Đề / Huy Hiệu Chi Tiết (*):</label>
+            <input id="ad_stage_name" 
+                   type="text" 
+                   value="${target.name || ''}" 
+                   placeholder="Ví dụ: Gieo Mầm Tri Thức, Bứt Phá Nền Tảng..." 
+                   class="font-semibold text-xs">
+          </div>
+
+          <div>
+            <label class="text-xs font-bold text-emerald-900 block mb-1">Biểu Tượng Icon (Emoji):</label>
+            <input id="ad_stage_icon" 
+                   type="text" 
+                   value="${target.icon || '🌱'}" 
+                   placeholder="Ví dụ: 🌱, 🌿, 🌳, 🏆, 🎓, 🦉..." 
+                   class="text-xs text-center font-bold">
+          </div>
+
+          <div>
+            <label class="text-xs font-bold text-emerald-900 block mb-1">Điểm XP Tích Lũy Yêu Cầu:</label>
+            <input id="ad_stage_xp" 
+                   type="number" 
+                   min="0" 
+                   step="10" 
+                   value="${target.xp || 0}" 
+                   class="text-xs font-bold">
+            <span class="text-[10px] text-slate-500">Mốc XP tối thiểu để mở khóa cấp này</span>
+          </div>
+
+          <div>
+            <label class="text-xs font-bold text-amber-900 block mb-1">🔥 Chuỗi Ngày Chăm Chỉ (Streak):</label>
+            <input id="ad_stage_streak" 
+                   type="number" 
+                   min="0" 
+                   step="1" 
+                   value="${target.reqStreak || 0}" 
+                   placeholder="0 = không yêu cầu" 
+                   class="text-xs font-bold">
+            <span class="text-[10px] text-amber-700">Số ngày streak liên tục (0 = không bắt buộc)</span>
+          </div>
+
+          <div>
+            <label class="text-xs font-bold text-teal-900 block mb-1">✅ Số Bài Hoàn Thành (Tests / Bài Học):</label>
+            <input id="ad_stage_done" 
+                   type="number" 
+                   min="0" 
+                   step="1" 
+                   value="${target.reqDone || 0}" 
+                   placeholder="0 = không yêu cầu" 
+                   class="text-xs font-bold">
+            <span class="text-[10px] text-teal-700">Số bài thi/học cần hoàn thành (0 = không bắt buộc)</span>
+          </div>
+
+          <div class="sm:col-span-2">
+            <label class="text-xs font-bold text-emerald-900 block mb-1">Mô Tả Cấp Bậc / Ý Nghĩa Giáo Dục:</label>
+            <input id="ad_stage_desc" 
+                   type="text" 
+                   value="${target.desc || ''}" 
+                   placeholder="Mô tả quá trình nỗ lực và ý nghĩa khi đạt cấp này..." 
+                   class="text-xs">
+          </div>
+
+          <div>
+            <label class="text-xs font-bold text-emerald-900 block mb-1">Phần Thưởng / Đặc Quyền Mở Khóa:</label>
+            <input id="ad_stage_reward" 
+                   type="text" 
+                   value="${target.reward || ''}" 
+                   placeholder="Ví dụ: Khai mở Thư viện, Bảng Xanh Phấn Trắng..." 
+                   class="text-xs">
+          </div>
+        </div>
+
+        <div class="flex items-center justify-end gap-2 mt-4 pt-3 border-t border-emerald-100">
+          <button class="btn sm outline" onclick="adminEditingStageIdx=-1;adminShowStageForm=false;render()">Hủy Bỏ</button>
+          <button class="btn sm g" onclick="saveAscensionStageForm(${isEditing}, ${adminEditingStageIdx})">
+            <span>💾</span> <span>${isEditing ? 'Lưu Cập Nhật Cấp Bậc' : 'Thêm Cấp Bậc Vào Lộ Trình'}</span>
+          </button>
+        </div>
+      </section>
+    ` : ''}
+
+    <!-- DANH SÁCH TẤT CẢ CÁC CẤP BẬC HIỆN CÓ -->
+    <div class="space-y-3">
+      <div class="flex items-center justify-between text-xs font-bold uppercase tracking-wider text-emerald-900 px-1">
+        <span>Danh Sách Các Mốc Lộ Trình Thăng Tiến (${stages.length} Bậc):</span>
+        <span class="text-[11px] text-teal-700 font-normal">Có thể dùng ▲▼ để đổi thứ tự, ✏️ để sửa, 🗑️ để xóa</span>
+      </div>
+
+      ${stages.map((st, idx) => {
+        const isEditingThis = adminEditingStageIdx === idx;
+        return `
+          <div class="p-3.5 rounded-2xl border ${isEditingThis ? 'border-amber-400 bg-amber-50/70 shadow-sm' : 'border-emerald-200 bg-white hover:border-emerald-300'} transition flex items-center justify-between gap-3 flex-wrap sm:flex-nowrap">
+            <div class="flex items-center gap-3">
+              <div class="w-12 h-12 rounded-xl bg-emerald-100 text-2xl flex items-center justify-center shrink-0 shadow-2xs border border-emerald-300">
+                ${st.icon || '🌱'}
+              </div>
+              <div>
+                <div class="flex items-center gap-2 flex-wrap">
+                  <span class="text-xs font-extrabold px-2.5 py-0.5 rounded-full bg-emerald-600 text-white">
+                    Cấp ${st.lvl || (idx + 1)}
+                  </span>
+                  <span class="font-extrabold text-sm text-emerald-950">${st.realm}</span>
+                  <span class="text-xs text-slate-500 font-medium">(${st.name})</span>
+                </div>
+                <div class="flex items-center gap-2 mt-1 flex-wrap text-[11px]">
+                  <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-800 font-bold border border-slate-200">
+                    ⭐ ${st.xp || 0} XP
+                  </span>
+                  ${st.reqStreak ? `
+                    <span class="px-2 py-0.5 rounded-md bg-amber-100 text-amber-900 font-bold border border-amber-200">
+                      🔥 Chuỗi ≥ ${st.reqStreak} ngày
+                    </span>
+                  ` : `
+                    <span class="px-2 py-0.5 rounded-md bg-slate-50 text-slate-500 text-[10px]">
+                      Chuỗi: Tùy ý
+                    </span>
+                  `}
+                  ${st.reqDone ? `
+                    <span class="px-2 py-0.5 rounded-md bg-teal-100 text-teal-900 font-bold border border-teal-200">
+                      ✅ Hoàn thành ≥ ${st.reqDone} bài
+                    </span>
+                  ` : ''}
+                </div>
+                <p class="text-xs text-emerald-800 mt-1 line-clamp-1">${st.desc || ''}</p>
+                <div class="text-[10px] text-teal-700 font-semibold mt-0.5">🎁 Thưởng: ${st.reward || 'Huy hiệu thành tựu'}</div>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-1.5 shrink-0 self-end sm:self-center">
+              <button class="w-7 h-7 rounded-lg bg-emerald-50 hover:bg-emerald-200 text-emerald-900 text-xs font-bold flex items-center justify-center" onclick="moveAscensionStage(${idx}, -1)" title="Đẩy lên trước">▲</button>
+              <button class="w-7 h-7 rounded-lg bg-emerald-50 hover:bg-emerald-200 text-emerald-900 text-xs font-bold flex items-center justify-center" onclick="moveAscensionStage(${idx}, 1)" title="Đẩy xuống sau">▼</button>
+              <button class="btn sm outline !py-1 !px-2.5 text-xs font-bold flex items-center gap-1" onclick="adminEditingStageIdx=${idx};adminShowStageForm=true;render()" title="Chỉnh sửa thông tin cấp độ">
+                <span>✏️ Sửa</span>
+              </button>
+              <button class="btn sm rose !py-1 !px-2 text-xs font-bold" onclick="deleteAscensionStage(${idx})" title="Xóa cấp bậc này">
+                <span>🗑️</span>
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('')}
+    </div>
+  </div>
+  `;
+}
+
+function saveAscensionStageForm(isEdit, idx){
+  if (!checkAdminAuth()) return;
+  const realm = ($('#ad_stage_realm')?.value || '').trim();
+  const name = ($('#ad_stage_name')?.value || '').trim();
+  const icon = ($('#ad_stage_icon')?.value || '').trim() || '🌱';
+  const xp = parseInt($('#ad_stage_xp')?.value || '0', 10) || 0;
+  const reqStreak = parseInt($('#ad_stage_streak')?.value || '0', 10) || 0;
+  const reqDone = parseInt($('#ad_stage_done')?.value || '0', 10) || 0;
+  const desc = ($('#ad_stage_desc')?.value || '').trim();
+  const reward = ($('#ad_stage_reward')?.value || '').trim();
+
+  if (!realm) {
+    toast('⚠️ Vui lòng nhập Tên Cấp Độ / Danh Hiệu!');
+    $('#ad_stage_realm')?.focus();
+    return;
+  }
+  if (!name) {
+    toast('⚠️ Vui lòng nhập Tên Chủ Đề / Huy Hiệu Chi Tiết!');
+    $('#ad_stage_name')?.focus();
+    return;
+  }
+
+  const stageData = {
+    lvl: (isEdit && idx >= 0) ? (idx + 1) : (ASCENSION_STAGES.length + 1),
+    realm: realm,
+    name: name,
+    icon: icon,
+    xp: Math.max(0, xp),
+    reqStreak: Math.max(0, reqStreak),
+    reqDone: Math.max(0, reqDone),
+    desc: desc,
+    reward: reward
+  };
+
+  if (isEdit && idx >= 0 && idx < ASCENSION_STAGES.length) {
+    ASCENSION_STAGES[idx] = stageData;
+    toast(`🎉 Đã cập nhật thành công Cấp ${stageData.lvl}: ${realm}!`);
+  } else {
+    ASCENSION_STAGES.push(stageData);
+    toast(`🎉 Đã thêm mới thành công Cấp ${stageData.lvl}: ${realm}!`);
+  }
+
+  ASCENSION_STAGES.forEach((st, i) => st.lvl = i + 1);
+  saveAscensionStages();
+  adminEditingStageIdx = -1;
+  adminShowStageForm = false;
+  head();
+  render();
+}
+
+function deleteAscensionStage(idx){
+  if (!checkAdminAuth()) return;
+  if (!ASCENSION_STAGES || ASCENSION_STAGES.length <= 1) {
+    toast('⚠️ Hệ thống cần duy trì ít nhất 1 cấp bậc, không thể xóa!');
+    return;
+  }
+  const target = ASCENSION_STAGES[idx];
+  if (!confirm(`Bạn có chắc muốn xóa cấp bậc "${target.realm}" (Cấp ${target.lvl}) khỏi lộ trình thăng tiến?`)) {
+    return;
+  }
+  ASCENSION_STAGES.splice(idx, 1);
+  ASCENSION_STAGES.forEach((st, i) => st.lvl = i + 1);
+  saveAscensionStages();
+  adminEditingStageIdx = -1;
+  toast(`🗑️ Đã xóa cấp bậc thành công!`);
+  head();
+  render();
+}
+
+function moveAscensionStage(idx, dir){
+  if (!checkAdminAuth()) return;
+  const targetIdx = idx + dir;
+  if (targetIdx < 0 || targetIdx >= ASCENSION_STAGES.length) return;
+  const temp = ASCENSION_STAGES[idx];
+  ASCENSION_STAGES[idx] = ASCENSION_STAGES[targetIdx];
+  ASCENSION_STAGES[targetIdx] = temp;
+  ASCENSION_STAGES.forEach((st, i) => st.lvl = i + 1);
+  saveAscensionStages();
+  toast('Đã thay đổi thứ tự cấp bậc!');
+  head();
+  render();
+}
+
+function resetAscensionStagesToDefault(){
+  if (!checkAdminAuth()) return;
+  if (!confirm('Bạn có chắc muốn khôi phục lại 10 Cấp Bậc Thăng Tiến chuẩn của ĐH Sư Phạm Hà Nội 2? Mọi chỉnh sửa tùy biến sẽ trở về mặc định ban đầu.')) {
+    return;
+  }
+  ASCENSION_STAGES = JSON.parse(JSON.stringify(DEFAULT_ASCENSION_STAGES));
+  saveAscensionStages();
+  adminEditingStageIdx = -1;
+  adminShowStageForm = false;
+  toast('↺ Đã khôi phục 10 cấp bậc thăng tiến chuẩn HPU2!');
+  head();
+  render();
+}
+
 /* --- TAB 7: ĐIỂM & CẤP ĐỘ --- */
 function vAdminCheats(){
   return `
-  <div class="p-4 bg-emerald-50 rounded-2xl border border-emerald-200">
-    <h4 class="font-extrabold text-sm text-emerald-950 mb-3 uppercase tracking-wider">Công Cụ Trợ Lực Nhanh (Dành Cho Kiểm Thử):</h4>
-    <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
-      <button class="btn sm g" onclick="gain(60,'kt',15);toast('Đã cộng +60 XP!')">+60 XP (Lên 1 Cấp)</button>
-      <button class="btn sm y" onclick="S.xp=540;save();toast('Đã đạt Cảnh Giới Độ Kiếp!');render()">🌲 Đắc Đạo Độ Kiếp (Cấp 10)</button>
-      <button class="btn sm outline" onclick="S.streak+=3;save();toast('Đã tăng chuỗi +3 ngày!');render()">🔥 Tăng Chuỗi +3 Ngày</button>
-      <button class="btn sm outline" onclick="S.done+=5;save();toast('Mở khóa Cúp vàng!');render()">🏆 Mở Khóa Đồ Trang Trí</button>
-      <button class="btn sm g" onclick="S.st={kt:95,vd:90,gn:92,bp:88,px:96};save();toast('Tối đa hóa radar!');render()">📊 Max Biểu Đồ Radar</button>
-      <button class="btn sm rose" onclick="resetAllData()">⚠️ Khôi Phục Dữ Liệu Gốc</button>
+  <div class="space-y-4">
+    <!-- BANNER ĐIỀU HƯỚNG TÙY BIẾN CẤP BẬC -->
+    <div class="p-3.5 bg-gradient-to-r from-amber-50 to-emerald-50 rounded-2xl border border-amber-200 flex items-center justify-between flex-wrap gap-2">
+      <div>
+        <span class="font-extrabold text-xs text-emerald-950 uppercase tracking-wider flex items-center gap-1.5">
+          <span>🏆</span> <span>Quản Lý Danh Hiệu &amp; Cấp Độ Thăng Tiến:</span>
+        </span>
+        <p class="text-[11px] text-emerald-800 mt-0.5">Tùy biến tên gọi cấp bậc, thêm mốc mới, chỉnh điều kiện chuỗi streak ngày &amp; bài hoàn thành.</p>
+      </div>
+      <button class="btn sm g" onclick="ADM_TAB='levels_mgmt';render()">
+        <span>Mở Trình Quản Lý Cấp Độ</span> <span>↗</span>
+      </button>
+    </div>
+
+    <div class="p-4 bg-emerald-50 rounded-2xl border border-emerald-200">
+      <h4 class="font-extrabold text-sm text-emerald-950 mb-3 uppercase tracking-wider">Công Cụ Trợ Lực Nhanh (Dành Cho Kiểm Thử):</h4>
+      <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
+        <button class="btn sm g" onclick="gain(60,'kt',15);toast('Đã cộng +60 XP!')">+60 XP (Lên 1 Cấp)</button>
+        <button class="btn sm y" onclick="S.xp=540;save();toast('Đã đạt Cảnh Giới Độ Kiếp!');render()">🌲 Đắc Đạo Độ Kiếp (Cấp 10)</button>
+        <button class="btn sm outline" onclick="S.streak+=3;save();toast('Đã tăng chuỗi +3 ngày!');render()">🔥 Tăng Chuỗi +3 Ngày</button>
+        <button class="btn sm outline" onclick="S.done+=5;save();toast('Mở khóa Cúp vàng!');render()">🏆 Mở Khóa Đồ Trang Trí</button>
+        <button class="btn sm g" onclick="S.st={kt:95,vd:90,gn:92,bp:88,px:96};save();toast('Tối đa hóa radar!');render()">📊 Max Biểu Đồ Radar</button>
+        <button class="btn sm rose" onclick="resetAllData()">⚠️ Khôi Phục Dữ Liệu Gốc</button>
+      </div>
     </div>
   </div>
   `;
@@ -2444,6 +2874,8 @@ function resetAllData(){
     localStorage.removeItem('sa_garden_content');
     localStorage.removeItem('sa_content');
     localStorage.removeItem('sa_admin_pin');
+    localStorage.removeItem('sa_ascension_stages_v2');
+    localStorage.removeItem('sa_ascension_stages');
     location.reload();
   }
 }
@@ -5148,58 +5580,6 @@ function ansOral(){
 }
 
 /* ==================== 13. LINH VẬT & LỘ TRÌNH THĂNG TIÊN ==================== */
-const ASCENSION_STAGES=[
-  {
-    lvl:1,xp:0,realm:'Tân Sinh Viên HPU2',name:'Gieo Mầm Tri Thức Xuân Hòa',icon:'🌱',
-    desc:'Bước chân vào cổng trường ĐH Sư phạm Hà Nội 2 tại Xuân Hòa, bắt đầu hành trình trở thành nhà giáo tương lai.',
-    reward:'Khai mở Thư Viện HPU2 & Sổ Nhật Ký Nghiệp Vụ'
-  },
-  {
-    lvl:2,xp:60,realm:'Năm 1 - Nhập Môn',name:'Chinh Phục Giải Tích & Đại Số',icon:'📐',
-    desc:'Nắm vững giới hạn, vi phân, ma trận và không gian vectơ – nền móng vững chắc của toán học cao cấp.',
-    reward:'Mở khóa Bảng Xanh Phấn Trắng & Tăng 10% Tốc Độ Tích Lũy Sương'
-  },
-  {
-    lvl:3,xp:120,realm:'Năm 2 - Vững Vàng',name:'Cấu Trúc Đại Số & Hình Học',icon:'📚',
-    desc:'Thấu hiểu cấu trúc nhóm, vành, trường và hình học giải tích – rèn luyện tư duy toán trừu tượng sâu sắc.',
-    reward:'Mở khóa Giá Sách Giáo Trình HPU2 & Chế Độ Mini-Test Tự Động'
-  },
-  {
-    lvl:4,xp:180,realm:'Năm 2 - Khám Phá',name:'Xác Suất & Thống Kê Sư Phạm',icon:'📊',
-    desc:'Ứng dụng xác suất thống kê vào xử lý số liệu giáo dục và phương pháp nghiên cứu khoa học sư phạm.',
-    reward:'Mở khóa Máy Tính Khoa Học & Tăng Vận May Trắc Nghiệm'
-  },
-  {
-    lvl:5,xp:240,realm:'Năm 3 - Chuyển Mình',name:'Nghiên Cứu CV 5512 & GDPT 2018',icon:'📝',
-    desc:'Tiếp cận phương pháp dạy học môn Toán hiện đại, phát triển phẩm chất và năng lực của học sinh.',
-    reward:'Mở khóa Trợ Lý AI Thiết Kế Kế Hoạch Bài Dạy Chuẩn 5512'
-  },
-  {
-    lvl:6,xp:300,realm:'Năm 3 - Tỏa Sáng',name:'Bậc Thầy Thiết Kế Kế Hoạch Bài Dạy',icon:'💡',
-    desc:'Xây dựng tiến trình 4 bước hoạt động học sáng tạo, tích hợp phần mềm GeoGebra và bài giảng số.',
-    reward:'Mở khóa Micro Giảng Đường & Phòng Vấn Đáp Nghiệp Vụ'
-  },
-  {
-    lvl:7,xp:360,realm:'Năm 4 - Thử Lửa',name:'Tập Giảng & Hội Thi Nghiệp Vụ SP',icon:'🎤',
-    desc:'Tự tin đứng trên bục giảng Hội thi nghiệp vụ sư phạm HPU2, làm chủ kỹ năng thuyết trình và tác phong người thầy.',
-    reward:'Huy Hiệu Giảng Viên Tập Sự Xuất Sắc HPU2'
-  },
-  {
-    lvl:8,xp:420,realm:'Năm 4 - Bản Lĩnh',name:'Thực Tập Sư Phạm Tại Phổ Thông',icon:'🏫',
-    desc:'Trực tiếp đứng lớp giảng dạy tại trường THCS/THPT, truyền lửa say mê toán học cho thế hệ học trò.',
-    reward:'Mở khóa Sổ Tay Chủ Nhiệm & Bằng Khen Thực Tập Xuất Sắc'
-  },
-  {
-    lvl:9,xp:480,realm:'Tốt Nghiệp',name:'Cử Nhân Sư Phạm Toán Xuất Sắc',icon:'🎓',
-    desc:'Bảo vệ thành công Khóa luận tốt nghiệp tại HPU2, nhận bằng Cử nhân Sư phạm Toán loại Giỏi/Xuất sắc.',
-    reward:'Áo Cử Nhân Vinh Danh & Quyền Năng Sáng Tạo Ngân Hàng Đề HPU2'
-  },
-  {
-    lvl:10,xp:540,realm:'Đỉnh Cao Sự Nghiệp',name:'Nhà Giáo Ưu Tú – Tự Hào HPU2',icon:'🏛️',
-    desc:'Đắc đạo thăng hoa cùng sự nghiệp trồng người cao quý, ngọn hải đăng soi sáng tri thức cho bao thế hệ học trò.',
-    reward:'Vinh Danh Bảng Vàng Cựu Sinh Viên Ưu Tú ĐH Sư Phạm Hà Nội 2'
-  }
-];
 
 const ITEMS=[
   ['🪴','Chậu cây',()=>lvl()>=2,'Cấp 2 (Luyện Khí)'],
@@ -5237,8 +5617,10 @@ function radar(){
 function vPet(){
   const[m,msg]=mood();
   const curLvl=lvl();
+  const maxLvl=ASCENSION_STAGES.length;
   const curStage=ASCENSION_STAGES[curLvl-1]||ASCENSION_STAGES[0];
-  const need=60-(S.xp||0)%60;
+  const nextStage=ASCENSION_STAGES[curLvl]||null;
+  const need=nextStage ? Math.max(0, (nextStage.xp||0) - (S.xp||0)) : 0;
 
   const curPet = PETS_CATALOG.find(p=>p.id===(S.cfg.petId||'mochi')) || PETS_CATALOG[0] || {name:'Mochi',icon:'🌱'};
   const petNick = S.cfg.petName || curPet.name;
@@ -5251,7 +5633,7 @@ function vPet(){
           🏡 Phòng & Chăm Sóc ${petNick}
         </button>
         <button class="tab ${S.petTab==='ascend'?'on':'bg-white/80'}" onclick="S.petTab='ascend';render()">
-          🗺️ Lộ Trình Thăng Tiên (10 Cảnh Giới)
+          🗺️ Lộ Trình Thăng Tiến (${maxLvl} Cấp Độ)
         </button>
         <button class="tab ${S.petTab==='customize'?'on':'bg-white/80'}" onclick="S.petTab='customize';render()">
           ✨ Tùy Chỉnh Linh Vật & Giao Diện
@@ -5263,7 +5645,7 @@ function vPet(){
           <span>🎨</span> <span>Đổi Linh Vật / Giao Diện</span>
         </button>
         <div class="text-xs font-bold px-3 py-1 bg-amber-100 text-amber-900 rounded-full border border-amber-300">
-          Cảnh giới: <b>${curStage.realm}</b> (${curLvl}/10)
+          Cảnh giới: <b>${curStage.realm}</b> (${curLvl}/${maxLvl})
         </div>
       </div>
     </div>
@@ -5275,6 +5657,7 @@ function vPet(){
 
 function vGardenRoom(m,msg,curStage,need){
   const curLvl=lvl();
+  const maxLvl=ASCENSION_STAGES.length;
   const curPet = PETS_CATALOG.find(p=>p.id===(S.cfg.petId||'mochi')) || PETS_CATALOG[0] || {name:'Mochi',icon:'🌱'};
   const petNick = S.cfg.petName || curPet.name;
   const petImg = S.cfg.customPetUrl || curPet.avatarUrl;
@@ -5311,10 +5694,10 @@ function vGardenRoom(m,msg,curStage,need){
       <div class="mt-4 text-left">
         <div class="flex justify-between text-xs font-bold text-emerald-900 mb-1">
           <span>Tiến trình ngưng tụ linh khí</span>
-          <span>${curLvl>=10?'Đã đạt đỉnh cao cảnh giới 🌲':'Còn '+need+' XP để đột phá '+(curLvl+1)}</span>
+          <span>${curLvl>=maxLvl?'Đã đạt đỉnh cao cảnh giới 🌲':'Còn '+need+' XP để đột phá '+(curLvl+1)}</span>
         </div>
         <div class="bar">
-          <i style="width:${curLvl>=10?100:(60-need)/60*100}%"></i>
+          <i style="width:${curLvl>=maxLvl?100:Math.min(100, Math.round(curLvl/maxLvl*100))}%"></i>
         </div>
       </div>
 
@@ -5647,12 +6030,20 @@ function saveUserPetName(){
 
 function vAscensionMap(){
   const curLvl=lvl();
+  const maxLvl=ASCENSION_STAGES.length;
   return `
   <section class="card border-t-4 border-t-amber-500">
     <div class="text-center max-w-xl mx-auto mb-6">
       <span class="text-3xl">🌸</span>
-      <h2 class="text-2xl font-extrabold text-emerald-950 font-fun mt-1">Lộ Trình Thăng Tiên Khu Vườn</h2>
-      <p class="text-xs text-emerald-700 mt-1">Con đường tu luyện tri thức 10 cảnh giới từ Hạt Giống Phàm Thai đến Thần Mộc Độ Kiếp</p>
+      <h2 class="text-2xl font-extrabold text-emerald-950 font-fun mt-1">Lộ Trình Thăng Tiến Tri Thức & Chăm Chỉ</h2>
+      <p class="text-xs text-emerald-700 mt-1">Con đường tu luyện tri thức ${maxLvl} cấp bậc từ Hạt Giống Phàm Thai đến Đỉnh Cao Sự Nghiệp</p>
+      ${ADM ? `
+        <div class="mt-2.5">
+          <button class="btn sm outline !py-1 text-xs" onclick="ADM_TAB='levels_mgmt';go('admin')">
+            ⚙️ Quản Trị: Tùy Chỉnh Cấp Độ & Danh Hiệu
+          </button>
+        </div>
+      ` : ''}
     </div>
 
     <div class="space-y-3 max-w-2xl mx-auto">
@@ -5664,17 +6055,19 @@ function vAscensionMap(){
             <div class="flex items-start sm:items-center justify-between gap-3 flex-col sm:flex-row">
               <div class="flex items-center gap-3">
                 <div class="w-14 h-14 rounded-2xl ${isCurrent?'bg-amber-100 border-2 border-amber-300':isReached?'bg-emerald-100 border border-emerald-200':'bg-slate-200'} flex items-center justify-center text-3xl shadow-sm">
-                  ${st.icon}
+                  ${st.icon||'🌱'}
                 </div>
                 <div>
-                  <div class="flex items-center gap-2">
+                  <div class="flex items-center gap-2 flex-wrap">
                     <span class="text-xs font-bold px-2.5 py-0.5 rounded-full ${isCurrent?'bg-amber-500 text-white':isReached?'bg-emerald-600 text-white':'bg-slate-400 text-white'}">
-                      Cảnh Giới ${st.lvl}: ${st.realm}
+                      Cấp ${st.lvl}: ${st.realm}
                     </span>
-                    <span class="text-xs font-semibold text-slate-500">Yêu cầu: ${st.xp} XP</span>
+                    <span class="text-xs font-semibold text-slate-500">Yêu cầu: ${st.xp||0} XP</span>
+                    ${st.reqStreak?`<span class="text-[11px] font-bold px-2 py-0.5 rounded-full bg-amber-100 text-amber-900 border border-amber-300">🔥 Chuỗi ${st.reqStreak} ngày</span>`:''}
+                    ${st.reqDone?`<span class="text-[11px] font-bold px-2 py-0.5 rounded-full bg-teal-100 text-teal-900 border border-teal-300">✅ Hoàn thành ${st.reqDone} bài</span>`:''}
                   </div>
                   <h3 class="font-extrabold text-emerald-950 text-base mt-1 font-fun">${st.name}</h3>
-                  <p class="text-xs text-emerald-800 mt-0.5">${st.desc}</p>
+                  <p class="text-xs text-emerald-800 mt-0.5">${st.desc||''}</p>
                 </div>
               </div>
 
@@ -5692,7 +6085,7 @@ function vAscensionMap(){
                     🔒 Phong Ấn Mây Mù
                   </span>
                 `}
-                <div class="text-[11px] text-teal-700 font-semibold mt-1">🎁 ${st.reward}</div>
+                <div class="text-[11px] text-teal-700 font-semibold mt-1">🎁 ${st.reward||'Huy hiệu thành tựu'}</div>
               </div>
             </div>
           </div>
