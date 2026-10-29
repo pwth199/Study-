@@ -1184,9 +1184,9 @@ try {
   }
 } catch (e) {}
 
-// Đảm bảo tất cả các cấp độ đều có đầy đủ 3 sub-stages chi tiết
+// Đảm bảo tất cả các cấp độ đều có các sub-stages chi tiết
 ASCENSION_STAGES.forEach(st => {
-  if (!Array.isArray(st.subStages) || st.subStages.length !== 3) {
+  if (!Array.isArray(st.subStages) || st.subStages.length === 0) {
     const def = DEFAULT_ASCENSION_STAGES.find(d => d.lvl === st.lvl);
     if (def && Array.isArray(def.subStages)) {
       st.subStages = JSON.parse(JSON.stringify(def.subStages));
@@ -1203,12 +1203,12 @@ function saveAscensionStages(){
 
 /* ==================== 2.3.1 LOGIC QUẢN LÝ 3 GIAI ĐOẠN NHỎ (SUB-STAGES) CỦA MỖI CẤP ĐỘ ==================== */
 function getStageSubStages(stage) {
-  if (stage && Array.isArray(stage.subStages) && stage.subStages.length === 3) {
+  if (stage && Array.isArray(stage.subStages) && stage.subStages.length > 0) {
     return stage.subStages;
   }
   const lvlNum = (stage && stage.lvl) || 1;
   const def = DEFAULT_ASCENSION_STAGES.find(s => s.lvl === lvlNum);
-  if (def && Array.isArray(def.subStages)) return def.subStages;
+  if (def && Array.isArray(def.subStages) && def.subStages.length > 0) return JSON.parse(JSON.stringify(def.subStages));
   return [
     { id: 1, type: 'theory', name: 'Giai đoạn 1: Khởi Động', title: `Ôn tập lý thuyết cốt lõi Cấp ${lvlNum}`, desc: 'Hệ thống hóa kiến thức trọng tâm và phương pháp giải toán.', rewardXp: 15, rewardFlame: 5 },
     { id: 2, type: 'practice', name: 'Giai đoạn 2: Luyện Tập', title: `Giải bài tập chuyên sâu Cấp ${lvlNum}`, desc: 'Thực hành giải các dạng toán nâng cao và rèn luyện kỹ năng phân tích.', rewardXp: 25, rewardFlame: 10 },
@@ -1221,21 +1221,30 @@ function isSubStageDone(levelNum, subStageId) {
     S.completedSubStages = {};
   }
   const curLvl = lvl();
-  // Nếu học viên đã vượt qua cấp này, toàn bộ 3 giai đoạn của các cấp trước mặc định đã hoàn thành
+  // Nếu học viên đã vượt qua cấp này, toàn bộ các giai đoạn của các cấp trước mặc định đã hoàn thành
   if (curLvl > levelNum) return true;
   return !!S.completedSubStages[`${levelNum}_${subStageId}`];
 }
 
 function getLevelSubStagesProgress(levelNum) {
+  const stage = (ASCENSION_STAGES || []).find(s => s.lvl === levelNum) || (ASCENSION_STAGES || [])[levelNum - 1];
+  const subStages = getStageSubStages(stage);
+  const total = (subStages && subStages.length) || 3;
   let doneCount = 0;
-  for (let sid = 1; sid <= 3; sid++) {
-    if (isSubStageDone(levelNum, sid)) doneCount++;
+  if (subStages && subStages.length) {
+    subStages.forEach(sub => {
+      if (isSubStageDone(levelNum, sub.id)) doneCount++;
+    });
+  } else {
+    for (let sid = 1; sid <= total; sid++) {
+      if (isSubStageDone(levelNum, sid)) doneCount++;
+    }
   }
   return {
     doneCount,
-    total: 3,
-    percent: Math.round((doneCount / 3) * 100),
-    isAllDone: doneCount === 3
+    total,
+    percent: total > 0 ? Math.round((doneCount / total) * 100) : 100,
+    isAllDone: doneCount >= total && total > 0
   };
 }
 
@@ -1257,17 +1266,17 @@ function completeSubStage(levelNum, subStageId) {
     return;
   }
   
-  // Kiểm tra điều kiện tiên quyết: GĐ 2 cần GĐ 1, GĐ 3 cần GĐ 1 & 2
-  if (subStageId === 2 && !isSubStageDone(levelNum, 1)) {
-    toast(`⚠️ Bạn cần hoàn thành Giai đoạn 1 (Khởi động) trước khi bước vào Giai đoạn 2!`);
-    return;
-  }
-  if (subStageId === 3 && (!isSubStageDone(levelNum, 1) || !isSubStageDone(levelNum, 2))) {
-    toast(`⚠️ Bạn cần hoàn thành Giai đoạn 1 và 2 trước khi bước vào Thử thách thăng hạng!`);
-    return;
-  }
-  
   const subStages = curStage ? getStageSubStages(curStage) : [];
+  
+  // Kiểm tra điều kiện tiên quyết: Phải hoàn thành giai đoạn trước đó trong danh sách
+  const subIdx = subStages.findIndex(s => s.id === subStageId);
+  if (subIdx > 0) {
+    const prevSub = subStages[subIdx - 1];
+    if (!isSubStageDone(levelNum, prevSub.id)) {
+      toast(`⚠️ Bạn cần hoàn thành "${prevSub.name || ('Giai đoạn ' + prevSub.id)}" trước!`);
+      return;
+    }
+  }
   const sub = subStages.find(s => s.id === subStageId) || {
     rewardXp: subStageId === 1 ? 15 : subStageId === 2 ? 25 : 50,
     rewardFlame: subStageId === 1 ? 5 : subStageId === 2 ? 10 : 25,
@@ -1338,17 +1347,19 @@ function openSubStageModal(levelNum, subStageId) {
   const sub = subStages.find(s => s.id === subStageId);
   if (!sub) return;
   
+  const subIdx = subStages.findIndex(s => s.id === subStageId);
   const isDone = isSubStageDone(levelNum, subStageId);
   const curLvl = lvl();
   const isCurrent = curLvl === levelNum;
-  const isReady = isCurrent && !isDone && (subStageId === 1 || isSubStageDone(levelNum, subStageId - 1));
+  const isReady = isCurrent && !isDone && (subIdx === 0 || isSubStageDone(levelNum, subStages[subIdx - 1].id));
+  const typeIcon = sub.type === 'challenge' ? '⚔️' : sub.type === 'practice' ? '✍️' : '📘';
 
   m.innerHTML = `
     <div class="card max-w-xl w-full border-2 border-emerald-400 bg-white shadow-2xl p-5 sm:p-6 rounded-3xl animate-fade-in relative max-h-[90vh] overflow-y-auto">
       <div class="flex items-start justify-between gap-3 pb-3 border-b border-emerald-100">
         <div class="flex items-center gap-3">
           <div class="w-12 h-12 rounded-2xl bg-amber-100 text-2xl flex items-center justify-center border border-amber-300 shadow-2xs shrink-0">
-            ${subStageId === 1 ? '📘' : subStageId === 2 ? '✍️' : '⚔️'}
+            ${typeIcon}
           </div>
           <div>
             <div class="flex items-center gap-2 flex-wrap">
@@ -1406,7 +1417,7 @@ function openSubStageModal(levelNum, subStageId) {
             <span>+${sub.rewardXp} XP</span>
             <span>•</span>
             <span>+${sub.rewardFlame} Lửa 🔥</span>
-            ${subStageId === 3 ? `<span class="text-emerald-700 font-extrabold">(+30 🔥 Thăng Hạng 🚀)</span>` : ''}
+            ${sub.type === 'challenge' ? `<span class="text-emerald-700 font-extrabold">(+30 🔥 Thăng Hạng 🚀)</span>` : ''}
           </span>
         </div>
       </div>
@@ -1418,8 +1429,8 @@ function openSubStageModal(levelNum, subStageId) {
             ✓ Giai Đoạn Này Đã Hoàn Thành
           </span>
         ` : isReady ? `
-          <button class="btn sm ${subStageId === 3 ? 'y shadow-md font-black text-sm' : 'g font-bold'} !py-2.5 !px-5" onclick="completeSubStage(${levelNum}, ${subStageId})">
-            <span>${subStageId === 1 ? '📘 Xác Nhận Hoàn Thành GĐ 1' : subStageId === 2 ? '✍️ Hoàn Tất & Nhận Thưởng GĐ 2' : '🚀 Vượt Thử Thách & Thăng Hạng Ngay!'}</span>
+          <button class="btn sm ${sub.type === 'challenge' ? 'y shadow-md font-black text-sm' : 'g font-bold'} !py-2.5 !px-5" onclick="completeSubStage(${levelNum}, ${subStageId})">
+            <span>${sub.type === 'challenge' ? '🚀 Vượt Thử Thách &amp; Thăng Hạng Ngay!' : '✓ Xác Nhận Hoàn Thành ' + sub.name}</span>
           </button>
         ` : `
           <span class="px-4 py-2 rounded-xl bg-slate-100 text-slate-500 font-bold text-xs">
@@ -4848,6 +4859,150 @@ function saveTopicsAndKnow(){
 /* ==================== 10.3 QUẢN LÝ LỘ TRÌNH THĂNG TIẾN & CẤP ĐỘ CHĂM CHỈ (ADMIN) ==================== */
 let adminEditingStageIdx = -1; // -1: adding / viewing, >= 0: editing
 let adminShowStageForm = false;
+let adminEditingSubStages = []; // Danh sách các giai đoạn nhỏ đang được chỉnh sửa trong form
+
+function syncAdminEditingSubStagesFromDom() {
+  if (!Array.isArray(adminEditingSubStages)) return;
+  adminEditingSubStages.forEach((sub, sIdx) => {
+    const elName = $('#ad_sub_name_' + sIdx);
+    if (elName) sub.name = elName.value.trim() || `Giai đoạn ${sIdx + 1}`;
+    const elTitle = $('#ad_sub_title_' + sIdx);
+    if (elTitle) sub.title = elTitle.value.trim() || `Nhiệm vụ GĐ ${sIdx + 1}`;
+    const elType = $('#ad_sub_type_' + sIdx);
+    if (elType) sub.type = elType.value;
+    const elDesc = $('#ad_sub_desc_' + sIdx);
+    if (elDesc) sub.desc = elDesc.value.trim();
+    const elReview = $('#ad_sub_review_' + sIdx);
+    if (elReview) sub.review = elReview.value.trim();
+    const elXp = $('#ad_sub_xp_' + sIdx);
+    if (elXp) sub.rewardXp = Math.max(0, parseInt(elXp.value, 10) || 15);
+    const elFlame = $('#ad_sub_flame_' + sIdx);
+    if (elFlame) sub.rewardFlame = Math.max(0, parseInt(elFlame.value, 10) || 5);
+
+    const elQ = $('#ad_sub_quiz_q_' + sIdx);
+    if (elQ) {
+      if (!sub.quiz) sub.quiz = { q: '', a: ['', '', '', ''], c: 0 };
+      sub.quiz.q = elQ.value.trim();
+      const a0 = $('#ad_sub_quiz_a0_' + sIdx)?.value.trim() || '';
+      const a1 = $('#ad_sub_quiz_a1_' + sIdx)?.value.trim() || '';
+      const a2 = $('#ad_sub_quiz_a2_' + sIdx)?.value.trim() || '';
+      const a3 = $('#ad_sub_quiz_a3_' + sIdx)?.value.trim() || '';
+      const opts = [a0, a1, a2, a3].filter(Boolean);
+      sub.quiz.a = opts.length >= 2 ? opts : ['Đáp án A (Đúng)', 'Đáp án B (Sai)'];
+      const elC = $('#ad_sub_quiz_c_' + sIdx);
+      if (elC) sub.quiz.c = Math.max(0, Math.min(sub.quiz.a.length - 1, parseInt(elC.value, 10) || 0));
+    }
+  });
+}
+
+function adminAddSubStage() {
+  syncAdminEditingSubStagesFromDom();
+  const nextId = adminEditingSubStages.length + 1;
+  const stageType = nextId === 1 ? 'theory' : nextId === 2 ? 'practice' : 'challenge';
+  adminEditingSubStages.push({
+    id: nextId,
+    type: stageType,
+    name: `Giai đoạn ${nextId}`,
+    title: `Nhiệm vụ Học Tập Giai Đoạn ${nextId}`,
+    desc: `Mô tả mục tiêu và nội dung cần hoàn thành của giai đoạn ${nextId}.`,
+    review: `Tóm tắt kiến thức lý thuyết trọng tâm và phương pháp giải cho giai đoạn ${nextId}.`,
+    rewardXp: nextId === 1 ? 15 : nextId === 2 ? 25 : 50,
+    rewardFlame: nextId === 1 ? 5 : nextId === 2 ? 10 : 25,
+    quiz: {
+      q: `Câu hỏi kiểm tra kiến thức của Giai đoạn ${nextId}?`,
+      a: [
+        'Đáp án chuẩn xác của câu hỏi',
+        'Lựa chọn phương án sai 1',
+        'Lựa chọn phương án sai 2',
+        'Lựa chọn phương án sai 3'
+      ],
+      c: 0
+    }
+  });
+  render();
+  toast(`➕ Đã thêm Giai đoạn ${nextId}!`);
+}
+
+function adminDeleteSubStage(subIdx) {
+  syncAdminEditingSubStagesFromDom();
+  if (adminEditingSubStages.length <= 1) {
+    toast('⚠️ Mỗi cấp độ cần duy trì ít nhất 1 giai đoạn nhỏ!');
+    return;
+  }
+  const deleted = adminEditingSubStages[subIdx];
+  adminEditingSubStages.splice(subIdx, 1);
+  adminEditingSubStages.forEach((s, i) => s.id = i + 1);
+  render();
+  toast(`🗑️ Đã xóa ${deleted.name || ('Giai đoạn ' + (subIdx + 1))}!`);
+}
+
+function adminMoveSubStage(subIdx, dir) {
+  syncAdminEditingSubStagesFromDom();
+  const targetIdx = subIdx + dir;
+  if (targetIdx < 0 || targetIdx >= adminEditingSubStages.length) return;
+  const temp = adminEditingSubStages[subIdx];
+  adminEditingSubStages[subIdx] = adminEditingSubStages[targetIdx];
+  adminEditingSubStages[targetIdx] = temp;
+  adminEditingSubStages.forEach((s, i) => s.id = i + 1);
+  render();
+}
+
+function adminResetStageSubStages(lvlNum) {
+  const def = DEFAULT_ASCENSION_STAGES.find(s => s.lvl === lvlNum) || DEFAULT_ASCENSION_STAGES[0];
+  if (def && Array.isArray(def.subStages)) {
+    adminEditingSubStages = JSON.parse(JSON.stringify(def.subStages));
+    render();
+    toast(`↺ Đã khôi phục các giai đoạn mặc định chuẩn HPU2 của Cấp ${lvlNum}!`);
+  }
+}
+
+function adminQuickRenameStage(idx) {
+  if (!checkAdminAuth()) return;
+  const st = ASCENSION_STAGES[idx];
+  if (!st) return;
+  const newRealm = prompt(`[Admin] Đổi Tên Cấp Độ / Danh Hiệu Cấp ${st.lvl}:`, st.realm);
+  if (newRealm === null) return;
+  const trimmedRealm = newRealm.trim();
+  if (!trimmedRealm) {
+    toast('⚠️ Tên cấp độ không được để trống!');
+    return;
+  }
+  const newName = prompt(`[Admin] Đổi Tiêu Đề / Tên Chủ Đề Cấp ${st.lvl}:`, st.name);
+  if (newName === null) return;
+  const trimmedName = newName.trim();
+  st.realm = trimmedRealm;
+  if (trimmedName) st.name = trimmedName;
+  saveAscensionStages();
+  head();
+  render();
+  toast(`🎉 Đã cập nhật tên Cấp ${st.lvl}: "${st.realm}"!`);
+}
+
+function adminOpenStageEdit(idx) {
+  if (!checkAdminAuth()) return;
+  adminEditingStageIdx = idx;
+  adminShowStageForm = true;
+  const target = ASCENSION_STAGES[idx];
+  adminEditingSubStages = JSON.parse(JSON.stringify(target?.subStages || getStageSubStages(target)));
+  render();
+  setTimeout(() => {
+    const el = document.getElementById('adminStageFormTop');
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 100);
+}
+
+function adminOpenStageSubStages(idx) {
+  if (!checkAdminAuth()) return;
+  adminEditingStageIdx = idx;
+  adminShowStageForm = true;
+  const target = ASCENSION_STAGES[idx];
+  adminEditingSubStages = JSON.parse(JSON.stringify(target?.subStages || getStageSubStages(target)));
+  render();
+  setTimeout(() => {
+    const el = document.getElementById('adminSubStagesSection');
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 100);
+}
 
 function vAdminLevelsMgmt(){
   const stages = ASCENSION_STAGES || [];
@@ -4864,6 +5019,10 @@ function vAdminLevelsMgmt(){
     reward: 'Huy hiệu thành tựu mới'
   };
 
+  if ((adminShowStageForm || isEditing) && (!Array.isArray(adminEditingSubStages) || adminEditingSubStages.length === 0)) {
+    adminEditingSubStages = JSON.parse(JSON.stringify(target.subStages || getStageSubStages(target)));
+  }
+
   const curLvl = lvl();
   const curStage = stages[curLvl - 1] || stages[0] || { realm: 'Cấp ' + curLvl };
 
@@ -4874,28 +5033,28 @@ function vAdminLevelsMgmt(){
       <div>
         <div class="flex items-center gap-2">
           <span class="text-2xl">🏆</span>
-          <h3 class="font-extrabold text-base text-emerald-950 font-fun">Quản Lý Lộ Trình Thăng Tiến &amp; Cấp Độ Chăm Chỉ</h3>
+          <h3 class="font-extrabold text-base text-emerald-950 font-fun">Quản Lý Lộ Trình Thăng Tiến, Cấp Độ &amp; Giai Đoạn Nhỏ</h3>
           <span class="text-xs bg-emerald-200 text-emerald-900 font-bold px-2.5 py-0.5 rounded-full border border-emerald-300">
             ${stages.length} Cấp bậc
           </span>
         </div>
         <p class="text-xs text-emerald-700 mt-1">
-          Tùy chỉnh tên gọi (Mầm non, Chồi, Lá...), mốc cấp bậc, điều kiện điểm XP, số ngày streak chăm chỉ và số bài thi/học hoàn thành.
+          Toàn quyền tùy chỉnh tên cấp độ, tiêu đề, mốc điểm XP, điều kiện mở khóa và cấu trúc các giai đoạn nhỏ (Sub-stages) bên trong từng cấp.
         </p>
-        <div class="mt-2 text-xs font-semibold text-emerald-900 bg-white/80 px-2.5 py-1 rounded-xl border border-emerald-200/80 inline-flex items-center gap-2">
+        <div class="mt-2 text-xs font-semibold text-emerald-900 bg-white/80 px-2.5 py-1 rounded-xl border border-emerald-200/80 inline-flex items-center gap-2 flex-wrap">
           <span>👀 Xem trước vị trí học viên hiện tại:</span>
           <span class="text-emerald-700 font-bold">Cấp ${curLvl} - ${curStage.realm}</span>
           <span class="text-slate-400">|</span>
-          <span class="text-amber-800">🔥 Chuỗi: ${S.streak} ngày</span>
+          <span class="text-amber-800 font-bold">🔥 Chuỗi: ${S.streak} ngày</span>
           <span class="text-slate-400">|</span>
-          <span class="text-teal-800">💧 XP: ${S.xp}</span>
+          <span class="text-teal-800 font-bold">💧 XP: ${S.xp}</span>
           <span class="text-slate-400">|</span>
-          <span class="text-emerald-800">✅ Đã hoàn thành: ${S.done} bài</span>
+          <span class="text-emerald-800 font-bold">✅ Đã hoàn thành: ${S.done} bài</span>
         </div>
       </div>
 
       <div class="flex items-center gap-2 flex-wrap">
-        <button class="btn sm g" onclick="adminEditingStageIdx=-1;adminShowStageForm=!adminShowStageForm;render()">
+        <button class="btn sm g shadow-sm" onclick="adminEditingStageIdx=-1;adminEditingSubStages=[];adminShowStageForm=!adminShowStageForm;render()">
           <span>${adminShowStageForm && !isEditing ? '✕ Đóng Form' : '➕ Thêm Cấp Bậc Mới'}</span>
         </button>
         <button class="btn sm outline" onclick="resetAscensionStagesToDefault()" title="Khôi phục về 10 cấp bậc chuẩn ĐH Sư Phạm Hà Nội 2">
@@ -4904,105 +5063,294 @@ function vAdminLevelsMgmt(){
       </div>
     </div>
 
-    <!-- KHỐI FORM THÊM / CHỈNH SỬA CẤP BẬC -->
+    <!-- KHỐI FORM THÊM / CHỈNH SỬA CẤP BẬC VÀ CÁC GIAI ĐOẠN NHỎ -->
     ${(adminShowStageForm || isEditing) ? `
-      <section class="card border-2 border-emerald-400 bg-white shadow-md animate-fade-in">
-        <div class="flex items-center justify-between pb-3 mb-4 border-b border-emerald-100">
+      <section id="adminStageFormTop" class="card border-2 border-emerald-400 bg-white shadow-md animate-fade-in space-y-4">
+        <div class="flex items-center justify-between pb-3 border-b border-emerald-100">
           <div class="flex items-center gap-2">
             <span class="text-xl">${isEditing ? '✏️' : '✨'}</span>
             <h4 class="font-extrabold text-sm text-emerald-950 uppercase tracking-wider">
-              ${isEditing ? `Chỉnh Sửa Cấp Bậc #${adminEditingStageIdx + 1}: ${target.realm}` : 'Thêm Mốc Cấp Bậc Thăng Tiến Mới'}
+              ${isEditing ? `Chỉnh Sửa Toàn Diện Cấp Bậc #${adminEditingStageIdx + 1}: ${target.realm} (${target.name})` : 'Thêm Mốc Cấp Bậc Thăng Tiến Mới'}
             </h4>
           </div>
-          <button class="text-xs text-slate-400 hover:text-slate-700 font-bold p-1" onclick="adminEditingStageIdx=-1;adminShowStageForm=false;render()">✕ Đóng</button>
+          <button class="text-xs text-slate-400 hover:text-slate-700 font-bold p-1 rounded-lg hover:bg-slate-100" onclick="adminEditingStageIdx=-1;adminShowStageForm=false;adminEditingSubStages=[];render()">✕ Đóng</button>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3.5">
-          <div>
-            <label class="text-xs font-bold text-emerald-900 block mb-1">Tên Cấp Độ / Danh Hiệu Chăm Chỉ (*):</label>
-            <input id="ad_stage_realm" 
-                   type="text" 
-                   value="${target.realm || ''}" 
-                   placeholder="Ví dụ: Mầm non, Cấp Chồi, Lá xanh, Bậc 1..." 
-                   class="font-bold text-xs">
+        <!-- PHẦN 1: THÔNG TIN CỐT LÕI CỦA CẤP BẬC -->
+        <div>
+          <div class="text-xs font-black uppercase tracking-wider text-emerald-900 mb-2.5 flex items-center gap-1.5">
+            <span>🏷️</span> <span>1. Thông Tin Chung &amp; Tiêu Đề Cấp Bậc:</span>
           </div>
 
-          <div>
-            <label class="text-xs font-bold text-emerald-900 block mb-1">Tên Chủ Đề / Huy Hiệu Chi Tiết (*):</label>
-            <input id="ad_stage_name" 
-                   type="text" 
-                   value="${target.name || ''}" 
-                   placeholder="Ví dụ: Gieo Mầm Tri Thức, Bứt Phá Nền Tảng..." 
-                   class="font-semibold text-xs">
-          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3.5">
+            <div>
+              <label class="text-xs font-bold text-emerald-900 block mb-1">Tên Cấp Độ / Danh Hiệu Chăm Chỉ (*):</label>
+              <input id="ad_stage_realm" 
+                     type="text" 
+                     value="${target.realm || ''}" 
+                     placeholder="Ví dụ: Tân Sinh Viên HPU2, Năm 1 - Nhập Môn..." 
+                     class="font-bold text-xs">
+              <span class="text-[10px] text-slate-500">Tên danh hiệu hiển thị trên huy hiệu &amp; thanh trạng thái</span>
+            </div>
 
-          <div>
-            <label class="text-xs font-bold text-emerald-900 block mb-1">Biểu Tượng Icon (Emoji):</label>
-            <input id="ad_stage_icon" 
-                   type="text" 
-                   value="${target.icon || '🌱'}" 
-                   placeholder="Ví dụ: 🌱, 🌿, 🌳, 🏆, 🎓, 🦉..." 
-                   class="text-xs text-center font-bold">
-          </div>
+            <div>
+              <label class="text-xs font-bold text-emerald-900 block mb-1">Tên Chủ Đề / Tiêu Đề Chi Tiết (*):</label>
+              <input id="ad_stage_name" 
+                     type="text" 
+                     value="${target.name || ''}" 
+                     placeholder="Ví dụ: Gieo Mầm Tri Thức Xuân Hòa, Chinh Phục Giải Tích..." 
+                     class="font-semibold text-xs">
+              <span class="text-[10px] text-slate-500">Tiêu đề học phần hoặc khóa tu luyện tri thức</span>
+            </div>
 
-          <div>
-            <label class="text-xs font-bold text-emerald-900 block mb-1">Điểm XP Tích Lũy Yêu Cầu:</label>
-            <input id="ad_stage_xp" 
-                   type="number" 
-                   min="0" 
-                   step="10" 
-                   value="${target.xp || 0}" 
-                   class="text-xs font-bold">
-            <span class="text-[10px] text-slate-500">Mốc XP tối thiểu để mở khóa cấp này</span>
-          </div>
+            <div>
+              <label class="text-xs font-bold text-emerald-900 block mb-1">Biểu Tượng Icon (Emoji):</label>
+              <input id="ad_stage_icon" 
+                     type="text" 
+                     value="${target.icon || '🌱'}" 
+                     placeholder="Ví dụ: 🌱, 📐, 📚, 📊, 📝, 💡, 🎤, 🏫, 🎓, 🏛️..." 
+                     class="text-xs text-center font-bold">
+              <span class="text-[10px] text-slate-500">Biểu tượng hiển thị trong lộ trình và nhà cây</span>
+            </div>
 
-          <div>
-            <label class="text-xs font-bold text-amber-900 block mb-1">🔥 Chuỗi Ngày Chăm Chỉ (Streak):</label>
-            <input id="ad_stage_streak" 
-                   type="number" 
-                   min="0" 
-                   step="1" 
-                   value="${target.reqStreak || 0}" 
-                   placeholder="0 = không yêu cầu" 
-                   class="text-xs font-bold">
-            <span class="text-[10px] text-amber-700">Số ngày streak liên tục (0 = không bắt buộc)</span>
-          </div>
+            <div>
+              <label class="text-xs font-bold text-emerald-900 block mb-1">Điểm XP Tích Lũy Yêu Cầu:</label>
+              <input id="ad_stage_xp" 
+                     type="number" 
+                     min="0" 
+                     step="10" 
+                     value="${target.xp || 0}" 
+                     class="text-xs font-bold">
+              <span class="text-[10px] text-slate-500">Mốc XP tối thiểu để mở khóa cấp này</span>
+            </div>
 
-          <div>
-            <label class="text-xs font-bold text-teal-900 block mb-1">✅ Số Bài Hoàn Thành (Tests / Bài Học):</label>
-            <input id="ad_stage_done" 
-                   type="number" 
-                   min="0" 
-                   step="1" 
-                   value="${target.reqDone || 0}" 
-                   placeholder="0 = không yêu cầu" 
-                   class="text-xs font-bold">
-            <span class="text-[10px] text-teal-700">Số bài thi/học cần hoàn thành (0 = không bắt buộc)</span>
-          </div>
+            <div>
+              <label class="text-xs font-bold text-amber-900 block mb-1">🔥 Chuỗi Ngày Chăm Chỉ (Streak):</label>
+              <input id="ad_stage_streak" 
+                     type="number" 
+                     min="0" 
+                     step="1" 
+                     value="${target.reqStreak || 0}" 
+                     placeholder="0 = không yêu cầu" 
+                     class="text-xs font-bold">
+              <span class="text-[10px] text-amber-700">Số ngày streak liên tục (0 = không bắt buộc)</span>
+            </div>
 
-          <div class="sm:col-span-2">
-            <label class="text-xs font-bold text-emerald-900 block mb-1">Mô Tả Cấp Bậc / Ý Nghĩa Giáo Dục:</label>
-            <input id="ad_stage_desc" 
-                   type="text" 
-                   value="${target.desc || ''}" 
-                   placeholder="Mô tả quá trình nỗ lực và ý nghĩa khi đạt cấp này..." 
-                   class="text-xs">
-          </div>
+            <div>
+              <label class="text-xs font-bold text-teal-900 block mb-1">✅ Số Bài Hoàn Thành (Tests / Bài Học):</label>
+              <input id="ad_stage_done" 
+                     type="number" 
+                     min="0" 
+                     step="1" 
+                     value="${target.reqDone || 0}" 
+                     placeholder="0 = không yêu cầu" 
+                     class="text-xs font-bold">
+              <span class="text-[10px] text-teal-700">Số bài thi/học cần hoàn thành (0 = không bắt buộc)</span>
+            </div>
 
-          <div>
-            <label class="text-xs font-bold text-emerald-900 block mb-1">Phần Thưởng / Đặc Quyền Mở Khóa:</label>
-            <input id="ad_stage_reward" 
-                   type="text" 
-                   value="${target.reward || ''}" 
-                   placeholder="Ví dụ: Khai mở Thư viện, Bảng Xanh Phấn Trắng..." 
-                   class="text-xs">
+            <div class="sm:col-span-2">
+              <label class="text-xs font-bold text-emerald-900 block mb-1">Mô Tả Cấp Bậc / Ý Nghĩa Giáo Dục:</label>
+              <input id="ad_stage_desc" 
+                     type="text" 
+                     value="${target.desc || ''}" 
+                     placeholder="Mô tả quá trình nỗ lực và ý nghĩa khi đạt cấp này..." 
+                     class="text-xs">
+            </div>
+
+            <div>
+              <label class="text-xs font-bold text-emerald-900 block mb-1">Phần Thưởng / Đặc Quyền Mở Khóa:</label>
+              <input id="ad_stage_reward" 
+                     type="text" 
+                     value="${target.reward || ''}" 
+                     placeholder="Ví dụ: Khai mở Thư viện, Bảng Xanh Phấn Trắng..." 
+                     class="text-xs">
+            </div>
           </div>
         </div>
 
-        <div class="flex items-center justify-end gap-2 mt-4 pt-3 border-t border-emerald-100">
-          <button class="btn sm outline" onclick="adminEditingStageIdx=-1;adminShowStageForm=false;render()">Hủy Bỏ</button>
-          <button class="btn sm g" onclick="saveAscensionStageForm(${isEditing}, ${adminEditingStageIdx})">
-            <span>💾</span> <span>${isEditing ? 'Lưu Cập Nhật Cấp Bậc' : 'Thêm Cấp Bậc Vào Lộ Trình'}</span>
+        <!-- PHẦN 2: QUẢN LÝ CÁC GIAI ĐOẠN NHỎ (SUB-STAGES) BÊN TRONG CẤP BẬC -->
+        <div id="adminSubStagesSection" class="mt-5 pt-4 border-t-2 border-emerald-100 space-y-4">
+          <div class="flex items-center justify-between flex-wrap gap-2">
+            <div>
+              <h5 class="font-extrabold text-sm text-emerald-950 flex items-center gap-2">
+                <span>🎯</span>
+                <span>2. Cấu Trúc Các Giai Đoạn Nhỏ (Sub-stages) Của Cấp Bậc Này:</span>
+                <span class="text-xs bg-amber-100 text-amber-900 font-black px-2.5 py-0.5 rounded-full border border-amber-300">
+                  ${adminEditingSubStages.length} Giai đoạn
+                </span>
+              </h5>
+              <p class="text-[11px] text-emerald-700 mt-0.5">
+                Admin có thể đổi tên, đổi tiêu đề, sửa lý thuyết, câu hỏi kiểm tra, phần thưởng hoặc thêm/bớt các giai đoạn nhỏ theo ý muốn.
+              </p>
+            </div>
+
+            <div class="flex items-center gap-2 flex-wrap">
+              <button type="button" class="btn sm g !py-1 text-xs font-bold shadow-2xs" onclick="adminAddSubStage()">
+                <span>➕ Thêm Giai Đoạn Nhỏ</span>
+              </button>
+              ${target.lvl ? `
+                <button type="button" class="btn sm outline !py-1 text-xs" onclick="adminResetStageSubStages(${target.lvl})">
+                  <span>↺ Khôi Phục GĐ Chuẩn Cấp ${target.lvl}</span>
+                </button>
+              ` : ''}
+            </div>
+          </div>
+
+          <!-- DANH SÁCH TỪNG GIAI ĐOẠN ĐANG ĐƯỢC CHỈNH SỬA -->
+          <div class="space-y-3.5">
+            ${adminEditingSubStages.map((sub, sIdx) => {
+              const typeIcon = sub.type === 'challenge' ? '⚔️' : sub.type === 'practice' ? '✍️' : '📘';
+              const badgeColor = sub.type === 'challenge' ? 'bg-amber-100 text-amber-950 border-amber-300' : sub.type === 'practice' ? 'bg-purple-100 text-purple-900 border-purple-300' : 'bg-blue-100 text-blue-900 border-blue-300';
+              const quiz = sub.quiz || { q: '', a: ['', '', '', ''], c: 0 };
+              const qOpts = Array.isArray(quiz.a) ? quiz.a : ['', '', '', ''];
+
+              return `
+                <div class="p-3.5 sm:p-4 rounded-2xl border-2 border-emerald-200/90 bg-emerald-50/20 space-y-3 relative hover:border-emerald-300 transition shadow-2xs">
+                  <!-- HÀNG ĐẦU GIAI ĐOẠN: BADGE & NÚT THAO TÁC -->
+                  <div class="flex items-center justify-between flex-wrap gap-2 pb-2 border-b border-emerald-100">
+                    <div class="flex items-center gap-2 flex-wrap">
+                      <span class="w-7 h-7 rounded-lg bg-emerald-600 text-white font-black text-xs flex items-center justify-center shadow-2xs">
+                        #${sIdx + 1}
+                      </span>
+                      <span class="text-xs font-black px-2.5 py-0.5 rounded-lg border ${badgeColor}">
+                        ${typeIcon} ${sub.name || ('Giai đoạn ' + (sIdx + 1))}
+                      </span>
+                      <span class="text-xs font-extrabold text-emerald-950">${sub.title || ''}</span>
+                    </div>
+
+                    <div class="flex items-center gap-1.5">
+                      <button type="button" class="w-6 h-6 rounded-md bg-white hover:bg-emerald-100 text-emerald-900 text-xs font-bold border border-emerald-200 flex items-center justify-center shadow-2xs" onclick="adminMoveSubStage(${sIdx}, -1)" title="Đẩy giai đoạn lên">▲</button>
+                      <button type="button" class="w-6 h-6 rounded-md bg-white hover:bg-emerald-100 text-emerald-900 text-xs font-bold border border-emerald-200 flex items-center justify-center shadow-2xs" onclick="adminMoveSubStage(${sIdx}, 1)" title="Đẩy giai đoạn xuống">▼</button>
+                      <button type="button" class="btn sm rose !py-0.5 !px-2 text-xs font-bold" onclick="adminDeleteSubStage(${sIdx})" title="Xóa giai đoạn này">
+                        <span>🗑️ Xóa GĐ</span>
+                      </button>
+                    </div>
+                  </div>
+
+                  <!-- CÁC TRƯỜNG DỮ LIỆU CỦA GIAI ĐOẠN -->
+                  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+                    <div>
+                      <label class="text-[11px] font-bold text-emerald-950 block mb-1">Tên Giai Đoạn (*):</label>
+                      <input id="ad_sub_name_${sIdx}" 
+                             type="text" 
+                             value="${sub.name || ''}" 
+                             placeholder="Ví dụ: Giai đoạn 1: Khởi Động" 
+                             class="text-xs font-bold">
+                    </div>
+
+                    <div>
+                      <label class="text-[11px] font-bold text-emerald-950 block mb-1">Tiêu Đề Nhiệm Vụ (*):</label>
+                      <input id="ad_sub_title_${sIdx}" 
+                             type="text" 
+                             value="${sub.title || ''}" 
+                             placeholder="Ví dụ: Khám Phá Sứ Mạng Nhà Giáo..." 
+                             class="text-xs font-semibold">
+                    </div>
+
+                    <div>
+                      <label class="text-[11px] font-bold text-emerald-950 block mb-1">Loại Giai Đoạn (Phân Loại):</label>
+                      <select id="ad_sub_type_${sIdx}" class="text-xs font-bold py-1.5">
+                        <option value="theory" ${sub.type === 'theory' ? 'selected' : ''}>📘 Lý thuyết / Khởi động</option>
+                        <option value="practice" ${sub.type === 'practice' ? 'selected' : ''}>✍️ Luyện tập / Bài tập</option>
+                        <option value="challenge" ${sub.type === 'challenge' ? 'selected' : ''}>⚔️ Thử thách / Mini-test</option>
+                      </select>
+                    </div>
+
+                    <div class="sm:col-span-2">
+                      <label class="text-[11px] font-bold text-emerald-950 block mb-1">Mô Tả Mục Tiêu Giai Đoạn:</label>
+                      <input id="ad_sub_desc_${sIdx}" 
+                             type="text" 
+                             value="${sub.desc || ''}" 
+                             placeholder="Mô tả ngắn gọn nội dung và yêu cầu cần đạt..." 
+                             class="text-xs">
+                    </div>
+
+                    <div class="flex items-center gap-2">
+                      <div class="flex-1">
+                        <label class="text-[11px] font-bold text-teal-900 block mb-1">⭐ Thưởng XP:</label>
+                        <input id="ad_sub_xp_${sIdx}" 
+                               type="number" 
+                               min="0" 
+                               step="5" 
+                               value="${sub.rewardXp || 15}" 
+                               class="text-xs font-bold">
+                      </div>
+                      <div class="flex-1">
+                        <label class="text-[11px] font-bold text-amber-900 block mb-1">🔥 Thưởng Lửa:</label>
+                        <input id="ad_sub_flame_${sIdx}" 
+                               type="number" 
+                               min="0" 
+                               step="5" 
+                               value="${sub.rewardFlame || 5}" 
+                               class="text-xs font-bold">
+                      </div>
+                    </div>
+
+                    <div class="sm:col-span-3">
+                      <label class="text-[11px] font-bold text-emerald-950 block mb-1">📖 Tóm Tắt Lý Thuyết / Hướng Dẫn Thực Hiện (Hỗ trợ công thức KaTeX):</label>
+                      <textarea id="ad_sub_review_${sIdx}" 
+                                rows="2" 
+                                placeholder="Nội dung tóm lược kiến thức trọng tâm cho học viên ôn tập..." 
+                                class="text-xs w-full py-1.5 px-2.5 rounded-xl border border-emerald-200">${sub.review || ''}</textarea>
+                    </div>
+                  </div>
+
+                  <!-- KHỐI CÂU HỎI KIỂM TRA NHANH (QUIZ CỦA GIAI ĐOẠN) -->
+                  <div class="p-2.5 rounded-xl bg-white border border-amber-200/90 space-y-2">
+                    <div class="flex items-center justify-between">
+                      <span class="text-[11px] font-bold text-amber-950 flex items-center gap-1">
+                        <span>❓</span> <span>Câu Hỏi Trắc Nghiệm / Phản Biện Nhanh:</span>
+                      </span>
+                      <span class="text-[10px] text-slate-500">Học viên trả lời đúng để hoàn tất giai đoạn</span>
+                    </div>
+
+                    <div>
+                      <input id="ad_sub_quiz_q_${sIdx}" 
+                             type="text" 
+                             value="${quiz.q || ''}" 
+                             placeholder="Nhập nội dung câu hỏi trắc nghiệm kiểm tra..." 
+                             class="text-xs font-semibold w-full">
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                      <div class="flex items-center gap-1.5">
+                        <span class="font-bold text-emerald-700 w-5 text-center">A:</span>
+                        <input id="ad_sub_quiz_a0_${sIdx}" type="text" value="${qOpts[0] || ''}" placeholder="Lựa chọn A" class="text-xs">
+                      </div>
+                      <div class="flex items-center gap-1.5">
+                        <span class="font-bold text-emerald-700 w-5 text-center">B:</span>
+                        <input id="ad_sub_quiz_a1_${sIdx}" type="text" value="${qOpts[1] || ''}" placeholder="Lựa chọn B" class="text-xs">
+                      </div>
+                      <div class="flex items-center gap-1.5">
+                        <span class="font-bold text-emerald-700 w-5 text-center">C:</span>
+                        <input id="ad_sub_quiz_a2_${sIdx}" type="text" value="${qOpts[2] || ''}" placeholder="Lựa chọn C (tùy chọn)" class="text-xs">
+                      </div>
+                      <div class="flex items-center gap-1.5">
+                        <span class="font-bold text-emerald-700 w-5 text-center">D:</span>
+                        <input id="ad_sub_quiz_a3_${sIdx}" type="text" value="${qOpts[3] || ''}" placeholder="Lựa chọn D (tùy chọn)" class="text-xs">
+                      </div>
+                    </div>
+
+                    <div class="flex items-center gap-2 pt-1">
+                      <span class="text-[11px] font-bold text-emerald-950">Đáp án chính xác:</span>
+                      <select id="ad_sub_quiz_c_${sIdx}" class="text-xs font-bold py-1 px-2 w-28">
+                        <option value="0" ${quiz.c === 0 ? 'selected' : ''}>Đáp án A</option>
+                        <option value="1" ${quiz.c === 1 ? 'selected' : ''}>Đáp án B</option>
+                        <option value="2" ${quiz.c === 2 ? 'selected' : ''}>Đáp án C</option>
+                        <option value="3" ${quiz.c === 3 ? 'selected' : ''}>Đáp án D</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        </div>
+
+        <div class="flex items-center justify-end gap-2 mt-4 pt-3 border-t border-emerald-100 flex-wrap">
+          <button class="btn sm outline" onclick="adminEditingStageIdx=-1;adminShowStageForm=false;adminEditingSubStages=[];render()">Hủy Bỏ</button>
+          <button class="btn sm g shadow-sm !py-2 !px-4" onclick="saveAscensionStageForm(${isEditing}, ${adminEditingStageIdx})">
+            <span>💾</span> <span>${isEditing ? 'Lưu Cập Nhật Cấp Bậc & Các Giai Đoạn Nhỏ' : 'Thêm Cấp Bậc Vào Lộ Trình'}</span>
           </button>
         </div>
       </section>
@@ -5012,58 +5360,80 @@ function vAdminLevelsMgmt(){
     <div class="space-y-3">
       <div class="flex items-center justify-between text-xs font-bold uppercase tracking-wider text-emerald-900 px-1">
         <span>Danh Sách Các Mốc Lộ Trình Thăng Tiến (${stages.length} Bậc):</span>
-        <span class="text-[11px] text-teal-700 font-normal">Có thể dùng ▲▼ để đổi thứ tự, ✏️ để sửa, 🗑️ để xóa</span>
+        <span class="text-[11px] text-teal-700 font-normal">🏷️ Đổi tên nhanh | 🎯 Quản lý giai đoạn nhỏ | ✏️ Sửa chi tiết | ▲▼ Thứ tự</span>
       </div>
 
       ${stages.map((st, idx) => {
         const isEditingThis = adminEditingStageIdx === idx;
+        const subList = getStageSubStages(st);
         return `
-          <div class="p-3.5 rounded-2xl border ${isEditingThis ? 'border-amber-400 bg-amber-50/70 shadow-sm' : 'border-emerald-200 bg-white hover:border-emerald-300'} transition flex items-center justify-between gap-3 flex-wrap sm:flex-nowrap">
-            <div class="flex items-center gap-3">
-              <div class="w-12 h-12 rounded-xl bg-emerald-100 text-2xl flex items-center justify-center shrink-0 shadow-2xs border border-emerald-300">
-                ${st.icon || '🌱'}
+          <div class="p-3.5 sm:p-4 rounded-2xl border ${isEditingThis ? 'border-amber-400 bg-amber-50/70 shadow-sm ring-1 ring-amber-300' : 'border-emerald-200 bg-white hover:border-emerald-300'} transition space-y-2.5">
+            <div class="flex items-center justify-between gap-3 flex-wrap sm:flex-nowrap">
+              <div class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-xl bg-emerald-100 text-2xl flex items-center justify-center shrink-0 shadow-2xs border border-emerald-300">
+                  ${st.icon || '🌱'}
+                </div>
+                <div>
+                  <div class="flex items-center gap-2 flex-wrap">
+                    <span class="text-xs font-extrabold px-2.5 py-0.5 rounded-full bg-emerald-600 text-white">
+                      Cấp ${st.lvl || (idx + 1)}
+                    </span>
+                    <span class="font-extrabold text-sm text-emerald-950">${st.realm}</span>
+                    <span class="text-xs text-slate-500 font-medium">(${st.name})</span>
+                  </div>
+                  <div class="flex items-center gap-2 mt-1 flex-wrap text-[11px]">
+                    <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-800 font-bold border border-slate-200">
+                      ⭐ ${st.xp || 0} XP
+                    </span>
+                    ${st.reqStreak ? `
+                      <span class="px-2 py-0.5 rounded-md bg-amber-100 text-amber-900 font-bold border border-amber-200">
+                        🔥 Chuỗi ≥ ${st.reqStreak} ngày
+                      </span>
+                    ` : `
+                      <span class="px-2 py-0.5 rounded-md bg-slate-50 text-slate-500 text-[10px]">
+                        Chuỗi: Tùy ý
+                      </span>
+                    `}
+                    ${st.reqDone ? `
+                      <span class="px-2 py-0.5 rounded-md bg-teal-100 text-teal-900 font-bold border border-teal-200">
+                        ✅ Hoàn thành ≥ ${st.reqDone} bài
+                      </span>
+                    ` : ''}
+                    <span class="px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-900 font-bold border border-emerald-200">
+                      🎯 ${subList.length} Giai đoạn nhỏ
+                    </span>
+                  </div>
+                  <p class="text-xs text-emerald-800 mt-1 line-clamp-1">${st.desc || ''}</p>
+                  <div class="text-[10px] text-teal-700 font-semibold mt-0.5">🎁 Thưởng: ${st.reward || 'Huy hiệu thành tựu'}</div>
+                </div>
               </div>
-              <div>
-                <div class="flex items-center gap-2 flex-wrap">
-                  <span class="text-xs font-extrabold px-2.5 py-0.5 rounded-full bg-emerald-600 text-white">
-                    Cấp ${st.lvl || (idx + 1)}
-                  </span>
-                  <span class="font-extrabold text-sm text-emerald-950">${st.realm}</span>
-                  <span class="text-xs text-slate-500 font-medium">(${st.name})</span>
-                </div>
-                <div class="flex items-center gap-2 mt-1 flex-wrap text-[11px]">
-                  <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-800 font-bold border border-slate-200">
-                    ⭐ ${st.xp || 0} XP
-                  </span>
-                  ${st.reqStreak ? `
-                    <span class="px-2 py-0.5 rounded-md bg-amber-100 text-amber-900 font-bold border border-amber-200">
-                      🔥 Chuỗi ≥ ${st.reqStreak} ngày
-                    </span>
-                  ` : `
-                    <span class="px-2 py-0.5 rounded-md bg-slate-50 text-slate-500 text-[10px]">
-                      Chuỗi: Tùy ý
-                    </span>
-                  `}
-                  ${st.reqDone ? `
-                    <span class="px-2 py-0.5 rounded-md bg-teal-100 text-teal-900 font-bold border border-teal-200">
-                      ✅ Hoàn thành ≥ ${st.reqDone} bài
-                    </span>
-                  ` : ''}
-                </div>
-                <p class="text-xs text-emerald-800 mt-1 line-clamp-1">${st.desc || ''}</p>
-                <div class="text-[10px] text-teal-700 font-semibold mt-0.5">🎁 Thưởng: ${st.reward || 'Huy hiệu thành tựu'}</div>
+
+              <div class="flex items-center gap-1.5 shrink-0 self-end sm:self-center flex-wrap">
+                <button class="btn sm outline !py-1 !px-2 text-xs font-bold" onclick="adminQuickRenameStage(${idx})" title="Đổi tên nhanh cấp độ">
+                  <span>🏷️ Đổi Tên</span>
+                </button>
+                <button class="btn sm outline !py-1 !px-2.5 text-xs font-bold text-emerald-800 bg-emerald-50/70 hover:bg-emerald-100 border-emerald-300" onclick="adminOpenStageSubStages(${idx})" title="Quản lý và chỉnh sửa các giai đoạn nhỏ của cấp này">
+                  <span>🎯 ${subList.length} GĐ Nhỏ</span>
+                </button>
+                <button class="w-7 h-7 rounded-lg bg-emerald-50 hover:bg-emerald-200 text-emerald-900 text-xs font-bold flex items-center justify-center" onclick="moveAscensionStage(${idx}, -1)" title="Đẩy lên trước">▲</button>
+                <button class="w-7 h-7 rounded-lg bg-emerald-50 hover:bg-emerald-200 text-emerald-900 text-xs font-bold flex items-center justify-center" onclick="moveAscensionStage(${idx}, 1)" title="Đẩy xuống sau">▼</button>
+                <button class="btn sm outline !py-1 !px-2.5 text-xs font-bold flex items-center gap-1" onclick="adminOpenStageEdit(${idx})" title="Chỉnh sửa toàn diện cấp độ">
+                  <span>✏️ Sửa</span>
+                </button>
+                <button class="btn sm rose !py-1 !px-2 text-xs font-bold" onclick="deleteAscensionStage(${idx})" title="Xóa cấp bậc này">
+                  <span>🗑️</span>
+                </button>
               </div>
             </div>
 
-            <div class="flex items-center gap-1.5 shrink-0 self-end sm:self-center">
-              <button class="w-7 h-7 rounded-lg bg-emerald-50 hover:bg-emerald-200 text-emerald-900 text-xs font-bold flex items-center justify-center" onclick="moveAscensionStage(${idx}, -1)" title="Đẩy lên trước">▲</button>
-              <button class="w-7 h-7 rounded-lg bg-emerald-50 hover:bg-emerald-200 text-emerald-900 text-xs font-bold flex items-center justify-center" onclick="moveAscensionStage(${idx}, 1)" title="Đẩy xuống sau">▼</button>
-              <button class="btn sm outline !py-1 !px-2.5 text-xs font-bold flex items-center gap-1" onclick="adminEditingStageIdx=${idx};adminShowStageForm=true;render()" title="Chỉnh sửa thông tin cấp độ">
-                <span>✏️ Sửa</span>
-              </button>
-              <button class="btn sm rose !py-1 !px-2 text-xs font-bold" onclick="deleteAscensionStage(${idx})" title="Xóa cấp bậc này">
-                <span>🗑️</span>
-              </button>
+            <!-- DANH SÁCH GIAI ĐOẠN NHỎ CỦA CẤP ĐỘ NÀY -->
+            <div class="pt-2 border-t border-slate-100 flex items-center gap-1.5 flex-wrap">
+              <span class="text-[10px] font-bold text-slate-500">Các giai đoạn nhỏ:</span>
+              ${subList.map((s, si) => `
+                <span class="text-[10px] font-semibold px-2 py-0.5 rounded-md bg-emerald-50/80 text-emerald-900 border border-emerald-200" title="${s.desc || ''}">
+                  ${si + 1}. ${s.name}: ${s.title} (+${s.rewardXp} XP, +${s.rewardFlame} 🔥)
+                </span>
+              `).join('')}
             </div>
           </div>
         `;
@@ -5090,12 +5460,18 @@ function saveAscensionStageForm(isEdit, idx){
     return;
   }
   if (!name) {
-    toast('⚠️ Vui lòng nhập Tên Chủ Đề / Huy Hiệu Chi Tiết!');
+    toast('⚠️ Vui lòng nhập Tên Chủ Đề / Tiêu Đề Chi Tiết!');
     $('#ad_stage_name')?.focus();
     return;
   }
 
-  const existingSubStages = (isEdit && idx >= 0 && ASCENSION_STAGES[idx]?.subStages) ? ASCENSION_STAGES[idx].subStages : undefined;
+  // Đồng bộ toàn bộ dữ liệu các giai đoạn nhỏ từ form DOM
+  syncAdminEditingSubStagesFromDom();
+
+  const finalSubStages = (Array.isArray(adminEditingSubStages) && adminEditingSubStages.length > 0)
+    ? JSON.parse(JSON.stringify(adminEditingSubStages))
+    : getStageSubStages({ lvl: (isEdit && idx >= 0) ? (idx + 1) : (ASCENSION_STAGES.length + 1) });
+
   const stageData = {
     lvl: (isEdit && idx >= 0) ? (idx + 1) : (ASCENSION_STAGES.length + 1),
     realm: realm,
@@ -5106,21 +5482,22 @@ function saveAscensionStageForm(isEdit, idx){
     reqDone: Math.max(0, reqDone),
     desc: desc,
     reward: reward,
-    subStages: existingSubStages || getStageSubStages({ lvl: (isEdit && idx >= 0) ? (idx + 1) : (ASCENSION_STAGES.length + 1), realm: realm, name: name })
+    subStages: finalSubStages
   };
 
   if (isEdit && idx >= 0 && idx < ASCENSION_STAGES.length) {
     ASCENSION_STAGES[idx] = stageData;
-    toast(`🎉 Đã cập nhật thành công Cấp ${stageData.lvl}: ${realm}!`);
+    toast(`🎉 Đã lưu thành công Cấp ${stageData.lvl}: "${realm}" cùng ${finalSubStages.length} giai đoạn nhỏ!`);
   } else {
     ASCENSION_STAGES.push(stageData);
-    toast(`🎉 Đã thêm mới thành công Cấp ${stageData.lvl}: ${realm}!`);
+    toast(`🎉 Đã thêm mới thành công Cấp ${stageData.lvl}: "${realm}" cùng ${finalSubStages.length} giai đoạn nhỏ!`);
   }
 
   ASCENSION_STAGES.forEach((st, i) => st.lvl = i + 1);
   saveAscensionStages();
   adminEditingStageIdx = -1;
   adminShowStageForm = false;
+  adminEditingSubStages = [];
   head();
   render();
 }
@@ -5164,6 +5541,14 @@ function resetAscensionStagesToDefault(){
     return;
   }
   ASCENSION_STAGES = JSON.parse(JSON.stringify(DEFAULT_ASCENSION_STAGES));
+  saveAscensionStages();
+  adminEditingStageIdx = -1;
+  adminShowStageForm = false;
+  adminEditingSubStages = [];
+  toast('↺ Đã khôi phục 10 cấp bậc thăng tiến chuẩn HPU2!');
+  head();
+  render();
+}
   saveAscensionStages();
   adminEditingStageIdx = -1;
   adminShowStageForm = false;
@@ -9843,13 +10228,13 @@ function vAscensionMap(){
               </div>
             </div>
 
-            <!-- CHI TIẾT 3 GIAI ĐOẠN NHỎ (SUB-STAGES) -->
+            <!-- CHI TIẾT CÁC GIAI ĐOẠN NHỎ (SUB-STAGES) -->
             <div class="mt-3.5 space-y-2">
-              ${subStages.map(sub => {
+              ${subStages.map((sub, sIdx) => {
                 const isDone = isSubStageDone(st.lvl, sub.id);
-                const isReady = isCurrent && !isDone && (sub.id === 1 || isSubStageDone(st.lvl, sub.id - 1));
-                const badgeColor = sub.id === 1 ? 'bg-blue-100 text-blue-900 border-blue-300' : sub.id === 2 ? 'bg-purple-100 text-purple-900 border-purple-300' : 'bg-amber-100 text-amber-950 border-amber-300';
-                const typeIcon = sub.id === 1 ? '📘' : sub.id === 2 ? '✍️' : '⚔️';
+                const isReady = isCurrent && !isDone && (sIdx === 0 || isSubStageDone(st.lvl, subStages[sIdx - 1].id));
+                const badgeColor = sub.type === 'challenge' ? 'bg-amber-100 text-amber-950 border-amber-300' : sub.type === 'practice' ? 'bg-purple-100 text-purple-900 border-purple-300' : 'bg-blue-100 text-blue-900 border-blue-300';
+                const typeIcon = sub.type === 'challenge' ? '⚔️' : sub.type === 'practice' ? '✍️' : '📘';
 
                 return `
                   <div class="p-3 rounded-2xl border transition flex items-center justify-between gap-3 flex-wrap sm:flex-nowrap ${isDone ? 'bg-emerald-50/70 border-emerald-200' : isReady ? 'bg-white border-amber-300 shadow-sm ring-1 ring-amber-300/60' : 'bg-slate-50/70 border-slate-200/80'}">
@@ -9875,12 +10260,12 @@ function vAscensionMap(){
                           <span>✓</span> <span>Đã Hoàn Thành</span>
                         </span>
                       ` : isReady ? `
-                        <button class="btn sm ${sub.id === 3 ? 'y font-black shadow-sm ring-2 ring-amber-300' : 'g font-bold'} text-xs !py-1 !px-3 w-full sm:w-auto" onclick="openSubStageModal(${st.lvl}, ${sub.id})">
-                          <span>${sub.id === 1 ? '📘 Bắt Đầu GĐ 1' : sub.id === 2 ? '✍️ Bắt Đầu GĐ 2' : '⚔️ Thử Thách &amp; Thăng Cấp 🚀'}</span>
+                        <button class="btn sm ${sub.type === 'challenge' ? 'y font-black shadow-sm ring-2 ring-amber-300' : 'g font-bold'} text-xs !py-1 !px-3 w-full sm:w-auto" onclick="openSubStageModal(${st.lvl}, ${sub.id})">
+                          <span>${sub.type === 'challenge' ? '⚔️ Thử Thách &amp; Thăng Cấp 🚀' : sub.type === 'practice' ? '✍️ Bắt Đầu ' + sub.name : '📘 Bắt Đầu ' + sub.name}</span>
                         </button>
                       ` : `
                         <span class="inline-flex items-center gap-1 text-[11px] font-bold px-2.5 py-1 rounded-xl bg-slate-100 text-slate-500 border border-slate-200">
-                          <span>🔒</span> <span>${!isCurrent ? 'Chưa Mở Khóa' : `Cần Xong GĐ ${sub.id - 1}`}</span>
+                          <span>🔒</span> <span>${!isCurrent ? 'Chưa Mở Khóa' : `Cần Xong ${sIdx > 0 ? (subStages[sIdx - 1].name || ('GĐ ' + (sIdx))) : 'GĐ trước'}`}</span>
                         </span>
                       `}
                     </div>
