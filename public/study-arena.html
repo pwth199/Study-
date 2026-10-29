@@ -334,6 +334,9 @@ footer{position:relative;z-index:10}
 <!-- THÔNG BÁO TOAST DẠNG GIỌT SƯƠNG -->
 <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-gradient-to-r from-emerald-900 to-teal-900 text-white font-bold text-sm px-5 py-3 rounded-2xl shadow-2xl border border-emerald-400 hidden items-center gap-2 z-50 transition-all"></div>
 
+<!-- MODAL GIAI ĐOẠN CẤP ĐỘ & THĂNG HẠNG CHĂM CHỈ (3 GIAI ĐOẠN / CẤP) -->
+<div id="ascensionSubModal" class="fixed inset-0 bg-slate-950/70 backdrop-blur-xs hidden items-center justify-center p-3 sm:p-4 z-50 overflow-y-auto" onclick="if(event.target===this)closeSubStageModal()"></div>
+
 <!-- NÚT NỔI HỎI ĐÁP & TRA CỨU AI BẤT CỨ LÚC NÀO (FLOATING FAB) -->
 <button id="floatingAiBtn" 
         class="fixed bottom-6 right-5 z-40 bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-700 text-white font-extrabold text-xs sm:text-sm py-2.5 px-4 rounded-full shadow-2xl hover:shadow-emerald-500/40 hover:scale-105 active:scale-95 transition-all flex items-center gap-2 border-2 border-white/90"
@@ -589,57 +592,587 @@ function savePetsCatalog(){
 }
 
 /* ==================== 2.3 LỘ TRÌNH THĂNG TIẾN & CẤP ĐỘ CHĂM CHỈ (ADMIN QUẢN LÝ) ==================== */
-const STORE_ASCENSION_STAGES = 'sa_ascension_stages_v2';
+const STORE_ASCENSION_STAGES = 'sa_ascension_stages_v3';
 const DEFAULT_ASCENSION_STAGES = [
   {
     lvl: 1, xp: 0, reqStreak: 0, reqDone: 0, realm: 'Tân Sinh Viên HPU2', name: 'Gieo Mầm Tri Thức Xuân Hòa', icon: '🌱',
     desc: 'Bước chân vào cổng trường ĐH Sư phạm Hà Nội 2 tại Xuân Hòa, bắt đầu hành trình trở thành nhà giáo tương lai.',
-    reward: 'Khai mở Thư Viện HPU2 & Sổ Nhật Ký Nghiệp Vụ'
+    reward: 'Khai mở Thư Viện HPU2 & Sổ Nhật Ký Nghiệp Vụ',
+    subStages: [
+      {
+        id: 1, type: 'theory', name: 'Giai đoạn 1: Khởi Động',
+        title: 'Khám Phá Sứ Mạng Nhà Giáo & Khung CT Đào Tạo',
+        desc: 'Tìm hiểu đề cương 5 môn học cốt lõi (Đại số tuyến tính, Giải tích 1-2, Xác suất thống kê, Toán rời rạc) và tinh thần Sư phạm HPU2.',
+        review: 'Chào mừng bạn đến với Khoa Toán - ĐH Sư Phạm Hà Nội 2 tại Xuân Hòa! Trong giai đoạn khởi động này, bạn cần nắm rõ mục tiêu chuẩn đầu ra cử nhân Sư phạm Toán: kết hợp vững chắc giữa kiến thức toán học chuyên sâu và nghiệp vụ sư phạm hiện đại.',
+        quiz: {
+          q: 'Mục tiêu trọng tâm của sinh viên Sư phạm Toán HPU2 trong giai đoạn khởi động là gì?',
+          a: [
+            'Nắm chắc đề cương 5 học phần cốt lõi và rèn luyện tác phong người thầy',
+            'Chỉ học thuộc lý thuyết mà không cần rèn luyện giải bài',
+            'Bỏ qua các môn đại cương',
+            'Chỉ tập trung vào thi cử điểm số'
+          ],
+          c: 0
+        },
+        rewardXp: 15, rewardFlame: 5
+      },
+      {
+        id: 2, type: 'practice', name: 'Giai đoạn 2: Luyện Tập',
+        title: 'Rèn Luyện Kỹ Năng Tư Duy & Giải Đề Nhập Môn',
+        desc: 'Luyện tập 5 bài toán trắc nghiệm logic mệnh đề nhập môn và làm quen phương pháp tự học tại giảng đường.',
+        review: 'Thực hành phân tích bài toán logic mệnh đề, thiết lập bảng chân trị và phương pháp chứng minh phản chứng: để chứng minh $P \\implies Q$, giả sử $P$ đúng và $Q$ sai rồi chỉ ra điều mâu thuẫn.',
+        quiz: {
+          q: 'Cho mệnh đề P: "Mọi ma trận vuông đều khả nghịch". Phủ định $\\overline{P}$ của mệnh đề P là gì?',
+          a: [
+            'Tồn tại ít nhất một ma trận vuông không khả nghịch',
+            'Mọi ma trận vuông đều không khả nghịch',
+            'Không có ma trận vuông nào khả nghịch',
+            'Tồn tại một ma trận khả nghịch'
+          ],
+          c: 0
+        },
+        rewardXp: 25, rewardFlame: 10
+      },
+      {
+        id: 3, type: 'challenge', name: 'Giai đoạn 3: Thử Thách',
+        title: 'Mini-Test Đánh Giá Năng Lực Đầu Vào Sư Phạm',
+        desc: 'Vượt qua bài sát hạch nhập môn để chính thức thăng hạng lên Cấp 2 (Năm 1 - Nhập Môn).',
+        review: 'Thử thách tổng kết giai đoạn tân sinh viên: kiểm tra năng lực tính toán tổ hợp và tư duy logic nền tảng.',
+        quiz: {
+          q: 'Công thức biểu diễn số tổ hợp chập $k$ của $n$ phần tử ($0 \\le k \\le n$) là gì?',
+          a: [
+            '$$C_n^k = \\frac{n!}{k!(n-k)!}$$',
+            '$$C_n^k = \\frac{n!}{(n-k)!}$$',
+            '$$C_n^k = \\frac{k!}{n!(n-k)!}$$',
+            '$$C_n^k = n! \\cdot k!$$'
+          ],
+          c: 0
+        },
+        rewardXp: 50, rewardFlame: 25
+      }
+    ]
   },
   {
     lvl: 2, xp: 60, reqStreak: 1, reqDone: 1, realm: 'Năm 1 - Nhập Môn', name: 'Chinh Phục Giải Tích & Đại Số', icon: '📐',
     desc: 'Nắm vững giới hạn, vi phân, ma trận và không gian vectơ – nền móng vững chắc của toán học cao cấp.',
-    reward: 'Mở khóa Bảng Xanh Phấn Trắng & Tăng 10% Tốc Độ Tích Lũy Sương'
+    reward: 'Mở khóa Bảng Xanh Phấn Trắng & Tăng 10% Tốc Độ Tích Lũy Sương',
+    subStages: [
+      {
+        id: 1, type: 'theory', name: 'Giai đoạn 1: Khởi Động',
+        title: 'Hệ Thống Hóa Giới Hạn, Vi Phân & Ma Trận',
+        desc: 'Ôn tập định nghĩa giới hạn theo ngôn ngữ $\\varepsilon-\\delta$, tính chất vi phân hàm một biến và các phép toán ma trận.',
+        review: 'Giới hạn hàm số: $\\lim_{x \\to x_0} f(x) = L \\iff \\forall \\varepsilon > 0, \\exists \\delta > 0: 0 < |x - x_0| < \\delta \\implies |f(x) - L| < \\varepsilon$. Định thức $\\det(A)$ giúp xác định ma trận có khả nghịch hay không.',
+        quiz: {
+          q: 'Nếu $\\det(A) \\ne 0$ thì ma trận vuông $A$ có tính chất nào sau đây?',
+          a: [
+            '$A$ khả nghịch và tồn tại ma trận nghịch đảo $A^{-1}$ duy nhất',
+            '$A$ là ma trận suy biến',
+            '$A$ không có hàng nào độc lập tuyến tính',
+            'Hệ thuần nhất $AX = 0$ có vô số nghiệm'
+          ],
+          c: 0
+        },
+        rewardXp: 15, rewardFlame: 5
+      },
+      {
+        id: 2, type: 'practice', name: 'Giai đoạn 2: Luyện Tập',
+        title: 'Giải Bài Tập Không Gian Vectơ & Tích Phân Nâng Cao',
+        desc: 'Rèn luyện kỹ năng tìm ma trận nghịch đảo, tính hạng ma trận và giải tích phân suy rộng.',
+        review: 'Áp dụng thuật toán biến đổi sơ cấp dòng Gauss-Jordan và công thức tích phân từng phần: $\\int u \\, dv = uv - \\int v \\, du$.',
+        quiz: {
+          q: 'Cho ma trận $A = \\begin{pmatrix} 2 & 1 \\\\ 4 & 3 \\end{pmatrix}$. Định thức $\\det(A)$ bằng bao nhiêu?',
+          a: [
+            '$\\det(A) = 2 \\cdot 3 - 1 \\cdot 4 = 2$',
+            '$\\det(A) = -2$',
+            '$\\det(A) = 10$',
+            '$\\det(A) = 6$'
+          ],
+          c: 0
+        },
+        rewardXp: 25, rewardFlame: 10
+      },
+      {
+        id: 3, type: 'challenge', name: 'Giai đoạn 3: Thử Thách',
+        title: 'Mini-Test Chinh Phục Toán Cao Cấp Năm 1',
+        desc: 'Vượt qua bài test tổng hợp Giải tích 1 và Đại số tuyến tính để chính thức mở khóa Cấp 3.',
+        review: 'Thử thách kiểm tra năng lực xác định hệ vectơ độc lập tuyến tính và ứng dụng định lý Lagrange trong khảo sát hàm số.',
+        quiz: {
+          q: 'Hệ vectơ $\\{v_1, v_2, \\dots, v_n\\}$ được gọi là độc lập tuyến tính khi và chỉ khi:',
+          a: [
+            'Hệ thức $k_1 v_1 + \\dots + k_n v_n = 0$ chỉ xảy ra khi $k_1 = \\dots = k_n = 0$',
+            'Tồn tại ít nhất một $k_i \\ne 0$ sao cho tổ hợp bằng 0',
+            'Tất cả các vectơ đều có độ dài bằng 1',
+            'Có ít nhất hai vectơ cùng phương'
+          ],
+          c: 0
+        },
+        rewardXp: 50, rewardFlame: 25
+      }
+    ]
   },
   {
     lvl: 3, xp: 120, reqStreak: 2, reqDone: 3, realm: 'Năm 2 - Vững Vàng', name: 'Cấu Trúc Đại Số & Hình Học', icon: '📚',
     desc: 'Thấu hiểu cấu trúc nhóm, vành, trường và hình học giải tích – rèn luyện tư duy toán trừu tượng sâu sắc.',
-    reward: 'Mở khóa Giá Sách Giáo Trình HPU2 & Chế Độ Mini-Test Tự Động'
+    reward: 'Mở khóa Giá Sách Giáo Trình HPU2 & Chế Độ Mini-Test Tự Động',
+    subStages: [
+      {
+        id: 1, type: 'theory', name: 'Giai đoạn 1: Khởi Động',
+        title: 'Ôn Tập Nhóm, Vành, Trường & Không Gian Affine',
+        desc: 'Nắm vững các tiên đề cấu trúc đại số: nhóm Abel, vành giao hoán, trường nghiệm và cơ sở không gian afin.',
+        review: 'Nhóm $(G, *)$ là tập hợp $G$ thỏa mãn: phép toán kết hợp, có phần tử trung hòa $e$, và mọi phần tử $x \\in G$ có phần tử nghịch đảo $x^{-1}$. Vành là tập hợp có hai phép toán cộng và nhân thỏa mãn luật phân phối.',
+        quiz: {
+          q: 'Tập hợp các số nguyên $\\mathbb{Z}$ cùng phép nhân thông thường có lập thành một nhóm không?',
+          a: [
+            'Không, vì các phần tử khác $\\pm 1$ không có phần tử nghịch đảo trong $\\mathbb{Z}$',
+            'Có, vì phép nhân có tính giao hoán',
+            'Có, vì có phần tử đơn vị là 1',
+            'Có, là một nhóm cyclic vô hạn'
+          ],
+          c: 0
+        },
+        rewardXp: 15, rewardFlame: 5
+      },
+      {
+        id: 2, type: 'practice', name: 'Giai đoạn 2: Luyện Tập',
+        title: 'Phân Tích Cấu Trúc Đồng Cấu & Đa Diện Lồi',
+        desc: 'Rèn luyện chứng minh đồng cấu nhóm, tìm Kernel, Image và khảo sát các phép biến hình afin.',
+        review: 'Định lý đồng cấu nhóm: Cho đồng cấu $f: G \\to H$. Khi đó hạt nhân $\\ker(f) = \\{x \\in G \\mid f(x) = e_H\\}$ là một nhóm con chuẩn tắc của $G$ và $G / \\ker(f) \\cong \\mathrm{Im}(f)$.',
+        quiz: {
+          q: 'Cho đồng cấu nhóm $f: G \\to H$. Hạt nhân $\\ker(f)$ là tập hợp nào sau đây?',
+          a: [
+            '$\\{x \\in G \\mid f(x) = e_H\\}$',
+            '$\\{y \\in H \\mid \\exists x \\in G: f(x) = y\\}$',
+            '$\\{x \\in G \\mid f(x) = x\\}$',
+            'Tập hợp tất cả các phần tử sinh của $G$'
+          ],
+          c: 0
+        },
+        rewardXp: 25, rewardFlame: 10
+      },
+      {
+        id: 3, type: 'challenge', name: 'Giai đoạn 3: Thử Thách',
+        title: 'Vấn Đáp Chuyên Đề Cấu Trúc Đại Số & Hình Học',
+        desc: 'Vượt qua mini-test chuyên sâu cấu trúc đại số và định lý Euler về đa diện lồi để thăng hạng Cấp 4.',
+        review: 'Định lý Euler cho đa diện lồi: Với mọi khối đa diện lồi có $V$ đỉnh, $E$ cạnh và $F$ mặt, ta luôn có $V - E + F = 2$.',
+        quiz: {
+          q: 'Một khối đa diện lồi có 8 đỉnh và 12 cạnh. Áp dụng công thức Euler $V - E + F = 2$, khối này có bao nhiêu mặt?',
+          a: [
+            '$F = 2 - 8 + 12 = 6$ mặt',
+            '$F = 8$ mặt',
+            '$F = 10$ mặt',
+            '$F = 4$ mặt'
+          ],
+          c: 0
+        },
+        rewardXp: 50, rewardFlame: 25
+      }
+    ]
   },
   {
     lvl: 4, xp: 180, reqStreak: 3, reqDone: 5, realm: 'Năm 2 - Khám Phá', name: 'Xác Suất & Thống Kê Sư Phạm', icon: '📊',
     desc: 'Ứng dụng xác suất thống kê vào xử lý số liệu giáo dục và phương pháp nghiên cứu khoa học sư phạm.',
-    reward: 'Mở khóa Máy Tính Khoa Học & Tăng Vận May Trắc Nghiệm'
+    reward: 'Mở khóa Máy Tính Khoa Học & Tăng Vận May Trắc Nghiệm',
+    subStages: [
+      {
+        id: 1, type: 'theory', name: 'Giai đoạn 1: Khởi Động',
+        title: 'Hệ Thống Biến Cố Ngẫu Nhiên & Phân Phối Chuẩn',
+        desc: 'Hệ thống hóa công thức xác suất toàn phần, công thức Bayes, biến ngẫu nhiên và phân phối Gauss $N(\\mu, \\sigma^2)$.',
+        review: 'Xác suất toàn phần: $P(B) = \\sum_{i=1}^n P(A_i)P(B|A_i)$. Công thức Bayes: $P(A_k|B) = \\frac{P(A_k)P(B|A_k)}{P(B)}$. Phân phối chuẩn $N(\\mu, \\sigma^2)$ là nền tảng của thống kê giáo dục.',
+        quiz: {
+          q: 'Công thức Bayes dùng để xác định xác suất nào sau đây?',
+          a: [
+            'Xác suất hậu nghiệm $P(A_k|B)$ khi đã biết thông tin biến cố $B$ xảy ra',
+            'Xác suất của biến cố rỗng',
+            'Kỳ vọng toán học của biến ngẫu nhiên Poisson',
+            'Hệ số tương quan Spearman'
+          ],
+          c: 0
+        },
+        rewardXp: 15, rewardFlame: 5
+      },
+      {
+        id: 2, type: 'practice', name: 'Giai đoạn 2: Luyện Tập',
+        title: 'Ước Lượng Điểm, Khoảng & Kiểm Định Giả Thuyết',
+        desc: 'Giải bài tập tìm khoảng tin cậy của điểm trung bình và thực hành kiểm định Student t-test trong giáo dục.',
+        review: 'Khi kiểm định giả thuyết $H_0$ với mức ý nghĩa $\\alpha = 0.05$: nếu giá trị $p$-value $< 0.05$, ta bác bỏ $H_0$, kết luận phương pháp dạy học mới đem lại sự khác biệt có ý nghĩa thống kê.',
+        quiz: {
+          q: 'Nếu kiểm định giả thuyết với mức ý nghĩa $\\alpha = 0.05$ cho kết quả $p\\text{-value} = 0.012$, ta đưa ra kết luận gì?',
+          a: [
+            'Bác bỏ giả thuyết không $H_0$ (sự khác biệt có ý nghĩa thống kê)',
+            'Chấp nhận giả thuyết không $H_0$',
+            'Dữ liệu hoàn toàn ngẫu nhiên và vô nghĩa',
+            'Mẫu quan sát bị lỗi không xác định'
+          ],
+          c: 0
+        },
+        rewardXp: 25, rewardFlame: 10
+      },
+      {
+        id: 3, type: 'challenge', name: 'Giai đoạn 3: Thử Thách',
+        title: 'Đồ Án Mini Xử Lý Dữ Liệu Khảo Sát Giáo Dục',
+        desc: 'Phân tích bộ dữ liệu điểm kiểm tra của học sinh và đánh giá độ phân tán đề thi để thăng hạng Cấp 5.',
+        review: 'Thống kê sư phạm ứng dụng: tính điểm trung bình $\\bar{X}$, độ lệch chuẩn $s$, và độ phân cách câu hỏi trắc nghiệm.',
+        quiz: {
+          q: 'Chỉ số thống kê nào đặc trưng cho mức độ phân tán của điểm số học sinh quanh giá trị trung bình?',
+          a: [
+            'Độ lệch chuẩn (Standard Deviation $\\sigma$ / $s$)',
+            'Trung vị (Median)',
+            'Yếu vị (Mode)',
+            'Kỳ vọng toán học'
+          ],
+          c: 0
+        },
+        rewardXp: 50, rewardFlame: 25
+      }
+    ]
   },
   {
     lvl: 5, xp: 240, reqStreak: 4, reqDone: 7, realm: 'Năm 3 - Chuyển Mình', name: 'Nghiên Cứu CV 5512 & GDPT 2018', icon: '📝',
     desc: 'Tiếp cận phương pháp dạy học môn Toán hiện đại, phát triển phẩm chất và năng lực của học sinh.',
-    reward: 'Mở khóa Trợ Lý AI Thiết Kế Kế Hoạch Bài Dạy Chuẩn 5512'
+    reward: 'Mở khóa Trợ Lý AI Thiết Kế Kế Hoạch Bài Dạy Chuẩn 5512',
+    subStages: [
+      {
+        id: 1, type: 'theory', name: 'Giai đoạn 1: Khởi Động',
+        title: 'Nghiên Cứu Chương Trình GDPT 2018 & CV 5512',
+        desc: 'Nắm vững 5 phẩm chất, 10 năng lực cốt lõi và khung cấu trúc Kế hoạch bài dạy chuẩn Công văn 5512/BGDĐT.',
+        review: 'Chương trình GDPT 2018 môn Toán phát triển 5 năng lực chuyên biệt: Tư duy và lập luận toán học, Mô hình hóa toán học, Giải quyết vấn đề toán học, Giao tiếp toán học, Sử dụng công cụ và phương tiện học toán.',
+        quiz: {
+          q: 'Theo Công văn 5512/BGDĐT, một tiến trình dạy học chuẩn mực gồm mấy hoạt động học chính?',
+          a: [
+            '4 hoạt động (Khởi động, Hình thành kiến thức, Luyện tập, Vận dụng)',
+            '3 hoạt động (Lý thuyết, Giải bài tập, Cho về nhà)',
+            '5 hoạt động (Kiểm tra bài cũ, Giảng bài mới, Củng cố, Dặn dò, Báo cáo)',
+            '2 hoạt động (Giáo viên đọc bài, Học sinh chép vào vở)'
+          ],
+          c: 0
+        },
+        rewardXp: 15, rewardFlame: 5
+      },
+      {
+        id: 2, type: 'practice', name: 'Giai đoạn 2: Luyện Tập',
+        title: 'Thiết Kế Tiến Trình 4 Bước Hoạt Động Dạy Học',
+        desc: 'Luyện tập soạn chi tiết 4 bước: Chuyển giao nhiệm vụ -> Thực hiện nhiệm vụ -> Báo cáo thảo luận -> Kết luận nhận định.',
+        review: 'Mỗi hoạt động trong CV 5512 phải mô tả tường minh: Mục tiêu, Nội dung, Sản phẩm học tập và Tổ chức thực hiện theo chu trình 4 bước sư phạm chặt chẽ.',
+        quiz: {
+          q: 'Trong quy trình tổ chức một hoạt động học theo CV 5512, bước thứ 4 là bước nào?',
+          a: [
+            'Kết luận, nhận định (Giáo viên chuẩn hóa kiến thức và đánh giá sản phẩm học tập)',
+            'Học sinh tự nộp bài và ra về',
+            'Giao nhiệm vụ về nhà cho phụ huynh',
+            'Học sinh ngồi thảo luận nhóm'
+          ],
+          c: 0
+        },
+        rewardXp: 25, rewardFlame: 10
+      },
+      {
+        id: 3, type: 'challenge', name: 'Giai đoạn 3: Thử Thách',
+        title: 'Thẩm Định Kế Hoạch Bài Dạy Chuẩn Mực 5512',
+        desc: 'Vượt qua bài test thẩm định giáo án môn Toán THPT để chính thức thăng hạng lên Cấp 6.',
+        review: 'Đánh giá tính khả thi, phân hóa đối tượng và khả năng phát triển tư duy mô hình hóa toán học của kế hoạch bài dạy.',
+        quiz: {
+          q: 'Sản phẩm học tập trong kế hoạch bài dạy môn Toán theo CV 5512 phải thể hiện dưới dạng nào?',
+          a: [
+            'Lời giải bài toán, câu trả lời, phiếu bài tập hoặc sản phẩm mô hình của học sinh',
+            'Bản ghi âm bài giảng của giáo viên',
+            'Sổ điểm danh của lớp học',
+            'Giáo án viết tay của tổ trưởng chuyên môn'
+          ],
+          c: 0
+        },
+        rewardXp: 50, rewardFlame: 25
+      }
+    ]
   },
   {
     lvl: 6, xp: 300, reqStreak: 5, reqDone: 10, realm: 'Năm 3 - Tỏa Sáng', name: 'Bậc Thầy Thiết Kế Kế Hoạch Bài Dạy', icon: '💡',
     desc: 'Xây dựng tiến trình 4 bước hoạt động học sáng tạo, tích hợp phần mềm GeoGebra và bài giảng số.',
-    reward: 'Mở khóa Micro Giảng Đường & Phòng Vấn Đáp Nghiệp Vụ'
+    reward: 'Mở khóa Micro Giảng Đường & Phòng Vấn Đáp Nghiệp Vụ',
+    subStages: [
+      {
+        id: 1, type: 'theory', name: 'Giai đoạn 1: Khởi Động',
+        title: 'Khai Thác GeoGebra & Thiết Kế Đồ Họa Động 3D',
+        desc: 'Nắm vững các lệnh GeoGebra vẽ đồ thị hàm số, thiết diện khối đa diện và mô phỏng quỹ tích không gian.',
+        review: 'GeoGebra giúp trực quan hóa những bài toán hình học không gian phức tạp và tính biến thiên hàm số. Công cụ thanh trượt (Slider) hỗ trợ tổ chức hoạt động học sinh tự phát hiện quy luật.',
+        quiz: {
+          q: 'Thanh trượt (Slider) trong GeoGebra mang lại giá trị sư phạm cốt lõi nào trong giờ dạy Toán?',
+          a: [
+            'Cho phép biến thiên tham số liên tục để học sinh trực quan quan sát và khám phá quy luật',
+            'Khóa màn hình máy tính của học sinh',
+            'Tự động in bài kiểm tra giấy cho cả lớp',
+            'Thay thế hoàn toàn vai trò của người giáo viên'
+          ],
+          c: 0
+        },
+        rewardXp: 15, rewardFlame: 5
+      },
+      {
+        id: 2, type: 'practice', name: 'Giai đoạn 2: Luyện Tập',
+        title: 'Xây Dựng Ma Trận Đề & Phiếu Học Tập Phân Hóa',
+        desc: 'Thiết kế phiếu bài tập số hóa và ma trận đề kiểm tra 4 mức độ: Biết, Hiểu, Vận dụng, Vận dụng cao.',
+        review: 'Ma trận và bảng đặc tả đề kiểm tra giúp đánh giá khách quan năng lực học sinh, bám sát các yêu cầu cần đạt của chuẩn chương trình.',
+        quiz: {
+          q: 'Mức độ "Vận dụng cao" trong ma trận đề kiểm tra môn Toán yêu cầu học sinh:',
+          a: [
+            'Vận dụng kiến thức, kỹ năng giải quyết tình huống thực tiễn mới hoặc bài toán liên môn phức tạp',
+            'Nhắc lại nguyên văn định nghĩa trong sách giáo khoa',
+            'Chép lại lời giải bài toán mẫu của giáo viên',
+            'Đọc đúng tên ký hiệu toán học'
+          ],
+          c: 0
+        },
+        rewardXp: 25, rewardFlame: 10
+      },
+      {
+        id: 3, type: 'challenge', name: 'Giai đoạn 3: Thử Thách',
+        title: 'Trình Diễn Bài Dạy Số Tích Hợp AI Trợ Giảng',
+        desc: 'Vượt qua bài sát hạch thiết kế bài giảng điện tử tương tác đa phương tiện để thăng hạng lên Cấp 7.',
+        review: 'Thử thách kết hợp công nghệ thông tin và trí tuệ nhân tạo để cá nhân hóa việc học toán cho từng đối tượng học sinh.',
+        quiz: {
+          q: 'Khi ứng dụng AI vào hỗ trợ giảng dạy môn Toán, vai trò trọng tâm của người giáo viên là gì?',
+          a: [
+            'Định hướng tư duy, thấu cảm, truyền cảm hứng và bồi dưỡng phẩm chất nhân văn cho học sinh',
+            'Giao toàn quyền dạy học cho công cụ AI',
+            'Chỉ dùng AI để chấm điểm trắc nghiệm nhanh',
+            'Hạn chế học sinh phát biểu trên lớp'
+          ],
+          c: 0
+        },
+        rewardXp: 50, rewardFlame: 25
+      }
+    ]
   },
   {
     lvl: 7, xp: 360, reqStreak: 7, reqDone: 12, realm: 'Năm 4 - Thử Lửa', name: 'Tập Giảng & Hội Thi Nghiệp Vụ SP', icon: '🎤',
     desc: 'Tự tin đứng trên bục giảng Hội thi nghiệp vụ sư phạm HPU2, làm chủ kỹ năng thuyết trình và tác phong người thầy.',
-    reward: 'Huy Hiệu Giảng Viên Tập Sự Xuất Sắc HPU2'
+    reward: 'Huy Hiệu Giảng Viên Tập Sự Xuất Sắc HPU2',
+    subStages: [
+      {
+        id: 1, type: 'theory', name: 'Giai đoạn 1: Khởi Động',
+        title: 'Chuẩn Hóa Tác Phong Sư Phạm & Giọng Nói Người Thầy',
+        desc: 'Rèn luyện kỹ năng phân chia bảng xanh khoa học, nghệ thuật đặt câu hỏi gợi mở và làm chủ ngữ điệu.',
+        review: 'Trình bày bảng sư phạm: Chia bảng làm hai phần rõ rệt (Bảng chính lưu định lý công thức cốt lõi suốt tiết, Bảng phụ dùng cho giải toán nháp và trình bày của học sinh). Ngôn từ chuẩn mực, đĩnh đạc.',
+        quiz: {
+          q: 'Nguyên tắc chuẩn mực khi phân chia bảng viết phấn trong tiết dạy Toán sư phạm là gì?',
+          a: [
+            'Chia thành bảng chính (kiến thức cốt lõi lưu suốt tiết) và bảng phụ (bài tập, vẽ hình nháp)',
+            'Viết kín bảng từ trên xuống dưới không chừa chỗ nào',
+            'Chỉ chiếu slide, tuyệt đối không dùng phấn viết bảng',
+            'Tùy ý xóa bất kỳ phần nào khi hết bảng'
+          ],
+          c: 0
+        },
+        rewardXp: 15, rewardFlame: 5
+      },
+      {
+        id: 2, type: 'practice', name: 'Giai đoạn 2: Luyện Tập',
+        title: 'Tập Giảng Vi Mô 15 Phút Khởi Động & Hình Thành Tri Thức',
+        desc: 'Thực hành tập giảng chuyên đề khó: Tích phân ứng dụng tính diện tích, hình học không gian tọa độ Oxyz.',
+        review: 'Tập giảng vi mô giúp rèn luyện khả năng quản lý thời gian tiết dạy và xử lý các tình huống sư phạm phát sinh khi học sinh nêu thắc mắc.',
+        quiz: {
+          q: 'Khi học sinh đưa ra một cách giải toán sai hoặc bất ngờ trên lớp, người giáo viên nên ứng xử như thế nào?',
+          a: [
+            'Bình tĩnh lắng nghe, phân tích chỗ chưa hợp lý để biến lỗi sai thành cơ hội học tập cho cả lớp',
+            'Lập tức ngắt lời và phê bình gay gắt học sinh',
+            'Bỏ qua câu trả lời và gọi học sinh khác lên bảng',
+            'Cho học sinh điểm kém ngay lập tức'
+          ],
+          c: 0
+        },
+        rewardXp: 25, rewardFlame: 10
+      },
+      {
+        id: 3, type: 'challenge', name: 'Giai đoạn 3: Thử Thách',
+        title: 'Tranh Tài Hội Thi Nghiệp Vụ Sư Phạm HPU2',
+        desc: 'Hoàn thành xuất sắc bài thi tập giảng trước ban giám khảo để chính thức thăng hạng lên Cấp 8.',
+        review: 'Thử thách đỉnh cao nghiệp vụ: làm chủ bục giảng, tương tác tự tin và bảo vệ quan điểm sư phạm trước hội đồng chuyên môn.',
+        quiz: {
+          q: 'Hội thi Nghiệp vụ Sư phạm HPU2 tôn vinh giá trị nổi bật nào của sinh viên sư phạm?',
+          a: [
+            'Bản lĩnh sư phạm toàn diện, sự sáng tạo và khả năng truyền cảm hứng học tập toán học',
+            'Khả năng giải bài toán trong thời gian ngắn nhất mà không cần giải thích',
+            'Trình bày bài dạy dài dòng nhiều trang nhất',
+            'Chỉ đọc thuộc lòng bài giảng'
+          ],
+          c: 0
+        },
+        rewardXp: 50, rewardFlame: 25
+      }
+    ]
   },
   {
     lvl: 8, xp: 420, reqStreak: 10, reqDone: 15, realm: 'Năm 4 - Bản Lĩnh', name: 'Thực Tập Sư Phạm Tại Phổ Thông', icon: '🏫',
     desc: 'Trực tiếp đứng lớp giảng dạy tại trường THCS/THPT, truyền lửa say mê toán học cho thế hệ học trò.',
-    reward: 'Mở khóa Sổ Tay Chủ Nhiệm & Bằng Khen Thực Tập Xuất Sắc'
+    reward: 'Mở khóa Sổ Tay Chủ Nhiệm & Bằng Khen Thực Tập Xuất Sắc',
+    subStages: [
+      {
+        id: 1, type: 'theory', name: 'Giai đoạn 1: Khởi Động',
+        title: 'Tìm Hiểu Hồ Sơ Thực Tập & Tâm Lý Giáo Dục Học Đường',
+        desc: 'Nắm vững quy chế thực tập tại trường phổ thông, kỹ năng chủ nhiệm lớp và tư vấn tâm lý học sinh.',
+        review: 'Đợt thực tập sư phạm yêu cầu giáo viên tập sự hòa nhập môi trường nhà trường, nắm bắt hoàn cảnh học sinh và phối hợp chặt chẽ với giáo viên hướng dẫn.',
+        quiz: {
+          q: 'Mục tiêu trọng tâm của công tác chủ nhiệm lớp trong đợt thực tập sư phạm là gì?',
+          a: [
+            'Thấu hiểu tâm tư, hoàn cảnh học sinh để xây dựng tập thể lớp đoàn kết, tiến bộ và yêu thích môn học',
+            'Chỉ ghi chép lỗi vi phạm kỷ luật của học sinh',
+            'Giao toàn bộ công việc quản lý lớp cho ban cán sự',
+            'Chỉ tập trung vào các học sinh giỏi'
+          ],
+          c: 0
+        },
+        rewardXp: 15, rewardFlame: 5
+      },
+      {
+        id: 2, type: 'practice', name: 'Giai đoạn 2: Luyện Tập',
+        title: 'Trực Tiếp Đứng Lớp Giảng Dạy & Rút Kinh Nghiệm Dự Giờ',
+        desc: 'Thực hiện chuỗi tiết dạy thực tế tại trường phổ thông, lắng nghe nhận xét chân thành từ tổ chuyên môn.',
+        review: 'Dự giờ đồng nghiệp và lắng nghe góp ý từ giáo viên hướng dẫn là con đường ngắn nhất giúp giáo viên trẻ trưởng thành vững chắc.',
+        quiz: {
+          q: 'Sau khi kết thúc mỗi tiết dạy thực tập, bước rút kinh nghiệm quan trọng nhất là gì?',
+          a: [
+            'Tự đối chiếu với mục tiêu bài dạy và lắng nghe góp ý xây dựng từ giáo viên hướng dẫn',
+            'Lập tức ra về không trao đổi với ai trong tổ chuyên môn',
+            'Tự đánh giá tiết dạy luôn hoàn hảo không cần sửa đổi',
+            'Chỉ quan tâm xem học sinh có giữ trật tự im lặng hay không'
+          ],
+          c: 0
+        },
+        rewardXp: 25, rewardFlame: 10
+      },
+      {
+        id: 3, type: 'challenge', name: 'Giai đoạn 3: Thử Thách',
+        title: 'Tổ Chức Hoạt Động Trải Nghiệm & Báo Cáo Thực Tập',
+        desc: 'Tổ chức thành công chuyên đề ngoại khóa CLB Toán học và hoàn thành báo cáo thực tập đạt loại Xuất Sắc để thăng Cấp 9.',
+        review: 'Dấu ấn trưởng thành: tổ chức ngày hội toán học, khơi dậy đam mê khoa học cho học trò trường phổ thông thực tập.',
+        quiz: {
+          q: 'Hoạt động trải nghiệm STEM/CLB Toán học tại trường phổ thông nhằm mục đích chính nào?',
+          a: [
+            'Kết nối tri thức toán học với các ứng dụng thực tế sinh động, khơi dậy niềm say mê nghiên cứu',
+            'Bắt học sinh làm thêm nhiều bài tập trắc nghiệm phức tạp',
+            'Thay thế hoàn toàn kỳ thi tốt nghiệp THPT',
+            'Tạo thêm áp lực bài tập về nhà cho học sinh'
+          ],
+          c: 0
+        },
+        rewardXp: 50, rewardFlame: 25
+      }
+    ]
   },
   {
     lvl: 9, xp: 480, reqStreak: 14, reqDone: 20, realm: 'Tốt Nghiệp', name: 'Cử Nhân Sư Phạm Toán Xuất Sắc', icon: '🎓',
     desc: 'Bảo vệ thành công Khóa luận tốt nghiệp tại HPU2, nhận bằng Cử nhân Sư phạm Toán loại Giỏi/Xuất sắc.',
-    reward: 'Áo Cử Nhân Vinh Danh & Quyền Năng Sáng Tạo Ngân Hàng Đề HPU2'
+    reward: 'Áo Cử Nhân Vinh Danh & Quyền Năng Sáng Tạo Ngân Hàng Đề HPU2',
+    subStages: [
+      {
+        id: 1, type: 'theory', name: 'Giai đoạn 1: Khởi Động',
+        title: 'Tổng Quan Cơ Sở Lý Luận Khóa Luận Tốt Nghiệp',
+        desc: 'Xác định đề tài nghiên cứu phương pháp dạy học toán, tổng quan công trình nghiên cứu trong và ngoài nước.',
+        review: 'Cấu trúc tiêu chuẩn của một Khóa luận tốt nghiệp Sư phạm Toán: Chương 1 (Cơ sở lý luận và thực tiễn); Chương 2 (Đề xuất các biện pháp sư phạm); Chương 3 (Thực nghiệm sư phạm và đánh giá định lượng).',
+        quiz: {
+          q: 'Cấu trúc chuẩn mực của một Khóa luận tốt nghiệp Sư phạm Toán HPU2 thường gồm mấy chương chính?',
+          a: [
+            '3 chương (Cơ sở lý luận & thực tiễn; Đề xuất biện pháp sư phạm; Thực nghiệm sư phạm)',
+            '1 chương duy nhất ghi lại các bài toán nâng cao',
+            '5 chương chỉ thuần túy chứng minh công thức toán học trừu tượng',
+            'Không cần phân chia chương mục rõ ràng'
+          ],
+          c: 0
+        },
+        rewardXp: 15, rewardFlame: 5
+      },
+      {
+        id: 2, type: 'practice', name: 'Giai đoạn 2: Luyện Tập',
+        title: 'Thực Nghiệm Sư Phạm & Đo Lường Kết Quả Nghiên Cứu',
+        desc: 'Triển khai dạy thực nghiệm trên lớp đối chứng và lớp thực nghiệm, kiểm định sự tiến bộ của học sinh bằng thống kê.',
+        review: 'Phân tích số liệu thực nghiệm: so sánh điểm trung bình trước tác động (Pre-test) và sau tác động (Post-test), tính toán mức độ ảnh hưởng Cohen\'s d để khẳng định tính khoa học của đề tài.',
+        quiz: {
+          q: 'Mục đích cốt lõi của việc tổ chức Lớp thực nghiệm và Lớp đối chứng trong nghiên cứu sư phạm là gì?',
+          a: [
+            'Kiểm chứng một cách khách quan tính hiệu quả của biện pháp dạy học mới được đề xuất',
+            'Để chia đôi sĩ số lớp học cho đỡ đông',
+            'Để hai lớp thi đua điểm số với nhau',
+            'Chỉ để thu thập phiếu khảo sát hình thức'
+          ],
+          c: 0
+        },
+        rewardXp: 25, rewardFlame: 10
+      },
+      {
+        id: 3, type: 'challenge', name: 'Giai đoạn 3: Thử Thách',
+        title: 'Lễ Bảo Vệ Khóa Luận Chính Thức & Nhận Bằng Cử Nhân',
+        desc: 'Bảo vệ xuất sắc khóa luận trước Hội đồng khoa học HPU2 để chính thức vươn tới Cấp 10!',
+        review: 'Khoảnh khắc rạng rỡ tại giảng đường Xuân Hòa: phản biện xuất sắc trước các thầy cô giáo sư, tiến sĩ và nhận bằng Cử nhân Sư phạm Toán loại Giỏi/Xuất sắc.',
+        quiz: {
+          q: 'Yếu tố quyết định sự thành công khi bảo vệ khóa luận trước Hội đồng chấm tốt nghiệp là gì?',
+          a: [
+            'Nắm vững bản chất nghiên cứu, trả lời tự tin, logic và chứng minh được giá trị thực tiễn sư phạm',
+            'Đọc thuộc lòng toàn bộ văn bản trình chiếu',
+            'Nói thật to mà không cần trả lời câu hỏi phản biện',
+            'Nhờ giáo viên hướng dẫn trả lời thay'
+          ],
+          c: 0
+        },
+        rewardXp: 50, rewardFlame: 25
+      }
+    ]
   },
   {
     lvl: 10, xp: 540, reqStreak: 21, reqDone: 25, realm: 'Đỉnh Cao Sự Nghiệp', name: 'Nhà Giáo Ưu Tú – Tự Hào HPU2', icon: '🏛️',
     desc: 'Đắc đạo thăng hoa cùng sự nghiệp trồng người cao quý, ngọn hải đăng soi sáng tri thức cho bao thế hệ học trò.',
-    reward: 'Vinh Danh Bảng Vàng Cựu Sinh Viên Ưu Tú ĐH Sư Phạm Hà Nội 2'
+    reward: 'Vinh Danh Bảng Vàng Cựu Sinh Viên Ưu Tú ĐH Sư Phạm Hà Nội 2',
+    subStages: [
+      {
+        id: 1, type: 'theory', name: 'Giai đoạn 1: Khởi Động',
+        title: 'Khơi Nguồn Cảm Hứng & Triết Lý Giáo Dục Nhân Bản',
+        desc: 'Đúc kết tâm huyết cả cuộc đời: Lấy học sinh làm trung tâm, giáo dục bằng lòng yêu thương và sự tận tụy.',
+        review: '"Người thầy trung bình chỉ biết nói. Người thầy giỏi biết giải thích. Người thầy xuất chúng biết minh họa. Người thầy vĩ đại biết truyền cảm hứng." - William Arthur Ward.',
+        quiz: {
+          q: 'Phẩm chất cao quý nhất của một Nhà giáo Ưu tú xuất thân từ ĐH Sư Phạm Hà Nội 2 là gì?',
+          a: [
+            'Tâm huyết với nghề, yêu thương học sinh và không ngừng đổi mới sáng tạo trong dạy học',
+            'Chỉ quan tâm đến danh hiệu cá nhân',
+            'Bắt học sinh phải nghe theo ý mình tuyệt đối',
+            'Chỉ bồi dưỡng cho học sinh khá giỏi'
+          ],
+          c: 0
+        },
+        rewardXp: 15, rewardFlame: 5
+      },
+      {
+        id: 2, type: 'practice', name: 'Giai đoạn 2: Luyện Tập',
+        title: 'Bồi Dưỡng Học Sinh Giỏi & Đào Tạo Thế Hệ Kế Cận',
+        desc: 'Dẫn dắt các đội tuyển học sinh giỏi Olympic Toán, cố vấn chuyên môn và dìu dắt các thế hệ sinh viên thực tập mới.',
+        review: 'Lan tỏa kinh nghiệm giảng dạy, biên soạn chuyên đề bồi dưỡng học sinh năng khiếu và nâng đỡ các thế hệ nhà giáo trẻ.',
+        quiz: {
+          q: 'Phương pháp hiệu quả nhất để bồi dưỡng tư duy học sinh giỏi Toán là gì?',
+          a: [
+            'Khơi gợi óc tò mò, hướng dẫn học sinh tự tìm tòi bản chất và khám phá quy luật toán học',
+            'Bắt học sinh giải hàng ngàn bài tập theo khuôn mẫu có sẵn',
+            'Chỉ dạy mẹo bấm máy tính cầm tay',
+            'Học thuộc lòng lời giải của tác giả'
+          ],
+          c: 0
+        },
+        rewardXp: 25, rewardFlame: 10
+      },
+      {
+        id: 3, type: 'challenge', name: 'Giai đoạn 3: Thử Thách',
+        title: 'Tôn Vinh Bảng Vàng Nhà Giáo Ưu Tú HPU2',
+        desc: 'Chạm tay vào đỉnh cao sự nghiệp, được lưu danh muôn đời trên Bảng vàng Danh dự ĐH Sư Phạm Hà Nội 2!',
+        review: 'Bạn đã hoàn thành trọn vẹn lộ trình 10 cấp bậc thăng tiến tri thức và 30 giai đoạn chăm chỉ. Tự hào là cựu sinh viên ưu tú của ĐH Sư Phạm Hà Nội 2!',
+        quiz: {
+          q: 'Giá trị cốt lõi bền vững nhất mà một người thầy để lại cho thế hệ mai sau là gì?',
+          a: [
+            'Những thế hệ học trò trưởng thành, có trí tuệ, nhân cách và biết cống hiến cho xã hội',
+            'Các bằng khen giải thưởng treo trên tường',
+            'Số lượng tài sản vật chất tích lũy được',
+            'Sự nể sợ của học sinh'
+          ],
+          c: 0
+        },
+        rewardXp: 50, rewardFlame: 25
+      }
+    ]
   }
 ];
 
@@ -651,11 +1184,376 @@ try {
   }
 } catch (e) {}
 
+// Đảm bảo tất cả các cấp độ đều có đầy đủ 3 sub-stages chi tiết
+ASCENSION_STAGES.forEach(st => {
+  if (!Array.isArray(st.subStages) || st.subStages.length !== 3) {
+    const def = DEFAULT_ASCENSION_STAGES.find(d => d.lvl === st.lvl);
+    if (def && Array.isArray(def.subStages)) {
+      st.subStages = JSON.parse(JSON.stringify(def.subStages));
+    }
+  }
+});
+
 function saveAscensionStages(){
   try {
     localStorage.setItem(STORE_ASCENSION_STAGES, JSON.stringify(ASCENSION_STAGES));
     localStorage.setItem('sa_ascension_stages', JSON.stringify(ASCENSION_STAGES));
   } catch (e) {}
+}
+
+/* ==================== 2.3.1 LOGIC QUẢN LÝ 3 GIAI ĐOẠN NHỎ (SUB-STAGES) CỦA MỖI CẤP ĐỘ ==================== */
+function getStageSubStages(stage) {
+  if (stage && Array.isArray(stage.subStages) && stage.subStages.length === 3) {
+    return stage.subStages;
+  }
+  const lvlNum = (stage && stage.lvl) || 1;
+  const def = DEFAULT_ASCENSION_STAGES.find(s => s.lvl === lvlNum);
+  if (def && Array.isArray(def.subStages)) return def.subStages;
+  return [
+    { id: 1, type: 'theory', name: 'Giai đoạn 1: Khởi Động', title: `Ôn tập lý thuyết cốt lõi Cấp ${lvlNum}`, desc: 'Hệ thống hóa kiến thức trọng tâm và phương pháp giải toán.', rewardXp: 15, rewardFlame: 5 },
+    { id: 2, type: 'practice', name: 'Giai đoạn 2: Luyện Tập', title: `Giải bài tập chuyên sâu Cấp ${lvlNum}`, desc: 'Thực hành giải các dạng toán nâng cao và rèn luyện kỹ năng phân tích.', rewardXp: 25, rewardFlame: 10 },
+    { id: 3, type: 'challenge', name: 'Giai đoạn 3: Thử Thách', title: `Mini-test kiểm tra thăng hạng`, desc: 'Vượt qua bài sát hạch để chính thức mở khóa cấp tiếp theo.', rewardXp: 50, rewardFlame: 25 }
+  ];
+}
+
+function isSubStageDone(levelNum, subStageId) {
+  if (!S.completedSubStages || typeof S.completedSubStages !== 'object') {
+    S.completedSubStages = {};
+  }
+  const curLvl = lvl();
+  // Nếu học viên đã vượt qua cấp này, toàn bộ 3 giai đoạn của các cấp trước mặc định đã hoàn thành
+  if (curLvl > levelNum) return true;
+  return !!S.completedSubStages[`${levelNum}_${subStageId}`];
+}
+
+function getLevelSubStagesProgress(levelNum) {
+  let doneCount = 0;
+  for (let sid = 1; sid <= 3; sid++) {
+    if (isSubStageDone(levelNum, sid)) doneCount++;
+  }
+  return {
+    doneCount,
+    total: 3,
+    percent: Math.round((doneCount / 3) * 100),
+    isAllDone: doneCount === 3
+  };
+}
+
+function completeSubStage(levelNum, subStageId) {
+  if (!S.completedSubStages || typeof S.completedSubStages !== 'object') {
+    S.completedSubStages = {};
+  }
+  const curLvl = lvl();
+  const stages = ASCENSION_STAGES || [];
+  const curStage = stages.find(s => s.lvl === levelNum) || stages[levelNum - 1];
+  
+  if (levelNum > curLvl) {
+    toast(`🔒 Cấp độ ${levelNum} đang bị khóa! Hãy hoàn thành Cấp ${curLvl} trước.`);
+    return;
+  }
+  
+  if (isSubStageDone(levelNum, subStageId)) {
+    toast(`✨ Bạn đã hoàn thành Giai đoạn ${subStageId} của Cấp ${levelNum} rồi!`);
+    return;
+  }
+  
+  // Kiểm tra điều kiện tiên quyết: GĐ 2 cần GĐ 1, GĐ 3 cần GĐ 1 & 2
+  if (subStageId === 2 && !isSubStageDone(levelNum, 1)) {
+    toast(`⚠️ Bạn cần hoàn thành Giai đoạn 1 (Khởi động) trước khi bước vào Giai đoạn 2!`);
+    return;
+  }
+  if (subStageId === 3 && (!isSubStageDone(levelNum, 1) || !isSubStageDone(levelNum, 2))) {
+    toast(`⚠️ Bạn cần hoàn thành Giai đoạn 1 và 2 trước khi bước vào Thử thách thăng hạng!`);
+    return;
+  }
+  
+  const subStages = curStage ? getStageSubStages(curStage) : [];
+  const sub = subStages.find(s => s.id === subStageId) || {
+    rewardXp: subStageId === 1 ? 15 : subStageId === 2 ? 25 : 50,
+    rewardFlame: subStageId === 1 ? 5 : subStageId === 2 ? 10 : 25,
+    title: `Giai đoạn ${subStageId}`
+  };
+  
+  // Đánh dấu hoàn thành giai đoạn này
+  S.completedSubStages[`${levelNum}_${subStageId}`] = true;
+  
+  // Cộng điểm XP và điểm Lửa
+  const addXp = sub.rewardXp || 20;
+  const addFlame = sub.rewardFlame || 10;
+  S.xp = (S.xp || 0) + addXp;
+  S.flame = (S.flame || 0) + addFlame;
+  
+  // Kiểm tra xem đã hoàn thành đủ 3 giai đoạn của cấp này chưa
+  const prog = getLevelSubStagesProgress(levelNum);
+  
+  if (prog.isAllDone) {
+    // TỰ ĐỘNG MỞ KHÓA CẤP TIẾP THEO & CỘNG ĐIỂM LỬA THĂNG HẠNG
+    Sound.drop();
+    const nextStage = stages.find(s => s.lvl === levelNum + 1);
+    
+    if (nextStage) {
+      // Đảm bảo đủ điều kiện XP, streak, done để lvl() lập tức thăng hạng cấp tiếp theo
+      if ((S.xp || 0) < (nextStage.xp || 0)) {
+        S.xp = nextStage.xp;
+      }
+      if (nextStage.reqStreak && (S.streak || 0) < nextStage.reqStreak) {
+        S.streak = nextStage.reqStreak;
+      }
+      if (nextStage.reqDone && (S.done || 0) < nextStage.reqDone) {
+        S.done = nextStage.reqDone;
+      }
+      // Phần thưởng đột phá thăng cấp: +30 Điểm Lửa
+      const ascensionFlameBonus = 30;
+      S.flame = (S.flame || 0) + ascensionFlameBonus;
+      save();
+      render();
+      
+      showAscensionLevelUpModal(curStage, nextStage, ascensionFlameBonus);
+      return;
+    } else {
+      // Đã hoàn thành cấp tối đa (Cấp 10)
+      const grandBonus = 100;
+      S.flame = (S.flame || 0) + grandBonus;
+      save();
+      render();
+      showAscensionMaxVictoryModal(curStage, grandBonus);
+      return;
+    }
+  } else {
+    Sound.drop();
+    toast(`🎉 Hoàn thành ${sub.title}! (+${addXp} XP, +${addFlame} Lửa 🔥)`);
+    save();
+    render();
+    closeSubStageModal();
+  }
+}
+
+function openSubStageModal(levelNum, subStageId) {
+  const m = $('#ascensionSubModal');
+  if (!m) return;
+  const stages = ASCENSION_STAGES || [];
+  const stage = stages.find(s => s.lvl === levelNum) || stages[levelNum - 1];
+  if (!stage) return;
+  const subStages = getStageSubStages(stage);
+  const sub = subStages.find(s => s.id === subStageId);
+  if (!sub) return;
+  
+  const isDone = isSubStageDone(levelNum, subStageId);
+  const curLvl = lvl();
+  const isCurrent = curLvl === levelNum;
+  const isReady = isCurrent && !isDone && (subStageId === 1 || isSubStageDone(levelNum, subStageId - 1));
+
+  m.innerHTML = `
+    <div class="card max-w-xl w-full border-2 border-emerald-400 bg-white shadow-2xl p-5 sm:p-6 rounded-3xl animate-fade-in relative max-h-[90vh] overflow-y-auto">
+      <div class="flex items-start justify-between gap-3 pb-3 border-b border-emerald-100">
+        <div class="flex items-center gap-3">
+          <div class="w-12 h-12 rounded-2xl bg-amber-100 text-2xl flex items-center justify-center border border-amber-300 shadow-2xs shrink-0">
+            ${subStageId === 1 ? '📘' : subStageId === 2 ? '✍️' : '⚔️'}
+          </div>
+          <div>
+            <div class="flex items-center gap-2 flex-wrap">
+              <span class="text-xs font-black px-2.5 py-0.5 rounded-full bg-emerald-600 text-white">
+                Cấp ${stage.lvl}: ${stage.realm}
+              </span>
+              <span class="text-xs font-bold text-amber-800 bg-amber-100 px-2 py-0.5 rounded-full border border-amber-300">
+                ${sub.name}
+              </span>
+            </div>
+            <h3 class="font-extrabold text-base sm:text-lg text-emerald-950 mt-1 font-fun">${sub.title}</h3>
+          </div>
+        </div>
+        <button class="text-slate-400 hover:text-slate-700 font-bold text-xl p-1 leading-none rounded-xl hover:bg-slate-100" onclick="closeSubStageModal()" title="Đóng">✕</button>
+      </div>
+
+      <div class="my-4 space-y-3 text-xs sm:text-sm">
+        <div class="p-3 rounded-2xl bg-emerald-50/80 border border-emerald-200">
+          <div class="font-bold text-emerald-950 mb-1 flex items-center gap-1.5">
+            <span>🎯 Mục Tiêu Giai Đoạn:</span>
+          </div>
+          <p class="text-emerald-800 leading-relaxed">${sub.desc}</p>
+        </div>
+
+        <div class="p-3.5 rounded-2xl bg-white border border-slate-200 shadow-2xs">
+          <div class="font-bold text-slate-800 mb-1.5 flex items-center gap-1.5">
+            <span>📖 Kiến Thức &amp; Nhiệm Vụ Trọng Tâm:</span>
+          </div>
+          <p class="text-slate-700 leading-relaxed whitespace-pre-line">${sub.review || ''}</p>
+        </div>
+
+        ${sub.quiz ? `
+          <div class="p-3.5 rounded-2xl bg-amber-50/70 border border-amber-200">
+            <div class="font-bold text-amber-950 mb-2 flex items-center gap-1.5">
+              <span>❓ Câu Hỏi Kiểm Tra / Phản Biện Nhanh:</span>
+            </div>
+            <div class="font-semibold text-slate-900 mb-2.5 leading-relaxed">${sub.quiz.q}</div>
+            <div class="space-y-1.5" id="subStageQuizOptions">
+              ${sub.quiz.a.map((opt, oIdx) => `
+                <button class="w-full text-left p-2.5 rounded-xl border border-amber-200/80 hover:border-amber-400 bg-white hover:bg-amber-100/50 transition font-medium text-xs sm:text-sm flex items-start gap-2.5 shadow-2xs" onclick="handleSubStageQuizSelect(${levelNum}, ${subStageId}, ${oIdx})">
+                  <span class="w-5 h-5 rounded-full bg-amber-100 text-amber-900 font-black flex items-center justify-center text-xs shrink-0">${String.fromCharCode(65 + oIdx)}</span>
+                  <span class="flex-1">${opt}</span>
+                </button>
+              `).join('')}
+            </div>
+            <div id="subStageQuizFeedback" class="mt-2 text-xs font-bold hidden"></div>
+          </div>
+        ` : ''}
+
+        <div class="flex items-center justify-between p-3 rounded-2xl bg-emerald-100/70 border border-emerald-300">
+          <span class="font-extrabold text-emerald-950 text-xs flex items-center gap-1">
+            <span>🎁 Phần Thưởng Giai Đoạn:</span>
+          </span>
+          <span class="font-black text-amber-900 bg-white px-2.5 py-1 rounded-xl border border-amber-300 shadow-2xs text-xs flex items-center gap-1.5">
+            <span>+${sub.rewardXp} XP</span>
+            <span>•</span>
+            <span>+${sub.rewardFlame} Lửa 🔥</span>
+            ${subStageId === 3 ? `<span class="text-emerald-700 font-extrabold">(+30 🔥 Thăng Hạng 🚀)</span>` : ''}
+          </span>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-end gap-2 pt-3 border-t border-emerald-100 flex-wrap">
+        <button class="btn sm outline" onclick="closeSubStageModal()">Đóng</button>
+        ${isDone ? `
+          <span class="px-4 py-2 rounded-xl bg-emerald-100 text-emerald-900 font-extrabold text-xs border border-emerald-300 flex items-center gap-1">
+            ✓ Giai Đoạn Này Đã Hoàn Thành
+          </span>
+        ` : isReady ? `
+          <button class="btn sm ${subStageId === 3 ? 'y shadow-md font-black text-sm' : 'g font-bold'} !py-2.5 !px-5" onclick="completeSubStage(${levelNum}, ${subStageId})">
+            <span>${subStageId === 1 ? '📘 Xác Nhận Hoàn Thành GĐ 1' : subStageId === 2 ? '✍️ Hoàn Tất & Nhận Thưởng GĐ 2' : '🚀 Vượt Thử Thách & Thăng Hạng Ngay!'}</span>
+          </button>
+        ` : `
+          <span class="px-4 py-2 rounded-xl bg-slate-100 text-slate-500 font-bold text-xs">
+            🔒 Cần hoàn thành các giai đoạn trước
+          </span>
+        `}
+      </div>
+    </div>
+  `;
+
+  m.classList.remove('hidden');
+  m.classList.add('flex');
+  
+  if (window.renderMathInElement) {
+    try {
+      renderMathInElement(m, {
+        delimiters: [
+          { left: '$$', right: '$$', display: true },
+          { left: '$', right: '$', display: false }
+        ],
+        throwOnError: false
+      });
+    } catch (e) {}
+  }
+}
+
+function handleSubStageQuizSelect(levelNum, subStageId, selectedIdx) {
+  const stage = ASCENSION_STAGES.find(s => s.lvl === levelNum) || ASCENSION_STAGES[levelNum - 1];
+  const subStages = getStageSubStages(stage);
+  const sub = subStages.find(s => s.id === subStageId);
+  if (!sub || !sub.quiz) return;
+
+  const fb = $('#subStageQuizFeedback');
+  const isCorrect = selectedIdx === sub.quiz.c;
+  
+  if (isCorrect) {
+    if (fb) {
+      fb.className = 'mt-2.5 p-2.5 rounded-xl bg-emerald-100 border border-emerald-300 text-emerald-900 text-xs font-bold flex items-center gap-2';
+      fb.innerHTML = '<span>✅ Chính xác tuyệt vời! Bạn đã nắm chắc kiến thức của giai đoạn này. Đang xác nhận hoàn thành...</span>';
+      fb.classList.remove('hidden');
+    }
+    Sound.drop();
+    setTimeout(() => {
+      completeSubStage(levelNum, subStageId);
+    }, 900);
+  } else {
+    if (fb) {
+      fb.className = 'mt-2.5 p-2.5 rounded-xl bg-rose-100 border border-rose-300 text-rose-900 text-xs font-bold flex items-center gap-2';
+      fb.innerHTML = '<span>❌ Đáp án chưa chính xác. Hãy đọc kỹ phần kiến thức trọng tâm và chọn lại nhé!</span>';
+      fb.classList.remove('hidden');
+    }
+  }
+}
+
+function closeSubStageModal() {
+  const m = $('#ascensionSubModal');
+  if (m) {
+    m.classList.add('hidden');
+    m.classList.remove('flex');
+    m.innerHTML = '';
+  }
+}
+
+function showAscensionLevelUpModal(curStage, nextStage, flameBonus) {
+  const m = $('#ascensionSubModal');
+  if (!m) return;
+  m.innerHTML = `
+    <div class="card max-w-lg w-full border-4 border-amber-400 bg-gradient-to-b from-amber-50/90 via-white to-emerald-50/90 shadow-2xl p-6 sm:p-8 rounded-3xl text-center animate-fade-in relative">
+      <div class="text-6xl mb-3 anim-float">🎉</div>
+      <span class="text-xs font-black uppercase tracking-widest text-amber-700 bg-amber-100 px-3 py-1 rounded-full border border-amber-300">
+        Đột Phá Cảnh Giới Thành Công!
+      </span>
+      <h2 class="text-2xl sm:text-3xl font-extrabold text-emerald-950 font-fun mt-2">
+        Chúc Mừng Thăng Hạng Cấp ${nextStage.lvl}!
+      </h2>
+      <p class="text-sm font-bold text-amber-900 mt-1">
+        ${nextStage.realm} - "${nextStage.name}"
+      </p>
+
+      <div class="my-5 p-4 rounded-2xl bg-white/90 border border-amber-200 shadow-sm text-left space-y-2">
+        <div class="flex items-center justify-between text-xs font-bold text-emerald-950 pb-2 border-b border-slate-100">
+          <span>Hành trình vừa vượt qua:</span>
+          <span class="text-emerald-700 font-extrabold">✓ Hoàn thành 3/3 Giai đoạn Cấp ${curStage.lvl}</span>
+        </div>
+        <div class="text-xs text-slate-700">
+          <b>Đặc quyền mở khóa:</b> ${nextStage.reward || 'Huy hiệu thành tựu cao cấp'}
+        </div>
+        <div class="flex items-center gap-2 mt-2 pt-2 border-t border-slate-100 text-xs font-black text-amber-900">
+          <span>🔥 Thưởng Đột Phá Thăng Cấp:</span>
+          <span class="bg-amber-100 px-2 py-0.5 rounded-full border border-amber-300">+${flameBonus} Điểm Lửa</span>
+        </div>
+      </div>
+
+      <button class="btn y w-full !py-3 font-black text-base shadow-lg" onclick="closeSubStageModal();render();">
+        <span>🌟 Tiếp Tục Hành Trình Tri Thức HPU2</span>
+      </button>
+    </div>
+  `;
+  m.classList.remove('hidden');
+  m.classList.add('flex');
+}
+
+function showAscensionMaxVictoryModal(curStage, grandBonus) {
+  const m = $('#ascensionSubModal');
+  if (!m) return;
+  m.innerHTML = `
+    <div class="card max-w-lg w-full border-4 border-amber-500 bg-gradient-to-b from-amber-100 via-white to-emerald-100 shadow-2xl p-6 sm:p-8 rounded-3xl text-center animate-fade-in relative">
+      <div class="text-6xl mb-3 anim-float">🏛️</div>
+      <span class="text-xs font-black uppercase tracking-widest text-amber-800 bg-amber-200 px-3 py-1 rounded-full border border-amber-400">
+        Đỉnh Cao Sự Nghiệp Sư Phạm HPU2
+      </span>
+      <h2 class="text-2xl sm:text-3xl font-extrabold text-emerald-950 font-fun mt-2">
+        Vinh Danh Bảng Vàng Đại Sư Phạm!
+      </h2>
+      <p class="text-sm font-bold text-amber-900 mt-1">
+        Bạn đã hoàn thành trọn vẹn 10 Cấp Độ &amp; 30 Giai Đoạn Thăng Tiến Tri Thức!
+      </p>
+
+      <div class="my-5 p-4 rounded-2xl bg-white/90 border border-amber-300 shadow-sm text-center">
+        <div class="text-4xl mb-2">📜</div>
+        <div class="text-sm font-black text-emerald-950">Nhà Giáo Ưu Tú – Tự Hào HPU2</div>
+        <p class="text-xs text-slate-600 mt-1">Ngọn hải đăng tri thức soi sáng bao thế hệ học trò ĐH Sư Phạm Hà Nội 2</p>
+        <div class="inline-block mt-3 px-3 py-1 bg-amber-100 text-amber-950 border border-amber-300 rounded-full font-black text-xs">
+          🔥 Đại Phần Thưởng: +${grandBonus} Điểm Lửa
+        </div>
+      </div>
+
+      <button class="btn y w-full !py-3 font-black text-base shadow-lg" onclick="closeSubStageModal();render();">
+        <span>🌟 Tự Hào Sư Phạm Hà Nội 2</span>
+      </button>
+    </div>
+  `;
+  m.classList.remove('hidden');
+  m.classList.add('flex');
 }
 
 /* ==================== 2.4 CỬA HÀNG GAMIFICATION, NÔNG TRẠI & PHỤ KIỆN ==================== */
@@ -2220,6 +3118,7 @@ if(!S.remind) S.remind='20:00';
 if(S.xp===undefined||isNaN(S.xp)) S.xp=45;
 if(S.streak===undefined||isNaN(S.streak)) S.streak=1;
 if(S.flame===undefined||isNaN(S.flame)) S.flame=60;
+if(!S.completedSubStages||typeof S.completedSubStages!=='object') S.completedSubStages={};
 if(!S.inventory||typeof S.inventory!=='object') S.inventory={};
 if(!Array.isArray(S.inventory.pets)) S.inventory.pets=['hpu2_owl','mochi'];
 if(!Array.isArray(S.inventory.accessories)) S.inventory.accessories=[];
@@ -4196,6 +5095,7 @@ function saveAscensionStageForm(isEdit, idx){
     return;
   }
 
+  const existingSubStages = (isEdit && idx >= 0 && ASCENSION_STAGES[idx]?.subStages) ? ASCENSION_STAGES[idx].subStages : undefined;
   const stageData = {
     lvl: (isEdit && idx >= 0) ? (idx + 1) : (ASCENSION_STAGES.length + 1),
     realm: realm,
@@ -4205,7 +5105,8 @@ function saveAscensionStageForm(isEdit, idx){
     reqStreak: Math.max(0, reqStreak),
     reqDone: Math.max(0, reqDone),
     desc: desc,
-    reward: reward
+    reward: reward,
+    subStages: existingSubStages || getStageSubStages({ lvl: (isEdit && idx >= 0) ? (idx + 1) : (ASCENSION_STAGES.length + 1), realm: realm, name: name })
   };
 
   if (isEdit && idx >= 0 && idx < ASCENSION_STAGES.length) {
@@ -8490,6 +9391,24 @@ function vGardenRoom(m,msg,curStage,need){
         </div>
       </div>
 
+      <!-- TIẾN ĐỘ 3 GIAI ĐOẠN CẤP ĐỘ HIỆN TẠI -->
+      <div class="mt-3 text-left p-3 rounded-2xl bg-gradient-to-r from-amber-50/90 via-emerald-50/90 to-teal-50/90 border border-amber-200 shadow-2xs">
+        <div class="flex items-center justify-between text-xs font-extrabold mb-1">
+          <span class="text-emerald-950 flex items-center gap-1">
+            <span>🗺️ Lộ Trình Cấp ${curLvl} (${curStage.realm}):</span>
+          </span>
+          <span class="${getLevelSubStagesProgress(curLvl).isAllDone ? 'text-emerald-700 font-black' : 'text-amber-800 font-black'}">
+            ${getLevelSubStagesProgress(curLvl).doneCount}/3 Giai Đoạn (${getLevelSubStagesProgress(curLvl).percent}%)
+          </span>
+        </div>
+        <div class="w-full bg-white rounded-full h-2 overflow-hidden mb-2 border border-emerald-200">
+          <div class="h-full rounded-full transition-all duration-500 bg-gradient-to-r from-amber-400 to-emerald-500" style="width: ${getLevelSubStagesProgress(curLvl).percent}%"></div>
+        </div>
+        <button class="btn sm y !py-1 text-[11px] w-full font-bold flex items-center justify-center gap-1.5 shadow-2xs" onclick="S.petTab='ascend';render()">
+          <span>🗺️ Khám Phá &amp; Thực Hiện 3 Giai Đoạn Thăng Tiến</span>
+        </button>
+      </div>
+
       <div class="mt-4 text-left">
         <div class="text-xs font-bold uppercase tracking-wider text-emerald-900 mb-2">Bảo Vật Trang Trí Phòng:</div>
         <div class="grid grid-cols-3 gap-2">
@@ -8849,58 +9768,125 @@ function vAscensionMap(){
   <section class="card border-t-4 border-t-amber-500">
     <div class="text-center max-w-xl mx-auto mb-6">
       <span class="text-3xl">🌸</span>
-      <h2 class="text-2xl font-extrabold text-emerald-950 font-fun mt-1">Lộ Trình Thăng Tiến Tri Thức & Chăm Chỉ</h2>
-      <p class="text-xs text-emerald-700 mt-1">Con đường tu luyện tri thức ${maxLvl} cấp bậc từ Hạt Giống Phàm Thai đến Đỉnh Cao Sự Nghiệp</p>
+      <h2 class="text-2xl font-extrabold text-emerald-950 font-fun mt-1">Lộ Trình Thăng Tiến Tri Thức &amp; Chăm Chỉ</h2>
+      <p class="text-xs text-emerald-700 mt-1">Hệ thống 10 cấp bậc thăng tiến gắn liền 3 giai đoạn nhỏ (Khởi động, Luyện tập, Thử thách) chuẩn Sư phạm Toán HPU2</p>
       ${ADM ? `
         <div class="mt-2.5">
           <button class="btn sm outline !py-1 text-xs" onclick="ADM_TAB='levels_mgmt';go('admin')">
-            ⚙️ Quản Trị: Tùy Chỉnh Cấp Độ & Danh Hiệu
+            ⚙️ Quản Trị: Tùy Chỉnh Cấp Độ &amp; Danh Hiệu
           </button>
         </div>
       ` : ''}
     </div>
 
-    <div class="space-y-3 max-w-2xl mx-auto">
+    <div class="space-y-4 max-w-3xl mx-auto">
       ${ASCENSION_STAGES.map((st,idx)=>{
         const isReached=curLvl>=st.lvl;
         const isCurrent=curLvl===st.lvl;
+        const subStages = getStageSubStages(st);
+        const prog = getLevelSubStagesProgress(st.lvl);
+
         return `
-          <div class="path-node p-4 rounded-3xl border-2 transition ${isCurrent?'bg-gradient-to-r from-amber-50 via-emerald-50 to-teal-50 border-amber-400 shadow-md anim-glow':isReached?'bg-white border-emerald-300 shadow-sm':'bg-slate-50/80 border-slate-200 lock'}">
-            <div class="flex items-start sm:items-center justify-between gap-3 flex-col sm:flex-row">
+          <div class="path-node p-4 sm:p-5 rounded-3xl border-2 transition ${isCurrent?'bg-gradient-to-br from-amber-50/90 via-emerald-50/70 to-teal-50/90 border-amber-400 shadow-lg anim-glow':isReached?'bg-white border-emerald-300 shadow-sm':'bg-slate-50/80 border-slate-200 lock'}">
+            <!-- DÒNG ĐẦU: THÔNG TIN CẤP BẬC -->
+            <div class="flex items-start sm:items-center justify-between gap-3 flex-col sm:flex-row pb-3.5 border-b border-slate-200/80">
               <div class="flex items-center gap-3">
-                <div class="w-14 h-14 rounded-2xl ${isCurrent?'bg-amber-100 border-2 border-amber-300':isReached?'bg-emerald-100 border border-emerald-200':'bg-slate-200'} flex items-center justify-center text-3xl shadow-sm">
+                <div class="w-14 h-14 rounded-2xl ${isCurrent?'bg-amber-100 border-2 border-amber-400 shadow-sm':isReached?'bg-emerald-100 border border-emerald-300':'bg-slate-200'} flex items-center justify-center text-3xl shadow-sm shrink-0">
                   ${st.icon||'🌱'}
                 </div>
                 <div>
                   <div class="flex items-center gap-2 flex-wrap">
-                    <span class="text-xs font-bold px-2.5 py-0.5 rounded-full ${isCurrent?'bg-amber-500 text-white':isReached?'bg-emerald-600 text-white':'bg-slate-400 text-white'}">
+                    <span class="text-xs font-black px-2.5 py-0.5 rounded-full ${isCurrent?'bg-amber-500 text-white shadow-xs':isReached?'bg-emerald-600 text-white':'bg-slate-400 text-white'}">
                       Cấp ${st.lvl}: ${st.realm}
                     </span>
-                    <span class="text-xs font-semibold text-slate-500">Yêu cầu: ${st.xp||0} XP</span>
+                    <span class="text-xs font-semibold text-slate-500">Mốc: ${st.xp||0} XP</span>
                     ${st.reqStreak?`<span class="text-[11px] font-bold px-2 py-0.5 rounded-full bg-amber-100 text-amber-900 border border-amber-300">🔥 Chuỗi ${st.reqStreak} ngày</span>`:''}
                     ${st.reqDone?`<span class="text-[11px] font-bold px-2 py-0.5 rounded-full bg-teal-100 text-teal-900 border border-teal-300">✅ Hoàn thành ${st.reqDone} bài</span>`:''}
                   </div>
                   <h3 class="font-extrabold text-emerald-950 text-base mt-1 font-fun">${st.name}</h3>
-                  <p class="text-xs text-emerald-800 mt-0.5">${st.desc||''}</p>
+                  <p class="text-xs text-emerald-800 mt-0.5 leading-relaxed">${st.desc||''}</p>
                 </div>
               </div>
 
-              <div class="text-right sm:min-w-[140px] w-full sm:w-auto pt-2 sm:pt-0 border-t sm:border-0 border-slate-200">
-                ${isCurrent?`
-                  <span class="inline-block text-xs font-extrabold text-amber-700 bg-amber-100 px-3 py-1 rounded-full border border-amber-300">
-                    ⚡ Đang Tu Luyện
-                  </span>
-                `:isReached?`
-                  <span class="inline-block text-xs font-extrabold text-emerald-700 bg-emerald-100 px-3 py-1 rounded-full border border-emerald-300">
-                    ✅ Đã Đắc Đạo
-                  </span>
-                `:`
-                  <span class="inline-block text-xs font-bold text-slate-500 bg-slate-100 px-3 py-1 rounded-full">
-                    🔒 Phong Ấn Mây Mù
-                  </span>
-                `}
-                <div class="text-[11px] text-teal-700 font-semibold mt-1">🎁 ${st.reward||'Huy hiệu thành tựu'}</div>
+              <div class="text-right sm:min-w-[150px] w-full sm:w-auto pt-2 sm:pt-0 border-t sm:border-0 border-slate-200 flex sm:flex-col justify-between sm:justify-start items-center sm:items-end">
+                <div>
+                  ${isCurrent?`
+                    <span class="inline-block text-xs font-black text-amber-800 bg-amber-100 px-3 py-1 rounded-full border border-amber-300 shadow-2xs">
+                      ⚡ Đang Tu Luyện
+                    </span>
+                  `:isReached?`
+                    <span class="inline-block text-xs font-extrabold text-emerald-700 bg-emerald-100 px-3 py-1 rounded-full border border-emerald-300">
+                      ✅ Đã Đắc Đạo
+                    </span>
+                  `:`
+                    <span class="inline-block text-xs font-bold text-slate-500 bg-slate-100 px-3 py-1 rounded-full">
+                      🔒 Chưa Mở Khóa
+                    </span>
+                  `}
+                </div>
+                <div class="text-[11px] text-teal-800 font-semibold mt-1">🎁 ${st.reward||'Huy hiệu thành tựu'}</div>
               </div>
+            </div>
+
+            <!-- THANH TIẾN ĐỘ 3 GIAI ĐOẠN -->
+            <div class="mt-3">
+              <div class="flex items-center justify-between text-xs font-extrabold mb-1">
+                <span class="text-emerald-950 flex items-center gap-1.5">
+                  <span>🎯 Tiến Độ 3 Giai Đoạn Thăng Tiến:</span>
+                </span>
+                <span class="${prog.isAllDone ? 'text-emerald-700' : isCurrent ? 'text-amber-800' : 'text-slate-500'}">
+                  ${prog.doneCount}/3 Giai Đoạn Hoàn Thành (${prog.percent}%)
+                </span>
+              </div>
+              <div class="w-full bg-slate-200/80 rounded-full h-2.5 overflow-hidden">
+                <div class="h-full rounded-full transition-all duration-500 ${prog.isAllDone ? 'bg-gradient-to-r from-emerald-500 to-teal-500' : isCurrent ? 'bg-gradient-to-r from-amber-400 to-emerald-500' : 'bg-slate-300'}" style="width: ${prog.percent}%"></div>
+              </div>
+            </div>
+
+            <!-- CHI TIẾT 3 GIAI ĐOẠN NHỎ (SUB-STAGES) -->
+            <div class="mt-3.5 space-y-2">
+              ${subStages.map(sub => {
+                const isDone = isSubStageDone(st.lvl, sub.id);
+                const isReady = isCurrent && !isDone && (sub.id === 1 || isSubStageDone(st.lvl, sub.id - 1));
+                const badgeColor = sub.id === 1 ? 'bg-blue-100 text-blue-900 border-blue-300' : sub.id === 2 ? 'bg-purple-100 text-purple-900 border-purple-300' : 'bg-amber-100 text-amber-950 border-amber-300';
+                const typeIcon = sub.id === 1 ? '📘' : sub.id === 2 ? '✍️' : '⚔️';
+
+                return `
+                  <div class="p-3 rounded-2xl border transition flex items-center justify-between gap-3 flex-wrap sm:flex-nowrap ${isDone ? 'bg-emerald-50/70 border-emerald-200' : isReady ? 'bg-white border-amber-300 shadow-sm ring-1 ring-amber-300/60' : 'bg-slate-50/70 border-slate-200/80'}">
+                    <div class="flex items-start gap-2.5">
+                      <span class="text-xl shrink-0 mt-0.5">${typeIcon}</span>
+                      <div>
+                        <div class="flex items-center gap-2 flex-wrap">
+                          <span class="text-[10px] font-black px-2 py-0.5 rounded-md border ${badgeColor}">
+                            ${sub.name}
+                          </span>
+                          <span class="font-extrabold text-xs text-emerald-950">${sub.title}</span>
+                          <span class="text-[10px] font-bold px-1.5 py-0.2 rounded bg-amber-50 text-amber-800 border border-amber-200">
+                            +${sub.rewardXp} XP &amp; +${sub.rewardFlame} 🔥
+                          </span>
+                        </div>
+                        <p class="text-[11px] text-emerald-800 mt-1 leading-relaxed">${sub.desc}</p>
+                      </div>
+                    </div>
+
+                    <div class="shrink-0 self-end sm:self-center w-full sm:w-auto text-right">
+                      ${isDone ? `
+                        <span class="inline-flex items-center gap-1 text-[11px] font-extrabold px-3 py-1 rounded-xl bg-emerald-100 text-emerald-900 border border-emerald-300 shadow-2xs">
+                          <span>✓</span> <span>Đã Hoàn Thành</span>
+                        </span>
+                      ` : isReady ? `
+                        <button class="btn sm ${sub.id === 3 ? 'y font-black shadow-sm ring-2 ring-amber-300' : 'g font-bold'} text-xs !py-1 !px-3 w-full sm:w-auto" onclick="openSubStageModal(${st.lvl}, ${sub.id})">
+                          <span>${sub.id === 1 ? '📘 Bắt Đầu GĐ 1' : sub.id === 2 ? '✍️ Bắt Đầu GĐ 2' : '⚔️ Thử Thách &amp; Thăng Cấp 🚀'}</span>
+                        </button>
+                      ` : `
+                        <span class="inline-flex items-center gap-1 text-[11px] font-bold px-2.5 py-1 rounded-xl bg-slate-100 text-slate-500 border border-slate-200">
+                          <span>🔒</span> <span>${!isCurrent ? 'Chưa Mở Khóa' : `Cần Xong GĐ ${sub.id - 1}`}</span>
+                        </span>
+                      `}
+                    </div>
+                  </div>
+                `;
+              }).join('')}
             </div>
           </div>
 
