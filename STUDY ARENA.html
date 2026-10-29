@@ -880,76 +880,11 @@ function loadCurrentPersonalFarm(){
   saveCurrentPersonalFarm();
 }
 
-/* ==================== 2.5 BẢNG XẾP HẠNG SERVER (GLOBAL LEADERBOARD) ==================== */
-const STORE_LEADERBOARD = 'sa_global_leaderboard_v2';
-const DEFAULT_LEADERBOARD = [
-  { id: 'lb_1', name: 'Nguyễn Thị Mai Linh', school: 'K49 Sư Phạm Toán HPU2', flame: 1580, streak: 42, done: 38, lvl: 10, petIcon: '🦉', petName: 'Cú Mèo HPU2', badge: '👑 Quán Quân Tri Thức' },
-  { id: 'lb_2', name: 'Trần Quốc Tuấn', school: 'K50 Sư Phạm Toán HPU2', flame: 1340, streak: 35, done: 32, lvl: 9, petIcon: '🐲', petName: 'Thanh Long', badge: '🥈 Bậc Thầy Sư Phạm' },
-  { id: 'lb_3', name: 'Lê Hoàng Nam', school: 'K51 Toán Tin HPU2', flame: 1120, streak: 28, done: 27, lvl: 8, petIcon: '🦅', petName: 'Phượng Hoàng Lửa', badge: '🥉 Chiến Thần Nghiên Cứu' },
-  { id: 'lb_4', name: 'Phạm Thúy Nga', school: 'K50 Sư Phạm Toán HPU2', flame: 960, streak: 24, done: 22, lvl: 7, petIcon: '🐱', petName: 'Mèo May Mắn', badge: '⭐ Siêu Sao Giải Tích' },
-  { id: 'lb_5', name: 'Hoàng Minh Đức', school: 'K49 Sư Phạm Toán HPU2', flame: 830, streak: 19, done: 18, lvl: 6, petIcon: '🌱', petName: 'Bé Mầm Mochi', badge: '✨ Tài Năng Đại Số' },
-  { id: 'lb_6', name: 'Đỗ Thu Hà', school: 'K51 Sư Phạm Toán HPU2', flame: 710, streak: 16, done: 15, lvl: 5, petIcon: '🦉', petName: 'Cú Tri Thức', badge: '📚 Chuyên Gia Xác Suất' },
-  { id: 'lb_7', name: 'Vũ Hải Long', school: 'K52 Sư Phạm Toán HPU2', flame: 590, streak: 12, done: 12, lvl: 4, petIcon: '🐲', petName: 'Tiểu Long', badge: '💡 Thần Đồng Rời Rạc' },
-  { id: 'lb_8', name: 'Bùi Phương Thảo', school: 'K51 Sư Phạm Toán HPU2', flame: 480, streak: 9, done: 10, lvl: 3, petIcon: '🌱', petName: 'Mầm Non', badge: '🌿 Mầm Xanh Hy Vọng' }
-];
-
-function getLeaderboardData(){
-  try {
-    const raw = localStorage.getItem(STORE_LEADERBOARD);
-    if (raw) {
-      const parsed = JSON.parse(raw);
-      if (Array.isArray(parsed) && parsed.length > 0) return parsed;
-    }
-  } catch(e){}
-  return [...DEFAULT_LEADERBOARD];
-}
-
-function saveLeaderboardData(list){
-  try {
-    localStorage.setItem(STORE_LEADERBOARD, JSON.stringify(list));
-  } catch(e){}
-}
-
-function syncMyScoreToLeaderboard(){
-  if (typeof isUserLoggedIn !== 'function' || !isUserLoggedIn()) return;
-  const list = getLeaderboardData();
-  const userName = (S.user && S.user.name) ? S.user.name : 'Học viên HPU2';
-  const curPet = (typeof PETS_CATALOG !== 'undefined' && PETS_CATALOG.find(p => p.id === (S.cfg?.petId || 'hpu2_owl'))) || { icon: '🦉', name: 'Cú Mèo' };
-  const petNick = S.cfg?.petName || curPet.name;
-  const myLvl = typeof lvl === 'function' ? lvl() : 1;
-  const myRealm = (typeof ASCENSION_STAGES !== 'undefined' && ASCENSION_STAGES[myLvl - 1]) ? ASCENSION_STAGES[myLvl - 1].realm : `Cấp ${myLvl}`;
-
-  const existingIdx = list.findIndex(item => item.isMe || item.name === userName);
-  const myEntry = {
-    id: existingIdx >= 0 ? list[existingIdx].id : 'user_' + Date.now(),
-    name: userName,
-    school: (S.user && S.user.provider === 'Tùy chọn') ? `${S.grade || 'Năm 1'} Sư Phạm Toán HPU2` : `${S.user?.provider || 'Học viên'} - HPU2`,
-    flame: S.flame || 0,
-    streak: S.streak || 1,
-    done: S.done || 1,
-    lvl: myLvl,
-    petIcon: curPet.icon || '🌱',
-    petName: petNick,
-    badge: `Bậc ${myLvl}: ${myRealm}`,
-    isMe: true,
-    lastActive: TODAY()
-  };
-
-  if (existingIdx >= 0) {
-    list[existingIdx] = myEntry;
-  } else {
-    list.push(myEntry);
-  }
-
-  list.sort((a, b) => (b.flame || 0) - (a.flame || 0));
-  saveLeaderboardData(list);
-}
-
+/* ==================== 2.5 TÍCH LŨY ĐIỂM LỬA (FLAME POINTS) ==================== */
 function gainFlame(points, reason = ''){
   const p = Math.max(1, parseInt(points, 10) || 5);
   S.flame = (S.flame || 0) + p;
   save();
-  try { syncMyScoreToLeaderboard(); } catch(e){}
   toast(`🔥 +${p} Điểm Lửa! ${reason ? '• ' + reason : ''}`);
   try { head(); } catch(e){}
 }
@@ -2173,7 +2108,6 @@ function gain(xp,k,d){
   const flameBonus = Math.max(3, Math.round(xp * 0.5));
   S.flame = (S.flame || 0) + flameBonus;
   save();
-  try { syncMyScoreToLeaderboard(); } catch(e){}
   Sound.drop();
   if(lvl()>before){
     Sound.tada();
@@ -2239,8 +2173,7 @@ function head(){
     const tabs=[
       ['learn','🌱 Vườn Học Tập'],
       ['exam','⚔️ Đấu Trường Thi'],
-      ['pet',`🏡 Nhà Cây & Mini-Game`],
-      ['leaderboard','🏆 Bảng Xếp Hạng']
+      ['pet',`🏡 Nhà Cây & Mini-Game`]
     ];
     if(S.tab==='admin'){
       tabs.push(['admin','⚙️ Quản Trị Viên']);
@@ -2289,7 +2222,12 @@ function render(){
   if(appEl){
     try{
       if(S.tab==='admin') appEl.innerHTML=vAdminView();
-      else appEl.innerHTML={learn:vLearn,exam:vExam,pet:vPet,leaderboard:vLeaderboardView}[S.tab]();
+      else {
+        const viewMap = {learn:vLearn, exam:vExam, pet:vPet};
+        const viewFn = viewMap[S.tab] || vLearn;
+        if(!viewMap[S.tab]) S.tab = 'learn';
+        appEl.innerHTML = viewFn();
+      }
       if(window.renderMathInElement){
         try{
           renderMathInElement(appEl, {
@@ -2432,7 +2370,6 @@ function quickLogin(p){
   S.user={name:p==='Khách Vãng Lai'?'Khách Yêu Vườn':`Học viên ${p}`,provider:p};
   try{ loadCurrentPersonalFarm(); }catch(e){}
   save();closeAuthDropdown();
-  try{ syncMyScoreToLeaderboard(); }catch(e){}
   toast('Đăng nhập thành công: '+S.user.name);head();render();
 }
 
@@ -2444,7 +2381,6 @@ function loginWithName(){
   S.user={name:name,provider:'Tùy chọn'};
   try{ loadCurrentPersonalFarm(); }catch(e){}
   save();closeAuthDropdown();
-  try{ syncMyScoreToLeaderboard(); }catch(e){}
   toast('Chào mừng '+name+' đến với Vườn Tri Thức!');head();render();
 }
 
@@ -2457,7 +2393,6 @@ function renameUser(){
   S.user.name=name;
   try{ loadCurrentPersonalFarm(); }catch(e){}
   save();closeAuthDropdown();
-  try{ syncMyScoreToLeaderboard(); }catch(e){}
   toast('Đã cập nhật tên: '+name);head();render();
 }
 
@@ -8834,7 +8769,6 @@ function buyPlotExpansion(){
 
   saveCurrentPersonalFarm();
   save();
-  try{ syncMyScoreToLeaderboard(); }catch(e){}
   Sound.fanfare();
   toast(`🎉 Mở rộng thành công Ô Đất #${nextId} cho nông trại của bạn! (-${price} Lửa)`);
   render();
@@ -9199,7 +9133,6 @@ function buyShopItem(category, itemId){
   saveCurrentPersonalFarm();
   Sound.fanfare();
   save();
-  try{ syncMyScoreToLeaderboard(); }catch(e){}
   render();
 }
 
@@ -9408,7 +9341,7 @@ function vSpeedMathGameView(){
         </div>
         <h2 class="text-2xl lg:text-3xl font-extrabold font-fun mb-2 text-white">Thử Thách Toán Tốc Độ 60s</h2>
         <p class="text-purple-100 text-xs sm:text-sm leading-relaxed mb-4">
-          Thử tài phản xạ chớp nhoáng với 5 phân môn Toán Sư Phạm HPU2. Trả lời đúng liên hoàn để nhân cấp số điểm, nhận mưa Lửa 🔥 đổi quà trong Cửa Hàng và leo bảng xếp hạng!
+          Thử tài phản xạ chớp nhoáng với 5 phân môn Toán Sư Phạm HPU2. Trả lời đúng liên hoàn để nhân cấp số điểm, nhận mưa Lửa 🔥 đổi quà trong Cửa Hàng và nâng cấp linh vật!
         </p>
         <div class="flex items-center gap-3 flex-wrap">
           <div class="px-3.5 py-1.5 rounded-xl bg-black/25 backdrop-blur-sm border border-white/25 font-bold text-xs flex items-center gap-2">
@@ -9514,9 +9447,6 @@ function vSpeedMathGameView(){
             <button class="btn g sm !py-2.5 text-sm font-bold" onclick="S.petTab='shop';render()">
               🛍️ Mở Cửa Hàng
             </button>
-            <button class="btn sm outline !py-2.5 text-sm font-bold" onclick="go('leaderboard')">
-              🏆 Bảng Xếp Hạng
-            </button>
           </div>
         </div>
       `)}
@@ -9599,272 +9529,12 @@ function endSpeedMathGame(){
   gainFlame(earnedFlame, 'Thử thách Toán 60s');
   Sound.fanfare();
   save();
-  try{ syncMyScoreToLeaderboard(); }catch(e){}
   render();
 }
 
-/* ==================== 17. BẢNG XẾP HẠNG SERVER (GLOBAL LEADERBOARD) ==================== */
-function cheerLeaderboardUser(userId){
-  const list = getLeaderboardData();
-  const found = list.find(x => x.id === userId);
-  if(found){
-    found.cheers = (found.cheers || 0) + 1;
-    saveLeaderboardData(list);
-    Sound.drop();
-    toast(`❤️ Đã gửi lời động viên ấm áp đến ${found.name}!`);
-    render();
-  }
-}
 
-function vLeaderboardView(){
-  if(!window.LEADERBOARD_TAB) window.LEADERBOARD_TAB = 'all';
-  const curTab = window.LEADERBOARD_TAB;
 
-  // Đồng bộ điểm bản thân
-  try{ syncMyScoreToLeaderboard(); }catch(e){}
 
-  const allList = getLeaderboardData();
-  let filtered = [...allList];
-  if(curTab === 'k49') filtered = allList.filter(u => (u.school||'').includes('K49'));
-  else if(curTab === 'k50') filtered = allList.filter(u => (u.school||'').includes('K50'));
-  else if(curTab === 'k51') filtered = allList.filter(u => (u.school||'').includes('K51'));
-
-  filtered.sort((a,b) => (b.flame||0) - (a.flame||0));
-
-  const top1 = filtered[0] || null;
-  const top2 = filtered[1] || null;
-  const top3 = filtered[2] || null;
-
-  const myRankIdx = filtered.findIndex(x => x.isMe || (S.user && x.name === S.user.name));
-  const myRank = myRankIdx >= 0 ? myRankIdx + 1 : null;
-  const logged = typeof isUserLoggedIn === 'function' && isUserLoggedIn();
-
-  return `
-  <div class="space-y-6">
-    <!-- LEADERBOARD HERO BANNER -->
-    <div class="card bg-gradient-to-r from-amber-600 via-yellow-600 to-amber-700 text-white p-6 shadow-md border-0 relative overflow-hidden">
-      <div class="relative z-10 max-w-2xl">
-        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 backdrop-blur-sm text-xs font-bold mb-3">
-          <span>🏆</span> <span>Bảng Vinh Danh Sư Phạm Toán HPU2</span>
-        </div>
-        <h2 class="text-2xl lg:text-3xl font-extrabold font-fun mb-2 text-white">Đại Lộ Danh Vọng & Thi Đua Toàn Trường</h2>
-        <p class="text-amber-100 text-xs sm:text-sm leading-relaxed mb-4">
-          Nơi vinh danh các gương mặt tiêu biểu của Khoa Toán - Trường ĐH Sư Phạm Hà Nội 2. Tích lũy Lửa 🔥 từ việc hoàn thành lộ trình, giải bài tập và mini-game để thăng hạng!
-        </p>
-        <div class="flex items-center gap-3 flex-wrap">
-          <button class="btn sm bg-white text-amber-950 font-extrabold hover:bg-amber-100 shadow-sm" onclick="syncMyScoreToLeaderboard();toast('🔄 Đã cập nhật thứ hạng mới nhất!');render()">
-            🔄 Cập Nhật Xếp Hạng Mới Nhất
-          </button>
-          <button class="btn sm outline !text-white !border-white/40 hover:bg-white/10" onclick="S.petTab='minigame';S.tab='pet';render()">
-            🎮 Chơi Mini-game Tích Lửa 🔥
-          </button>
-        </div>
-      </div>
-      <div class="absolute -right-6 -bottom-8 opacity-25 text-9xl select-none pointer-events-none">👑</div>
-    </div>
-
-    <!-- THÔNG TIN VỊ TRÍ HỌC VIÊN HIỆN TẠI -->
-    ${logged ? `
-      <div class="card border-2 border-amber-300 bg-gradient-to-r from-amber-50/70 via-white to-emerald-50/60 shadow-sm p-4 rounded-2xl flex items-center justify-between flex-wrap gap-3">
-        <div class="flex items-center gap-3">
-          <div class="w-12 h-12 rounded-2xl bg-amber-200 border-2 border-amber-400 flex items-center justify-center text-2xl font-extrabold text-amber-900 shadow-inner">
-            ${myRank ? `#${myRank}` : '⭐'}
-          </div>
-          <div>
-            <div class="flex items-center gap-2">
-              <span class="font-extrabold text-base text-slate-900">${S.user?.name || 'Bạn'}</span>
-              <span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-900 text-xs font-bold border border-emerald-300">Đang trực tuyến</span>
-            </div>
-            <div class="text-xs text-slate-600 mt-0.5">
-              ${myRank ? `Thứ hạng hiện tại: <b>#${myRank} / ${filtered.length}</b> học viên` : 'Chưa có trên bảng xếp hạng (hãy tích lũy Lửa để vào top)'}
-            </div>
-          </div>
-        </div>
-
-        <div class="flex items-center gap-4">
-          <div class="text-right">
-            <div class="text-xs text-slate-500 font-semibold">Điểm Lửa Tích Lũy</div>
-            <div class="text-xl font-extrabold text-amber-700 flex items-center gap-1 justify-end">
-              🔥 <span>${S.flame||0}</span>
-            </div>
-          </div>
-          <button class="btn sm y" onclick="syncMyScoreToLeaderboard();render()">
-            ⚡ Đồng Bộ
-          </button>
-        </div>
-      </div>
-    ` : `
-      <div class="p-4 rounded-2xl bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 flex items-center justify-between flex-wrap gap-3">
-        <div class="flex items-center gap-3">
-          <span class="text-3xl">👤</span>
-          <div>
-            <div class="font-extrabold text-sm text-amber-950">Bạn đang ở chế độ Khách Vãng Lai</div>
-            <div class="text-xs text-amber-800">Đăng nhập tài khoản để đưa tên bạn lên Bảng Vinh Danh Server và cạnh tranh cùng sinh viên Sư Phạm Toán!</div>
-          </div>
-        </div>
-        <button class="btn sm y font-extrabold" onclick="toggleAuthDropdown()">
-          Đăng Nhập Ngay 🚀
-        </button>
-      </div>
-    `}
-
-    <!-- BỤC VINH DANH TOP 1, 2, 3 (PODIUM) -->
-    ${filtered.length >= 3 ? `
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4">
-        <!-- TOP 2: BẠC -->
-        <div class="card p-5 rounded-2xl border-2 border-slate-300 bg-gradient-to-b from-slate-50 to-white text-center shadow-sm order-2 md:order-1 flex flex-col justify-between">
-          <div>
-            <div class="inline-block px-3 py-1 rounded-full bg-slate-200 text-slate-800 font-extrabold text-xs mb-3">
-              🥈 HẠNG NHÌ (TOP 2)
-            </div>
-            <div class="w-20 h-20 mx-auto rounded-full bg-slate-100 border-4 border-slate-300 flex items-center justify-center text-4xl shadow-inner mb-3">
-              ${top2.petIcon || '🦊'}
-            </div>
-            <h4 class="font-extrabold text-base text-slate-900 font-fun">${top2.name}</h4>
-            <div class="text-xs text-slate-600 font-semibold mb-1">${top2.school}</div>
-            <div class="inline-block px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 text-[11px] font-bold mb-3">
-              ${top2.badge || 'Á Quân Sư Phạm'}
-            </div>
-          </div>
-          <div class="pt-3 border-t border-slate-200 flex items-center justify-between">
-            <span class="text-xs font-semibold text-slate-500">Streak: <b>${top2.streak} ngày</b></span>
-            <span class="font-extrabold text-base text-amber-700">🔥 ${top2.flame}</span>
-          </div>
-        </div>
-
-        <!-- TOP 1: VÀNG -->
-        <div class="card p-6 rounded-2xl border-2 border-amber-400 bg-gradient-to-b from-amber-50 via-white to-amber-50/40 text-center shadow-md ring-2 ring-amber-300 order-1 md:order-2 flex flex-col justify-between md:-translate-y-2">
-          <div>
-            <div class="inline-block px-4 py-1.5 rounded-full bg-gradient-to-r from-amber-400 to-yellow-500 text-amber-950 font-black text-xs shadow-xs mb-3 animate-bounce">
-              👑 QUÁN QUÂN (TOP 1)
-            </div>
-            <div class="w-24 h-24 mx-auto rounded-full bg-gradient-to-tr from-amber-100 to-yellow-200 border-4 border-amber-400 flex items-center justify-center text-5xl shadow-md mb-3 anim-float">
-              ${top1.petIcon || '🦉'}
-            </div>
-            <h4 class="font-extrabold text-lg text-slate-900 font-fun">${top1.name}</h4>
-            <div class="text-xs text-amber-900 font-bold mb-1">${top1.school}</div>
-            <div class="inline-block px-3 py-1 rounded-full bg-amber-100 text-amber-900 text-xs font-extrabold border border-amber-300 mb-3">
-              ${top1.badge || '👑 Thủ Khoa Tri Thức'}
-            </div>
-          </div>
-          <div class="pt-3 border-t border-amber-200 flex items-center justify-between">
-            <span class="text-xs font-semibold text-amber-800">Streak: <b>${top1.streak} ngày</b></span>
-            <span class="font-extrabold text-xl text-amber-800">🔥 ${top1.flame}</span>
-          </div>
-        </div>
-
-        <!-- TOP 3: ĐỒNG -->
-        <div class="card p-5 rounded-2xl border-2 border-amber-700/30 bg-gradient-to-b from-orange-50/40 to-white text-center shadow-sm order-3 md:order-3 flex flex-col justify-between">
-          <div>
-            <div class="inline-block px-3 py-1 rounded-full bg-orange-100 text-orange-900 font-extrabold text-xs mb-3">
-              🥉 HẠNG BA (TOP 3)
-            </div>
-            <div class="w-20 h-20 mx-auto rounded-full bg-orange-100 border-4 border-amber-600/40 flex items-center justify-center text-4xl shadow-inner mb-3">
-              ${top3.petIcon || '🦅'}
-            </div>
-            <h4 class="font-extrabold text-base text-slate-900 font-fun">${top3.name}</h4>
-            <div class="text-xs text-slate-600 font-semibold mb-1">${top3.school}</div>
-            <div class="inline-block px-2.5 py-0.5 rounded-full bg-orange-50 text-orange-800 text-[11px] font-bold mb-3">
-              ${top3.badge || 'Chiến Thần Nghiên Cứu'}
-            </div>
-          </div>
-          <div class="pt-3 border-t border-slate-200 flex items-center justify-between">
-            <span class="text-xs font-semibold text-slate-500">Streak: <b>${top3.streak} ngày</b></span>
-            <span class="font-extrabold text-base text-amber-700">🔥 ${top3.flame}</span>
-          </div>
-        </div>
-      </div>
-    ` : ''}
-
-    <!-- BẢNG TOÀN BỘ DANH SÁCH -->
-    <div class="card p-4 rounded-2xl border border-slate-200 bg-white shadow-sm overflow-hidden">
-      <!-- BỘ LỌC TABS -->
-      <div class="flex items-center justify-between flex-wrap gap-2 mb-4 pb-3 border-b border-slate-100">
-        <div class="flex flex-wrap gap-2">
-          <button class="tab ${curTab==='all'?'on':'bg-white'}" onclick="window.LEADERBOARD_TAB='all';render()">
-            Toàn Trường (${allList.length})
-          </button>
-          <button class="tab ${curTab==='k49'?'on':'bg-white'}" onclick="window.LEADERBOARD_TAB='k49';render()">
-            Khóa K49
-          </button>
-          <button class="tab ${curTab==='k50'?'on':'bg-white'}" onclick="window.LEADERBOARD_TAB='k50';render()">
-            Khóa K50
-          </button>
-          <button class="tab ${curTab==='k51'?'on':'bg-white'}" onclick="window.LEADERBOARD_TAB='k51';render()">
-            Khóa K51
-          </button>
-        </div>
-
-        <div class="text-xs text-slate-500 font-semibold">
-          Cập nhật thời gian thực
-        </div>
-      </div>
-
-      <!-- BẢNG XẾP HẠNG -->
-      <div class="overflow-x-auto">
-        <table class="w-full text-left text-xs sm:text-sm">
-          <thead>
-            <tr class="text-slate-500 border-b border-slate-200 text-[11px] font-bold uppercase tracking-wider">
-              <th class="py-2.5 px-3">Hạng</th>
-              <th class="py-2.5 px-3">Học Viên Sư Phạm</th>
-              <th class="py-2.5 px-3">Chuyên Ngành / Khóa</th>
-              <th class="py-2.5 px-3">Danh Hiệu / Cảnh Giới</th>
-              <th class="py-2.5 px-3 text-center">Streak</th>
-              <th class="py-2.5 px-3 text-right">Điểm Lửa 🔥</th>
-              <th class="py-2.5 px-3 text-center">Động Viên</th>
-            </tr>
-          </thead>
-          <tbody class="divide-y divide-slate-100">
-            ${filtered.map((item, idx) => {
-              const rank = idx + 1;
-              const isMe = item.isMe || (S.user && item.name === S.user.name);
-              const rankBadge = rank === 1 ? '🥇' : (rank === 2 ? '🥈' : (rank === 3 ? '🥉' : `#${rank}`));
-
-              return `
-              <tr class="transition hover:bg-amber-50/40 ${isMe ? 'bg-amber-100/50 font-bold border-l-4 border-l-amber-500' : ''}">
-                <td class="py-3 px-3 font-extrabold text-center sm:text-left ${rank <= 3 ? 'text-base' : 'text-slate-600'}">
-                  ${rankBadge}
-                </td>
-                <td class="py-3 px-3">
-                  <div class="flex items-center gap-2">
-                    <span class="text-xl">${item.petIcon || '🌱'}</span>
-                    <div>
-                      <div class="font-extrabold text-slate-900 ${isMe ? 'text-amber-900' : ''}">
-                        ${item.name} ${isMe ? '<span class="text-[10px] px-1.5 py-0.5 rounded bg-amber-200 text-amber-900 ml-1">Bạn</span>' : ''}
-                      </div>
-                      <div class="text-[10px] text-slate-500">${item.petName ? 'Đồng hành: ' + item.petName : ''}</div>
-                    </div>
-                  </div>
-                </td>
-                <td class="py-3 px-3 text-slate-600 font-medium">
-                  ${item.school || 'Sư Phạm Toán HPU2'}
-                </td>
-                <td class="py-3 px-3">
-                  <span class="px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-800 text-[11px] font-bold border border-emerald-200">
-                    ${item.badge || 'Học viên'}
-                  </span>
-                </td>
-                <td class="py-3 px-3 text-center font-bold text-slate-700">
-                  ⚡ ${item.streak || 1}d
-                </td>
-                <td class="py-3 px-3 text-right font-black text-amber-700 text-sm">
-                  ${item.flame || 0}
-                </td>
-                <td class="py-3 px-3 text-center">
-                  <button class="px-2 py-1 rounded-full bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 text-xs font-bold transition active:scale-95 flex items-center gap-1 mx-auto" onclick="cheerLeaderboardUser('${item.id}')" title="Gửi tim động viên">
-                    <span>❤️</span> <span>${item.cheers || 0}</span>
-                  </button>
-                </td>
-              </tr>
-              `;
-            }).join('')}
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-  `;
-}
 
 /* ==================== 14. HIỆU ỨNG LÁ BAY KHU VƯỜN (CANVAS) ==================== */
 function setupGardenCanvas(){
