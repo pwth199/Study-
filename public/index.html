@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="vi">
 <head>
 <meta charset="utf-8">
@@ -371,6 +371,70 @@ footer{position:relative;z-index:10}
 <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-gradient-to-r from-emerald-900 to-teal-900 text-white font-bold text-sm px-5 py-3 rounded-2xl shadow-2xl border border-emerald-400 hidden items-center gap-2 z-50 transition-all"></div>
 
 <!-- MODAL GIAI ĐOẠN CẤP ĐỘ & THĂNG HẠNG CHĂM CHỈ (3 GIAI ĐOẠN / CẤP) -->
+<!-- MODAL ĐĂNG NHẬP TRUNG TÂM NỔI BẬT (UNIVERSAL LOGIN MODAL) -->
+<div id="loginModal" class="fixed inset-0 bg-slate-950/75 backdrop-blur-xs hidden items-center justify-center p-3 sm:p-4 z-[99999] overflow-y-auto" onclick="if(event.target===this)closeLoginModal()" style="display:none; z-index:99999;">
+  <div class="max-w-md w-full bg-white rounded-3xl p-6 sm:p-8 shadow-2xl border-2 border-emerald-300 relative animate-fade-in space-y-4">
+    <!-- Header Modal -->
+    <div class="flex items-start justify-between gap-3 pb-3 border-b border-emerald-100">
+      <div class="flex items-center gap-3">
+        <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-emerald-500 to-teal-400 text-white flex items-center justify-center text-2xl shadow-md shrink-0">
+          🌸
+        </div>
+        <div>
+          <h3 class="text-base sm:text-lg font-extrabold text-emerald-950 font-fun leading-tight">
+            Đăng Nhập Khai Mở Đấu Trường
+          </h3>
+          <p class="text-xs text-emerald-700 font-semibold mt-0.5">ĐH Sư Phạm Hà Nội 2 • Khoa Toán</p>
+        </div>
+      </div>
+      <button class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold flex items-center justify-center shrink-0 transition cursor-pointer" onclick="closeLoginModal()" title="Đóng">✕</button>
+    </div>
+
+    <!-- Body text -->
+    <p class="text-xs sm:text-sm text-slate-700 leading-relaxed font-medium">
+      Chọn hình thức đăng nhập để lưu trữ tiến độ, mở khóa toàn bộ <b>Vườn Học Tập</b>, <b>Đấu Trường Thi</b> và <b>Nhà Cây Nuôi Thú</b>:
+    </p>
+
+    <!-- Nút Đăng nhập nhanh Google / Facebook -->
+    <div class="space-y-2.5 pt-1">
+      <button class="btn sm w-full !justify-start !px-4 !py-3 gap-3 text-xs sm:text-sm font-bold bg-white text-slate-800 border border-slate-300 hover:bg-slate-50 transition shadow-xs cursor-pointer" onclick="quickLogin('Google')">
+        <span class="text-xl">🌐</span>
+        <span>Tiếp tục với tài khoản <b>Google</b></span>
+      </button>
+
+      <button class="btn sm g w-full !justify-start !px-4 !py-3 gap-3 text-xs sm:text-sm font-bold transition shadow-xs cursor-pointer" onclick="quickLogin('Facebook')">
+        <span class="text-xl">📘</span>
+        <span>Tiếp tục với tài khoản <b>Facebook</b></span>
+      </button>
+    </div>
+
+    <!-- Phân cách nhập tên -->
+    <div class="pt-3 border-t border-emerald-100">
+      <label class="text-xs font-bold text-emerald-950 block mb-1.5">
+        Hoặc nhập tên riêng của bạn để bắt đầu học ngay:
+      </label>
+      <div class="flex gap-2">
+        <input id="modalUserName" 
+               type="text" 
+               autocomplete="off" 
+               autocorrect="off" 
+               autocapitalize="off" 
+               spellcheck="false" 
+               placeholder="Ví dụ: Phương Thảo, Minh Quân, K49 Toán…" 
+               class="text-xs sm:text-sm font-bold py-2.5 px-3.5 border-2 border-emerald-300 rounded-xl flex-1 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-emerald-50/30" 
+               onkeydown="if(event.key==='Enter')loginWithModalName()">
+        <button class="btn sm g !py-2.5 !px-5 shrink-0 font-extrabold text-xs sm:text-sm shadow-md cursor-pointer" onclick="loginWithModalName()">
+          Vào Học 🚀
+        </button>
+      </div>
+    </div>
+
+    <div class="text-[11px] text-slate-500 italic pt-1 text-center">
+      🔒 Tiến độ học tập &amp; giải toán sẽ được lưu tự động trên thiết bị của bạn.
+    </div>
+  </div>
+</div>
+
 <div id="ascensionSubModal" class="fixed inset-0 bg-slate-950/70 backdrop-blur-xs hidden items-center justify-center p-3 sm:p-4 z-50 overflow-y-auto" onclick="if(event.target===this)closeSubStageModal()"></div>
 
 <!-- NÚT NỔI HỎI ĐÁP & TRA CỨU AI BẤT CỨ LÚC NÀO (FLOATING FAB) -->
@@ -3607,6 +3671,7 @@ function applyGardenTheme(){
 
 /* ==================== 7. ĐIỀU HƯỚNG & HEADER ==================== */
 /* ==================== 7. ĐIỀU HƯỚNG & HEADER ==================== */
+/* ==================== 7. ĐIỀU HƯỚNG & HEADER ==================== */
 function head(){
   applyGardenTheme();
 
@@ -3638,7 +3703,7 @@ function head(){
     }
     navEl.innerHTML=tabs.map(([k,l,isLocked])=>{
       const isActive = (S.tab===k);
-      const clickAction = isLocked ? `promptLogin('🔒 Vui lòng Đăng Nhập để mở khóa: ${l.replace(' 🔒','')}')` : `go('${k}')`;
+      const clickAction = isLocked ? `promptLogin('🔒 Vui lòng Đăng Nhập để mở khóa: ${l.replace(' 🔒','')}', event)` : `go('${k}')`;
       return `<button class="tab ${isActive?'on':''} ${isLocked?'opacity-70 hover:opacity-100':''}" onclick="${clickAction}">${l}</button>`;
     }).join('');
   }
@@ -3652,7 +3717,7 @@ function head(){
         <span class="text-emerald-300">|</span>
         <span class="inline-flex items-center gap-1 text-emerald-700 text-xs font-semibold">🌸 Chào Mừng Bạn</span>
         <span class="text-emerald-300">|</span>
-        <span class="inline-flex items-center gap-1 font-bold text-amber-800 bg-amber-100/90 px-2.5 py-0.5 rounded-full border border-amber-300 cursor-pointer hover:bg-amber-200 transition" onclick="toggleAuthDropdown()" title="Nhấp để đăng nhập!">✨ Đăng nhập mở khóa</span>
+        <span class="inline-flex items-center gap-1 font-bold text-amber-800 bg-amber-100/90 px-2.5 py-0.5 rounded-full border border-amber-300 cursor-pointer hover:bg-amber-200 transition" onclick="openLoginModal(event)" title="Nhấp để đăng nhập!">✨ Đăng nhập mở khóa</span>
       `;
     } else {
       const curLvl = lvl();
@@ -3673,11 +3738,11 @@ function head(){
   const authEl=$('#auth');
   if(authEl){
     authEl.innerHTML=isAuth?`
-      <button class="btn sm outline max-w-[160px] sm:max-w-xs" onclick="toggleAuthDropdown()" title="Tài khoản: ${S.user.name}">
+      <button class="btn sm outline max-w-[160px] sm:max-w-xs" onclick="toggleAuthDropdown(event)" title="Tài khoản: ${S.user.name}">
         <span class="truncate">👤 ${S.user.name}</span> <span class="text-[10px] shrink-0">▼</span>
       </button>
     `:`
-      <button class="btn sm g shadow-sm" onclick="toggleAuthDropdown()" title="Đăng nhập ngay để mở khóa toàn bộ tính năng">
+      <button class="btn sm g shadow-sm" onclick="openLoginModal(event)" title="Đăng nhập ngay để mở khóa toàn bộ tính năng">
         <span>✨ Đăng Nhập</span> <span class="text-[10px]">▼</span>
       </button>
     `;
@@ -3729,7 +3794,58 @@ function render(){
   try{ updateAiChatUI(); }catch(e){}
 }
 
-/* ==================== 8. XỬ LÝ NÚT ĐĂNG NHẬP TRỰC TIẾP TẠI NÚT TRÊN CÙNG ==================== */
+/* ==================== 8. XỬ LÝ ĐĂNG NHẬP (MODAL TRUNG TÂM & DROPDOWN) ==================== */
+function openLoginModal(e){
+  if(e && e.stopPropagation) e.stopPropagation();
+  closeAuthDropdown();
+  const m = document.getElementById('loginModal');
+  if(m){
+    m.style.display = 'flex';
+    m.style.zIndex = '99999';
+    m.classList.remove('hidden');
+    m.classList.add('flex');
+    setTimeout(() => {
+      const inp = document.getElementById('modalUserName');
+      if(inp) {
+        inp.focus();
+        inp.select();
+      }
+    }, 60);
+  } else {
+    toggleAuthDropdown(e);
+  }
+}
+
+function closeLoginModal(){
+  const m = document.getElementById('loginModal');
+  if(m){
+    m.style.display = 'none';
+    m.classList.add('hidden');
+    m.classList.remove('flex');
+  }
+}
+
+function loginWithModalName(){
+  const inp = document.getElementById('modalUserName');
+  if(!inp) return;
+  const name = inp.value.trim();
+  if(!name){
+    toast('⚠️ Vui lòng nhập tên của bạn để bắt đầu!');
+    inp.focus();
+    return;
+  }
+  try{ saveCurrentPersonalFarm(); }catch(e){}
+  S.user = { name: name, provider: 'Tùy chọn' };
+  try{ loadCurrentPersonalFarm(); }catch(e){}
+  if(S.tab === 'cloud_garden') S.tab = 'learn';
+  save();
+  closeLoginModal();
+  closeAuthDropdown();
+  toast('🎉 Chào mừng ' + name + ' đến với HPU2 Study Arena! Tất cả tính năng đã sẵn sàng.');
+  head();
+  render();
+}
+
 function renderAuthDropdownContent(){
   const d=$('#authDropdown');if(!d)return;
   if(isUserLoggedIn()){
@@ -3783,10 +3899,10 @@ function renderAuthDropdownContent(){
       </div>
       <p class="text-xs text-emerald-700 mb-3 leading-relaxed">Đăng nhập tài khoản để mở khóa toàn bộ Vườn học tập, Luyện thi &amp; Nhà cây:</p>
       <div class="space-y-2">
-        <button class="btn sm w-full !justify-start !px-3.5 !py-2.5 gap-2.5 shadow-sm" onclick="quickLogin('Google')">
+        <button class="btn sm w-full !justify-start !px-3.5 !py-2.5 gap-2.5 shadow-sm cursor-pointer" onclick="quickLogin('Google')">
           <span class="text-base">🌐</span> <span>Tiếp tục với Google</span>
         </button>
-        <button class="btn sm g w-full !justify-start !px-3.5 !py-2.5 gap-2.5 shadow-sm" onclick="quickLogin('Facebook')">
+        <button class="btn sm g w-full !justify-start !px-3.5 !py-2.5 gap-2.5 shadow-sm cursor-pointer" onclick="quickLogin('Facebook')">
           <span class="text-base">📘</span> <span>Tiếp tục với Facebook</span>
         </button>
       </div>
@@ -3802,14 +3918,21 @@ function renderAuthDropdownContent(){
                  placeholder="Ví dụ: Phương Thảo, Minh Quân…" 
                  class="text-xs font-semibold py-2 px-3 border border-emerald-300 rounded-xl flex-1 focus:outline-none focus:ring-2 focus:ring-emerald-400" 
                  onkeydown="if(event.key==='Enter')loginWithName()">
-          <button class="btn sm g !py-2 !px-4 shrink-0" onclick="loginWithName()">Vào</button>
+          <button class="btn sm g !py-2 !px-4 shrink-0 cursor-pointer" onclick="loginWithName()">Vào</button>
         </div>
       </div>
     `;
   }
 }
 
-function toggleAuthDropdown(){
+function toggleAuthDropdown(e){
+  if(e && e.stopPropagation) e.stopPropagation();
+  // Nếu chưa đăng nhập, mở ngay Modal Đăng Nhập trung tâm nổi bật, to rõ!
+  if(!isUserLoggedIn()){
+    openLoginModal(e);
+    return;
+  }
+  // Nếu đã đăng nhập, mở dropdown quản lý tài khoản ở góc trên
   const d=$('#authDropdown');if(!d)return;
   const wrap=$('#authWrap');
   closeAdminPinDropdown();
@@ -3822,7 +3945,7 @@ function toggleAuthDropdown(){
   }
   if(willOpen){
     setTimeout(()=>{
-      const inp = S.user ? $('#editUserName') : $('#customUserName');
+      const inp = $('#editUserName');
       if(inp) inp.focus();
     }, 50);
   }
@@ -3839,7 +3962,9 @@ function quickLogin(p){
   S.user = { name: name, provider: p };
   try{ loadCurrentPersonalFarm(); }catch(e){}
   if(S.tab === 'cloud_garden') S.tab = 'learn';
-  save();closeAuthDropdown();
+  save();
+  closeLoginModal();
+  closeAuthDropdown();
   toast('🎉 Đăng nhập thành công! Chào mừng ' + S.user.name + ' đến với HPU2 Study Arena!');
   head();render();
 }
@@ -3852,7 +3977,9 @@ function loginWithName(){
   S.user={name:name,provider:'Tùy chọn'};
   try{ loadCurrentPersonalFarm(); }catch(e){}
   if(S.tab === 'cloud_garden') S.tab = 'learn';
-  save();closeAuthDropdown();
+  save();
+  closeLoginModal();
+  closeAuthDropdown();
   toast('🎉 Chào mừng ' + name + ' đến với HPU2 Study Arena! Tất cả tính năng đã sẵn sàng.');
   head();render();
 }
@@ -3874,7 +4001,9 @@ function logout(){
   S.user=null;
   S.tab='cloud_garden';
   try{ loadCurrentPersonalFarm(); }catch(e){}
-  save();closeAuthDropdown();
+  save();
+  closeLoginModal();
+  closeAuthDropdown();
   toast('👋 Đã đăng xuất khỏi tài khoản. Hẹn gặp lại bạn tại Khu Vườn Mây HPU2!');
   head();render();
 }
@@ -3886,13 +4015,15 @@ function isUserLoggedIn(){
   return true;
 }
 
-function promptLogin(msg){
+function promptLogin(msg, e){
+  if(e && e.stopPropagation) e.stopPropagation();
   toast(msg || '🔒 Vui lòng Đăng Nhập tài khoản để sử dụng tính năng học tập này!');
-  toggleAuthDropdown();
+  openLoginModal(e);
 }
 
-function promptLoginForUpload(msg){
-  promptLogin(msg || '⚠️ Vui lòng đăng nhập tài khoản để sử dụng tính năng tải và phân tích tài liệu!');
+function promptLoginForUpload(msg, e){
+  if(e && e.stopPropagation) e.stopPropagation();
+  promptLogin(msg || '⚠️ Vui lòng đăng nhập tài khoản để sử dụng tính năng tải và phân tích tài liệu!', e);
 }
 
 /* ==================== 9. XỬ LÝ NÚT QUẢN TRỊ TRỰC TIẾP TẠI NÚT TRÊN CÙNG ==================== */
@@ -7242,7 +7373,7 @@ function vCloudGardenView(){
         <!-- CTA HÀNH ĐỘNG DÀNH CHO KHÁCH HOẶC HỌC VIÊN -->
         <div class="flex flex-wrap items-center gap-3">
           ${!isAuth ? `
-            <button class="btn g !py-3 !px-6 text-sm font-extrabold shadow-md gap-2" onclick="toggleAuthDropdown()">
+            <button class="btn g !py-3 !px-6 text-sm font-extrabold shadow-md gap-2" onclick="openLoginModal(event)">
               <span>👤</span> <span>Đăng Nhập Khai Mở Đấu Trường</span>
             </button>
             <button class="btn outline !py-3 !px-5 text-sm font-bold bg-white/80 hover:bg-white" onclick="document.getElementById('cloudStoriesSection')?.scrollIntoView({behavior:'smooth'})">
@@ -7484,7 +7615,7 @@ function vCloudGardenView(){
           <button class="btn sm !py-3 !px-6 text-sm font-extrabold shadow-md gap-2" onclick="quickLogin('Facebook')">
             <span>📘</span> <span>Tiếp Tục Với Facebook</span>
           </button>
-          <button class="btn outline !py-3 !px-6 text-sm font-bold shadow-md bg-white hover:bg-emerald-50 gap-2 text-emerald-950" onclick="toggleAuthDropdown()">
+          <button class="btn outline !py-3 !px-6 text-sm font-bold shadow-md bg-white hover:bg-emerald-50 gap-2 text-emerald-950" onclick="openLoginModal(event)">
             <span>🌱</span> <span>Nhập Tên Cá Nhân Của Bạn</span>
           </button>
         </div>
