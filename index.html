@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="vi">
 <head>
 <meta charset="utf-8">
@@ -219,6 +219,42 @@ footer{position:relative;z-index:10}
 .inline-math .katex{
   font-size:1.06em !important;
 }
+
+/* ==================== HIỆU ỨNG KHU VƯỜN MÂY (CLOUD GARDEN) ==================== */
+@keyframes floatCloud {
+  0%, 100% { transform: translateY(0px) translateX(0px); }
+  50% { transform: translateY(-10px) translateX(6px); }
+}
+@keyframes bobMascot {
+  0%, 100% { transform: translateY(0px) scale(1); }
+  50% { transform: translateY(-8px) scale(1.04); }
+}
+@keyframes softPulse {
+  0%, 100% { transform: scale(1); opacity: 0.95; }
+  50% { transform: scale(1.02); opacity: 1; }
+}
+.anim-float-cloud { animation: floatCloud 6s ease-in-out infinite; }
+.anim-bob-mascot { animation: bobMascot 3.2s ease-in-out infinite; }
+.anim-soft-pulse { animation: softPulse 2.8s ease-in-out infinite; }
+.cloud-card {
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(186, 230, 253, 0.7);
+  border-radius: 24px;
+  box-shadow: 0 12px 36px -10px rgba(56, 189, 248, 0.16), 0 4px 14px rgba(14, 165, 233, 0.06);
+  transition: all .25s ease;
+}
+.cloud-card:hover {
+  box-shadow: 0 16px 42px -10px rgba(56, 189, 248, 0.25);
+  transform: translateY(-2px);
+}
+.quote-card {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.96) 0%, rgba(240, 249, 255, 0.96) 100%);
+  border: 2px solid rgba(147, 197, 253, 0.6);
+  border-radius: 24px;
+  box-shadow: 0 14px 38px -12px rgba(37, 99, 235, 0.15);
+}
+
 </style>
 </head>
 <body>
@@ -3069,6 +3105,286 @@ function saveAdminKnowledgeVault(vault){
 }
 
 /* ==================== 5. TRẠNG THÁI NGƯỜI DÙNG & TÙY BIẾN ==================== */
+/* ==================== 4.6 DỮ LIỆU KHU VƯỜN MÂY, DANH NGÔN & CÂU CHUYỆN ĐỘNG LỰC ==================== */
+const STORE_CLOUD_GARDEN = 'sa_cloud_garden_v1';
+
+const DEFAULT_CLOUD_STORIES = [
+  {
+    id: 'story_xuanhoa_teacher',
+    icon: '🕯️',
+    title: 'Người Thầy Thắp Lửa Tri Thức Xuân Hòa',
+    author: 'Ký sự Giảng đường Sư phạm HPU2',
+    category: 'Sư Phạm HPU2',
+    summary: 'Ánh đèn chưa bao giờ tắt trong đêm đông Xuân Hòa và bài học về sự nhẫn nại của người thầy Toán học.',
+    content: `Những đêm mùa đông Xuân Hòa gió bấc lạnh buốt luồn qua từng tán xà cừ cổ thụ, trong căn phòng nhỏ ở khu giảng đường A, ánh đèn của thầy chưa bao giờ tắt sớm. Với mỗi sinh viên năm nhất chân ướt chân ráo bước vào giảng đường, còn ngơ ngác trước các định lý $\\epsilon - \\delta$ hay ma trận Jordan phức tạp, thầy luôn kiên nhẫn nán lại sau giờ học. Thầy nắn nót viết từng dòng chứng minh trên bảng đen, chỉ ra từng lỗi tư duy logic mà sinh viên hay mắc phải.\n\nKhi được hỏi vì sao thầy không nghỉ ngơi sớm, thầy mỉm cười hiền từ: 'Làm người thầy dạy Toán không đơn thuần là dạy học trò tìm ra đáp số đúng của một phương trình, mà là dạy các em đối diện với khó khăn bằng sự điềm tĩnh và không bao giờ nản lòng.' Lời căn dặn ấy đã trở thành kim chỉ nam cho hàng ngàn thế hệ sinh viên Sư phạm Toán HPU2 vững bước trên bục giảng khắp mọi miền Tổ quốc.`,
+    moral: 'Người thầy giỏi không chỉ truyền thụ tri thức mà còn thắp sáng ngọn lửa ý chí và lòng tự trọng nghề nghiệp trong tim học trò.',
+    likes: 128
+  },
+  {
+    id: 'story_persistence_theorem',
+    icon: '💎',
+    title: 'Định Lý Của Lòng Kiên Trì',
+    author: 'Thủ khoa Sư phạm Toán HPU2 K48',
+    category: 'Ý Chí & Nghị Lực',
+    summary: 'Hành trình vượt qua khủng hoảng điểm số môn Giải tích & Đại số để vươn lên giành học bổng xuất sắc.',
+    content: `Bước chân vào năm thứ nhất Đại học Sư phạm Hà Nội 2, Tuấn từng rơi vào khủng hoảng nặng nề. Từ một học sinh giỏi toán thời phổ thông, Tuấn hoàn toàn choáng ngợp trước tư duy trừu tượng của Không gian Vector $n$ chiều, ánh xạ tuyến tính và chuỗi hàm số Giải tích. Bài kiểm tra giữa kỳ đầu tiên chỉ suýt soát điểm trung bình. Cảm giác bất lực và hoài nghi bản thân bủa vây.\n\nThay vì gục ngã, Tuấn lập ra một lời hứa: 'Mỗi ngày giải bằng được 3 bài tập khó, nếu sai thì kiên nhẫn đọc lại định lý và giải lại từ dòng đầu tiên.' Những buổi trưa ở Thư viện HPU2, những cuốn vở nháp dày cộm kín đặc công thức. Sau 4 tháng bền bỉ không một ngày gián đoạn, Tuấn không chỉ đạt điểm A tuyệt đối ở cả 2 môn học mà còn trở thành trưởng nhóm học tập đôi bạn cùng tiến. Định lý quý giá nhất Tuấn đúc kết được: 'Lòng kiên trì nhân với thời gian chính là công thức vạn năng để hóa giải mọi nghịch cảnh.'`,
+    moral: 'Toán học không đòi hỏi bạn phải là thiên tài ngay từ đầu, chỉ cần bạn không bao giờ bỏ cuộc.',
+    likes: 195
+  },
+  {
+    id: 'story_xuanhoa_dream',
+    icon: '🎓',
+    title: 'Ngọn Đèn Đêm Xuân Hòa & Giấc Mơ Bục Giảng',
+    author: 'Cựu sinh viên Sư phạm Toán HPU2',
+    category: 'Sư Phạm HPU2',
+    summary: 'Rời quê nghèo lên trường Sư phạm với chiếc ba lô sờn vai và ước mơ ươm mầm tương lai cho thế hệ mai sau.',
+    content: `Rời vùng quê trung du nghèo bước lên mảnh đất Xuân Hòa - Vĩnh Phúc, gia tài của Mai trong chiếc ba lô sờn rách chỉ có vài bộ quần áo cũ và một tình yêu bất tận với nghề giáo. Những ngày tháng sinh viên vừa đi làm thêm gia sư trang trải học phí, vừa thức trắng đêm soạn giáo án tập giảng.\n\nCó những đêm mệt mỏi rã rời muốn buông xuôi, Mai lại bước ra ban công ký túc xá ngắm nhìn bầu trời đêm Xuân Hòa. Nhìn về phía giảng đường lung linh ánh đèn, hình ảnh những đôi mắt ngây thơ của các em học sinh đang chờ đón người giáo viên tương lai lại thôi thúc Mai quay về bàn học. Giờ đây, khi đã trở thành giáo viên dạy giỏi cấp tỉnh, Mai vẫn luôn giữ trọn niềm tự hào: 'Xuân Hòa là nơi nuôi dưỡng đôi cánh, và Toán học là ngọn đuốc soi sáng đường đời.'`,
+    moral: 'Ước mơ chân chính luôn đủ sức mạnh giúp ta vượt qua mọi chông gai của cuộc đời.',
+    likes: 142
+  },
+  {
+    id: 'story_sunflower_sharing',
+    icon: '🌻',
+    title: 'Bông Hoa Hướng Dương Trên Giảng Đường',
+    author: 'CLB Học Thuật Toán - HPU2',
+    category: 'Tương Thân Tương Ái',
+    summary: 'Câu lạc bộ hỗ trợ học tập tại ký túc xá HPU2: Nơi kiến thức cho đi là kiến thức nhân đôi.',
+    content: `Tại ký túc xá K1 ĐH Sư phạm Hà Nội 2, có một nhóm học tập đặc biệt mang tên 'Hoa Hướng Dương'. Nhóm do các bạn sinh viên năm 3 thành lập nhằm mục đích phụ đạo miễn phí cho các bạn khóa dưới đang gặp khó khăn với môn Toán Rời Rạc và Xác Suất Thống Kê.\n\nCứ 8 giờ tối mỗi thứ Năm và thứ Bảy, căn phòng sinh hoạt chung lại rộn rã tiếng thảo luận về đồ thị Euler, thuật toán Dijkstra hay các bài toán phân phối xác suất. Không có sự giấu nghề, không có khoảng cách. Các bạn giải thích cho nhau bằng ngôn ngữ mộc mạc, gần gũi nhất. Thật kỳ diệu, khi giảng bài cho người khác, chính các bạn sinh viên năm 3 lại hiểu sâu sắc bản chất toán học hơn bao giờ hết. Cả nhóm cùng nhau tiến bộ và 100% thành viên đều đạt kết quả xuất sắc trong kỳ thi.`,
+    moral: 'Tri thức khi sẻ chia sẽ nhân lên gấp bội. Tình đồng môn là món quà vô giá của thời sinh viên.',
+    likes: 167
+  },
+  {
+    id: 'story_compound_knowledge',
+    icon: '🚀',
+    title: 'Quy Luật Lãi Kép Của Tri Thức',
+    author: 'Cẩm nang Phương pháp Học tập Toán Cao cấp',
+    category: 'Phương Pháp Học',
+    summary: 'Mỗi ngày nỗ lực 1%, sau một năm bạn sẽ trở thành phiên bản vượt trội gấp gần 38 lần!',
+    content: `Trong toán học và khoa học dữ liệu, có một công thức kinh điển về quy luật tăng trưởng mũ: $(1 + 0.01)^{365} \\approx 37.78$. Nếu mỗi ngày bạn chỉ cần nỗ lực thêm 1% so với ngày hôm qua — giải thêm một bài toán khó, đọc thêm một định lý, ghi chép cẩn thận thêm một trang giáo án — thì sau 365 ngày, năng lực của bạn đã tăng lên gần 38 lần!\n\nNgược lại, nếu mỗi ngày bạn lơ là 1%: $(1 - 0.01)^{365} \\approx 0.03$, năng lực của bạn sẽ sụt giảm gần về số 0. Sự chênh lệch giữa người xuất sắc và người bình thường không đến từ năng khiếu bẩm sinh, mà đến từ thói quen rèn luyện kỷ luật mỗi ngày. Hãy bắt đầu từ 10 phút tập trung hôm nay tại Khu Vườn Tri Thức!`,
+    moral: 'Kỷ luật và sự bền bỉ từng ngày là chiếc chìa khóa vàng mở toang mọi cánh cửa thành công.',
+    likes: 210
+  }
+];
+
+const DEFAULT_CLOUD_QUOTES = [
+  {
+    id: 'quote_1',
+    text: 'Dạy học là đặt vào bàn tay học trò một ngọn đuốc, không phải đổ đầy một chiếc bình chứa.',
+    author: 'Socrates',
+    category: 'Sư Phạm',
+    likes: 88
+  },
+  {
+    id: 'quote_2',
+    text: 'Toán học là cánh cổng và chiếc chìa khóa vạn năng dẫn lối vào mọi ngành khoa học của nhân loại.',
+    author: 'Roger Bacon',
+    category: 'Toán Học',
+    likes: 95
+  },
+  {
+    id: 'quote_3',
+    text: 'Một người thầy mẫu mực giống như ngọn nến sáng — tự tiêu hao chính mình để soi đường cho thế hệ tương lai.',
+    author: 'Danh ngôn Sư phạm',
+    category: 'Sư Phạm HPU2',
+    likes: 112
+  },
+  {
+    id: 'quote_4',
+    text: 'Bản chất sâu xa của toán học nằm ở sự tự do tư duy và lòng nhẫn nại vô tận để kiếm tìm chân lý.',
+    author: 'Georg Cantor',
+    category: 'Toán Học',
+    likes: 74
+  },
+  {
+    id: 'quote_5',
+    text: 'Không có bài toán nào là ngõ cụt tuyệt đối. Chỉ có những góc nhìn và con đường mà ta chưa từng dám dấn thân.',
+    author: 'Khoa Toán - ĐH Sư Phạm Hà Nội 2',
+    category: 'Sư Phạm HPU2',
+    likes: 130
+  },
+  {
+    id: 'quote_6',
+    text: 'Mỗi giờ miệt mài bên trang sách hôm nay là một nấc thang vững chắc đưa bạn tự tin bước lên bục giảng mai sau.',
+    author: 'Truyền thống Sư phạm HPU2',
+    category: 'Sư Phạm HPU2',
+    likes: 145
+  },
+  {
+    id: 'quote_7',
+    text: 'Người kiên nhẫn vượt qua Đại số tuyến tính và Không gian vector sẽ nắm trong tay chiếc chìa khóa tư duy đa chiều của cuộc đời.',
+    author: 'Lời khuyên Sinh viên K49 HPU2',
+    category: 'Toán Học',
+    likes: 99
+  },
+  {
+    id: 'quote_8',
+    text: 'Thành công không phải là điểm đến cuối cùng, thất bại cũng không phải là dấu chấm hết. Lòng dũng cảm tiếp tục bước đi mới là điều có ý nghĩa nhất.',
+    author: 'Winston Churchill',
+    category: 'Ý Chí & Nghị Lực',
+    likes: 82
+  }
+];
+
+const DEFAULT_CLOUD_MASCOTS = [
+  {
+    id: 'c_owl',
+    name: 'Cú Mèo Tri Thức HPU2',
+    icon: '🦉',
+    role: 'Sứ Giả Trí Tuệ Sư Phạm',
+    quote: 'Chào mừng bạn đến với Khu Vườn Mây HPU2! Hãy tin vào hành trình của mình và chăm chỉ mỗi ngày nhé! ✨',
+    active: true
+  },
+  {
+    id: 'c_mochi',
+    name: 'Mochi Hạt Mầm',
+    icon: '🌱',
+    role: 'Hạt Giống Siêng Năng',
+    quote: 'Mỗi định lý bạn học hôm nay là một đóa hoa thơm ngát sẽ nở rộ trong tương lai! 🌸',
+    active: true
+  },
+  {
+    id: 'c_fox',
+    name: 'Cáo Lửa Euler',
+    icon: '🦊',
+    role: 'Ngọn Lửa Quyết Tâm',
+    quote: 'Không có bài toán nào là không thể giải khi trái tim bạn luôn rực cháy ngọn lửa kiên trì! 🔥',
+    active: true
+  },
+  {
+    id: 'c_dragon',
+    name: 'Bé Rồng Toán Học',
+    icon: '🐲',
+    role: 'Chiến Binh Đấu Trường',
+    quote: 'Đại số tuyến tính và Giải tích sẽ là bàn đạp đưa bạn chạm tay tới ước mơ! Cố lên nhé! ⚡',
+    active: true
+  },
+  {
+    id: 'c_rabbit',
+    name: 'Thỏ Ngọc Hoa Sen',
+    icon: '🐰',
+    role: 'Sứ Giả An Lành',
+    quote: 'Nghỉ ngơi một chút, đọc một câu chuyện truyền cảm hứng rồi chúng ta cùng tiếp tục hành trình! 💖',
+    active: true
+  }
+];
+
+let CLOUD_GARDEN_DATA = {
+  stories: JSON.parse(JSON.stringify(DEFAULT_CLOUD_STORIES)),
+  quotes: JSON.parse(JSON.stringify(DEFAULT_CLOUD_QUOTES)),
+  mascots: JSON.parse(JSON.stringify(DEFAULT_CLOUD_MASCOTS))
+};
+
+try {
+  const savedCG = JSON.parse(localStorage.getItem(STORE_CLOUD_GARDEN) || '{}');
+  if (savedCG && typeof savedCG === 'object') {
+    if (Array.isArray(savedCG.stories) && savedCG.stories.length > 0) {
+      CLOUD_GARDEN_DATA.stories = savedCG.stories;
+    }
+    if (Array.isArray(savedCG.quotes) && savedCG.quotes.length > 0) {
+      CLOUD_GARDEN_DATA.quotes = savedCG.quotes;
+    }
+    if (Array.isArray(savedCG.mascots) && savedCG.mascots.length > 0) {
+      CLOUD_GARDEN_DATA.mascots = savedCG.mascots;
+    }
+  }
+} catch (e) {}
+
+function saveCloudGardenData(){
+  try {
+    localStorage.setItem(STORE_CLOUD_GARDEN, JSON.stringify(CLOUD_GARDEN_DATA));
+  } catch(e) {}
+}
+
+let activeQuoteIdx = 0;
+let activeStoryModalId = null;
+let cloudQuoteCategoryFilter = 'all';
+
+function nextCloudQuote(){
+  const quotes = getFilteredCloudQuotes();
+  if(!quotes.length) return;
+  activeQuoteIdx = (activeQuoteIdx + 1) % quotes.length;
+  render();
+}
+
+function getFilteredCloudQuotes(){
+  const all = CLOUD_GARDEN_DATA.quotes || [];
+  if(!cloudQuoteCategoryFilter || cloudQuoteCategoryFilter === 'all') return all;
+  return all.filter(q => q.category === cloudQuoteCategoryFilter);
+}
+
+function setCloudQuoteFilter(cat){
+  cloudQuoteCategoryFilter = cat;
+  activeQuoteIdx = 0;
+  render();
+}
+
+function likeCloudQuote(id){
+  const found = CLOUD_GARDEN_DATA.quotes.find(q => q.id === id);
+  if(found){
+    found.likes = (found.likes || 0) + 1;
+    saveCloudGardenData();
+    Sound.correct && Sound.correct();
+    toast(`❤️ Đã thả tim cho câu danh ngôn! (${found.likes} lượt thích)`);
+    render();
+  }
+}
+
+function copyCloudQuote(id){
+  const found = CLOUD_GARDEN_DATA.quotes.find(q => q.id === id);
+  if(found){
+    const text = `"${found.text}" — ${found.author}`;
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text);
+      toast('📋 Đã sao chép câu danh ngôn vào bộ nhớ tạm!');
+    } else {
+      toast('📋 ' + text);
+    }
+  }
+}
+
+function likeCloudStory(id){
+  const found = CLOUD_GARDEN_DATA.stories.find(s => s.id === id);
+  if(found){
+    found.likes = (found.likes || 0) + 1;
+    saveCloudGardenData();
+    Sound.correct && Sound.correct();
+    toast(`❤️ Cảm ơn bạn! Đã thêm 1 lượt yêu thích cho câu chuyện: ${found.title}`);
+    render();
+  }
+}
+
+function openCloudStoryModal(id){
+  activeStoryModalId = id;
+  render();
+}
+
+function closeCloudStoryModal(){
+  activeStoryModalId = null;
+  render();
+}
+
+function interactWithCloudMascot(id){
+  const mascot = (CLOUD_GARDEN_DATA.mascots || []).find(m => m.id === id);
+  if(mascot){
+    Sound.correct && Sound.correct();
+    toast(`${mascot.icon} ${mascot.name}: "${mascot.quote}"`);
+  }
+}
+
+function resetCloudGardenToDefault(){
+  if(confirm('Bạn có chắc muốn khôi phục toàn bộ danh ngôn, câu chuyện và linh vật Vườn Mây về mặc định của HPU2?')){
+    CLOUD_GARDEN_DATA = {
+      stories: JSON.parse(JSON.stringify(DEFAULT_CLOUD_STORIES)),
+      quotes: JSON.parse(JSON.stringify(DEFAULT_CLOUD_QUOTES)),
+      mascots: JSON.parse(JSON.stringify(DEFAULT_CLOUD_MASCOTS))
+    };
+    saveCloudGardenData();
+    toast('🎉 Đã khôi phục dữ liệu Khu Vườn Mây về mặc định ban đầu!');
+    render();
+  }
+}
+
+
 const defaultSt = { kt: 40, vd: 30, gn: 35, bp: 25, px: 30 };
 let S={
   xp:45,
@@ -3290,58 +3606,90 @@ function applyGardenTheme(){
 }
 
 /* ==================== 7. ĐIỀU HƯỚNG & HEADER ==================== */
+/* ==================== 7. ĐIỀU HƯỚNG & HEADER ==================== */
 function head(){
   applyGardenTheme();
 
   const curP = PETS_CATALOG.find(p=>p.id===(S.cfg.petId||'mochi')) || PETS_CATALOG[0] || {name:'Mochi',icon:'🌱'};
   const petNick = S.cfg.petName || curP.name;
+  const isAuth = isUserLoggedIn();
 
   // Navigation tabs
   const navEl=$('#nav');
   if(navEl){
-    const tabs=[
-      ['learn','🌱 Vườn Học Tập'],
-      ['exam','⚔️ Đấu Trường Thi'],
-      ['pet',`🏡 Nhà Cây & Mini-Game`]
-    ];
-    if(S.tab==='admin'){
-      tabs.push(['admin','⚙️ Quản Trị Viên']);
+    let tabs = [];
+    if(!isAuth){
+      tabs = [
+        ['cloud_garden','☁️ Khu Vườn Mây', false],
+        ['learn','🌱 Vườn Học Tập 🔒', true],
+        ['exam','⚔️ Đấu Trường Thi 🔒', true],
+        ['pet','🏡 Nhà Cây 🔒', true]
+      ];
+    } else {
+      tabs = [
+        ['cloud_garden','☁️ Khu Vườn Mây', false],
+        ['learn','🌱 Vườn Học Tập', false],
+        ['exam','⚔️ Đấu Trường Thi', false],
+        ['pet','🏡 Nhà Cây & Mini-Game', false]
+      ];
     }
-    navEl.innerHTML=tabs.map(([k,l])=>`<button class="tab ${S.tab===k?'on':''}" onclick="go('${k}')">${l}</button>`).join('');
+    if(S.tab==='admin'){
+      tabs.push(['admin','⚙️ Quản Trị Viên', false]);
+    }
+    navEl.innerHTML=tabs.map(([k,l,isLocked])=>{
+      const isActive = (S.tab===k);
+      const clickAction = isLocked ? `promptLogin('🔒 Vui lòng Đăng Nhập để mở khóa: ${l.replace(' 🔒','')}')` : `go('${k}')`;
+      return `<button class="tab ${isActive?'on':''} ${isLocked?'opacity-70 hover:opacity-100':''}" onclick="${clickAction}">${l}</button>`;
+    }).join('');
   }
 
   // Chip trạng thái
   const chipEl=$('#chip');
   if(chipEl){
-    const curLvl = lvl();
-    const curStage = (ASCENSION_STAGES && ASCENSION_STAGES[curLvl - 1]) || (ASCENSION_STAGES && ASCENSION_STAGES[0]) || { realm: 'Cấp ' + curLvl };
-    chipEl.innerHTML=`
-      <span class="inline-flex items-center gap-1 font-extrabold text-emerald-800" title="${curStage.realm}: ${curStage.name || ''}">🪴 Cấp ${curLvl} (${curStage.realm})</span>
-      <span class="text-emerald-300">|</span>
-      <span class="inline-flex items-center gap-1 font-extrabold text-amber-800 bg-amber-100/90 px-2 py-0.5 rounded-full border border-amber-300 cursor-pointer hover:bg-amber-200 transition shadow-2xs" onclick="go('pet');S.petTab='shop';render();" title="Điểm Lửa tích lũy từ học tập & giải đố. Nhấp để vào Cửa Hàng Gamification!">🔥 ${S.flame||0} Lửa</span>
-      <span class="text-emerald-300">|</span>
-      <span class="inline-flex items-center gap-1 font-bold text-amber-700">⚡ Chuỗi ${S.streak} ngày</span>
-      <span class="text-emerald-300">|</span>
-      <span class="inline-flex items-center gap-1 font-bold text-teal-700">💧 ${S.xp} Sương</span>
-    `;
+    if(!isAuth){
+      chipEl.innerHTML=`
+        <span class="inline-flex items-center gap-1 font-bold text-teal-800">☁️ Khu Vườn Mây HPU2</span>
+        <span class="text-emerald-300">|</span>
+        <span class="inline-flex items-center gap-1 text-emerald-700 text-xs font-semibold">🌸 Chào Mừng Bạn</span>
+        <span class="text-emerald-300">|</span>
+        <span class="inline-flex items-center gap-1 font-bold text-amber-800 bg-amber-100/90 px-2.5 py-0.5 rounded-full border border-amber-300 cursor-pointer hover:bg-amber-200 transition" onclick="toggleAuthDropdown()" title="Nhấp để đăng nhập!">✨ Đăng nhập mở khóa</span>
+      `;
+    } else {
+      const curLvl = lvl();
+      const curStage = (ASCENSION_STAGES && ASCENSION_STAGES[curLvl - 1]) || (ASCENSION_STAGES && ASCENSION_STAGES[0]) || { realm: 'Cấp ' + curLvl };
+      chipEl.innerHTML=`
+        <span class="inline-flex items-center gap-1 font-extrabold text-emerald-800" title="${curStage.realm}: ${curStage.name || ''}">🪴 Cấp ${curLvl} (${curStage.realm})</span>
+        <span class="text-emerald-300">|</span>
+        <span class="inline-flex items-center gap-1 font-extrabold text-amber-800 bg-amber-100/90 px-2 py-0.5 rounded-full border border-amber-300 cursor-pointer hover:bg-amber-200 transition shadow-2xs" onclick="go('pet');S.petTab='shop';render();" title="Điểm Lửa tích lũy từ học tập & giải đố. Nhấp để vào Cửa Hàng Gamification!">🔥 ${S.flame||0} Lửa</span>
+        <span class="text-emerald-300">|</span>
+        <span class="inline-flex items-center gap-1 font-bold text-amber-700">⚡ Chuỗi ${S.streak} ngày</span>
+        <span class="text-emerald-300">|</span>
+        <span class="inline-flex items-center gap-1 font-bold text-teal-700">💧 ${S.xp} Sương</span>
+      `;
+    }
   }
 
   // Nút đăng nhập trực tiếp tại header
   const authEl=$('#auth');
   if(authEl){
-    authEl.innerHTML=S.user?`
+    authEl.innerHTML=isAuth?`
       <button class="btn sm outline max-w-[160px] sm:max-w-xs" onclick="toggleAuthDropdown()" title="Tài khoản: ${S.user.name}">
         <span class="truncate">👤 ${S.user.name}</span> <span class="text-[10px] shrink-0">▼</span>
       </button>
     `:`
-      <button class="btn sm outline" onclick="toggleAuthDropdown()" title="Đăng nhập ngay tại đây">
-        <span>👤 Đăng nhập</span> <span class="text-[10px]">▼</span>
+      <button class="btn sm g shadow-sm" onclick="toggleAuthDropdown()" title="Đăng nhập ngay để mở khóa toàn bộ tính năng">
+        <span>✨ Đăng Nhập</span> <span class="text-[10px]">▼</span>
       </button>
     `;
   }
 }
 
 function go(t){
+  if(t !== 'cloud_garden' && t !== 'admin' && !isUserLoggedIn()){
+    const names = { learn: 'Vườn Học Tập', exam: 'Đấu Trường Thi & Luyện Tự Luận', pet: 'Nhà Cây & Gamification' };
+    promptLogin(`🔒 Vui lòng Đăng Nhập để mở khóa phân hệ: ${names[t] || t}!`);
+    return;
+  }
   S.tab=t;save();render();
 }
 
@@ -3350,8 +3698,14 @@ function render(){
   const appEl=$('#app');
   if(appEl){
     try{
-      if(S.tab==='admin') appEl.innerHTML=vAdminView();
-      else {
+      if(!isUserLoggedIn() && S.tab !== 'admin'){
+        S.tab = 'cloud_garden';
+        appEl.innerHTML = vCloudGardenView();
+      } else if(S.tab==='admin') {
+        appEl.innerHTML = vAdminView();
+      } else if(S.tab==='cloud_garden') {
+        appEl.innerHTML = vCloudGardenView();
+      } else {
         const viewMap = {learn:vLearn, exam:vExam, pet:vPet};
         const viewFn = viewMap[S.tab] || vLearn;
         if(!viewMap[S.tab]) S.tab = 'learn';
@@ -3378,7 +3732,7 @@ function render(){
 /* ==================== 8. XỬ LÝ NÚT ĐĂNG NHẬP TRỰC TIẾP TẠI NÚT TRÊN CÙNG ==================== */
 function renderAuthDropdownContent(){
   const d=$('#authDropdown');if(!d)return;
-  if(S.user){
+  if(isUserLoggedIn()){
     // Khi đã đăng nhập: hiển thị bảng thông tin học viên & nút đăng xuất
     d.innerHTML=`
       <div class="flex items-center justify-between mb-2.5 pb-2 border-b border-emerald-100">
@@ -3408,33 +3762,26 @@ function renderAuthDropdownContent(){
         <!-- PHÍM TẮT ĐỔI GIAO DIỆN & LINH VẬT CÁ NHÂN -->
         <div class="pt-2 border-t border-emerald-100 space-y-2">
           <button class="btn sm outline w-full !justify-start !py-2 gap-2 text-xs" onclick="closeAuthDropdown();S.tab='pet';S.petTab='customize';render();">
-            <span>🎨</span> <span>Tùy Chỉnh Giao Diện & Linh Vật</span>
+            <span>🎨</span> <span>Tùy Chỉnh Giao Diện &amp; Linh Vật</span>
           </button>
-          <div>
-            <label class="text-[10px] font-bold text-emerald-800 block mb-1">Đổi nhanh chủ đề:</label>
-            <div class="flex gap-1 flex-wrap">
-              ${THEMES_CATALOG.slice(0, 4).map(t => `
-                <button class="px-2 py-0.5 text-[10px] font-bold rounded-lg border transition ${S.cfg.bgTheme===t.id&&!S.cfg.customBgUrl?'bg-teal-700 text-white border-teal-800':'bg-white text-teal-900 border-teal-200 hover:bg-teal-50'}" onclick="setUserTheme('${t.id}')">
-                  ${t.name.split(' ')[0]} ${t.name.split(' ')[1]||''}
-                </button>
-              `).join('')}
-            </div>
-          </div>
+          <button class="btn sm outline w-full !justify-start !py-2 gap-2 text-xs" onclick="closeAuthDropdown();go('cloud_garden');">
+            <span>☁️</span> <span>Ghé Thăm Khu Vườn Mây &amp; Đọc Truyện</span>
+          </button>
         </div>
 
         <button class="btn sm rose w-full !py-2.5 shadow-sm" onclick="logout()">🚪 Đăng Xuất Khỏi Thiết Bị</button>
       </div>
     `;
   } else {
-    // Khi chưa đăng nhập: hiển thị danh sách đăng nhập nhanh
+    // Khi chưa đăng nhập: hiển thị danh sách đăng nhập mở khóa
     d.innerHTML=`
       <div class="flex items-center justify-between mb-2.5 pb-2 border-b border-emerald-100">
         <span class="font-bold text-xs text-emerald-950 uppercase tracking-wider flex items-center gap-1.5">
-          <span>🌸</span> <span>Đăng Nhập Nhanh</span>
+          <span>🌸</span> <span>Đăng Nhập Khai Mở Đấu Trường</span>
         </span>
         <button class="text-slate-400 hover:text-slate-700 font-bold text-base p-1 leading-none rounded-lg hover:bg-slate-100" onclick="closeAuthDropdown()" title="Đóng">✕</button>
       </div>
-      <p class="text-xs text-emerald-700 mb-3 leading-relaxed">Chọn hình thức đăng nhập để lưu giữ tiến độ:</p>
+      <p class="text-xs text-emerald-700 mb-3 leading-relaxed">Đăng nhập tài khoản để mở khóa toàn bộ Vườn học tập, Luyện thi &amp; Nhà cây:</p>
       <div class="space-y-2">
         <button class="btn sm w-full !justify-start !px-3.5 !py-2.5 gap-2.5 shadow-sm" onclick="quickLogin('Google')">
           <span class="text-base">🌐</span> <span>Tiếp tục với Google</span>
@@ -3442,12 +3789,9 @@ function renderAuthDropdownContent(){
         <button class="btn sm g w-full !justify-start !px-3.5 !py-2.5 gap-2.5 shadow-sm" onclick="quickLogin('Facebook')">
           <span class="text-base">📘</span> <span>Tiếp tục với Facebook</span>
         </button>
-        <button class="btn sm outline w-full !justify-start !px-3.5 !py-2.5 gap-2.5 shadow-sm" onclick="quickLogin('Khách Vãng Lai')">
-          <span class="text-base">🌿</span> <span>Học ẩn danh (Khách)</span>
-        </button>
       </div>
       <div class="mt-3.5 pt-3 border-t border-emerald-100">
-        <label class="text-[11px] font-bold text-emerald-900 block mb-1.5">Hoặc nhập tên riêng của bạn:</label>
+        <label class="text-[11px] font-bold text-emerald-900 block mb-1.5">Hoặc nhập tên riêng của bạn để bắt đầu học:</label>
         <div class="flex gap-1.5">
           <input id="customUserName" 
                  type="text" 
@@ -3455,16 +3799,11 @@ function renderAuthDropdownContent(){
                  autocorrect="off" 
                  autocapitalize="off" 
                  spellcheck="false" 
-                 placeholder="Ví dụ: Phương Thảo…" 
+                 placeholder="Ví dụ: Phương Thảo, Minh Quân…" 
                  class="text-xs font-semibold py-2 px-3 border border-emerald-300 rounded-xl flex-1 focus:outline-none focus:ring-2 focus:ring-emerald-400" 
                  onkeydown="if(event.key==='Enter')loginWithName()">
           <button class="btn sm g !py-2 !px-4 shrink-0" onclick="loginWithName()">Vào</button>
         </div>
-      </div>
-      <div class="mt-2.5 pt-2 border-t border-emerald-100">
-        <button class="btn sm outline w-full !justify-start !py-2 gap-2 text-xs" onclick="closeAuthDropdown();S.tab='pet';S.petTab='customize';render();">
-          <span>🎨</span> <span>Tùy Chỉnh Giao Diện & Linh Vật Của Bạn</span>
-        </button>
       </div>
     `;
   }
@@ -3496,10 +3835,13 @@ function closeAuthDropdown(){
 
 function quickLogin(p){
   try{ saveCurrentPersonalFarm(); }catch(e){}
-  S.user={name:p==='Khách Vãng Lai'?'Khách Yêu Vườn':`Học viên ${p}`,provider:p};
+  const name = (p==='Khách Vãng Lai' || p==='Guest') ? 'Học viên Mới' : `Học viên ${p}`;
+  S.user = { name: name, provider: p };
   try{ loadCurrentPersonalFarm(); }catch(e){}
+  if(S.tab === 'cloud_garden') S.tab = 'learn';
   save();closeAuthDropdown();
-  toast('Đăng nhập thành công: '+S.user.name);head();render();
+  toast('🎉 Đăng nhập thành công! Chào mừng ' + S.user.name + ' đến với HPU2 Study Arena!');
+  head();render();
 }
 
 function loginWithName(){
@@ -3509,8 +3851,10 @@ function loginWithName(){
   try{ saveCurrentPersonalFarm(); }catch(e){}
   S.user={name:name,provider:'Tùy chọn'};
   try{ loadCurrentPersonalFarm(); }catch(e){}
+  if(S.tab === 'cloud_garden') S.tab = 'learn';
   save();closeAuthDropdown();
-  toast('Chào mừng '+name+' đến với Vườn Tri Thức!');head();render();
+  toast('🎉 Chào mừng ' + name + ' đến với HPU2 Study Arena! Tất cả tính năng đã sẵn sàng.');
+  head();render();
 }
 
 function renameUser(){
@@ -3528,24 +3872,22 @@ function renameUser(){
 function logout(){
   try{ saveCurrentPersonalFarm(); }catch(e){}
   S.user=null;
+  S.tab='cloud_garden';
   try{ loadCurrentPersonalFarm(); }catch(e){}
   save();closeAuthDropdown();
-  toast('Đã đăng xuất');head();render();
+  toast('👋 Đã đăng xuất khỏi tài khoản. Hẹn gặp lại bạn tại Khu Vườn Mây HPU2!');
+  head();render();
 }
 
 function isUserLoggedIn(){
   if(ADM) return true;
   if(!S.user || !S.user.name) return false;
-  if(S.user.provider === 'Khách Vãng Lai') return false;
+  if(S.user.provider === 'Khách Vãng Lai' || S.user.provider === 'Guest') return false;
   return true;
 }
 
 function promptLogin(msg){
-  if(S.user && S.user.provider === 'Khách Vãng Lai'){
-    toast(msg || '⚠️ Bạn đang ở chế độ Khách Vãng Lai. Vui lòng đăng nhập với Google, Facebook hoặc nhập Tên để kích hoạt đầy đủ tính năng!');
-  }else{
-    toast(msg || '⚠️ Vui lòng đăng nhập tài khoản để sử dụng tính năng này!');
-  }
+  toast(msg || '🔒 Vui lòng Đăng Nhập tài khoản để sử dụng tính năng học tập này!');
   toggleAuthDropdown();
 }
 
@@ -3554,6 +3896,7 @@ function promptLoginForUpload(msg){
 }
 
 /* ==================== 9. XỬ LÝ NÚT QUẢN TRỊ TRỰC TIẾP TẠI NÚT TRÊN CÙNG ==================== */
+
 let ADM=false;
 let ADMIN_PIN='admin2026';
 try{ADMIN_PIN=localStorage.getItem('sa_admin_pin')||'admin2026'}catch(e){}
@@ -3637,6 +3980,8 @@ function vAdminView(){
       ${[
         ['theme','🏷️ Tên & Bố Cục Website'],
         ['ai_knowledge_center','🧠 Trung Tâm Tri Thức AI ('+(getAdminKnowledgeVault().length)+')'],
+        ['cloud_garden_mgmt','☁️ Vườn Mây & Động Lực ('+((CLOUD_GARDEN_DATA.stories?.length||0) + (CLOUD_GARDEN_DATA.quotes?.length||0))+')'],
+
         ['shop_mgmt','🛒 Cửa Hàng & Nông Trại ('+((SHOP_ITEMS.seeds?.length||0) + (SHOP_ITEMS.accessories?.length||0) + (SHOP_ITEMS.plots?.length||0) + (SHOP_ITEMS.pets?.length||0))+')'],
         ['themes_mgmt','🎨 Quản Lý Giao Diện ('+THEMES_CATALOG.length+')'],
         ['pets_mgmt','🐾 Kho Linh Vật ('+PETS_CATALOG.length+')'],
@@ -3659,6 +4004,8 @@ function vAdminView(){
       ${{
         theme:vAdminTheme,
         ai_knowledge_center:vAdminAiKnowledgeCenter,
+        cloud_garden_mgmt:vAdminCloudGardenMgmt,
+
         shop_mgmt:vAdminShopMgmt,
         themes_mgmt:vAdminThemesMgmt,
         pets_mgmt:vAdminPetsMgmt,
@@ -5551,6 +5898,506 @@ function resetAscensionStagesToDefault(){
 }
 
 /* --- TAB 7: ĐIỂM & CẤP ĐỘ --- */
+/* ==================== 10.4 QUẢN LÝ KHU VƯỜN MÂY, DANH NGÔN & LINH VẬT (ADMIN) ==================== */
+let adCloudSubTab = 'quotes'; // 'quotes', 'stories', 'mascots'
+let adEditingQuoteIdx = -2; // -2: closed, -1: new, >= 0: editing
+let adEditingStoryIdx = -2; // -2: closed, -1: new, >= 0: editing
+let adEditingMascotIdx = -2; // -2: closed, >= 0: editing
+
+function vAdminCloudGardenMgmt(){
+  const quotes = CLOUD_GARDEN_DATA.quotes || [];
+  const stories = CLOUD_GARDEN_DATA.stories || [];
+  const mascots = CLOUD_GARDEN_DATA.mascots || [];
+
+  return `
+  <div class="space-y-5">
+    <!-- TIÊU ĐỀ PHÂN HỆ QUẢN LÝ VƯỜN MÂY -->
+    <div class="p-4 bg-gradient-to-r from-sky-50 to-teal-50 rounded-2xl border border-sky-200 flex items-center justify-between flex-wrap gap-3">
+      <div>
+        <div class="flex items-center gap-2">
+          <span class="text-2xl">☁️</span>
+          <h3 class="font-extrabold text-base text-slate-900 font-fun">Quản Lý Khu Vườn Mây &amp; Nội Dung Động Lực</h3>
+          <span class="px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-sky-200 text-sky-900 border border-sky-300">Admin Content Master</span>
+        </div>
+        <p class="text-xs text-slate-600 mt-1">
+          Tùy chỉnh danh ngôn, câu chuyện truyền cảm hứng và các linh vật xuất hiện ngoài trang chủ Khu Vườn Mây. Tự động đồng bộ và lưu vào localStorage.
+        </p>
+      </div>
+
+      <button class="btn sm rose" onclick="resetCloudGardenToDefault()">
+        <span>🔄</span> <span>Khôi Phục Gốc HPU2</span>
+      </button>
+    </div>
+
+    <!-- SUB-TABS QUẢN TRỊ VƯỜN MÂY -->
+    <div class="flex gap-1.5 p-1 bg-sky-100/70 rounded-xl border border-sky-200 flex-wrap">
+      <button class="tab sm flex-1 min-w-[120px] text-center ${adCloudSubTab==='quotes'?'on':'bg-white/80'}" onclick="adCloudSubTab='quotes';adEditingQuoteIdx=-2;render()">
+        💬 Danh Ngôn &amp; Châm Ngôn (${quotes.length})
+      </button>
+      <button class="tab sm flex-1 min-w-[120px] text-center ${adCloudSubTab==='stories'?'on':'bg-white/80'}" onclick="adCloudSubTab='stories';adEditingStoryIdx=-2;render()">
+        📚 Câu Chuyện Truyền Cảm Hứng (${stories.length})
+      </button>
+      <button class="tab sm flex-1 min-w-[120px] text-center ${adCloudSubTab==='mascots'?'on':'bg-white/80'}" onclick="adCloudSubTab='mascots';adEditingMascotIdx=-2;render()">
+        🐾 Linh Vật Vườn Mây (${mascots.length})
+      </button>
+    </div>
+
+    <!-- NỘI DUNG TỪNG SUB-TAB -->
+    ${adCloudSubTab === 'quotes' ? renderAdminQuotesTab(quotes) : (adCloudSubTab === 'stories' ? renderAdminStoriesTab(stories) : renderAdminMascotsTab(mascots))}
+  </div>
+  `;
+}
+
+function renderAdminQuotesTab(quotes){
+  const isEditing = (adEditingQuoteIdx !== -2);
+  const curQ = (adEditingQuoteIdx >= 0) ? quotes[adEditingQuoteIdx] : null;
+
+  return `
+  <div class="space-y-4">
+    <!-- Nút mở form thêm mới hoặc form chỉnh sửa -->
+    ${!isEditing ? `
+      <div class="flex items-center justify-between flex-wrap gap-2">
+        <span class="text-xs font-bold text-slate-700">Tổng cộng: ${quotes.length} câu danh ngôn / câu nói động lực</span>
+        <button class="btn sm g" onclick="adEditingQuoteIdx=-1;render()">
+          <span>➕</span> <span>Thêm Danh Ngôn Mới</span>
+        </button>
+      </div>
+    ` : `
+      <div class="p-4 rounded-2xl bg-white border-2 border-sky-300 shadow-md space-y-3">
+        <div class="flex items-center justify-between pb-2 border-b border-sky-100">
+          <span class="font-extrabold text-sm text-sky-950 flex items-center gap-2">
+            <span>${curQ ? '✏️' : '➕'}</span>
+            <span>${curQ ? 'Chỉnh Sửa Câu Danh Ngôn' : 'Thêm Câu Danh Ngôn Động Lực Mới'}</span>
+          </span>
+          <button class="text-slate-400 hover:text-slate-700 font-bold" onclick="adEditingQuoteIdx=-2;render()">✕</button>
+        </div>
+
+        <div>
+          <label class="text-xs font-bold text-slate-800 block mb-1">Nội dung câu nói / Danh ngôn (Hỗ trợ LaTeX $...$):</label>
+          <textarea id="ad_quote_text" rows="3" class="w-full text-xs font-medium p-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-sky-400 focus:outline-none" placeholder="Nhập câu nói tạo động lực học tập...">${curQ ? curQ.text : ''}</textarea>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div>
+            <label class="text-xs font-bold text-slate-800 block mb-1">Tác giả / Nguồn:</label>
+            <input id="ad_quote_author" type="text" value="${curQ ? curQ.author : ''}" placeholder="Ví dụ: Socrates, Roger Bacon, HPU2..." class="w-full text-xs font-semibold py-2 px-3 border border-slate-300 rounded-xl">
+          </div>
+          <div>
+            <label class="text-xs font-bold text-slate-800 block mb-1">Chủ đề / Phân loại:</label>
+            <select id="ad_quote_cat" class="w-full text-xs font-semibold py-2 px-3 border border-slate-300 rounded-xl">
+              <option value="Sư Phạm HPU2" ${(curQ && curQ.category === 'Sư Phạm HPU2') ? 'selected' : ''}>🎓 Sư Phạm HPU2</option>
+              <option value="Toán Học" ${(curQ && curQ.category === 'Toán Học') ? 'selected' : ''}>📐 Toán Học</option>
+              <option value="Ý Chí & Nghị Lực" ${(curQ && curQ.category === 'Ý Chí & Nghị Lực') ? 'selected' : ''}>🔥 Ý Chí & Nghị Lực</option>
+              <option value="Phương Pháp Học" ${(curQ && curQ.category === 'Phương Pháp Học') ? 'selected' : ''}>🚀 Phương Pháp Học</option>
+              <option value="Sư Phạm" ${(curQ && curQ.category === 'Sư Phạm') ? 'selected' : ''}>🌱 Sư Phạm Nói Chung</option>
+            </select>
+          </div>
+          <div>
+            <label class="text-xs font-bold text-slate-800 block mb-1">Lượt thích ban đầu:</label>
+            <input id="ad_quote_likes" type="number" min="0" value="${curQ ? (curQ.likes || 0) : 50}" class="w-full text-xs font-semibold py-2 px-3 border border-slate-300 rounded-xl">
+          </div>
+        </div>
+
+        <div class="flex items-center justify-end gap-2 pt-2 border-t border-slate-100">
+          <button class="btn sm outline" onclick="adEditingQuoteIdx=-2;render()">Hủy Bỏ</button>
+          <button class="btn sm g" onclick="saveAdminQuoteForm(${adEditingQuoteIdx})">
+            <span>💾</span> <span>${curQ ? 'Lưu Thay Đổi' : 'Thêm Vào Vườn Mây'}</span>
+          </button>
+        </div>
+      </div>
+    `}
+
+    <!-- Danh sách câu danh ngôn hiện tại -->
+    <div class="space-y-2.5">
+      ${quotes.map((q, idx) => `
+        <div class="p-3.5 rounded-2xl bg-white border border-slate-200 hover:border-sky-300 transition flex items-start justify-between gap-3 shadow-2xs">
+          <div class="min-w-0 flex-1">
+            <div class="flex items-center gap-2 mb-1">
+              <span class="font-extrabold text-xs text-sky-800 px-2 py-0.5 rounded-md bg-sky-50 border border-sky-200">#${idx + 1}</span>
+              <span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-teal-50 text-teal-800 border border-teal-200">${q.category || 'Tri Thức'}</span>
+              <span class="text-xs font-extrabold text-slate-700">— ${q.author}</span>
+              <span class="text-[11px] text-rose-600 font-bold ml-auto sm:ml-0">❤️ ${q.likes || 0}</span>
+            </div>
+            <p class="text-xs sm:text-sm text-slate-800 italic leading-relaxed font-sans pl-1 border-l-2 border-sky-300">
+              "${q.text}"
+            </p>
+          </div>
+
+          <div class="flex items-center gap-1.5 shrink-0">
+            <button class="btn sm outline !py-1 !px-2.5 text-xs font-bold" onclick="adEditingQuoteIdx=${idx};render()" title="Chỉnh sửa câu danh ngôn này">
+              <span>✏️ Sửa</span>
+            </button>
+            <button class="btn sm rose !py-1 !px-2 text-xs font-bold" onclick="deleteAdminQuote(${idx})" title="Xóa câu danh ngôn này">
+              <span>🗑️</span>
+            </button>
+          </div>
+        </div>
+      `).join('')}
+    </div>
+  </div>
+  `;
+}
+
+function renderAdminStoriesTab(stories){
+  const isEditing = (adEditingStoryIdx !== -2);
+  const curS = (adEditingStoryIdx >= 0) ? stories[adEditingStoryIdx] : null;
+
+  return `
+  <div class="space-y-4">
+    <!-- Nút mở form thêm mới hoặc form chỉnh sửa -->
+    ${!isEditing ? `
+      <div class="flex items-center justify-between flex-wrap gap-2">
+        <span class="text-xs font-bold text-slate-700">Tổng cộng: ${stories.length} câu chuyện truyền cảm hứng</span>
+        <button class="btn sm g" onclick="adEditingStoryIdx=-1;render()">
+          <span>➕</span> <span>Thêm Câu Chuyện Mới</span>
+        </button>
+      </div>
+    ` : `
+      <div class="p-4 rounded-2xl bg-white border-2 border-sky-300 shadow-md space-y-3">
+        <div class="flex items-center justify-between pb-2 border-b border-sky-100">
+          <span class="font-extrabold text-sm text-sky-950 flex items-center gap-2">
+            <span>${curS ? '✏️' : '➕'}</span>
+            <span>${curS ? 'Chỉnh Sửa Câu Chuyện Truyền Cảm Hứng' : 'Thêm Câu Chuyện Truyền Cảm Hứng Mới'}</span>
+          </span>
+          <button class="text-slate-400 hover:text-slate-700 font-bold" onclick="adEditingStoryIdx=-2;render()">✕</button>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-4 gap-3">
+          <div class="sm:col-span-2">
+            <label class="text-xs font-bold text-slate-800 block mb-1">Tiêu đề câu chuyện:</label>
+            <input id="ad_story_title" type="text" value="${curS ? curS.title : ''}" placeholder="Ví dụ: Người Thầy Thắp Lửa Tri Thức Xuân Hòa" class="w-full text-xs font-bold py-2 px-3 border border-slate-300 rounded-xl">
+          </div>
+          <div>
+            <label class="text-xs font-bold text-slate-800 block mb-1">Biểu tượng Icon (Emoji):</label>
+            <input id="ad_story_icon" type="text" value="${curS ? curS.icon : '📖'}" placeholder="Ví dụ: 🕯️, 🎓, 🌻, 💎" class="w-full text-xs font-bold py-2 px-3 border border-slate-300 rounded-xl text-center">
+          </div>
+          <div>
+            <label class="text-xs font-bold text-slate-800 block mb-1">Tác giả / Nguồn:</label>
+            <input id="ad_story_author" type="text" value="${curS ? curS.author : ''}" placeholder="Ví dụ: CLB Sư Phạm HPU2" class="w-full text-xs font-semibold py-2 px-3 border border-slate-300 rounded-xl">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div>
+            <label class="text-xs font-bold text-slate-800 block mb-1">Chủ đề / Phân loại:</label>
+            <input id="ad_story_cat" type="text" value="${curS ? curS.category : 'Sư Phạm HPU2'}" placeholder="Sư Phạm HPU2, Ý Chí..." class="w-full text-xs font-semibold py-2 px-3 border border-slate-300 rounded-xl">
+          </div>
+          <div class="sm:col-span-2">
+            <label class="text-xs font-bold text-slate-800 block mb-1">Tóm tắt ngắn (hiển thị trên thẻ):</label>
+            <input id="ad_story_summary" type="text" value="${curS ? curS.summary : ''}" placeholder="Tóm tắt nội dung chính trong 1-2 câu..." class="w-full text-xs font-medium py-2 px-3 border border-slate-300 rounded-xl">
+          </div>
+        </div>
+
+        <div>
+          <label class="text-xs font-bold text-slate-800 block mb-1">Toàn văn câu chuyện (hỗ trợ phân đoạn văn bản và công thức $...$):</label>
+          <textarea id="ad_story_content" rows="6" class="w-full text-xs font-medium p-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-sky-400 focus:outline-none" placeholder="Nhập toàn văn câu chuyện truyền cảm hứng...">${curS ? curS.content : ''}</textarea>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div class="sm:col-span-2">
+            <label class="text-xs font-bold text-slate-800 block mb-1">Bài học đắt giá / Thông điệp:</label>
+            <input id="ad_story_moral" type="text" value="${curS ? curS.moral : ''}" placeholder="Bài học rút ra cho sinh viên sư phạm..." class="w-full text-xs font-semibold py-2 px-3 border border-slate-300 rounded-xl">
+          </div>
+          <div>
+            <label class="text-xs font-bold text-slate-800 block mb-1">Số lượt thích ban đầu:</label>
+            <input id="ad_story_likes" type="number" min="0" value="${curS ? (curS.likes || 0) : 100}" class="w-full text-xs font-semibold py-2 px-3 border border-slate-300 rounded-xl">
+          </div>
+        </div>
+
+        <div class="flex items-center justify-end gap-2 pt-2 border-t border-slate-100">
+          <button class="btn sm outline" onclick="adEditingStoryIdx=-2;render()">Hủy Bỏ</button>
+          <button class="btn sm g" onclick="saveAdminStoryForm(${adEditingStoryIdx})">
+            <span>💾</span> <span>${curS ? 'Lưu Thay Đổi' : 'Thêm Vào Vườn Mây'}</span>
+          </button>
+        </div>
+      </div>
+    `}
+
+    <!-- Danh sách câu chuyện hiện tại -->
+    <div class="space-y-3">
+      ${stories.map((s, idx) => `
+        <div class="p-4 rounded-2xl bg-white border border-slate-200 hover:border-sky-300 transition flex items-start justify-between gap-3 shadow-2xs">
+          <div class="flex items-start gap-3 min-w-0 flex-1">
+            <div class="w-10 h-10 rounded-xl bg-sky-100 border border-sky-200 flex items-center justify-center text-xl shrink-0">
+              ${s.icon || '📖'}
+            </div>
+            <div class="min-w-0 flex-1">
+              <div class="flex items-center gap-2 mb-0.5 flex-wrap">
+                <span class="font-extrabold text-xs text-slate-900">${s.title}</span>
+                <span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-sky-50 text-sky-800 border border-sky-200">${s.category || 'Truyền Cảm Hứng'}</span>
+                <span class="text-[11px] text-slate-500">— ${s.author}</span>
+                <span class="text-[11px] text-rose-600 font-bold ml-auto sm:ml-0">❤️ ${s.likes || 0}</span>
+              </div>
+              <p class="text-xs text-slate-600 line-clamp-2 leading-relaxed">
+                ${s.summary}
+              </p>
+              <div class="text-[11px] text-amber-800 font-semibold mt-1">
+                💡 <b>Bài học:</b> ${s.moral}
+              </div>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-1.5 shrink-0 self-center">
+            <button class="btn sm outline !py-1 !px-2 text-xs font-bold" onclick="openCloudStoryModal('${s.id}')" title="Xem trước câu chuyện">
+              <span>👁️</span>
+            </button>
+            <button class="btn sm outline !py-1 !px-2.5 text-xs font-bold" onclick="adEditingStoryIdx=${idx};render()" title="Chỉnh sửa câu chuyện này">
+              <span>✏️ Sửa</span>
+            </button>
+            <button class="btn sm rose !py-1 !px-2 text-xs font-bold" onclick="deleteAdminStory(${idx})" title="Xóa câu chuyện này">
+              <span>🗑️</span>
+            </button>
+          </div>
+        </div>
+      `).join('')}
+    </div>
+  </div>
+  `;
+}
+
+function renderAdminMascotsTab(mascots){
+  const isEditing = (adEditingMascotIdx !== -2);
+  const curM = (adEditingMascotIdx >= 0) ? mascots[adEditingMascotIdx] : null;
+
+  return `
+  <div class="space-y-4">
+    <div class="flex items-center justify-between flex-wrap gap-2">
+      <span class="text-xs font-bold text-slate-700">Tổng cộng: ${mascots.length} linh vật xuất hiện trong Khu Vườn Mây</span>
+      <button class="btn sm g" onclick="adEditingMascotIdx=-1;render()">
+        <span>➕</span> <span>Thêm Linh Vật Mới</span>
+      </button>
+    </div>
+
+    ${isEditing ? `
+      <div class="p-4 rounded-2xl bg-white border-2 border-teal-300 shadow-md space-y-3">
+        <div class="flex items-center justify-between pb-2 border-b border-teal-100">
+          <span class="font-extrabold text-sm text-teal-950 flex items-center gap-2">
+            <span>${curM ? '✏️' : '➕'}</span>
+            <span>${curM ? 'Chỉnh Sửa Linh Vật Vườn Mây' : 'Thêm Linh Vật Vườn Mây Mới'}</span>
+          </span>
+          <button class="text-slate-400 hover:text-slate-700 font-bold" onclick="adEditingMascotIdx=-2;render()">✕</button>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div>
+            <label class="text-xs font-bold text-slate-800 block mb-1">Tên linh vật:</label>
+            <input id="ad_mascot_name" type="text" value="${curM ? curM.name : ''}" placeholder="Ví dụ: Cú Mèo HPU2" class="w-full text-xs font-bold py-2 px-3 border border-slate-300 rounded-xl">
+          </div>
+          <div>
+            <label class="text-xs font-bold text-slate-800 block mb-1">Biểu tượng Emoji / Icon:</label>
+            <input id="ad_mascot_icon" type="text" value="${curM ? curM.icon : '🦉'}" placeholder="Ví dụ: 🦉, 🌱, 🦊, 🐲" class="w-full text-xs font-bold py-2 px-3 border border-slate-300 rounded-xl text-center">
+          </div>
+          <div>
+            <label class="text-xs font-bold text-slate-800 block mb-1">Vai trò / Danh hiệu:</label>
+            <input id="ad_mascot_role" type="text" value="${curM ? curM.role : ''}" placeholder="Ví dụ: Sứ Giả Trí Tuệ Sư Phạm" class="w-full text-xs font-semibold py-2 px-3 border border-slate-300 rounded-xl">
+          </div>
+        </div>
+
+        <div>
+          <label class="text-xs font-bold text-slate-800 block mb-1">Lời thoại chào mừng (hiển thị khi học viên ghé thăm):</label>
+          <input id="ad_mascot_quote" type="text" value="${curM ? curM.quote : ''}" placeholder="Nhập câu chào mừng hoặc lời chúc động lực..." class="w-full text-xs font-medium py-2 px-3 border border-slate-300 rounded-xl">
+        </div>
+
+        <div class="flex items-center justify-end gap-2 pt-2 border-t border-slate-100">
+          <button class="btn sm outline" onclick="adEditingMascotIdx=-2;render()">Hủy Bỏ</button>
+          <button class="btn sm g" onclick="saveAdminMascotForm(${adEditingMascotIdx})">
+            <span>💾</span> <span>${curM ? 'Lưu Thay Đổi' : 'Thêm Linh Vật'}</span>
+          </button>
+        </div>
+      </div>
+    ` : ''}
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
+      ${mascots.map((m, idx) => `
+        <div class="p-4 rounded-2xl bg-white border ${m.active !== false ? 'border-sky-200' : 'border-slate-200 opacity-60'} shadow-2xs flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <div class="flex items-center gap-2.5">
+                <span class="text-2xl">${m.icon || '🌱'}</span>
+                <div>
+                  <div class="font-extrabold text-sm text-slate-900">${m.name}</div>
+                  <div class="text-[10px] text-teal-700 font-semibold">${m.role || 'Linh vật HPU2'}</div>
+                </div>
+              </div>
+              <span class="px-2 py-0.5 rounded-full text-[10px] font-extrabold ${m.active !== false ? 'bg-emerald-100 text-emerald-800 border border-emerald-300' : 'bg-slate-100 text-slate-600 border border-slate-300'}">
+                ${m.active !== false ? '👁️ Hiển thị' : '🙈 Đang ẩn'}
+              </span>
+            </div>
+            <p class="text-xs text-slate-700 italic bg-sky-50/70 p-2 rounded-xl border border-sky-100 mb-3">
+              "${m.quote}"
+            </p>
+          </div>
+
+          <div class="flex items-center justify-between pt-2 border-t border-slate-100">
+            <button class="btn sm outline !py-1 !px-2.5 text-xs font-bold" onclick="toggleAdminMascotActive(${idx})">
+              <span>${m.active !== false ? '🙈 Ẩn Đi' : '👁️ Bật Lên'}</span>
+            </button>
+            <button class="btn sm g !py-1 !px-2.5 text-xs font-bold" onclick="adEditingMascotIdx=${idx};render()">
+              <span>✏️ Sửa</span>
+            </button>
+          </div>
+        </div>
+      `).join('')}
+    </div>
+  </div>
+  `;
+}
+
+function saveAdminQuoteForm(idx){
+  if (!checkAdminAuth()) return;
+  const text = ($('#ad_quote_text')?.value || '').trim();
+  const author = ($('#ad_quote_author')?.value || '').trim() || 'HPU2';
+  const category = ($('#ad_quote_cat')?.value || '').trim() || 'Sư Phạm HPU2';
+  const likes = parseInt($('#ad_quote_likes')?.value || '0', 10) || 0;
+
+  if (!text) {
+    toast('⚠️ Vui lòng nhập nội dung câu danh ngôn!');
+    $('#ad_quote_text')?.focus();
+    return;
+  }
+
+  if (idx === -1) {
+    const newQuote = {
+      id: 'quote_' + Date.now(),
+      text, author, category, likes
+    };
+    CLOUD_GARDEN_DATA.quotes.unshift(newQuote);
+    toast('🎉 Đã thêm danh ngôn mới vào Vườn Mây!');
+  } else if (idx >= 0 && idx < CLOUD_GARDEN_DATA.quotes.length) {
+    const q = CLOUD_GARDEN_DATA.quotes[idx];
+    q.text = text;
+    q.author = author;
+    q.category = category;
+    q.likes = likes;
+    toast('🎉 Đã cập nhật câu danh ngôn thành công!');
+  }
+
+  saveCloudGardenData();
+  adEditingQuoteIdx = -2;
+  render();
+}
+
+function deleteAdminQuote(idx){
+  if (!checkAdminAuth()) return;
+  if (idx < 0 || idx >= CLOUD_GARDEN_DATA.quotes.length) return;
+  const q = CLOUD_GARDEN_DATA.quotes[idx];
+  if (confirm(`Bạn có chắc muốn xóa câu danh ngôn: "${q.text.slice(0, 40)}..."?`)) {
+    CLOUD_GARDEN_DATA.quotes.splice(idx, 1);
+    saveCloudGardenData();
+    toast('🗑️ Đã xóa câu danh ngôn!');
+    render();
+  }
+}
+
+function saveAdminStoryForm(idx){
+  if (!checkAdminAuth()) return;
+  const title = ($('#ad_story_title')?.value || '').trim();
+  const icon = ($('#ad_story_icon')?.value || '').trim() || '📖';
+  const author = ($('#ad_story_author')?.value || '').trim() || 'HPU2';
+  const category = ($('#ad_story_cat')?.value || '').trim() || 'Sư Phạm HPU2';
+  const summary = ($('#ad_story_summary')?.value || '').trim();
+  const content = ($('#ad_story_content')?.value || '').trim();
+  const moral = ($('#ad_story_moral')?.value || '').trim();
+  const likes = parseInt($('#ad_story_likes')?.value || '0', 10) || 0;
+
+  if (!title) {
+    toast('⚠️ Vui lòng nhập tiêu đề câu chuyện!');
+    $('#ad_story_title')?.focus();
+    return;
+  }
+  if (!content) {
+    toast('⚠️ Vui lòng nhập nội dung chi tiết câu chuyện!');
+    $('#ad_story_content')?.focus();
+    return;
+  }
+
+  if (idx === -1) {
+    const newStory = {
+      id: 'story_' + Date.now(),
+      icon, title, author, category,
+      summary: summary || title,
+      content,
+      moral: moral || 'Mỗi ngày kiên trì sẽ tạo nên kỳ tích.',
+      likes
+    };
+    CLOUD_GARDEN_DATA.stories.unshift(newStory);
+    toast('🎉 Đã thêm câu chuyện truyền cảm hứng mới!');
+  } else if (idx >= 0 && idx < CLOUD_GARDEN_DATA.stories.length) {
+    const s = CLOUD_GARDEN_DATA.stories[idx];
+    s.icon = icon;
+    s.title = title;
+    s.author = author;
+    s.category = category;
+    s.summary = summary || title;
+    s.content = content;
+    s.moral = moral;
+    s.likes = likes;
+    toast('🎉 Đã cập nhật câu chuyện thành công!');
+  }
+
+  saveCloudGardenData();
+  adEditingStoryIdx = -2;
+  render();
+}
+
+function deleteAdminStory(idx){
+  if (!checkAdminAuth()) return;
+  if (idx < 0 || idx >= CLOUD_GARDEN_DATA.stories.length) return;
+  const s = CLOUD_GARDEN_DATA.stories[idx];
+  if (confirm(`Bạn có chắc muốn xóa câu chuyện: "${s.title}"?`)) {
+    CLOUD_GARDEN_DATA.stories.splice(idx, 1);
+    saveCloudGardenData();
+    toast('🗑️ Đã xóa câu chuyện!');
+    render();
+  }
+}
+
+function toggleAdminMascotActive(idx){
+  if (!checkAdminAuth()) return;
+  if (idx < 0 || idx >= CLOUD_GARDEN_DATA.mascots.length) return;
+  const m = CLOUD_GARDEN_DATA.mascots[idx];
+  m.active = (m.active === false) ? true : false;
+  saveCloudGardenData();
+  toast(`${m.active ? '👁️ Đã hiển thị' : '🙈 Đã ẩn'} linh vật: ${m.name}`);
+  render();
+}
+
+function saveAdminMascotForm(idx){
+  if (!checkAdminAuth()) return;
+  const name = ($('#ad_mascot_name')?.value || '').trim();
+  const icon = ($('#ad_mascot_icon')?.value || '').trim() || '🌱';
+  const role = ($('#ad_mascot_role')?.value || '').trim();
+  const quote = ($('#ad_mascot_quote')?.value || '').trim();
+
+  if (!name) {
+    toast('⚠️ Tên linh vật không được để trống!');
+    return;
+  }
+
+  if (idx >= 0 && idx < CLOUD_GARDEN_DATA.mascots.length) {
+    const m = CLOUD_GARDEN_DATA.mascots[idx];
+    m.name = name;
+    m.icon = icon;
+    m.role = role || m.role;
+    m.quote = quote || m.quote;
+    toast('🎉 Đã cập nhật thông tin linh vật!');
+  } else if (idx === -1) {
+    const newMascot = {
+      id: 'mascot_' + Date.now(),
+      name, icon, role: role || 'Linh vật HPU2',
+      quote: quote || 'Chào mừng bạn đến với Khu Vườn Mây! ✨',
+      active: true
+    };
+    CLOUD_GARDEN_DATA.mascots.push(newMascot);
+    toast('🎉 Đã thêm linh vật mới vào Vườn Mây!');
+  }
+
+  saveCloudGardenData();
+  adEditingMascotIdx = -2;
+  render();
+}
+
+
 function vAdminCheats(){
   return `
   <div class="space-y-4">
@@ -6351,6 +7198,353 @@ function ensurePlan(){
     generateRoadmapForTarget(false);
   }
 }
+
+/* ==================== 11.4 GIAO DIỆN KHU VƯỜN MÂY (CLOUD GARDEN) CHO KHÁCH & TRANG CHỦ ==================== */
+function vCloudGardenView(){
+  const isAuth = isUserLoggedIn();
+  const quotes = getFilteredCloudQuotes();
+  const curQuote = quotes[activeQuoteIdx % (quotes.length || 1)] || CLOUD_GARDEN_DATA.quotes[0] || {
+    id: 'quote_def', text: 'Dạy học là đặt vào bàn tay học trò một ngọn đuốc, không phải đổ đầy một chiếc bình chứa.', author: 'Socrates', category: 'Sư Phạm', likes: 100
+  };
+  const activeMascots = (CLOUD_GARDEN_DATA.mascots || []).filter(m => m.active !== false);
+  const stories = CLOUD_GARDEN_DATA.stories || [];
+  const selectedStory = stories.find(s => s.id === activeStoryModalId);
+
+  const categories = ['all', 'Sư Phạm HPU2', 'Toán Học', 'Ý Chí & Nghị Lực', 'Phương Pháp Học'];
+  const catLabels = {
+    'all': '🌟 Tất Cả Danh Ngôn',
+    'Sư Phạm HPU2': '🎓 Sư Phạm HPU2',
+    'Toán Học': '📐 Toán Học & Logic',
+    'Ý Chí & Nghị Lực': '🔥 Ý Chí & Nghị Lực',
+    'Phương Pháp Học': '🚀 Phương Pháp Học'
+  };
+
+  return `
+  <div class="space-y-8 animate-fade-in pb-12">
+    <!-- 1. HERO BANNER KHU VƯỜN MÂY BỒNG BỀNH -->
+    <div class="relative overflow-hidden rounded-3xl p-6 sm:p-10 border-2 border-sky-200 bg-gradient-to-br from-sky-100/90 via-teal-50/80 to-indigo-100/90 shadow-xl">
+      <!-- Mây trang trí bồng bềnh -->
+      <div class="absolute -top-6 -right-6 text-7xl sm:text-8xl opacity-35 select-none pointer-events-none anim-float-cloud">☁️</div>
+      <div class="absolute -bottom-8 -left-6 text-7xl sm:text-8xl opacity-35 select-none pointer-events-none anim-float-cloud" style="animation-delay: -3s;">☁️</div>
+      <div class="absolute top-1/2 right-12 text-5xl opacity-25 select-none pointer-events-none anim-float-cloud" style="animation-delay: -1.5s;">☁️</div>
+
+      <div class="relative z-10 max-w-3xl">
+        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/90 border border-sky-300 text-sky-900 font-extrabold text-xs mb-3.5 shadow-2xs">
+          <span>🌸</span> <span>Không Gian Chào Mừng • Trường ĐH Sư Phạm Hà Nội 2</span>
+        </div>
+        <h1 class="text-2xl sm:text-4xl font-extrabold text-slate-900 leading-tight font-fun mb-2.5">
+          ☁️ Khu Vườn Mây Tri Thức HPU2
+        </h1>
+        <p class="text-sm sm:text-base text-slate-700 leading-relaxed mb-5 font-medium">
+          Chốn dừng chân nhẹ nhàng nuôi dưỡng tâm hồn, thắp sáng ngọn lửa sư phạm & lòng yêu Toán học. Nơi mỗi câu chuyện là một nguồn cảm hứng, mỗi định lý là một bước đệm dẫn tới bục giảng tương lai! ✨
+        </p>
+
+        <!-- CTA HÀNH ĐỘNG DÀNH CHO KHÁCH HOẶC HỌC VIÊN -->
+        <div class="flex flex-wrap items-center gap-3">
+          ${!isAuth ? `
+            <button class="btn g !py-3 !px-6 text-sm font-extrabold shadow-md gap-2" onclick="toggleAuthDropdown()">
+              <span>👤</span> <span>Đăng Nhập Khai Mở Đấu Trường</span>
+            </button>
+            <button class="btn outline !py-3 !px-5 text-sm font-bold bg-white/80 hover:bg-white" onclick="document.getElementById('cloudStoriesSection')?.scrollIntoView({behavior:'smooth'})">
+              <span>📚</span> <span>Khám Phá Câu Chuyện Truyền Cảm Hứng</span>
+            </button>
+          ` : `
+            <div class="inline-flex items-center gap-2 p-2 bg-emerald-100/90 rounded-2xl border border-emerald-300">
+              <span class="text-lg">👋</span>
+              <span class="text-xs font-bold text-emerald-950">Chào mừng bạn, <b class="text-teal-800">${S.user.name}</b>!</span>
+            </div>
+            <button class="btn g !py-2.5 !px-5 text-xs font-bold" onclick="go('learn')">
+              <span>🌱</span> <span>Vào Vườn Học Tập Ngay</span>
+            </button>
+            <button class="btn sm outline !py-2.5 !px-4 text-xs font-bold bg-white/80" onclick="go('exam')">
+              <span>⚔️</span> <span>Đấu Trường Thi</span>
+            </button>
+            <button class="btn sm outline !py-2.5 !px-4 text-xs font-bold bg-white/80" onclick="go('pet')">
+              <span>🏡</span> <span>Nhà Cây Gamification</span>
+            </button>
+          `}
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. THẾ GIỚI LINH VẬT ĐÁNG YÊU TRÊN VƯỜN MÂY -->
+    <div class="space-y-3">
+      <div class="flex items-center justify-between flex-wrap gap-2">
+        <div class="flex items-center gap-2">
+          <span class="text-2xl">🐾</span>
+          <div>
+            <h3 class="text-base sm:text-lg font-extrabold text-emerald-950 font-fun">Sứ Giả Linh Vật Vườn Mây HPU2</h3>
+            <p class="text-xs text-slate-500">Nhấp vào từng linh vật để lắng nghe lời chúc và năng lượng tích cực hôm nay!</p>
+          </div>
+        </div>
+        <span class="text-xs font-bold px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-900 border border-emerald-200">
+          ${activeMascots.length} Bạn nhỏ đang chào đón
+        </span>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3.5">
+        ${activeMascots.map((m, idx) => `
+          <div class="cloud-card p-4 flex flex-col justify-between cursor-pointer hover:border-teal-400 transition group" onclick="interactWithCloudMascot('${m.id}')" title="Nhấp để nghe bạn ấy chia sẻ!">
+            <div class="flex items-center gap-3 mb-2.5">
+              <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-sky-100 to-teal-100 border border-sky-200 flex items-center justify-center text-2xl anim-bob-mascot group-hover:scale-110 transition shadow-xs" style="animation-delay: -${idx * 0.7}s;">
+                ${m.icon || '🌱'}
+              </div>
+              <div class="min-w-0 flex-1">
+                <div class="font-bold text-xs sm:text-sm text-slate-900 truncate">${m.name}</div>
+                <div class="text-[10px] text-teal-700 font-semibold truncate">${m.role || 'Linh vật HPU2'}</div>
+              </div>
+            </div>
+            <div class="relative p-2.5 rounded-xl bg-sky-50/80 border border-sky-100 text-[11px] text-slate-700 italic leading-snug">
+              "${m.quote}"
+              <div class="text-[9px] text-teal-600 font-bold not-italic mt-1 text-right group-hover:underline">Nhấp để tương tác ✨</div>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+
+    <!-- 3. GÓC DANH NGÔN & CHÂM NGÔN ĐỘNG LỰC HÔM NAY -->
+    <div class="quote-card p-6 sm:p-8 relative overflow-hidden">
+      <div class="absolute -top-4 -right-2 text-8xl text-sky-200/40 select-none pointer-events-none font-serif">“</div>
+
+      <div class="relative z-10">
+        <div class="flex items-center justify-between flex-wrap gap-2 pb-3 mb-4 border-b border-sky-200/80">
+          <div class="flex items-center gap-2">
+            <span class="text-2xl">💬</span>
+            <span class="font-extrabold text-sm sm:text-base text-slate-900 font-fun uppercase tracking-wider">
+              Danh Ngôn &amp; Lời Nhắn Nhủ Hôm Nay
+            </span>
+          </div>
+
+          <!-- Bộ lọc thể loại danh ngôn -->
+          <div class="flex items-center gap-1.5 flex-wrap">
+            ${categories.map(cat => `
+              <button class="px-2.5 py-1 text-xs font-bold rounded-xl border transition ${cloudQuoteCategoryFilter === cat ? 'bg-sky-600 text-white border-sky-700' : 'bg-white text-slate-700 border-sky-200 hover:bg-sky-50'}" onclick="setCloudQuoteFilter('${cat}')">
+                ${catLabels[cat] || cat}
+              </button>
+            `).join('')}
+          </div>
+        </div>
+
+        <!-- Nội dung danh ngôn -->
+        <div class="my-4 sm:my-6 max-w-3xl">
+          <div class="text-base sm:text-xl font-medium text-slate-900 leading-relaxed font-fun font-bold italic mb-3">
+            "${formatMathText(curQuote.text)}"
+          </div>
+          <div class="flex items-center gap-2 text-xs sm:text-sm">
+            <span class="font-extrabold text-teal-800">— ${curQuote.author}</span>
+            <span class="text-slate-300">•</span>
+            <span class="px-2.5 py-0.5 rounded-full bg-teal-100 text-teal-900 font-bold text-[11px] border border-teal-200">
+              ${curQuote.category || 'Tri Thức'}
+            </span>
+          </div>
+        </div>
+
+        <!-- Các nút tương tác với danh ngôn -->
+        <div class="flex items-center justify-between flex-wrap gap-3 pt-3 border-t border-sky-200/80">
+          <div class="flex items-center gap-2 flex-wrap">
+            <button class="btn sm g gap-1.5 shadow-xs" onclick="nextCloudQuote()" title="Đổi sang câu danh ngôn ngẫu nhiên tiếp theo">
+              <span>🎲</span> <span>Đổi Danh Ngôn Khác</span>
+            </button>
+            <button class="btn sm outline gap-1.5 bg-white shadow-xs" onclick="likeCloudQuote('${curQuote.id}')" title="Thả tim yêu thích câu nói này">
+              <span>❤️</span> <span>Yêu thích (${curQuote.likes || 0})</span>
+            </button>
+            <button class="btn sm outline gap-1.5 bg-white shadow-xs" onclick="copyCloudQuote('${curQuote.id}')" title="Sao chép câu nói vào clipboard">
+              <span>📋</span> <span>Sao Chép</span>
+            </button>
+          </div>
+
+          <div class="text-[11px] text-slate-500 font-medium">
+            Câu ${activeQuoteIdx + 1} / ${quotes.length} trong bộ sưu tập
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. GÓC CÂU CHUYỆN TRUYỀN CẢM HỨNG GIẢNG ĐƯỜNG HPU2 -->
+    <div class="space-y-4" id="cloudStoriesSection">
+      <div class="flex items-center justify-between flex-wrap gap-2 pb-2 border-b border-emerald-200">
+        <div class="flex items-center gap-2.5">
+          <span class="text-2xl">📚</span>
+          <div>
+            <h3 class="text-lg sm:text-xl font-extrabold text-slate-900 font-fun">
+              Những Câu Chuyện Thắp Lửa Giảng Đường HPU2
+            </h3>
+            <p class="text-xs text-slate-600">
+              Góc tự sự, hành trình vượt khó và tinh thần người thầy Toán học của các thế hệ sinh viên Xuân Hòa
+            </p>
+          </div>
+        </div>
+        <span class="text-xs font-bold px-3 py-1 rounded-full bg-indigo-100 text-indigo-900 border border-indigo-200">
+          ${stories.length} Câu chuyện ý nghĩa
+        </span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        ${stories.map(st => `
+          <div class="cloud-card p-5 sm:p-6 flex flex-col justify-between hover:border-sky-400 transition group">
+            <div>
+              <div class="flex items-start justify-between gap-3 mb-3">
+                <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-100 to-sky-100 border border-amber-200 flex items-center justify-center text-2xl shrink-0 shadow-2xs group-hover:scale-105 transition">
+                  ${st.icon || '📖'}
+                </div>
+                <div class="min-w-0 flex-1">
+                  <div class="flex items-center gap-2 mb-1 flex-wrap">
+                    <span class="px-2 py-0.5 rounded-md text-[10px] font-extrabold bg-sky-100 text-sky-900 border border-sky-200">
+                      ${st.category || 'Truyền Cảm Hứng'}
+                    </span>
+                    <span class="text-[11px] text-slate-500 font-semibold truncate">— ${st.author}</span>
+                  </div>
+                  <h4 class="font-extrabold text-base text-slate-900 group-hover:text-teal-700 transition leading-snug">
+                    ${st.title}
+                  </h4>
+                </div>
+              </div>
+
+              <p class="text-xs sm:text-sm text-slate-700 leading-relaxed mb-3.5">
+                ${st.summary}
+              </p>
+
+              <!-- Hộp bài học rút ra -->
+              <div class="p-3 rounded-xl bg-amber-50/90 border border-amber-200 text-xs text-amber-950 font-medium mb-4 flex items-start gap-2">
+                <span class="text-base shrink-0">💡</span>
+                <div class="leading-relaxed"><b class="font-bold text-amber-900">Bài học đắt giá:</b> ${st.moral}</div>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between gap-2 pt-3 border-t border-slate-100">
+              <button class="btn sm g !py-2 !px-4 text-xs font-bold gap-1.5 shadow-xs" onclick="openCloudStoryModal('${st.id}')">
+                <span>📖</span> <span>Đọc Toàn Bộ Câu Chuyện</span>
+              </button>
+              <button class="btn sm outline !py-2 !px-3 text-xs font-bold bg-white text-rose-700 hover:bg-rose-50 border-rose-200" onclick="likeCloudStory('${st.id}')" title="Thả tim cho câu chuyện này">
+                <span>❤️</span> <span>${st.likes || 0}</span>
+              </button>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+
+    <!-- 5. KHỐI KÊU GỌI HÀNH ĐỘNG (CTA) & GIỚI THIỆU PHÂN HỆ HỌC TẬP -->
+    ${!isAuth ? `
+      <div class="relative overflow-hidden rounded-3xl p-6 sm:p-10 border-2 border-emerald-300 bg-gradient-to-br from-emerald-50 via-teal-50/90 to-sky-50 shadow-xl">
+        <div class="text-center max-w-2xl mx-auto mb-6">
+          <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-200/80 text-emerald-950 font-extrabold text-xs mb-2.5">
+            <span>🔒</span> <span>Đấu Trường Tri Thức Chờ Bạn Khai Mở</span>
+          </div>
+          <h2 class="text-xl sm:text-3xl font-extrabold text-emerald-950 font-fun mb-2">
+            Đăng Nhập Để Mở Khóa Trọn Vẹn Hệ Thống
+          </h2>
+          <p class="text-xs sm:text-sm text-emerald-800 leading-relaxed font-medium">
+            Bạn đang xem ở chế độ Khách Tham Quan Vườn Mây. Hãy đăng nhập tài khoản ngay hôm nay để kích hoạt toàn bộ phân hệ học tập &amp; rèn luyện nghiệp vụ Sư phạm Toán HPU2:
+          </p>
+        </div>
+
+        <!-- 3 Feature preview cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+          <div class="bg-white/90 p-4 rounded-2xl border border-emerald-200/90 shadow-xs relative">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-2xl">🌱</span>
+              <span class="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 border border-amber-300">Cần Đăng Nhập 🔒</span>
+            </div>
+            <h4 class="font-extrabold text-sm text-slate-900 mb-1">Vườn Học Tập 5 Môn Cốt Lõi</h4>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Lộ trình Đại số tuyến tính, Giải tích 1-2, Xác suất, Toán rời rạc. Phân tích đề bằng AI &amp; Flashcards công thức.
+            </p>
+          </div>
+
+          <div class="bg-white/90 p-4 rounded-2xl border border-emerald-200/90 shadow-xs relative">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-2xl">⚔️</span>
+              <span class="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 border border-amber-300">Cần Đăng Nhập 🔒</span>
+            </div>
+            <h4 class="font-extrabold text-sm text-slate-900 mb-1">Đấu Trường Thi &amp; Tự Luận</h4>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Bộ lọc đề trắc nghiệm thông minh 50 câu không trùng lặp. Ngân hàng tự luận 5 môn kèm lời giải và gợi ý bước giải chi tiết.
+            </p>
+          </div>
+
+          <div class="bg-white/90 p-4 rounded-2xl border border-emerald-200/90 shadow-xs relative">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-2xl">🏡</span>
+              <span class="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 border border-amber-300">Cần Đăng Nhập 🔒</span>
+            </div>
+            <h4 class="font-extrabold text-sm text-slate-900 mb-1">Nhà Cây &amp; 10 Cấp Độ Thăng Hạng</h4>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Hệ thống 10 Level với 3 giai đoạn nhỏ (Khởi động, Luyện tập, Thử thách). Nuôi linh vật ăn no tăng cấp, trồng cây thu hoạch nông trại.
+            </p>
+          </div>
+        </div>
+
+        <!-- 3 Nút đăng nhập trực tiếp -->
+        <div class="flex flex-wrap items-center justify-center gap-3">
+          <button class="btn g !py-3 !px-6 text-sm font-extrabold shadow-md gap-2" onclick="quickLogin('Google')">
+            <span>🌐</span> <span>Tiếp Tục Với Google</span>
+          </button>
+          <button class="btn sm !py-3 !px-6 text-sm font-extrabold shadow-md gap-2" onclick="quickLogin('Facebook')">
+            <span>📘</span> <span>Tiếp Tục Với Facebook</span>
+          </button>
+          <button class="btn outline !py-3 !px-6 text-sm font-bold shadow-md bg-white hover:bg-emerald-50 gap-2 text-emerald-950" onclick="toggleAuthDropdown()">
+            <span>🌱</span> <span>Nhập Tên Cá Nhân Của Bạn</span>
+          </button>
+        </div>
+      </div>
+    ` : ''}
+
+    <!-- 6. MODAL ĐỌC TOÀN VĂN CÂU CHUYỆN TRUYỀN CẢM HỨNG -->
+    ${selectedStory ? `
+      <div class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 animate-fade-in" onclick="if(event.target===this)closeCloudStoryModal()">
+        <div class="bg-white rounded-3xl max-w-2xl w-full p-6 sm:p-8 max-h-[90vh] flex flex-col shadow-2xl border-2 border-sky-300">
+          <!-- Header Modal -->
+          <div class="flex items-start justify-between gap-3 pb-3 mb-4 border-b border-sky-100">
+            <div class="flex items-center gap-3">
+              <span class="text-3xl">${selectedStory.icon || '📖'}</span>
+              <div>
+                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-sky-100 text-sky-900 border border-sky-200">
+                  ${selectedStory.category || 'Sư Phạm HPU2'}
+                </span>
+                <h3 class="text-lg sm:text-xl font-extrabold text-slate-900 mt-1 font-fun leading-snug">
+                  ${selectedStory.title}
+                </h3>
+                <div class="text-xs text-slate-500 font-semibold mt-0.5">Tác giả / Nguồn: ${selectedStory.author}</div>
+              </div>
+            </div>
+            <button class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold flex items-center justify-center shrink-0" onclick="closeCloudStoryModal()">✕</button>
+          </div>
+
+          <!-- Body modal với toàn bộ nội dung câu chuyện -->
+          <div class="flex-1 overflow-y-auto space-y-4 pr-1 text-sm text-slate-800 leading-relaxed font-sans">
+            ${selectedStory.content.split('\n\n').map(p => `
+              <p class="indent-4">${formatMathText(p)}</p>
+            `).join('')}
+
+            <!-- Hộp thông điệp bài học -->
+            <div class="not-italic font-sans p-4 rounded-2xl bg-amber-50 border border-amber-200 mt-6">
+              <div class="flex items-center gap-2 text-amber-900 font-extrabold text-xs uppercase tracking-wider mb-1">
+                <span>💡</span> <span>Thông Điệp &amp; Bài Học Sư Phạm:</span>
+              </div>
+              <p class="text-xs sm:text-sm text-amber-950 leading-relaxed font-semibold">
+                ${selectedStory.moral}
+              </p>
+            </div>
+          </div>
+
+          <!-- Footer Modal -->
+          <div class="pt-4 mt-4 border-t border-slate-100 flex items-center justify-between flex-wrap gap-2">
+            <button class="btn sm outline gap-1 text-rose-700 bg-rose-50/50 hover:bg-rose-100 border-rose-200" onclick="likeCloudStory('${selectedStory.id}')">
+              <span>❤️</span> <span>Thả tim yêu thích (${selectedStory.likes || 0})</span>
+            </button>
+            <button class="btn sm g" onclick="closeCloudStoryModal()">
+              <span>Đã Hiểu &amp; Đóng Lại</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    ` : ''}
+  </div>
+  `;
+}
+
 
 function vLearn(){
   ensurePlan();
