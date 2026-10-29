@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>HPU2 Study Arena – Đấu Trường Tri Thức Sư Phạm Hà Nội 2</title>
+<title>Study Arena – Đấu Trường Tri Thức & Nghiệp Vụ Sư Phạm</title>
 <script src="https://cdn.tailwindcss.com/3.4.17"></script>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
 <!-- KaTeX CDN cho hiển thị công thức toán học sắc nét chuẩn khoa học -->
@@ -270,10 +270,10 @@ footer{position:relative;z-index:10}
       </div>
       <div>
         <div class="flex items-center gap-2">
-          <span id="siteTitle" class="text-2xl font-extrabold tracking-tight text-emerald-950 font-fun">HPU2 Study Arena</span>
-          <span id="siteTag" class="bg-emerald-100 text-emerald-800 text-[11px] font-bold px-2.5 py-0.5 rounded-full border border-emerald-300">ĐH Sư Phạm Hà Nội 2</span>
+          <span id="siteTitle" class="text-2xl font-extrabold tracking-tight text-emerald-950 font-fun">Study Arena</span>
+          <span id="siteTag" class="bg-emerald-100 text-emerald-800 text-[11px] font-bold px-2.5 py-0.5 rounded-full border border-emerald-300">Đại Học Sư Phạm</span>
         </div>
-        <div id="siteSub" class="text-xs font-semibold text-emerald-700">Đấu trường tri thức & nghiệp vụ Sư phạm Toán - HPU2</div>
+        <div id="siteSub" class="text-xs font-semibold text-emerald-700">Đấu trường tri thức & nghiệp vụ Sư phạm Toán học</div>
       </div>
     </div>
 
@@ -384,7 +384,7 @@ footer{position:relative;z-index:10}
           <h3 class="text-base sm:text-lg font-extrabold text-emerald-950 font-fun leading-tight">
             Đăng Nhập Khai Mở Đấu Trường
           </h3>
-          <p class="text-xs text-emerald-700 font-semibold mt-0.5">ĐH Sư Phạm Hà Nội 2 • Khoa Toán</p>
+          <p class="text-xs text-emerald-700 font-semibold mt-0.5">Đại Học Sư Phạm • Khoa Toán</p>
         </div>
       </div>
       <button class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold flex items-center justify-center shrink-0 transition cursor-pointer" onclick="closeLoginModal()" title="Đóng">✕</button>
@@ -458,7 +458,7 @@ footer{position:relative;z-index:10}
       <div>
         <div class="flex items-center gap-1.5">
           <h3 class="font-extrabold text-sm tracking-wide">Trợ Lý AI Tra Cứu Toán Học</h3>
-          <span class="text-[9px] font-extrabold px-1.5 py-0.2 rounded-full bg-emerald-400/30 text-emerald-100 border border-emerald-300/40">HPU2</span>
+          <span class="text-[9px] font-extrabold px-1.5 py-0.2 rounded-full bg-emerald-400/30 text-emerald-100 border border-emerald-300/40">Đại Học</span>
         </div>
         <p class="text-[10px] text-emerald-200">Giải đáp bài tập, định lý, công thức chuyên sâu</p>
       </div>
@@ -503,7 +503,7 @@ footer{position:relative;z-index:10}
     </div>
     <div class="flex items-center justify-between text-[10px] text-emerald-700/80 mt-1.5 px-1">
       <span>⚡ Nhấn Enter để gửi nhanh</span>
-      <span>🏛️ Khoa Toán - ĐH Sư phạm Hà Nội 2</span>
+      <span>🏛️ Khoa Toán - Đại Học Sư Phạm</span>
     </div>
   </div>
 </div>
@@ -533,14 +533,14 @@ function fileToBase64(file, callback){
 
 const DEFAULT_THEMES = [
   {
-    id: 'hpu2_emerald',
-    name: '🏛️ Xanh Sư Phạm HPU2',
-    desc: 'Màu xanh truyền thống của ĐH Sư phạm Hà Nội 2 - Tươi sáng, thanh lịch và chuẩn mực',
+    id: 'theme_emerald',
+    name: '🏛️ Xanh Sư Phạm Chuẩn',
+    desc: 'Màu xanh truyền thống của Đại Học Sư Phạm - Tươi sáng, thanh lịch và chuẩn mực',
     style: 'linear-gradient(135deg, #e8f5e9 0%, #ecfdf5 45%, #d1fae5 100%)',
     bgUrl: ''
   },
   {
-    id: 'hpu2_chalk',
+    id: 'theme_chalk',
     name: '📐 Bảng Xanh Phấn Trắng',
     desc: 'Không gian giảng đường sư phạm quen thuộc với bảng xanh ngọc và nét phấn tinh khôi',
     style: 'linear-gradient(135deg, #064e3b 0%, #065f46 50%, #047857 100%)',
@@ -548,8 +548,8 @@ const DEFAULT_THEMES = [
   },
   {
     id: 'morning',
-    name: '🍃 Ban Mai Xuân Hòa',
-    desc: 'Bình minh trong trẻo trên giảng đường Xuân Hòa - Phúc Yên, đón linh khí ngày mới',
+    name: '🍃 Ban Mai Sư Phạm',
+    desc: 'Bình minh trong trẻo trên giảng đường Sư Phạm - Phúc Yên, đón linh khí ngày mới',
     style: 'linear-gradient(135deg, #e8f5e9 0%, #f1faee 50%, #e0f2fe 100%)',
     bgUrl: ''
   },
@@ -609,8 +609,8 @@ function saveThemesCatalog(){
 
 const DEFAULT_PETS = [
   {
-    id: 'hpu2_owl',
-    name: 'Cú Mèo Tri Thức HPU2',
+    id: 'mascot_owl',
+    name: 'Cú Mèo Tri Thức',
     title: 'Sứ Giả Trí Tuệ Sư Phạm',
     desc: 'Cú nhỏ đeo kính sư phạm, thông thái, luôn đồng hành cùng sinh viên giải bài toán khó.',
     icon: '🦉',
@@ -620,7 +620,7 @@ const DEFAULT_PETS = [
     id: 'mochi',
     name: 'Bé Mầm Sư Phạm',
     title: 'Hạt Giống Nghề Giáo',
-    desc: 'Hạt mầm xanh đáng yêu, tượng trưng cho những tân sinh viên ngày đầu gieo chữ tại HPU2.',
+    desc: 'Hạt mầm xanh đáng yêu, tượng trưng cho những tân sinh viên ngày đầu gieo chữ tại Đại Học.',
     icon: '🌱',
     avatarUrl: ''
   },
@@ -695,17 +695,17 @@ function savePetsCatalog(){
 const STORE_ASCENSION_STAGES = 'sa_ascension_stages_v3';
 const DEFAULT_ASCENSION_STAGES = [
   {
-    lvl: 1, xp: 0, reqStreak: 0, reqDone: 0, realm: 'Tân Sinh Viên HPU2', name: 'Gieo Mầm Tri Thức Xuân Hòa', icon: '🌱',
-    desc: 'Bước chân vào cổng trường ĐH Sư phạm Hà Nội 2 tại Xuân Hòa, bắt đầu hành trình trở thành nhà giáo tương lai.',
-    reward: 'Khai mở Thư Viện HPU2 & Sổ Nhật Ký Nghiệp Vụ',
+    lvl: 1, xp: 0, reqStreak: 0, reqDone: 0, realm: 'Tân Sinh Viên Sư Phạm', name: 'Gieo Mầm Tri Thức Sư Phạm', icon: '🌱',
+    desc: 'Bước chân vào cổng trường Đại Học Sư Phạm ngành Sư Phạm, bắt đầu hành trình trở thành nhà giáo tương lai.',
+    reward: 'Khai mở Thư Viện Giáo Trình & Sổ Nhật Ký Nghiệp Vụ',
     subStages: [
       {
         id: 1, type: 'theory', name: 'Giai đoạn 1: Khởi Động',
         title: 'Khám Phá Sứ Mạng Nhà Giáo & Khung CT Đào Tạo',
-        desc: 'Tìm hiểu đề cương 5 môn học cốt lõi (Đại số tuyến tính, Giải tích 1-2, Xác suất thống kê, Toán rời rạc) và tinh thần Sư phạm HPU2.',
-        review: 'Chào mừng bạn đến với Khoa Toán - ĐH Sư Phạm Hà Nội 2 tại Xuân Hòa! Trong giai đoạn khởi động này, bạn cần nắm rõ mục tiêu chuẩn đầu ra cử nhân Sư phạm Toán: kết hợp vững chắc giữa kiến thức toán học chuyên sâu và nghiệp vụ sư phạm hiện đại.',
+        desc: 'Tìm hiểu đề cương 5 môn học cốt lõi (Đại số tuyến tính, Giải tích 1-2, Xác suất thống kê, Toán rời rạc) và tinh thần Sư phạm chuẩn mực.',
+        review: 'Chào mừng bạn đến với Khoa Toán - Đại Học Sư Phạm! Trong giai đoạn khởi động này, bạn cần nắm rõ mục tiêu chuẩn đầu ra cử nhân Sư phạm Toán: kết hợp vững chắc giữa kiến thức toán học chuyên sâu và nghiệp vụ sư phạm hiện đại.',
         quiz: {
-          q: 'Mục tiêu trọng tâm của sinh viên Sư phạm Toán HPU2 trong giai đoạn khởi động là gì?',
+          q: 'Mục tiêu trọng tâm của sinh viên Sư phạm Toán trong giai đoạn khởi động là gì?',
           a: [
             'Nắm chắc đề cương 5 học phần cốt lõi và rèn luyện tác phong người thầy',
             'Chỉ học thuộc lý thuyết mà không cần rèn luyện giải bài',
@@ -813,7 +813,7 @@ const DEFAULT_ASCENSION_STAGES = [
   {
     lvl: 3, xp: 120, reqStreak: 2, reqDone: 3, realm: 'Năm 2 - Vững Vàng', name: 'Cấu Trúc Đại Số & Hình Học', icon: '📚',
     desc: 'Thấu hiểu cấu trúc nhóm, vành, trường và hình học giải tích – rèn luyện tư duy toán trừu tượng sâu sắc.',
-    reward: 'Mở khóa Giá Sách Giáo Trình HPU2 & Chế Độ Mini-Test Tự Động',
+    reward: 'Mở khóa Giá Sách Giáo Trình Đại Học & Chế Độ Mini-Test Tự Động',
     subStages: [
       {
         id: 1, type: 'theory', name: 'Giai đoạn 1: Khởi Động',
@@ -1044,8 +1044,8 @@ const DEFAULT_ASCENSION_STAGES = [
   },
   {
     lvl: 7, xp: 360, reqStreak: 7, reqDone: 12, realm: 'Năm 4 - Thử Lửa', name: 'Tập Giảng & Hội Thi Nghiệp Vụ SP', icon: '🎤',
-    desc: 'Tự tin đứng trên bục giảng Hội thi nghiệp vụ sư phạm HPU2, làm chủ kỹ năng thuyết trình và tác phong người thầy.',
-    reward: 'Huy Hiệu Giảng Viên Tập Sự Xuất Sắc HPU2',
+    desc: 'Tự tin đứng trên bục giảng Hội thi nghiệp vụ sư phạm, làm chủ kỹ năng thuyết trình và tác phong người thầy.',
+    reward: 'Huy Hiệu Giảng Viên Tập Sự Xuất Sắc',
     subStages: [
       {
         id: 1, type: 'theory', name: 'Giai đoạn 1: Khởi Động',
@@ -1083,11 +1083,11 @@ const DEFAULT_ASCENSION_STAGES = [
       },
       {
         id: 3, type: 'challenge', name: 'Giai đoạn 3: Thử Thách',
-        title: 'Tranh Tài Hội Thi Nghiệp Vụ Sư Phạm HPU2',
+        title: 'Tranh Tài Hội Thi Nghiệp Vụ Sư Phạm Chuẩn',
         desc: 'Hoàn thành xuất sắc bài thi tập giảng trước ban giám khảo để chính thức thăng hạng lên Cấp 8.',
         review: 'Thử thách đỉnh cao nghiệp vụ: làm chủ bục giảng, tương tác tự tin và bảo vệ quan điểm sư phạm trước hội đồng chuyên môn.',
         quiz: {
-          q: 'Hội thi Nghiệp vụ Sư phạm HPU2 tôn vinh giá trị nổi bật nào của sinh viên sư phạm?',
+          q: 'Hội thi Nghiệp vụ Sư phạm tôn vinh giá trị nổi bật nào của sinh viên sư phạm?',
           a: [
             'Bản lĩnh sư phạm toàn diện, sự sáng tạo và khả năng truyền cảm hứng học tập toán học',
             'Khả năng giải bài toán trong thời gian ngắn nhất mà không cần giải thích',
@@ -1160,8 +1160,8 @@ const DEFAULT_ASCENSION_STAGES = [
   },
   {
     lvl: 9, xp: 480, reqStreak: 14, reqDone: 20, realm: 'Tốt Nghiệp', name: 'Cử Nhân Sư Phạm Toán Xuất Sắc', icon: '🎓',
-    desc: 'Bảo vệ thành công Khóa luận tốt nghiệp tại HPU2, nhận bằng Cử nhân Sư phạm Toán loại Giỏi/Xuất sắc.',
-    reward: 'Áo Cử Nhân Vinh Danh & Quyền Năng Sáng Tạo Ngân Hàng Đề HPU2',
+    desc: 'Bảo vệ thành công Khóa luận tốt nghiệp đại học, nhận bằng Cử nhân Sư phạm Toán loại Giỏi/Xuất sắc.',
+    reward: 'Áo Cử Nhân Vinh Danh & Quyền Năng Sáng Tạo Ngân Hàng Đề Đại Học',
     subStages: [
       {
         id: 1, type: 'theory', name: 'Giai đoạn 1: Khởi Động',
@@ -1169,7 +1169,7 @@ const DEFAULT_ASCENSION_STAGES = [
         desc: 'Xác định đề tài nghiên cứu phương pháp dạy học toán, tổng quan công trình nghiên cứu trong và ngoài nước.',
         review: 'Cấu trúc tiêu chuẩn của một Khóa luận tốt nghiệp Sư phạm Toán: Chương 1 (Cơ sở lý luận và thực tiễn); Chương 2 (Đề xuất các biện pháp sư phạm); Chương 3 (Thực nghiệm sư phạm và đánh giá định lượng).',
         quiz: {
-          q: 'Cấu trúc chuẩn mực của một Khóa luận tốt nghiệp Sư phạm Toán HPU2 thường gồm mấy chương chính?',
+          q: 'Cấu trúc chuẩn mực của một Khóa luận tốt nghiệp Sư phạm Toán thường gồm mấy chương chính?',
           a: [
             '3 chương (Cơ sở lý luận & thực tiễn; Đề xuất biện pháp sư phạm; Thực nghiệm sư phạm)',
             '1 chương duy nhất ghi lại các bài toán nâng cao',
@@ -1200,8 +1200,8 @@ const DEFAULT_ASCENSION_STAGES = [
       {
         id: 3, type: 'challenge', name: 'Giai đoạn 3: Thử Thách',
         title: 'Lễ Bảo Vệ Khóa Luận Chính Thức & Nhận Bằng Cử Nhân',
-        desc: 'Bảo vệ xuất sắc khóa luận trước Hội đồng khoa học HPU2 để chính thức vươn tới Cấp 10!',
-        review: 'Khoảnh khắc rạng rỡ tại giảng đường Xuân Hòa: phản biện xuất sắc trước các thầy cô giáo sư, tiến sĩ và nhận bằng Cử nhân Sư phạm Toán loại Giỏi/Xuất sắc.',
+        desc: 'Bảo vệ xuất sắc khóa luận trước Hội đồng khoa học để chính thức vươn tới Cấp 10!',
+        review: 'Khoảnh khắc rạng rỡ tại giảng đường Sư Phạm: phản biện xuất sắc trước các thầy cô giáo sư, tiến sĩ và nhận bằng Cử nhân Sư phạm Toán loại Giỏi/Xuất sắc.',
         quiz: {
           q: 'Yếu tố quyết định sự thành công khi bảo vệ khóa luận trước Hội đồng chấm tốt nghiệp là gì?',
           a: [
@@ -1217,9 +1217,9 @@ const DEFAULT_ASCENSION_STAGES = [
     ]
   },
   {
-    lvl: 10, xp: 540, reqStreak: 21, reqDone: 25, realm: 'Đỉnh Cao Sự Nghiệp', name: 'Nhà Giáo Ưu Tú – Tự Hào HPU2', icon: '🏛️',
+    lvl: 10, xp: 540, reqStreak: 21, reqDone: 25, realm: 'Đỉnh Cao Sự Nghiệp', name: 'Nhà Giáo Ưu Tú – Vinh Quang Nghề Giáo', icon: '🏛️',
     desc: 'Đắc đạo thăng hoa cùng sự nghiệp trồng người cao quý, ngọn hải đăng soi sáng tri thức cho bao thế hệ học trò.',
-    reward: 'Vinh Danh Bảng Vàng Cựu Sinh Viên Ưu Tú ĐH Sư Phạm Hà Nội 2',
+    reward: 'Vinh Danh Bảng Vàng Cựu Sinh Viên Ưu Tú Đại Học Sư Phạm',
     subStages: [
       {
         id: 1, type: 'theory', name: 'Giai đoạn 1: Khởi Động',
@@ -1227,7 +1227,7 @@ const DEFAULT_ASCENSION_STAGES = [
         desc: 'Đúc kết tâm huyết cả cuộc đời: Lấy học sinh làm trung tâm, giáo dục bằng lòng yêu thương và sự tận tụy.',
         review: '"Người thầy trung bình chỉ biết nói. Người thầy giỏi biết giải thích. Người thầy xuất chúng biết minh họa. Người thầy vĩ đại biết truyền cảm hứng." - William Arthur Ward.',
         quiz: {
-          q: 'Phẩm chất cao quý nhất của một Nhà giáo Ưu tú xuất thân từ ĐH Sư Phạm Hà Nội 2 là gì?',
+          q: 'Phẩm chất cao quý nhất của một Nhà giáo Ưu tú xuất thân từ Đại Học Sư Phạm là gì?',
           a: [
             'Tâm huyết với nghề, yêu thương học sinh và không ngừng đổi mới sáng tạo trong dạy học',
             'Chỉ quan tâm đến danh hiệu cá nhân',
@@ -1257,9 +1257,9 @@ const DEFAULT_ASCENSION_STAGES = [
       },
       {
         id: 3, type: 'challenge', name: 'Giai đoạn 3: Thử Thách',
-        title: 'Tôn Vinh Bảng Vàng Nhà Giáo Ưu Tú HPU2',
-        desc: 'Chạm tay vào đỉnh cao sự nghiệp, được lưu danh muôn đời trên Bảng vàng Danh dự ĐH Sư Phạm Hà Nội 2!',
-        review: 'Bạn đã hoàn thành trọn vẹn lộ trình 10 cấp bậc thăng tiến tri thức và 30 giai đoạn chăm chỉ. Tự hào là cựu sinh viên ưu tú của ĐH Sư Phạm Hà Nội 2!',
+        title: 'Tôn Vinh Bảng Vàng Nhà Giáo Ưu Tú',
+        desc: 'Chạm tay vào đỉnh cao sự nghiệp, được lưu danh muôn đời trên Bảng vàng Danh dự Đại Học Sư Phạm!',
+        review: 'Bạn đã hoàn thành trọn vẹn lộ trình 10 cấp bậc thăng tiến tri thức và 30 giai đoạn chăm chỉ. Tự hào là cựu sinh viên ưu tú của Đại Học Sư Phạm!',
         quiz: {
           q: 'Giá trị cốt lõi bền vững nhất mà một người thầy để lại cho thế hệ mai sau là gì?',
           a: [
@@ -1625,7 +1625,7 @@ function showAscensionLevelUpModal(curStage, nextStage, flameBonus) {
       </div>
 
       <button class="btn y w-full !py-3 font-black text-base shadow-lg" onclick="closeSubStageModal();render();">
-        <span>🌟 Tiếp Tục Hành Trình Tri Thức HPU2</span>
+        <span>🌟 Tiếp Tục Hành Trình Tri Thức</span>
       </button>
     </div>
   `;
@@ -1640,7 +1640,7 @@ function showAscensionMaxVictoryModal(curStage, grandBonus) {
     <div class="card max-w-lg w-full border-4 border-amber-500 bg-gradient-to-b from-amber-100 via-white to-emerald-100 shadow-2xl p-6 sm:p-8 rounded-3xl text-center animate-fade-in relative">
       <div class="text-6xl mb-3 anim-float">🏛️</div>
       <span class="text-xs font-black uppercase tracking-widest text-amber-800 bg-amber-200 px-3 py-1 rounded-full border border-amber-400">
-        Đỉnh Cao Sự Nghiệp Sư Phạm HPU2
+        Đỉnh Cao Sự Nghiệp Sư Phạm
       </span>
       <h2 class="text-2xl sm:text-3xl font-extrabold text-emerald-950 font-fun mt-2">
         Vinh Danh Bảng Vàng Đại Sư Phạm!
@@ -1651,15 +1651,15 @@ function showAscensionMaxVictoryModal(curStage, grandBonus) {
 
       <div class="my-5 p-4 rounded-2xl bg-white/90 border border-amber-300 shadow-sm text-center">
         <div class="text-4xl mb-2">📜</div>
-        <div class="text-sm font-black text-emerald-950">Nhà Giáo Ưu Tú – Tự Hào HPU2</div>
-        <p class="text-xs text-slate-600 mt-1">Ngọn hải đăng tri thức soi sáng bao thế hệ học trò ĐH Sư Phạm Hà Nội 2</p>
+        <div class="text-sm font-black text-emerald-950">Nhà Giáo Ưu Tú – Vinh Quang Nghề Giáo</div>
+        <p class="text-xs text-slate-600 mt-1">Ngọn hải đăng tri thức soi sáng bao thế hệ học trò Đại Học Sư Phạm</p>
         <div class="inline-block mt-3 px-3 py-1 bg-amber-100 text-amber-950 border border-amber-300 rounded-full font-black text-xs">
           🔥 Đại Phần Thưởng: +${grandBonus} Điểm Lửa
         </div>
       </div>
 
       <button class="btn y w-full !py-3 font-black text-base shadow-lg" onclick="closeSubStageModal();render();">
-        <span>🌟 Tự Hào Sư Phạm Hà Nội 2</span>
+        <span>🌟 Tự Hào Đại Học Sư Phạm</span>
       </button>
     </div>
   `;
@@ -1691,8 +1691,8 @@ const DEFAULT_SHOP_ITEMS = {
     },
     {
       id: 'shop_unicorn',
-      name: 'Kỳ Lân Sư Phạm HPU2',
-      title: 'Hộ Linh Tối Thượng Xuân Hòa',
+      name: 'Kỳ Lân Sư Phạm Chuẩn',
+      title: 'Hộ Linh Tối Thượng Sư Phạm',
       desc: 'Biểu tượng của sự tinh khôi, trí tuệ sư phạm đỉnh cao và phẩm chất nhà giáo ưu tú.',
       icon: '🦄',
       price: 260,
@@ -1719,7 +1719,7 @@ const DEFAULT_SHOP_ITEMS = {
     {
       id: 'acc_crown',
       type: 'hat',
-      name: 'Vương Miện Quán Quân HPU2',
+      name: 'Vương Miện Quán Quân Đại Học',
       icon: '👑',
       price: 120,
       desc: 'Vinh quang rực rỡ dành cho thủ khoa toán học có chuỗi ngày học xuất sắc.'
@@ -1899,12 +1899,12 @@ function gainFlame(points, reason = ''){
 }
 
 const DEFAULT_CFG={
-  siteName:'HPU2 Study Arena',
-  siteTag:'ĐH Sư Phạm Hà Nội 2',
-  siteSub:'Đấu trường tri thức & nghiệp vụ Sư phạm Toán - HPU2',
-  petName:'Cú Mèo HPU2',
-  petId:'hpu2_owl',
-  bgTheme:'hpu2_emerald',
+  siteName:'Study Arena',
+  siteTag:'Đại Học Sư Phạm',
+  siteSub:'Đấu trường tri thức & nghiệp vụ Sư phạm Toán học',
+  petName:'Cú Mèo Tri Thức',
+  petId:'mascot_owl',
+  bgTheme:'theme_emerald',
   customBgUrl:'',
   logoIcon:'🏛️',
   customLogoUrl:'',
@@ -2101,8 +2101,8 @@ function formatMathText(text){
   return str;
 }
 
-/* ==================== 4. DỮ LIỆU CỐT LÕI (5 HỌC PHẦN TOÁN TRỌNG TÂM ĐH SƯ PHẠM HÀ NỘI 2 - HPU2) ==================== */
-const HPU2_SUBJECTS = [
+/* ==================== 4. DỮ LIỆU CỐT LÕI (5 HỌC PHẦN TOÁN TRỌNG TÂM ĐH SƯ PHẠM ĐẠI HỌC SƯ PHẠM) ==================== */
+const CORE_SUBJECTS = [
   'Đại số tuyến tính',
   'Giải tích 1',
   'Giải tích 2',
@@ -2110,8 +2110,8 @@ const HPU2_SUBJECTS = [
   'Toán rời rạc'
 ];
 
-/* HỆ THỐNG CHỦ ĐỀ & KIẾN THỨC THEO TỪNG HỌC PHẦN HPU2 */
-const HPU2_CURRICULUM = {
+/* HỆ THỐNG CHỦ ĐỀ & KIẾN THỨC THEO TỪNG HỌC PHẦN Đại Học */
+const CORE_CURRICULUM = {
   'Đại số tuyến tính': {
     know: [
       '[Đại số tuyến tính] Ma trận & Các phép biến đổi sơ cấp hàng (Gauss-Jordan), ma trận nghịch đảo A⁻¹',
@@ -2134,7 +2134,7 @@ const HPU2_CURRICULUM = {
       'Giá trị riêng, vectơ riêng, đa thức đặc trưng & Điều kiện chéo hóa ma trận',
       'Không gian Euclid, tích vô hướng & Quá trình trực chuẩn hóa Gram-Schmidt',
       'Dạng toàn phương, tiêu chuẩn Sylvester & Đưa dạng toàn phương về dạng chính tắc',
-      'Tổng ôn tập lý thuyết, phân tích sai lầm sư phạm & Đề thi kết thúc học phần HPU2'
+      'Tổng ôn tập lý thuyết, phân tích sai lầm sư phạm & Đề thi kết thúc học phần đại học'
     ]
   },
   'Giải tích 1': {
@@ -2162,7 +2162,7 @@ const HPU2_CURRICULUM = {
       'Tích phân suy rộng loại 1 (khoảng vô hạn) & Tích phân suy rộng loại 2 (hàm gián đoạn)',
       'Chuỗi số dương, tiêu chuẩn d\'Alembert, Cauchy & Tiêu chuẩn so sánh',
       'Chuỗi đan dấu Leibniz, chuỗi lũy thừa & Bán kính hội tụ của chuỗi hàm',
-      'Tổng ôn hệ thống định lý giải tích, phương pháp giải đề thi kết thúc học phần HPU2'
+      'Tổng ôn hệ thống định lý giải tích, phương pháp giải đề thi kết thúc học phần đại học'
     ]
   },
   'Giải tích 2': {
@@ -2219,7 +2219,7 @@ const HPU2_CURRICULUM = {
       'Ước lượng tham số: Ước lượng điểm và ước lượng khoảng tin cậy cho kỳ vọng, tỷ lệ',
       'Kiểm định giả thuyết thống kê tham số cho kỳ vọng và tỷ lệ (bài toán 1 mẫu)',
       'Kiểm định so sánh 2 kỳ vọng, 2 tỷ lệ & Kiểm định tính độc lập Chi-square',
-      'Hồi quy tuyến tính đơn biến, hệ số xác định R² & Tổng ôn thi học phần XSTK HPU2'
+      'Hồi quy tuyến tính đơn biến, hệ số xác định R² & Tổng ôn thi học phần XSTK'
     ]
   },
   'Toán rời rạc': {
@@ -2247,22 +2247,22 @@ const HPU2_CURRICULUM = {
       'Cây và Cây khung nhỏ nhất: Thuật toán Kruskal & Thuật toán Prim',
       'Bài toán tìm đường đi ngắn nhất: Thuật toán Dijkstra & Floyd-Warshall',
       'Đồ thị phẳng, công thức Euler V - E + F = 2 & Bài toán tô màu đồ thị',
-      'Đại số Boole, hàm Boole, mạch logic & Tổng ôn luyện thi học phần Toán rời rạc HPU2'
+      'Đại số Boole, hàm Boole, mạch logic & Tổng ôn luyện thi học phần Toán rời rạc'
     ]
   }
 };
 
 const DEFAULT_TOPICS = [
-  'HPU2 - Đại số tuyến tính: Không gian vectơ, độc lập tuyến tính, cơ sở và số chiều',
-  'HPU2 - Đại số tuyến tính: Ma trận, định thức, hệ phương trình đại số tuyến tính & Chéo hóa ma trận',
-  'HPU2 - Giải tích 1: Giới hạn dãy số, hàm số liên tục & Đạo hàm vi phân một biến',
-  'HPU2 - Giải tích 1: Tích phân Riemann & Chuỗi số, chuỗi hàm hội tụ',
-  'HPU2 - Giải tích 2: Phép tính vi phân hàm nhiều biến, đạo hàm riêng & Cực trị có điều kiện',
-  'HPU2 - Giải tích 2: Tích phân bội (kép, ba lớp), tích phân đường mặt & Công thức Green, Gauss-Ostrogradsky',
-  'HPU2 - Xác suất thống kê: Biến ngẫu nhiên, phân phối xác suất (Nhị thức, Poisson, Phân phối chuẩn)',
-  'HPU2 - Xác suất thống kê: Thống kê toán học, ước lượng khoảng & Kiểm định giả thuyết trong nghiên cứu GD',
-  'HPU2 - Toán rời rạc: Lý thuyết đồ thị (Bậc đỉnh, chu trình Euler, Hamilton, Cây khung nhỏ nhất)',
-  'HPU2 - Toán rời rạc: Đại số Boole, suy luận logic toán học & Các bài toán đếm tổ hợp nâng cao'
+  'Đại số tuyến tính: Không gian vectơ, độc lập tuyến tính, cơ sở và số chiều',
+  'Đại số tuyến tính: Ma trận, định thức, hệ phương trình đại số tuyến tính & Chéo hóa ma trận',
+  'Giải tích 1: Giới hạn dãy số, hàm số liên tục & Đạo hàm vi phân một biến',
+  'Giải tích 1: Tích phân Riemann & Chuỗi số, chuỗi hàm hội tụ',
+  'Giải tích 2: Phép tính vi phân hàm nhiều biến, đạo hàm riêng & Cực trị có điều kiện',
+  'Giải tích 2: Tích phân bội (kép, ba lớp), tích phân đường mặt & Công thức Green, Gauss-Ostrogradsky',
+  'Xác suất thống kê: Biến ngẫu nhiên, phân phối xác suất (Nhị thức, Poisson, Phân phối chuẩn)',
+  'Xác suất thống kê: Thống kê toán học, ước lượng khoảng & Kiểm định giả thuyết trong nghiên cứu GD',
+  'Toán rời rạc: Lý thuyết đồ thị (Bậc đỉnh, chu trình Euler, Hamilton, Cây khung nhỏ nhất)',
+  'Toán rời rạc: Đại số Boole, suy luận logic toán học & Các bài toán đếm tổ hợp nâng cao'
 ];
 
 const DEFAULT_KNOW = [
@@ -2284,7 +2284,7 @@ const DEFAULT_MCQ = [
     subject: 'Đại số tuyến tính',
     topic: 'Không gian vectơ & Cơ sở',
     level: 'Dễ',
-    q: '[Đại số tuyến tính - HPU2] Hệ gồm n vectơ trong không gian vectơ ℝⁿ là một cơ sở khi và chỉ khi:',
+    q: '[Đại số tuyến tính] Hệ gồm n vectơ trong không gian vectơ ℝⁿ là một cơ sở khi và chỉ khi:',
     o: [
       'Hệ vectơ đó trực giao từng đôi một',
       'Hệ vectơ đó độc lập tuyến tính',
@@ -2299,7 +2299,7 @@ const DEFAULT_MCQ = [
     subject: 'Đại số tuyến tính',
     topic: 'Ma trận & Định thức',
     level: 'Dễ',
-    q: '[Đại số tuyến tính - HPU2] Cho ma trận vuông A cấp n. Điều kiện cần và đủ để ma trận A khả nghịch (tồn tại ma trận nghịch đảo A⁻¹) là:',
+    q: '[Đại số tuyến tính] Cho ma trận vuông A cấp n. Điều kiện cần và đủ để ma trận A khả nghịch (tồn tại ma trận nghịch đảo A⁻¹) là:',
     o: [
       'det(A) = 0',
       'det(A) ≠ 0',
@@ -2314,7 +2314,7 @@ const DEFAULT_MCQ = [
     subject: 'Đại số tuyến tính',
     topic: 'Hệ phương trình tuyến tính',
     level: 'Trung bình',
-    q: '[Đại số tuyến tính - HPU2] Theo định lý Kronecker-Capelli, hệ phương trình đại số tuyến tính AX = B có nghiệm duy nhất khi và chỉ khi:',
+    q: '[Đại số tuyến tính] Theo định lý Kronecker-Capelli, hệ phương trình đại số tuyến tính AX = B có nghiệm duy nhất khi và chỉ khi:',
     o: [
       'rank(A) < rank(A|B)',
       'rank(A) = rank(A|B) < n (với n là số ẩn)',
@@ -2329,7 +2329,7 @@ const DEFAULT_MCQ = [
     subject: 'Đại số tuyến tính',
     topic: 'Không gian Euclid & Trực chuẩn',
     level: 'Trung bình',
-    q: '[Đại số tuyến tính - HPU2] Quá trình trực chuẩn hóa Gram-Schmidt cho phép chuyển đổi một cơ sở tùy ý {u₁, u₂, ..., uₙ} thành một cơ sở có tính chất:',
+    q: '[Đại số tuyến tính] Quá trình trực chuẩn hóa Gram-Schmidt cho phép chuyển đổi một cơ sở tùy ý {u₁, u₂, ..., uₙ} thành một cơ sở có tính chất:',
     o: [
       'Cơ sở gồm các vectơ cùng phương',
       'Cơ sở trực giao và có độ dài bằng 1 (trực chuẩn)',
@@ -2344,7 +2344,7 @@ const DEFAULT_MCQ = [
     subject: 'Đại số tuyến tính',
     topic: 'Giá trị riêng & Vectơ riêng',
     level: 'Khó',
-    q: '[Đại số tuyến tính - HPU2] Điều kiện cần và đủ để một ma trận vuông A cấp n chéo hóa được trên trường số thực ℝ là:',
+    q: '[Đại số tuyến tính] Điều kiện cần và đủ để một ma trận vuông A cấp n chéo hóa được trên trường số thực ℝ là:',
     o: [
       'det(A) luôn là một số nguyên tố',
       'A có n vectơ riêng độc lập tuyến tính',
@@ -2359,7 +2359,7 @@ const DEFAULT_MCQ = [
     subject: 'Đại số tuyến tính',
     topic: 'Dạng toàn phương',
     level: 'Khó',
-    q: '[Đại số tuyến tính - HPU2] Theo tiêu chuẩn Sylvester, dạng toàn phương Q(x₁, x₂, ..., xₙ) xác định dương khi và chỉ khi ma trận A của nó thỏa mãn:',
+    q: '[Đại số tuyến tính] Theo tiêu chuẩn Sylvester, dạng toàn phương Q(x₁, x₂, ..., xₙ) xác định dương khi và chỉ khi ma trận A của nó thỏa mãn:',
     o: [
       'Mọi định thức con chính góc đều âm',
       'Mọi định thức con chính góc đều dương: Δ₁ > 0, Δ₂ > 0, ..., Δₙ > 0',
@@ -2374,7 +2374,7 @@ const DEFAULT_MCQ = [
     subject: 'Đại số tuyến tính',
     topic: 'Ánh xạ tuyến tính',
     level: 'Vận dụng cao',
-    q: '[Đại số tuyến tính - HPU2] Cho ánh xạ tuyến tính f: V → W giữa các không gian vectơ hữu hạn chiều. Khẳng định nào sau đây về số chiều là ĐÚNG theo Định lý Hạt nhân - Ảnh (Rank-Nullity Theorem)?',
+    q: '[Đại số tuyến tính] Cho ánh xạ tuyến tính f: V → W giữa các không gian vectơ hữu hạn chiều. Khẳng định nào sau đây về số chiều là ĐÚNG theo Định lý Hạt nhân - Ảnh (Rank-Nullity Theorem)?',
     o: [
       'dim(V) = dim(Ker f) + dim(Im f)',
       'dim(W) = dim(Ker f) + dim(Im f)',
@@ -2391,7 +2391,7 @@ const DEFAULT_MCQ = [
     subject: 'Giải tích 1',
     topic: 'Đạo hàm & Định lý Lagrange',
     level: 'Dễ',
-    q: '[Giải tích 1 - HPU2] Cho hàm số f(x) liên tục trên đoạn [a, b] và khả vi trên khoảng (a, b). Theo định lý Lagrange, khẳng định nào sau đây là đúng?',
+    q: '[Giải tích 1] Cho hàm số f(x) liên tục trên đoạn [a, b] và khả vi trên khoảng (a, b). Theo định lý Lagrange, khẳng định nào sau đây là đúng?',
     o: [
       'Tồn tại c ∈ (a, b) sao cho f′(c) = 0',
       'Tồn tại c ∈ (a, b) sao cho f(b) - f(a) = f′(c)(b - a)',
@@ -2406,7 +2406,7 @@ const DEFAULT_MCQ = [
     subject: 'Giải tích 1',
     topic: 'Chuỗi số Riemann',
     level: 'Dễ',
-    q: '[Giải tích 1 - HPU2] Chuỗi số Riemann ∑ (1 / n^α) với n chạy từ 1 đến vô cùng hội tụ khi và chỉ khi:',
+    q: '[Giải tích 1] Chuỗi số Riemann ∑ (1 / n^α) với n chạy từ 1 đến vô cùng hội tụ khi và chỉ khi:',
     o: [
       'α > 1',
       'α ≥ 1',
@@ -2421,7 +2421,7 @@ const DEFAULT_MCQ = [
     subject: 'Giải tích 1',
     topic: 'Tính liên tục & Bolzano-Cauchy',
     level: 'Trung bình',
-    q: '[Giải tích 1 - HPU2] Cho f(x) liên tục trên đoạn [a, b] thỏa mãn f(a) · f(b) < 0. Theo Định lý Bolzano-Cauchy về giá trị trung gian:',
+    q: '[Giải tích 1] Cho f(x) liên tục trên đoạn [a, b] thỏa mãn f(a) · f(b) < 0. Theo Định lý Bolzano-Cauchy về giá trị trung gian:',
     o: [
       'f(x) là hàm đơn điệu tăng trên [a, b]',
       'Phương trình f(x) = 0 có ít nhất một nghiệm c ∈ (a, b)',
@@ -2436,7 +2436,7 @@ const DEFAULT_MCQ = [
     subject: 'Giải tích 1',
     topic: 'Quy tắc L\'Hôpital & Vô định',
     level: 'Trung bình',
-    q: '[Giải tích 1 - HPU2] Quy tắc L\'Hôpital áp dụng trực tiếp cho việc tính giới hạn của biểu thức có dạng vô định nào sau đây?',
+    q: '[Giải tích 1] Quy tắc L\'Hôpital áp dụng trực tiếp cho việc tính giới hạn của biểu thức có dạng vô định nào sau đây?',
     o: [
       '0/0 hoặc ∞/∞',
       '0 · ∞ hoặc 1^∞',
@@ -2451,7 +2451,7 @@ const DEFAULT_MCQ = [
     subject: 'Giải tích 1',
     topic: 'Chuỗi lũy thừa & Bán kính hội tụ',
     level: 'Khó',
-    q: '[Giải tích 1 - HPU2] Bán kính hội tụ R của chuỗi lũy thừa ∑ aₙ (x - x₀)ⁿ được tính theo công thức Cauchy-Hadamard là:',
+    q: '[Giải tích 1] Bán kính hội tụ R của chuỗi lũy thừa ∑ aₙ (x - x₀)ⁿ được tính theo công thức Cauchy-Hadamard là:',
     o: [
       'R = lim |aₙ|',
       '1 / R = lim sup ⁿ√|aₙ|',
@@ -2466,7 +2466,7 @@ const DEFAULT_MCQ = [
     subject: 'Giải tích 1',
     topic: 'Tích phân suy rộng',
     level: 'Khó',
-    q: '[Giải tích 1 - HPU2] Tích phân suy rộng loại 1 I = ∫₁^∞ (1 / x^p) dx hội tụ khi và chỉ khi:',
+    q: '[Giải tích 1] Tích phân suy rộng loại 1 I = ∫₁^∞ (1 / x^p) dx hội tụ khi và chỉ khi:',
     o: [
       'p ≤ 1',
       'p > 1',
@@ -2481,7 +2481,7 @@ const DEFAULT_MCQ = [
     subject: 'Giải tích 1',
     topic: 'Định lý Rolle & Khảo sát hàm',
     level: 'Vận dụng cao',
-    q: '[Giải tích 1 - HPU2] Cho đa thức P(x) bậc n có n nghiệm thực phân biệt. Đạo hàm P′(x) có tối đa bao nhiêu nghiệm thực?',
+    q: '[Giải tích 1] Cho đa thức P(x) bậc n có n nghiệm thực phân biệt. Đạo hàm P′(x) có tối đa bao nhiêu nghiệm thực?',
     o: [
       'Có đúng n nghiệm thực',
       'Có đúng n - 1 nghiệm thực phân biệt',
@@ -2498,7 +2498,7 @@ const DEFAULT_MCQ = [
     subject: 'Giải tích 2',
     topic: 'Cực trị hàm nhiều biến (Hessian)',
     level: 'Dễ',
-    q: '[Giải tích 2 - HPU2] Xét hàm hai biến z = f(x, y) có đạo hàm cấp 2 liên tục tại điểm dừng M₀, đặt A = f″ₓₓ, B = f″ₓᵧ, C = f″ᵧᵧ và Δ = AC - B². Hàm số đạt cực tiểu địa phương tại M₀ khi:',
+    q: '[Giải tích 2] Xét hàm hai biến z = f(x, y) có đạo hàm cấp 2 liên tục tại điểm dừng M₀, đặt A = f″ₓₓ, B = f″ₓᵧ, C = f″ᵧᵧ và Δ = AC - B². Hàm số đạt cực tiểu địa phương tại M₀ khi:',
     o: [
       'Δ > 0 và A > 0',
       'Δ > 0 và A < 0',
@@ -2513,7 +2513,7 @@ const DEFAULT_MCQ = [
     subject: 'Giải tích 2',
     topic: 'Gradient & Hướng biến thiên',
     level: 'Dễ',
-    q: '[Giải tích 2 - HPU2] Vectơ Gradient ∇f(x, y) = (∂f/∂x, ∂f/∂y) của hàm số f tại điểm M chỉ hướng nào trong không gian?',
+    q: '[Giải tích 2] Vectơ Gradient ∇f(x, y) = (∂f/∂x, ∂f/∂y) của hàm số f tại điểm M chỉ hướng nào trong không gian?',
     o: [
       'Hướng hàm số giảm nhanh nhất',
       'Hướng hàm số tăng nhanh nhất',
@@ -2528,7 +2528,7 @@ const DEFAULT_MCQ = [
     subject: 'Giải tích 2',
     topic: 'Tích phân kép Fubini',
     level: 'Trung bình',
-    q: '[Giải tích 2 - HPU2] Cho hình chữ nhật D = [a, b] × [c, d]. Theo Định lý Fubini, tích phân kép ∬_D f(x, y) dx dy được tính bằng:',
+    q: '[Giải tích 2] Cho hình chữ nhật D = [a, b] × [c, d]. Theo Định lý Fubini, tích phân kép ∬_D f(x, y) dx dy được tính bằng:',
     o: [
       '∫_a^b dx ∫_c^d f(x, y) dy = ∫_c^d dy ∫_a^b f(x, y) dx',
       'f(b, d) - f(a, c)',
@@ -2543,7 +2543,7 @@ const DEFAULT_MCQ = [
     subject: 'Giải tích 2',
     topic: 'Đổi biến tọa độ cực',
     level: 'Trung bình',
-    q: '[Giải tích 2 - HPU2] Khi chuyển tích phân kép ∬_D f(x, y) dx dy sang tọa độ cực x = r cos φ, y = r sin φ, định thức Jacobi J của phép đổi biến là:',
+    q: '[Giải tích 2] Khi chuyển tích phân kép ∬_D f(x, y) dx dy sang tọa độ cực x = r cos φ, y = r sin φ, định thức Jacobi J của phép đổi biến là:',
     o: [
       'J = 1',
       'J = r',
@@ -2558,7 +2558,7 @@ const DEFAULT_MCQ = [
     subject: 'Giải tích 2',
     topic: 'Tích phân đường & Định lý Green',
     level: 'Khó',
-    q: '[Giải tích 2 - HPU2] Cho miền kín D có biên C định hướng dương. Công thức Green liên hệ giữa tích phân đường loại 2 và tích phân kép là:',
+    q: '[Giải tích 2] Cho miền kín D có biên C định hướng dương. Công thức Green liên hệ giữa tích phân đường loại 2 và tích phân kép là:',
     o: [
       '∮_C P dx + Q dy = ∬_D (∂Q/∂x - ∂P/∂y) dx dy',
       '∮_C P dx + Q dy = ∬_D (∂P/∂x + ∂Q/∂y) dx dy',
@@ -2573,7 +2573,7 @@ const DEFAULT_MCQ = [
     subject: 'Giải tích 2',
     topic: 'Cực trị có điều kiện (Lagrange)',
     level: 'Khó',
-    q: '[Giải tích 2 - HPU2] Phương pháp nhân tử Lagrange dùng để tìm cực trị của hàm f(x, y) thỏa mãn điều kiện g(x, y) = 0 dựa trên hàm Lagrange L(x, y, λ) bằng cách giải hệ phương trình:',
+    q: '[Giải tích 2] Phương pháp nhân tử Lagrange dùng để tìm cực trị của hàm f(x, y) thỏa mãn điều kiện g(x, y) = 0 dựa trên hàm Lagrange L(x, y, λ) bằng cách giải hệ phương trình:',
     o: [
       '∂L/∂x = 0, ∂L/∂y = 0, ∂L/∂λ = 0',
       'f(x, y) = g(x, y) = 0',
@@ -2588,7 +2588,7 @@ const DEFAULT_MCQ = [
     subject: 'Giải tích 2',
     topic: 'Định lý Gauss-Ostrogradsky',
     level: 'Vận dụng cao',
-    q: '[Giải tích 2 - HPU2] Định lý Gauss-Ostrogradsky khẳng định thông lượng của trường vectơ F = (P, Q, R) qua mặt cong kín S hướng ra ngoài bằng tích phân bội ba của đại lượng nào trên khối V giới hạn bởi S?',
+    q: '[Giải tích 2] Định lý Gauss-Ostrogradsky khẳng định thông lượng của trường vectơ F = (P, Q, R) qua mặt cong kín S hướng ra ngoài bằng tích phân bội ba của đại lượng nào trên khối V giới hạn bởi S?',
     o: [
       'Độ xoáy rot(F)',
       'Độ phân kỳ div(F) = ∂P/∂x + ∂Q/∂y + ∂R/∂z',
@@ -2605,7 +2605,7 @@ const DEFAULT_MCQ = [
     subject: 'Xác suất thống kê',
     topic: 'Phân phối Nhị thức',
     level: 'Dễ',
-    q: '[Xác suất thống kê - HPU2] Cho biến ngẫu nhiên X tuân theo phân phối nhị thức B(n, p). Kỳ vọng E(X) và phương sai V(X) của X lần lượt là:',
+    q: '[Xác suất thống kê] Cho biến ngẫu nhiên X tuân theo phân phối nhị thức B(n, p). Kỳ vọng E(X) và phương sai V(X) của X lần lượt là:',
     o: [
       'E(X) = np; V(X) = np',
       'E(X) = np; V(X) = np(1 - p)',
@@ -2620,7 +2620,7 @@ const DEFAULT_MCQ = [
     subject: 'Xác suất thống kê',
     topic: 'Xác suất cổ điển & Biến cố độc lập',
     level: 'Dễ',
-    q: '[Xác suất thống kê - HPU2] Hai biến cố A và B được gọi là độc lập với nhau khi và chỉ khi:',
+    q: '[Xác suất thống kê] Hai biến cố A và B được gọi là độc lập với nhau khi và chỉ khi:',
     o: [
       'P(A ∪ B) = P(A) + P(B)',
       'P(A ∩ B) = P(A) · P(B)',
@@ -2635,7 +2635,7 @@ const DEFAULT_MCQ = [
     subject: 'Xác suất thống kê',
     topic: 'Công thức Bayes',
     level: 'Trung bình',
-    q: '[Xác suất thống kê - HPU2] Cho {A₁, A₂, ..., Aₙ} là một nhóm biến cố đầy đủ và xung khắc từng đôi với P(Aᵢ) > 0, biến cố B xảy ra với P(B) > 0. Xác suất có điều kiện P(Aₖ | B) được tính bằng:',
+    q: '[Xác suất thống kê] Cho {A₁, A₂, ..., Aₙ} là một nhóm biến cố đầy đủ và xung khắc từng đôi với P(Aᵢ) > 0, biến cố B xảy ra với P(B) > 0. Xác suất có điều kiện P(Aₖ | B) được tính bằng:',
     o: [
       'Công thức Bernoulli',
       'Công thức xác suất Bayes: P(Aₖ | B) = [P(Aₖ) · P(B | Aₖ)] / ∑ P(Aᵢ) P(B | Aᵢ)',
@@ -2650,7 +2650,7 @@ const DEFAULT_MCQ = [
     subject: 'Xác suất thống kê',
     topic: 'Phân phối Chuẩn & Quy tắc 3-Sigma',
     level: 'Trung bình',
-    q: '[Xác suất thống kê - HPU2] Cho biến ngẫu nhiên X tuân theo phân phối chuẩn N(μ, σ²). Theo quy tắc 3-Sigma (3σ), xác suất để X nhận giá trị trong khoảng (μ - 3σ, μ + 3σ) xấp xỉ bằng:',
+    q: '[Xác suất thống kê] Cho biến ngẫu nhiên X tuân theo phân phối chuẩn N(μ, σ²). Theo quy tắc 3-Sigma (3σ), xác suất để X nhận giá trị trong khoảng (μ - 3σ, μ + 3σ) xấp xỉ bằng:',
     o: [
       '68.27%',
       '95.45%',
@@ -2665,7 +2665,7 @@ const DEFAULT_MCQ = [
     subject: 'Xác suất thống kê',
     topic: 'Định lý Giới hạn Trung tâm (CLT)',
     level: 'Khó',
-    q: '[Xác suất thống kê - HPU2] Theo Định lý giới hạn trung tâm (Central Limit Theorem - CLT), khi kích thước mẫu n đủ lớn (n ≥ 30), phân phối của trung bình mẫu X̄ sẽ xấp xỉ phân phối nào?',
+    q: '[Xác suất thống kê] Theo Định lý giới hạn trung tâm (Central Limit Theorem - CLT), khi kích thước mẫu n đủ lớn (n ≥ 30), phân phối của trung bình mẫu X̄ sẽ xấp xỉ phân phối nào?',
     o: [
       'Phân phối Poisson',
       'Phân phối Chuẩn (Normal Distribution)',
@@ -2680,7 +2680,7 @@ const DEFAULT_MCQ = [
     subject: 'Xác suất thống kê',
     topic: 'Ước lượng khoảng tin cậy',
     level: 'Khó',
-    q: '[Xác suất thống kê - HPU2] Khi xây dựng khoảng tin cậy 1 - α cho kỳ vọng μ của phân phối chuẩn khi CHƯA BIẾT phương sai σ² và kích thước mẫu nhỏ n < 30, ta sử dụng thống kê tuân theo phân phối nào?',
+    q: '[Xác suất thống kê] Khi xây dựng khoảng tin cậy 1 - α cho kỳ vọng μ của phân phối chuẩn khi CHƯA BIẾT phương sai σ² và kích thước mẫu nhỏ n < 30, ta sử dụng thống kê tuân theo phân phối nào?',
     o: [
       'Phân phối Chuẩn chuẩn hóa U ~ N(0, 1)',
       'Phân phối Student (t) với n - 1 bậc tự do',
@@ -2695,7 +2695,7 @@ const DEFAULT_MCQ = [
     subject: 'Xác suất thống kê',
     topic: 'Kiểm định giả thuyết thống kê',
     level: 'Vận dụng cao',
-    q: '[Xác suất thống kê - HPU2] Trong bài toán kiểm định giả thuyết thống kê, sai lầm loại I (Type I error) xảy ra khi nào?',
+    q: '[Xác suất thống kê] Trong bài toán kiểm định giả thuyết thống kê, sai lầm loại I (Type I error) xảy ra khi nào?',
     o: [
       'Bác bỏ giả thuyết H₀ trong khi H₀ thực sự đúng',
       'Chấp nhận giả thuyết H₀ trong khi H₀ thực sự sai',
@@ -2712,7 +2712,7 @@ const DEFAULT_MCQ = [
     subject: 'Toán rời rạc',
     topic: 'Lý thuyết đồ thị & Định lý bắt tay',
     level: 'Dễ',
-    q: '[Toán rời rạc - HPU2] Trong một đơn đồ thị vô hướng G có 10 đỉnh, nếu mỗi đỉnh đều có bậc bằng 4 thì số cạnh của đồ thị G là:',
+    q: '[Toán rời rạc] Trong một đơn đồ thị vô hướng G có 10 đỉnh, nếu mỗi đỉnh đều có bậc bằng 4 thì số cạnh của đồ thị G là:',
     o: [
       '10',
       '20',
@@ -2727,7 +2727,7 @@ const DEFAULT_MCQ = [
     subject: 'Toán rời rạc',
     topic: 'Logic mệnh đề & Bảng chân trị',
     level: 'Dễ',
-    q: '[Toán rời rạc - HPU2] Mệnh đề kéo theo P → Q nhận giá trị SAI (False) khi và chỉ khi:',
+    q: '[Toán rời rạc] Mệnh đề kéo theo P → Q nhận giá trị SAI (False) khi và chỉ khi:',
     o: [
       'P Đúng (True) và Q Sai (False)',
       'P Sai (False) và Q Đúng (True)',
@@ -2742,7 +2742,7 @@ const DEFAULT_MCQ = [
     subject: 'Toán rời rạc',
     topic: 'Đồ thị Euler',
     level: 'Trung bình',
-    q: '[Toán rời rạc - HPU2] Một đồ thị vô hướng liên thông G có chu trình Euler khi và chỉ khi:',
+    q: '[Toán rời rạc] Một đồ thị vô hướng liên thông G có chu trình Euler khi và chỉ khi:',
     o: [
       'Đồ thị có đúng 2 đỉnh bậc lẻ',
       'Mọi đỉnh của đồ thị đều có bậc chẵn',
@@ -2757,7 +2757,7 @@ const DEFAULT_MCQ = [
     subject: 'Toán rời rạc',
     topic: 'Cây & Cây khung (MST)',
     level: 'Trung bình',
-    q: '[Toán rời rạc - HPU2] Một cây T có n đỉnh thì số cạnh của cây T luôn bằng:',
+    q: '[Toán rời rạc] Một cây T có n đỉnh thì số cạnh của cây T luôn bằng:',
     o: [
       'n',
       'n - 1',
@@ -2772,7 +2772,7 @@ const DEFAULT_MCQ = [
     subject: 'Toán rời rạc',
     topic: 'Thuật toán Kruskal & Prim',
     level: 'Khó',
-    q: '[Toán rời rạc - HPU2] Thuật toán Kruskal tìm cây khung nhỏ nhất (MST) trên đồ thị có trọng số hoạt động theo chiến lược nào?',
+    q: '[Toán rời rạc] Thuật toán Kruskal tìm cây khung nhỏ nhất (MST) trên đồ thị có trọng số hoạt động theo chiến lược nào?',
     o: [
       'Sắp xếp các cạnh tăng dần theo trọng số, lần lượt nạp cạnh không tạo chu trình',
       'Duyệt theo chiều rộng BFS từ một đỉnh nguồn',
@@ -2787,7 +2787,7 @@ const DEFAULT_MCQ = [
     subject: 'Toán rời rạc',
     topic: 'Đồ thị phẳng & Công thức Euler',
     level: 'Khó',
-    q: '[Toán rời rạc - HPU2] Cho G là một đồ thị phẳng liên thông với V đỉnh, E cạnh và F miền mặt. Công thức Euler biểu diễn mối quan hệ giữa chúng là:',
+    q: '[Toán rời rạc] Cho G là một đồ thị phẳng liên thông với V đỉnh, E cạnh và F miền mặt. Công thức Euler biểu diễn mối quan hệ giữa chúng là:',
     o: [
       'V - E + F = 1',
       'V - E + F = 2',
@@ -2802,7 +2802,7 @@ const DEFAULT_MCQ = [
     subject: 'Toán rời rạc',
     topic: 'Hệ thức truy hồi',
     level: 'Vận dụng cao',
-    q: '[Toán rời rạc - HPU2] Dãy số Fibonacci xác định bởi F₀ = 0, F₁ = 1 và Fₙ = Fₙ₋₁ + Fₙ₋₂ có phương trình đặc trưng là:',
+    q: '[Toán rời rạc] Dãy số Fibonacci xác định bởi F₀ = 0, F₁ = 1 và Fₙ = Fₙ₋₁ + Fₙ₋₂ có phương trình đặc trưng là:',
     o: [
       'r² - r - 1 = 0',
       'r² + r - 1 = 0',
@@ -2815,7 +2815,7 @@ const DEFAULT_MCQ = [
 ];
 
 const DEFAULT_ESSAY = [
-  /* ==================== 1. ĐẠI SỐ TUYẾN TÍNH (HPU2) ==================== */
+  /* ==================== 1. ĐẠI SỐ TUYẾN TÍNH ==================== */
   {
     id: 'es_dstt_1',
     subj: 'Đại số tuyến tính',
@@ -2823,7 +2823,7 @@ const DEFAULT_ESSAY = [
     difficulty: 'Vận dụng',
     q: 'Cho ma trận vuông cấp 3: $A = \\begin{pmatrix} 1 & 2 & 1 \\\\ 2 & 5 & 4 \\\\ 1 & 1 & 0 \\end{pmatrix}$ và ma trận $B = \\begin{pmatrix} 2 & 1 \\\\ 1 & 3 \\\\ 0 & 2 \\end{pmatrix}$.\\n\\na) Tính định thức $\\det(A)$ và chứng minh $A$ khả nghịch.\\nb) Tìm ma trận nghịch đảo $A^{-1}$ bằng phương pháp biến đổi sơ cấp dòng Gauss - Jordan trên ma trận khối $(A \\mid I_3)$.\\nc) Giải phương trình ma trận $AX = B$.',
     hint: 'Bước 1: Khai triển định thức theo dòng 3 để tính $\\det(A)$.\\nBước 2: Lập ma trận khối $(A \\mid I_3)$ và biến đổi các dòng để đưa vế trái về ma trận đơn vị $I_3$, khi đó vế phải sẽ là $A^{-1}$.\\nBước 3: Vì $A$ khả nghịch, nghiệm của phương trình ma trận là $X = A^{-1}B$.',
-    h: 'Hướng dẫn giải chi tiết Sư phạm Toán HPU2:\\na) Tính $\\det(A)$ theo dòng 3:\\n$$\\det(A) = 1 \\cdot (8 - 5) - 1 \\cdot (4 - 2) + 0 = 3 - 2 = 1 \\neq 0$$\\nVì $\\det(A) = 1 \\neq 0$ nên ma trận $A$ khả nghịch (tồn tại $A^{-1}$).\\n\\nb) Tìm $A^{-1}$ bằng biến đổi sơ cấp dòng Gauss - Jordan:\\nLập ma trận khối $(A \\mid I_3) = \\begin{pmatrix} 1 & 2 & 1 & \\mid & 1 & 0 & 0 \\\\ 2 & 5 & 4 & \\mid & 0 & 1 & 0 \\\\ 1 & 1 & 0 & \\mid & 0 & 0 & 1 \\end{pmatrix}$\\n- Biến đổi $d_2 \\leftarrow d_2 - 2d_1$ và $d_3 \\leftarrow d_3 - d_1$:\\n$$\\begin{pmatrix} 1 & 2 & 1 & \\mid & 1 & 0 & 0 \\\\ 0 & 1 & 2 & \\mid & -2 & 1 & 0 \\\\ 0 & -1 & -1 & \\mid & -1 & 0 & 1 \\end{pmatrix}$$\\n- Biến đổi $d_3 \\leftarrow d_3 + d_2$:\\n$$\\begin{pmatrix} 1 & 2 & 1 & \\mid & 1 & 0 & 0 \\\\ 0 & 1 & 2 & \\mid & -2 & 1 & 0 \\\\ 0 & 0 & 1 & \\mid & -3 & 1 & 1 \\end{pmatrix}$$\\n- Khử ngược: $d_2 \\leftarrow d_2 - 2d_3$ và $d_1 \\leftarrow d_1 - d_3$:\\n$$\\begin{pmatrix} 1 & 2 & 0 & \\mid & 4 & -1 & -1 \\\\ 0 & 1 & 0 & \\mid & 4 & -1 & -2 \\\\ 0 & 0 & 1 & \\mid & -3 & 1 & 1 \\end{pmatrix}$$\\n- Biến đổi $d_1 \\leftarrow d_1 - 2d_2$:\\n$$\\begin{pmatrix} 1 & 0 & 0 & \\mid & -4 & 1 & 3 \\\\ 0 & 1 & 0 & \\mid & 4 & -1 & -2 \\\\ 0 & 0 & 1 & \\mid & -3 & 1 & 1 \\end{pmatrix}$$\\nVậy ma trận nghịch đảo là: $A^{-1} = \\begin{pmatrix} -4 & 1 & 3 \\\\ 4 & -1 & -2 \\\\ -3 & 1 & 1 \\end{pmatrix}$.\\n\\nc) Nghiệm của phương trình ma trận $AX = B$ là $X = A^{-1} B$:\\n$$X = \\begin{pmatrix} -4 & 1 & 3 \\\\ 4 & -1 & -2 \\\\ -3 & 1 & 1 \\end{pmatrix} \\begin{pmatrix} 2 & 1 \\\\ 1 & 3 \\\\ 0 & 2 \\end{pmatrix} = \\begin{pmatrix} -7 & 5 \\\\ 7 & -3 \\\\ -5 & 2 \\end{pmatrix}$$'
+    h: 'Hướng dẫn giải chi tiết Sư phạm Toán:\\na) Tính $\\det(A)$ theo dòng 3:\\n$$\\det(A) = 1 \\cdot (8 - 5) - 1 \\cdot (4 - 2) + 0 = 3 - 2 = 1 \\neq 0$$\\nVì $\\det(A) = 1 \\neq 0$ nên ma trận $A$ khả nghịch (tồn tại $A^{-1}$).\\n\\nb) Tìm $A^{-1}$ bằng biến đổi sơ cấp dòng Gauss - Jordan:\\nLập ma trận khối $(A \\mid I_3) = \\begin{pmatrix} 1 & 2 & 1 & \\mid & 1 & 0 & 0 \\\\ 2 & 5 & 4 & \\mid & 0 & 1 & 0 \\\\ 1 & 1 & 0 & \\mid & 0 & 0 & 1 \\end{pmatrix}$\\n- Biến đổi $d_2 \\leftarrow d_2 - 2d_1$ và $d_3 \\leftarrow d_3 - d_1$:\\n$$\\begin{pmatrix} 1 & 2 & 1 & \\mid & 1 & 0 & 0 \\\\ 0 & 1 & 2 & \\mid & -2 & 1 & 0 \\\\ 0 & -1 & -1 & \\mid & -1 & 0 & 1 \\end{pmatrix}$$\\n- Biến đổi $d_3 \\leftarrow d_3 + d_2$:\\n$$\\begin{pmatrix} 1 & 2 & 1 & \\mid & 1 & 0 & 0 \\\\ 0 & 1 & 2 & \\mid & -2 & 1 & 0 \\\\ 0 & 0 & 1 & \\mid & -3 & 1 & 1 \\end{pmatrix}$$\\n- Khử ngược: $d_2 \\leftarrow d_2 - 2d_3$ và $d_1 \\leftarrow d_1 - d_3$:\\n$$\\begin{pmatrix} 1 & 2 & 0 & \\mid & 4 & -1 & -1 \\\\ 0 & 1 & 0 & \\mid & 4 & -1 & -2 \\\\ 0 & 0 & 1 & \\mid & -3 & 1 & 1 \\end{pmatrix}$$\\n- Biến đổi $d_1 \\leftarrow d_1 - 2d_2$:\\n$$\\begin{pmatrix} 1 & 0 & 0 & \\mid & -4 & 1 & 3 \\\\ 0 & 1 & 0 & \\mid & 4 & -1 & -2 \\\\ 0 & 0 & 1 & \\mid & -3 & 1 & 1 \\end{pmatrix}$$\\nVậy ma trận nghịch đảo là: $A^{-1} = \\begin{pmatrix} -4 & 1 & 3 \\\\ 4 & -1 & -2 \\\\ -3 & 1 & 1 \\end{pmatrix}$.\\n\\nc) Nghiệm của phương trình ma trận $AX = B$ là $X = A^{-1} B$:\\n$$X = \\begin{pmatrix} -4 & 1 & 3 \\\\ 4 & -1 & -2 \\\\ -3 & 1 & 1 \\end{pmatrix} \\begin{pmatrix} 2 & 1 \\\\ 1 & 3 \\\\ 0 & 2 \\end{pmatrix} = \\begin{pmatrix} -7 & 5 \\\\ 7 & -3 \\\\ -5 & 2 \\end{pmatrix}$$'
   },
   {
     id: 'es_dstt_2',
@@ -2832,7 +2832,7 @@ const DEFAULT_ESSAY = [
     difficulty: 'Vận dụng cao',
     q: 'Cho hệ phương trình tuyến tính 4 ẩn phụ thuộc tham số thực $m$:\\n$$\\begin{cases} x_1 + 2x_2 - x_3 + 2x_4 = 1 \\\\ 2x_1 + 5x_2 + x_3 + 3x_4 = 4 \\\\ x_1 + 3x_2 + 2x_3 + (m+1)x_4 = 3 \\\\ 3x_1 + 7x_2 + 5x_4 = m + 4 \\end{cases}$$\\nÁp dụng định lý Kronecker - Capelli:\\na) Biện luận theo $m$ số nghiệm của hệ phương trình.\\nb) Khi hệ phương trình có vô số nghiệm, hãy xác định số ẩn tự do và viết tập nghiệm tổng quát.',
     hint: 'Bước 1: Lập ma trận hệ số mở rộng $\\bar{A} = (A \\mid b)$.\\nBước 2: Sử dụng các phép biến đổi sơ cấp dòng đưa $\\bar{A}$ về dạng ma trận bậc thang.\\nBước 3: So sánh $\\text{rank}(A)$ và $\\text{rank}(\\bar{A})$ để biện luận: vô nghiệm ($r(A) < r(\\bar{A})$), vô số nghiệm ($r(A) = r(\\bar{A}) < n$).\\nBước 4: Chọn ẩn tự do và biểu diễn các ẩn chính theo ẩn tự do.',
-    h: 'Hướng dẫn giải chi tiết Sư phạm Toán HPU2:\\nLập ma trận hệ số mở rộng $\\bar{A} = \\begin{pmatrix} 1 & 2 & -1 & 2 & \\mid & 1 \\\\ 2 & 5 & 1 & 3 & \\mid & 4 \\\\ 1 & 3 & 2 & m+1 & \\mid & 3 \\\\ 3 & 7 & 0 & 5 & \\mid & m+4 \\end{pmatrix}$\\nBiến đổi dòng:\\n- $d_2 \\leftarrow d_2 - 2d_1, d_3 \\leftarrow d_3 - d_1, d_4 \\leftarrow d_4 - 3d_1$:\\n$$\\begin{pmatrix} 1 & 2 & -1 & 2 & \\mid & 1 \\\\ 0 & 1 & 3 & -1 & \\mid & 2 \\\\ 0 & 1 & 3 & m-1 & \\mid & 2 \\\\ 0 & 1 & 3 & -1 & \\mid & m+1 \\end{pmatrix}$$\\n- $d_3 \\leftarrow d_3 - d_2, d_4 \\leftarrow d_4 - d_2$:\\n$$\\begin{pmatrix} 1 & 2 & -1 & 2 & \\mid & 1 \\\\ 0 & 1 & 3 & -1 & \\mid & 2 \\\\ 0 & 0 & 0 & m & \\mid & 0 \\\\ 0 & 0 & 0 & 0 & \\mid & m-1 \\end{pmatrix}$$\\n\\nBiện luận theo định lý Kronecker - Capelli:\\n- Trường hợp 1: Nếu $m \\neq 1$, dòng 4 có dạng $(0, 0, 0, 0 \\mid m - 1 \\neq 0) \\implies \\text{rank}(A) \\le 3 < \\text{rank}(\\bar{A}) = 4$. Hệ vô nghiệm.\\n- Trường hợp 2: Nếu $m = 1$, dòng 4 triệt tiêu hoàn toàn thành $(0, 0, 0, 0 \\mid 0)$, dòng 3 có dạng $(0, 0, 0, 1 \\mid 0)$. Khi đó $\\text{rank}(A) = \\text{rank}(\\bar{A}) = 3 < n = 4$. Hệ có vô số nghiệm phụ thuộc $4 - 3 = 1$ ẩn tự do.\\n\\nb) Tìm nghiệm tổng quát khi $m = 1$:\\nTừ dòng 3: $x_4 = 0$.\\nChọn $x_3 = t \\in \\mathbb{R}$ làm ẩn tự do.\\nTừ dòng 2: $x_2 + 3t - 0 = 2 \\implies x_2 = 2 - 3t$.\\nTừ dòng 1: $x_1 + 2(2 - 3t) - t + 2(0) = 1 \\implies x_1 = -3 + 7t$.\\nTập nghiệm tổng quát là:\\n$$\\begin{pmatrix} x_1 \\\\ x_2 \\\\ x_3 \\\\ x_4 \\end{pmatrix} = \\begin{pmatrix} -3 \\\\ 2 \\\\ 0 \\\\ 0 \\end{pmatrix} + t \\begin{pmatrix} 7 \\\\ -3 \\\\ 1 \\\\ 0 \\end{pmatrix}, \\quad \\forall t \\in \\mathbb{R}$$'
+    h: 'Hướng dẫn giải chi tiết Sư phạm Toán:\\nLập ma trận hệ số mở rộng $\\bar{A} = \\begin{pmatrix} 1 & 2 & -1 & 2 & \\mid & 1 \\\\ 2 & 5 & 1 & 3 & \\mid & 4 \\\\ 1 & 3 & 2 & m+1 & \\mid & 3 \\\\ 3 & 7 & 0 & 5 & \\mid & m+4 \\end{pmatrix}$\\nBiến đổi dòng:\\n- $d_2 \\leftarrow d_2 - 2d_1, d_3 \\leftarrow d_3 - d_1, d_4 \\leftarrow d_4 - 3d_1$:\\n$$\\begin{pmatrix} 1 & 2 & -1 & 2 & \\mid & 1 \\\\ 0 & 1 & 3 & -1 & \\mid & 2 \\\\ 0 & 1 & 3 & m-1 & \\mid & 2 \\\\ 0 & 1 & 3 & -1 & \\mid & m+1 \\end{pmatrix}$$\\n- $d_3 \\leftarrow d_3 - d_2, d_4 \\leftarrow d_4 - d_2$:\\n$$\\begin{pmatrix} 1 & 2 & -1 & 2 & \\mid & 1 \\\\ 0 & 1 & 3 & -1 & \\mid & 2 \\\\ 0 & 0 & 0 & m & \\mid & 0 \\\\ 0 & 0 & 0 & 0 & \\mid & m-1 \\end{pmatrix}$$\\n\\nBiện luận theo định lý Kronecker - Capelli:\\n- Trường hợp 1: Nếu $m \\neq 1$, dòng 4 có dạng $(0, 0, 0, 0 \\mid m - 1 \\neq 0) \\implies \\text{rank}(A) \\le 3 < \\text{rank}(\\bar{A}) = 4$. Hệ vô nghiệm.\\n- Trường hợp 2: Nếu $m = 1$, dòng 4 triệt tiêu hoàn toàn thành $(0, 0, 0, 0 \\mid 0)$, dòng 3 có dạng $(0, 0, 0, 1 \\mid 0)$. Khi đó $\\text{rank}(A) = \\text{rank}(\\bar{A}) = 3 < n = 4$. Hệ có vô số nghiệm phụ thuộc $4 - 3 = 1$ ẩn tự do.\\n\\nb) Tìm nghiệm tổng quát khi $m = 1$:\\nTừ dòng 3: $x_4 = 0$.\\nChọn $x_3 = t \\in \\mathbb{R}$ làm ẩn tự do.\\nTừ dòng 2: $x_2 + 3t - 0 = 2 \\implies x_2 = 2 - 3t$.\\nTừ dòng 1: $x_1 + 2(2 - 3t) - t + 2(0) = 1 \\implies x_1 = -3 + 7t$.\\nTập nghiệm tổng quát là:\\n$$\\begin{pmatrix} x_1 \\\\ x_2 \\\\ x_3 \\\\ x_4 \\end{pmatrix} = \\begin{pmatrix} -3 \\\\ 2 \\\\ 0 \\\\ 0 \\end{pmatrix} + t \\begin{pmatrix} 7 \\\\ -3 \\\\ 1 \\\\ 0 \\end{pmatrix}, \\quad \\forall t \\in \\mathbb{R}$$'
   },
   {
     id: 'es_dstt_3',
@@ -2841,7 +2841,7 @@ const DEFAULT_ESSAY = [
     difficulty: 'Thông hiểu',
     q: 'Trong không gian vector $\\mathbb{R}^4$, cho tập hợp các vector:\\n$$v_1 = (1, 2, -1, 1), \\; v_2 = (2, 5, 0, 3), \\; v_3 = (1, 1, -3, 0), \\; v_4 = (3, 7, -1, 4)$$\\nvà đặt $W = \\text{span}\\{v_1, v_2, v_3, v_4\\}$.\\na) Tìm số chiều $\\dim(W)$ và chỉ ra một cơ sở của không gian con $W$.\\nb) Cho vector $u = (1, 4, 4, 3)$. Hãy kiểm tra xem $u$ có thuộc $W$ hay không? Nếu thuộc, hãy tìm tọa độ của $u$ đối với cơ sở đã tìm được ở câu a.',
     hint: 'Bước 1: Xếp các vector $v_1, v_2, v_3, v_4$ thành các hàng của ma trận $A$.\\nBước 2: Dùng biến đổi sơ cấp dòng đưa về ma trận bậc thang. Các hàng khác không là cơ sở của $W$ và số hàng khác không chính là $\\dim(W)$.\\nBước 3: Lập hệ phương trình biểu diễn tuyến tính $u = x v_1 + y v_2$.',
-    h: 'Hướng dẫn giải chi tiết Sư phạm Toán HPU2:\\na) Xếp các vector $v_1, v_2, v_3, v_4$ thành các dòng của ma trận $A$:\\n$$A = \\begin{pmatrix} 1 & 2 & -1 & 1 \\\\ 2 & 5 & 0 & 3 \\\\ 1 & 1 & -3 & 0 \\\\ 3 & 7 & -1 & 4 \\end{pmatrix}$$\\nBiến đổi dòng:\\n- $d_2 \\leftarrow d_2 - 2d_1, d_3 \\leftarrow d_3 - d_1, d_4 \\leftarrow d_4 - 3d_1$:\\n$$\\begin{pmatrix} 1 & 2 & -1 & 1 \\\\ 0 & 1 & 2 & 1 \\\\ 0 & -1 & -2 & -1 \\\\ 0 & 1 & 2 & 1 \\end{pmatrix}$$\\n- $d_3 \\leftarrow d_3 + d_2, d_4 \\leftarrow d_4 - d_2$:\\n$$\\begin{pmatrix} 1 & 2 & -1 & 1 \\\\ 0 & 1 & 2 & 1 \\\\ 0 & 0 & 0 & 0 \\\\ 0 & 0 & 0 & 0 \\end{pmatrix}$$\\nMa trận có 2 hàng khác 0 $\\implies \\text{rank}(A) = 2$. Do đó số chiều $\\dim(W) = 2$, và một cơ sở của $W$ là $\\mathcal{B} = \\{v_1, v_2\\}$ (hoặc hai hàng bậc thang $e_1 = (1, 2, -1, 1), e_2 = (0, 1, 2, 1)$).\\n\\nb) Xét xem $u = (1, 4, 4, 3) \\in W$:\\nĐặt $u = x v_1 + y v_2 \\implies x(1, 2, -1, 1) + y(2, 5, 0, 3) = (1, 4, 4, 3)$.\\nTa có hệ phương trình: $\\begin{cases} x + 2y = 1 \\\\ 2x + 5y = 4 \\\\ -x = 4 \\\\ x + 3y = 3 \\end{cases}$.\\nTừ phương trình ba: $x = -4$. Thay vào phương trình một: $-4 + 2y = 1 \\implies y = 2.5$.\\nKiểm tra phương trình hai: $2(-4) + 5(2.5) = 4.5 \\neq 4$ (mâu thuẫn!).\\nKết luận: Vector $u$ không thuộc không gian con $W$.'
+    h: 'Hướng dẫn giải chi tiết Sư phạm Toán:\\na) Xếp các vector $v_1, v_2, v_3, v_4$ thành các dòng của ma trận $A$:\\n$$A = \\begin{pmatrix} 1 & 2 & -1 & 1 \\\\ 2 & 5 & 0 & 3 \\\\ 1 & 1 & -3 & 0 \\\\ 3 & 7 & -1 & 4 \\end{pmatrix}$$\\nBiến đổi dòng:\\n- $d_2 \\leftarrow d_2 - 2d_1, d_3 \\leftarrow d_3 - d_1, d_4 \\leftarrow d_4 - 3d_1$:\\n$$\\begin{pmatrix} 1 & 2 & -1 & 1 \\\\ 0 & 1 & 2 & 1 \\\\ 0 & -1 & -2 & -1 \\\\ 0 & 1 & 2 & 1 \\end{pmatrix}$$\\n- $d_3 \\leftarrow d_3 + d_2, d_4 \\leftarrow d_4 - d_2$:\\n$$\\begin{pmatrix} 1 & 2 & -1 & 1 \\\\ 0 & 1 & 2 & 1 \\\\ 0 & 0 & 0 & 0 \\\\ 0 & 0 & 0 & 0 \\end{pmatrix}$$\\nMa trận có 2 hàng khác 0 $\\implies \\text{rank}(A) = 2$. Do đó số chiều $\\dim(W) = 2$, và một cơ sở của $W$ là $\\mathcal{B} = \\{v_1, v_2\\}$ (hoặc hai hàng bậc thang $e_1 = (1, 2, -1, 1), e_2 = (0, 1, 2, 1)$).\\n\\nb) Xét xem $u = (1, 4, 4, 3) \\in W$:\\nĐặt $u = x v_1 + y v_2 \\implies x(1, 2, -1, 1) + y(2, 5, 0, 3) = (1, 4, 4, 3)$.\\nTa có hệ phương trình: $\\begin{cases} x + 2y = 1 \\\\ 2x + 5y = 4 \\\\ -x = 4 \\\\ x + 3y = 3 \\end{cases}$.\\nTừ phương trình ba: $x = -4$. Thay vào phương trình một: $-4 + 2y = 1 \\implies y = 2.5$.\\nKiểm tra phương trình hai: $2(-4) + 5(2.5) = 4.5 \\neq 4$ (mâu thuẫn!).\\nKết luận: Vector $u$ không thuộc không gian con $W$.'
   },
   {
     id: 'es_dstt_4',
@@ -2850,10 +2850,10 @@ const DEFAULT_ESSAY = [
     difficulty: 'Vận dụng cao',
     q: 'Cho ma trận vuông cấp 3:\\n$$A = \\begin{pmatrix} 3 & 0 & 0 \\\\ 0 & 2 & 1 \\\\ 0 & 1 & 2 \\end{pmatrix}$$\\na) Tìm đa thức đặc trưng và tất cả các giá trị riêng của ma trận $A$.\\nb) Tìm các không gian con riêng tương ứng và chứng minh ma trận $A$ chéo hóa được.\\nc) Tìm ma trận khả nghịch $P$ và ma trận đường chéo $D$ sao cho $P^{-1}AP = D$. Từ đó tính $A^{2026}$.',
     hint: 'Bước 1: Tính định thức $\\det(A - \\lambda I_3) = 0$ để tìm các giá trị riêng $\\lambda$.\\nBước 2: Với mỗi $\\lambda$, giải hệ thuần nhất $(A - \\lambda I_3)v = 0$ để tìm vector riêng.\\nBước 3: Lập ma trận $P$ có các cột là các vector riêng độc lập tuyến tính, khi đó $D = \\text{diag}(\\lambda_1, \\lambda_2, \\lambda_3)$. Tính $A^n = P D^n P^{-1}$.',
-    h: 'Hướng dẫn giải chi tiết Sư phạm Toán HPU2:\\na) Đa thức đặc trưng: $P(\\lambda) = \\det(A - \\lambda I_3) = (3 - \\lambda)[(2 - \\lambda)^2 - 1] = -(\\lambda - 3)^2 (\\lambda - 1)$.\\nPhương trình có hai giá trị riêng: $\\lambda_1 = 1$ (bội 1) và $\\lambda_2 = 3$ (bội 2).\\n\\nb) Tìm các vector riêng:\\n- Với $\\lambda = 1$: Giải $(A - I_3)v = 0 \\implies x = 0, y + z = 0 \\implies v_1 = (0, 1, -1)^T$.\\n- Với $\\lambda = 3$: Giải $(A - 3I_3)v = 0 \\implies -y + z = 0 \\implies y = z$ ($x$ tự do). Ta có 2 vector riêng độc lập: $v_2 = (1, 0, 0)^T$ và $v_3 = (0, 1, 1)^T$.\\nSố chiều không gian con riêng ứng với $\\lambda = 3$ bằng 2 (bằng bội đại số). Vậy $A$ chéo hóa được.\\n\\nc) Ma trận làm chéo $P$ và ma trận đường chéo $D$:\\n$$P = \\begin{pmatrix} 0 & 1 & 0 \\\\ 1 & 0 & 1 \\\\ -1 & 0 & 1 \\end{pmatrix}, \\quad D = \\begin{pmatrix} 1 & 0 & 0 \\\\ 0 & 3 & 0 \\\\ 0 & 0 & 3 \\end{pmatrix}$$\\nMa trận nghịch đảo: $P^{-1} = \\begin{pmatrix} 0 & 1/2 & -1/2 \\\\ 1 & 0 & 0 \\\\ 0 & 1/2 & 1/2 \\end{pmatrix}$.\\nKhi đó $A^{2026} = P D^{2026} P^{-1}$:\\n$$A^{2026} = \\begin{pmatrix} 3^{2026} & 0 & 0 \\\\ 0 & \\frac{3^{2026} + 1}{2} & \\frac{3^{2026} - 1}{2} \\\\ 0 & \\frac{3^{2026} - 1}{2} & \\frac{3^{2026} + 1}{2} \\end{pmatrix}$$'
+    h: 'Hướng dẫn giải chi tiết Sư phạm Toán:\\na) Đa thức đặc trưng: $P(\\lambda) = \\det(A - \\lambda I_3) = (3 - \\lambda)[(2 - \\lambda)^2 - 1] = -(\\lambda - 3)^2 (\\lambda - 1)$.\\nPhương trình có hai giá trị riêng: $\\lambda_1 = 1$ (bội 1) và $\\lambda_2 = 3$ (bội 2).\\n\\nb) Tìm các vector riêng:\\n- Với $\\lambda = 1$: Giải $(A - I_3)v = 0 \\implies x = 0, y + z = 0 \\implies v_1 = (0, 1, -1)^T$.\\n- Với $\\lambda = 3$: Giải $(A - 3I_3)v = 0 \\implies -y + z = 0 \\implies y = z$ ($x$ tự do). Ta có 2 vector riêng độc lập: $v_2 = (1, 0, 0)^T$ và $v_3 = (0, 1, 1)^T$.\\nSố chiều không gian con riêng ứng với $\\lambda = 3$ bằng 2 (bằng bội đại số). Vậy $A$ chéo hóa được.\\n\\nc) Ma trận làm chéo $P$ và ma trận đường chéo $D$:\\n$$P = \\begin{pmatrix} 0 & 1 & 0 \\\\ 1 & 0 & 1 \\\\ -1 & 0 & 1 \\end{pmatrix}, \\quad D = \\begin{pmatrix} 1 & 0 & 0 \\\\ 0 & 3 & 0 \\\\ 0 & 0 & 3 \\end{pmatrix}$$\\nMa trận nghịch đảo: $P^{-1} = \\begin{pmatrix} 0 & 1/2 & -1/2 \\\\ 1 & 0 & 0 \\\\ 0 & 1/2 & 1/2 \\end{pmatrix}$.\\nKhi đó $A^{2026} = P D^{2026} P^{-1}$:\\n$$A^{2026} = \\begin{pmatrix} 3^{2026} & 0 & 0 \\\\ 0 & \\frac{3^{2026} + 1}{2} & \\frac{3^{2026} - 1}{2} \\\\ 0 & \\frac{3^{2026} - 1}{2} & \\frac{3^{2026} + 1}{2} \\end{pmatrix}$$'
   },
 
-  /* ==================== 2. GIẢI TÍCH 1 (HPU2) ==================== */
+  /* ==================== 2. GIẢI TÍCH 1 ==================== */
   {
     id: 'es_gt1_1',
     subj: 'Giải tích 1',
@@ -2861,7 +2861,7 @@ const DEFAULT_ESSAY = [
     difficulty: 'Vận dụng',
     q: 'a) Phát biểu chính xác định lý giá trị trung bình Lagrange cho hàm số một biến số thực.\\nb) Áp dụng định lý Lagrange, chứng minh bất đẳng thức kép sau với mọi số thực $x > 0$:\\n$$\\frac{x}{1+x} < \\ln(1+x) < x$$\\nc) Phân tích phản ví dụ kinh điển: Xét hàm $f(x) = |x|$ trên $[-1, 1]$. Kiểm tra xem các điều kiện của định lý Lagrange có thỏa mãn không và giải thích vì sao kết luận của định lý không được áp dụng trên đoạn này.',
     hint: 'Bước 1: Nêu điều kiện liên tục trên đoạn $[a, b]$ và khả vi trên khoảng $(a, b)$.\\nBước 2: Xét hàm $f(t) = \\ln(1+t)$ trên đoạn $[0, x]$ với $x > 0$.\\nBước 3: Chỉ ra đạo hàm $f\'(t) = \\frac{1}{1+t}$ và áp dụng $\\frac{f(x) - f(0)}{x} = f\'(c)$ với $0 < c < x$.',
-    h: 'Hướng dẫn giải chi tiết Sư phạm Toán HPU2:\\na) Định lý Lagrange: Cho hàm số $f(x)$ liên tục trên $[a, b]$ và khả vi trên $(a, b)$. Khi đó tồn tại ít nhất một điểm $c \\in (a, b)$ sao cho:\\n$$\\frac{f(b) - f(a)}{b - a} = f\'(c) \\iff f(b) - f(a) = f\'(c)(b - a)$$\\n\\nb) Chứng minh bất đẳng thức kép với $x > 0$:\\nXét hàm số $f(t) = \\ln(1 + t)$ trên đoạn $[0, x]$.\\n- Hàm $f(t)$ liên tục trên $[0, x]$ và khả vi trên $(0, x)$ với $f\'(t) = \\frac{1}{1 + t}$.\\n- Theo định lý Lagrange, tồn tại $c \\in (0, x)$ sao cho: $\\frac{\\ln(1 + x) - 0}{x - 0} = \\frac{1}{1 + c}$.\\nVì $0 < c < x \\implies 1 < 1 + c < 1 + x \\implies \\frac{1}{1 + x} < \\frac{1}{1 + c} < 1$.\\nNhân cả ba vế với $x > 0$:\\n$$\\frac{x}{1 + x} < \\ln(1 + x) < x \\quad \\text{(ĐPCM)}$$\\n\\nc) Phân tích phản ví dụ hàm $f(x) = |x|$ trên $[-1, 1]$:\\nTa có $f(-1) = 1, f(1) = 1 \\implies \\frac{f(1) - f(-1)}{1 - (-1)} = 0$. Tuy nhiên, đạo hàm $f\'(x) = 1$ khi $x > 0$ và $f\'(x) = -1$ khi $x < 0$, tại $x = 0$ hàm không khả vi. Do đó không tồn tại điểm $c \\in (-1, 1)$ nào để $f\'(c) = 0$. Nguyên nhân: Hàm vi phạm giả thiết khả vi trên khoảng $(-1, 1)$ tại điểm $x = 0$.'
+    h: 'Hướng dẫn giải chi tiết Sư phạm Toán:\\na) Định lý Lagrange: Cho hàm số $f(x)$ liên tục trên $[a, b]$ và khả vi trên $(a, b)$. Khi đó tồn tại ít nhất một điểm $c \\in (a, b)$ sao cho:\\n$$\\frac{f(b) - f(a)}{b - a} = f\'(c) \\iff f(b) - f(a) = f\'(c)(b - a)$$\\n\\nb) Chứng minh bất đẳng thức kép với $x > 0$:\\nXét hàm số $f(t) = \\ln(1 + t)$ trên đoạn $[0, x]$.\\n- Hàm $f(t)$ liên tục trên $[0, x]$ và khả vi trên $(0, x)$ với $f\'(t) = \\frac{1}{1 + t}$.\\n- Theo định lý Lagrange, tồn tại $c \\in (0, x)$ sao cho: $\\frac{\\ln(1 + x) - 0}{x - 0} = \\frac{1}{1 + c}$.\\nVì $0 < c < x \\implies 1 < 1 + c < 1 + x \\implies \\frac{1}{1 + x} < \\frac{1}{1 + c} < 1$.\\nNhân cả ba vế với $x > 0$:\\n$$\\frac{x}{1 + x} < \\ln(1 + x) < x \\quad \\text{(ĐPCM)}$$\\n\\nc) Phân tích phản ví dụ hàm $f(x) = |x|$ trên $[-1, 1]$:\\nTa có $f(-1) = 1, f(1) = 1 \\implies \\frac{f(1) - f(-1)}{1 - (-1)} = 0$. Tuy nhiên, đạo hàm $f\'(x) = 1$ khi $x > 0$ và $f\'(x) = -1$ khi $x < 0$, tại $x = 0$ hàm không khả vi. Do đó không tồn tại điểm $c \\in (-1, 1)$ nào để $f\'(c) = 0$. Nguyên nhân: Hàm vi phạm giả thiết khả vi trên khoảng $(-1, 1)$ tại điểm $x = 0$.'
   },
   {
     id: 'es_gt1_2',
@@ -2870,7 +2870,7 @@ const DEFAULT_ESSAY = [
     difficulty: 'Vận dụng cao',
     q: 'a) Viết khai triển Maclaurin với phần dư Peano đến cấp 4 của các hàm số sau: $f(x) = \\ln(1+x)$ và $g(x) = \\cos x$.\\nb) Áp dụng khai triển Maclaurin, hãy tính giới hạn dạng vô định $\\frac{0}{0}$:\\n$$L = \\lim_{x \\to 0} \\frac{\\ln(1+x) - x + \\frac{x^2}{2}}{x \\cdot (1 - \\cos x)}$$\\nc) Nêu ưu điểm của phương pháp khai triển Maclaurin/Taylor so với quy tắc L\'Hôpital khi gặp bài toán khử dạng vô định bậc cao.',
     hint: 'Bước 1: Viết công thức Maclaurin: $\\ln(1+x) = x - \\frac{x^2}{2} + \\frac{x^3}{3} + o(x^3)$ và $\\cos x = 1 - \\frac{x^2}{2} + o(x^2)$.\\nBước 2: Thay vào tử số và mẫu số, rút gọn các bậc thấp triệt tiêu.\\nBước 3: Chia cả tử và mẫu cho $x^3$ và cho $x \\to 0$.',
-    h: 'Hướng dẫn giải chi tiết Sư phạm Toán HPU2:\\na) Khai triển Maclaurin với phần dư Peano:\\n$$\\ln(1+x) = x - \\frac{x^2}{2} + \\frac{x^3}{3} - \\frac{x^4}{4} + o(x^4)$$\\n$$\\cos x = 1 - \\frac{x^2}{2!} + \\frac{x^4}{4!} + o(x^4) = 1 - \\frac{x^2}{2} + \\frac{x^4}{24} + o(x^4)$$\\n\\nb) Tính giới hạn $L$:\\n- Tử số: $\\left( x - \\frac{x^2}{2} + \\frac{x^3}{3} + o(x^3) \\right) - x + \\frac{x^2}{2} = \\frac{x^3}{3} + o(x^3)$.\\n- Mẫu số: $x(1 - \\cos x) = x \\left( \\frac{x^2}{2} + o(x^2) \\right) = \\frac{x^3}{2} + o(x^3)$.\\nDo đó:\\n$$L = \\lim_{x \\to 0} \\frac{\\frac{x^3}{3} + o(x^3)}{\\frac{x^3}{2} + o(x^3)} = \\lim_{x \\to 0} \\frac{\\frac{1}{3} + o(1)}{\\frac{1}{2} + o(1)} = \\frac{1/3}{1/2} = \\frac{2}{3}$$\\n\\nc) Nhận xét sư phạm:\\nDùng L\'Hôpital phải lấy đạo hàm 3 lần liên tiếp rất cồng kềnh và dễ nhầm lẫn. Khai triển Maclaurin cho phép triệt tiêu trực tiếp các số hạng bậc thấp và cho ra kết quả chỉ trong 3 bước ngắn gọn.'
+    h: 'Hướng dẫn giải chi tiết Sư phạm Toán:\\na) Khai triển Maclaurin với phần dư Peano:\\n$$\\ln(1+x) = x - \\frac{x^2}{2} + \\frac{x^3}{3} - \\frac{x^4}{4} + o(x^4)$$\\n$$\\cos x = 1 - \\frac{x^2}{2!} + \\frac{x^4}{4!} + o(x^4) = 1 - \\frac{x^2}{2} + \\frac{x^4}{24} + o(x^4)$$\\n\\nb) Tính giới hạn $L$:\\n- Tử số: $\\left( x - \\frac{x^2}{2} + \\frac{x^3}{3} + o(x^3) \\right) - x + \\frac{x^2}{2} = \\frac{x^3}{3} + o(x^3)$.\\n- Mẫu số: $x(1 - \\cos x) = x \\left( \\frac{x^2}{2} + o(x^2) \\right) = \\frac{x^3}{2} + o(x^3)$.\\nDo đó:\\n$$L = \\lim_{x \\to 0} \\frac{\\frac{x^3}{3} + o(x^3)}{\\frac{x^3}{2} + o(x^3)} = \\lim_{x \\to 0} \\frac{\\frac{1}{3} + o(1)}{\\frac{1}{2} + o(1)} = \\frac{1/3}{1/2} = \\frac{2}{3}$$\\n\\nc) Nhận xét sư phạm:\\nDùng L\'Hôpital phải lấy đạo hàm 3 lần liên tiếp rất cồng kềnh và dễ nhầm lẫn. Khai triển Maclaurin cho phép triệt tiêu trực tiếp các số hạng bậc thấp và cho ra kết quả chỉ trong 3 bước ngắn gọn.'
   },
   {
     id: 'es_gt1_3',
@@ -2879,7 +2879,7 @@ const DEFAULT_ESSAY = [
     difficulty: 'Thông hiểu',
     q: 'Tính các tích phân sau:\\na) $I_1 = \\int_0^{\\pi/2} e^{2x} \\cos x \\, dx$ (Tích phân luân hồi từng phần).\\nb) $I_2 = \\int_0^1 \\frac{x^3}{\\sqrt{1 + x^2}} \\, dx$ bằng phương pháp đổi biến số đặt $t = \\sqrt{1 + x^2}$.',
     hint: 'Bước 1: Với câu a, áp dụng tích phân từng phần hai lần với $u = \\cos x$ (hoặc $e^{2x}$) để đưa về phương trình bậc nhất ẩn $I_1$.\\nBước 2: Với câu b, đặt $t = \\sqrt{1 + x^2} \\implies t^2 = 1 + x^2 \\implies t dt = x dx$, biến đổi $x^3 dx = (t^2 - 1) t dt$.',
-    h: 'Hướng dẫn giải chi tiết Sư phạm Toán HPU2:\\na) Tính $I_1 = \\int_0^{\\pi/2} e^{2x} \\cos x \\, dx$:\\n- Lần 1: Đặt $u = \\cos x \\implies du = -\\sin x dx$; $dv = e^{2x} dx \\implies v = \\frac{1}{2} e^{2x}$:\\n$$I_1 = \\left[ \\frac{1}{2} e^{2x} \\cos x \\right]_0^{\\pi/2} + \\frac{1}{2} \\int_0^{\\pi/2} e^{2x} \\sin x \\, dx = -\\frac{1}{2} + \\frac{1}{2} J$$\\n- Lần 2: Đặt $u = \\sin x \\implies du = \\cos x dx$; $dv = e^{2x} dx \\implies v = \\frac{1}{2} e^{2x}$:\\n$$J = \\left[ \\frac{1}{2} e^{2x} \\sin x \\right]_0^{\\pi/2} - \\frac{1}{2} I_1 = \\frac{1}{2} e^\\pi - \\frac{1}{2} I_1$$\\nThay vào biểu thức: $I_1 = -\\frac{1}{2} + \\frac{1}{4} e^\\pi - \\frac{1}{4} I_1 \\implies \\frac{5}{4} I_1 = \\frac{e^\\pi - 2}{4} \\implies I_1 = \\frac{e^\\pi - 2}{5}$.\\n\\nb) Tính $I_2 = \\int_0^1 \\frac{x^3}{\\sqrt{1 + x^2}} \\, dx$:\\nĐặt $t = \\sqrt{1 + x^2} \\implies t dt = x dx$ và $x^2 = t^2 - 1$. Khi $x = 0 \\implies t = 1$; $x = 1 \\implies t = \\sqrt{2}$.\\n$$I_2 = \\int_1^{\\sqrt{2}} \\frac{(t^2 - 1) \\cdot t dt}{t} = \\int_1^{\\sqrt{2}} (t^2 - 1) dt = \\left[ \\frac{t^3}{3} - t \\right]_1^{\\sqrt{2}} = \\frac{2 - \\sqrt{2}}{3}$$'
+    h: 'Hướng dẫn giải chi tiết Sư phạm Toán:\\na) Tính $I_1 = \\int_0^{\\pi/2} e^{2x} \\cos x \\, dx$:\\n- Lần 1: Đặt $u = \\cos x \\implies du = -\\sin x dx$; $dv = e^{2x} dx \\implies v = \\frac{1}{2} e^{2x}$:\\n$$I_1 = \\left[ \\frac{1}{2} e^{2x} \\cos x \\right]_0^{\\pi/2} + \\frac{1}{2} \\int_0^{\\pi/2} e^{2x} \\sin x \\, dx = -\\frac{1}{2} + \\frac{1}{2} J$$\\n- Lần 2: Đặt $u = \\sin x \\implies du = \\cos x dx$; $dv = e^{2x} dx \\implies v = \\frac{1}{2} e^{2x}$:\\n$$J = \\left[ \\frac{1}{2} e^{2x} \\sin x \\right]_0^{\\pi/2} - \\frac{1}{2} I_1 = \\frac{1}{2} e^\\pi - \\frac{1}{2} I_1$$\\nThay vào biểu thức: $I_1 = -\\frac{1}{2} + \\frac{1}{4} e^\\pi - \\frac{1}{4} I_1 \\implies \\frac{5}{4} I_1 = \\frac{e^\\pi - 2}{4} \\implies I_1 = \\frac{e^\\pi - 2}{5}$.\\n\\nb) Tính $I_2 = \\int_0^1 \\frac{x^3}{\\sqrt{1 + x^2}} \\, dx$:\\nĐặt $t = \\sqrt{1 + x^2} \\implies t dt = x dx$ và $x^2 = t^2 - 1$. Khi $x = 0 \\implies t = 1$; $x = 1 \\implies t = \\sqrt{2}$.\\n$$I_2 = \\int_1^{\\sqrt{2}} \\frac{(t^2 - 1) \\cdot t dt}{t} = \\int_1^{\\sqrt{2}} (t^2 - 1) dt = \\left[ \\frac{t^3}{3} - t \\right]_1^{\\sqrt{2}} = \\frac{2 - \\sqrt{2}}{3}$$'
   },
   {
     id: 'es_gt1_4',
@@ -2888,10 +2888,10 @@ const DEFAULT_ESSAY = [
     difficulty: 'Vận dụng',
     q: 'Khảo sát sự hội tụ và tính giá trị (nếu hội tụ) của các tích phân suy rộng sau:\\na) $I_1 = \\int_1^{+\\infty} \\frac{dx}{x(x^2 + 1)}$ (Tích phân suy rộng loại 1).\\nb) $I_2 = \\int_0^1 \\frac{\\ln x}{\\sqrt{x}} \\, dx$ (Tích phân suy rộng loại 2 có điểm bất thường tại $x = 0$).',
     hint: 'Bước 1: Phân tích phân thức $\\frac{1}{x(x^2+1)} = \\frac{1}{x} - \\frac{x}{x^2+1}$.\\nBước 2: Với câu b, lấy giới hạn $\\lim_{\\varepsilon \\to 0^+} \\int_\\varepsilon^1 \\frac{\\ln x}{\\sqrt{x}} dx$ và tích phân từng phần với $u = \\ln x, dv = x^{-1/2} dx$.',
-    h: 'Hướng dẫn giải chi tiết Sư phạm Toán HPU2:\\na) Tính $I_1 = \\int_1^{+\\infty} \\frac{dx}{x(x^2 + 1)}$:\\nPhân tích: $\\frac{1}{x(x^2 + 1)} = \\frac{1}{x} - \\frac{1}{2} \\frac{2x}{x^2 + 1} \\implies F(x) = \\ln\\left( \\frac{x}{\\sqrt{x^2 + 1}} \\right)$.\\nKhi $x \\to +\\infty$, $\\lim F(x) = 0$. Tại $x = 1$, $F(1) = \\ln(1/\\sqrt{2}) = -\\frac{1}{2} \\ln 2$.\\nVậy tích phân hội tụ và $I_1 = \\lim F(x) - F(1) = \\frac{1}{2} \\ln 2$.\\n\\nb) Tính $I_2 = \\int_0^1 \\frac{\\ln x}{\\sqrt{x}} \\, dx$:\\nĐiểm bất thường là $x = 0$. Xét trên $[\\varepsilon, 1]$ với $\\varepsilon > 0$:\\nĐặt $u = \\ln x, dv = x^{-1/2} dx \\implies v = 2\\sqrt{x}$:\\n$$\\int_\\varepsilon^1 \\frac{\\ln x}{\\sqrt{x}} dx = \\left[ 2\\sqrt{x} \\ln x \\right]_\\varepsilon^1 - 2 \\int_\\varepsilon^1 \\frac{\\sqrt{x}}{x} dx = -2\\sqrt{\\varepsilon} \\ln \\varepsilon - 4(1 - \\sqrt{\\varepsilon})$$\\nKhi $\\varepsilon \\to 0^+$, vì $\\lim_{\\varepsilon \\to 0^+} \\sqrt{\\varepsilon} \\ln \\varepsilon = 0$, ta có: $I_2 = -4$. Vậy tích phân hội tụ và bằng $-4$.'
+    h: 'Hướng dẫn giải chi tiết Sư phạm Toán:\\na) Tính $I_1 = \\int_1^{+\\infty} \\frac{dx}{x(x^2 + 1)}$:\\nPhân tích: $\\frac{1}{x(x^2 + 1)} = \\frac{1}{x} - \\frac{1}{2} \\frac{2x}{x^2 + 1} \\implies F(x) = \\ln\\left( \\frac{x}{\\sqrt{x^2 + 1}} \\right)$.\\nKhi $x \\to +\\infty$, $\\lim F(x) = 0$. Tại $x = 1$, $F(1) = \\ln(1/\\sqrt{2}) = -\\frac{1}{2} \\ln 2$.\\nVậy tích phân hội tụ và $I_1 = \\lim F(x) - F(1) = \\frac{1}{2} \\ln 2$.\\n\\nb) Tính $I_2 = \\int_0^1 \\frac{\\ln x}{\\sqrt{x}} \\, dx$:\\nĐiểm bất thường là $x = 0$. Xét trên $[\\varepsilon, 1]$ với $\\varepsilon > 0$:\\nĐặt $u = \\ln x, dv = x^{-1/2} dx \\implies v = 2\\sqrt{x}$:\\n$$\\int_\\varepsilon^1 \\frac{\\ln x}{\\sqrt{x}} dx = \\left[ 2\\sqrt{x} \\ln x \\right]_\\varepsilon^1 - 2 \\int_\\varepsilon^1 \\frac{\\sqrt{x}}{x} dx = -2\\sqrt{\\varepsilon} \\ln \\varepsilon - 4(1 - \\sqrt{\\varepsilon})$$\\nKhi $\\varepsilon \\to 0^+$, vì $\\lim_{\\varepsilon \\to 0^+} \\sqrt{\\varepsilon} \\ln \\varepsilon = 0$, ta có: $I_2 = -4$. Vậy tích phân hội tụ và bằng $-4$.'
   },
 
-  /* ==================== 3. GIẢI TÍCH 2 (HPU2) ==================== */
+  /* ==================== 3. GIẢI TÍCH 2 ==================== */
   {
     id: 'es_gt2_1',
     subj: 'Giải tích 2',
@@ -2899,7 +2899,7 @@ const DEFAULT_ESSAY = [
     difficulty: 'Vận dụng',
     q: 'Cho hàm số hai biến số thực: $f(x, y) = x^3 + y^3 - 3xy + 2$.\\na) Tìm tất cả các điểm dừng của hàm số $f(x, y)$.\\nb) Lập ma trận Hessian tại mỗi điểm dừng.\\nc) Phân loại các điểm dừng: kết luận điểm nào là cực đại địa phương, cực tiểu địa phương, hay điểm yên ngựa và tính giá trị cực trị tương ứng.',
     hint: 'Bước 1: Giải hệ đạo hàm riêng cấp 1: $f\'_x = 3x^2 - 3y = 0$ và $f\'_y = 3y^2 - 3x = 0$.\\nBước 2: Ma trận Hessian $H = \\begin{pmatrix} f\'\'_{xx} & f\'\'_{xy} \\\\ f\'\'_{yx} & f\'\'_{yy} \\end{pmatrix}$.\\nBước 3: Xét $\\Delta = \\det(H) = f\'\'_{xx} f\'\'_{yy} - (f\'\'_{xy})^2$. Nếu $\\Delta > 0$ và $f\'\'_{xx} > 0 \\implies$ Cực tiểu; nếu $\\Delta < 0 \\implies$ Điểm yên ngựa.',
-    h: 'Hướng dẫn giải chi tiết Sư phạm Toán HPU2:\\na) Tìm điểm dừng: Giải hệ: $\\begin{cases} f\'_x = 3x^2 - 3y = 0 \\\\ f\'_y = 3y^2 - 3x = 0 \\end{cases} \\iff \\begin{cases} y = x^2 \\\\ x(x - 1)(x^2 + x + 1) = 0 \\end{cases}$.\\nTa có 2 nghiệm thực: $M_1(0, 0)$ và $M_2(1, 1)$.\\n\\nb) Đạo hàm riêng cấp 2: $f\'\'_{xx} = 6x, f\'\'_{xy} = -3, f\'\'_{yy} = 6y$. Ma trận Hessian: $H(x, y) = \\begin{pmatrix} 6x & -3 \\\\ -3 & 6y \\end{pmatrix}$, định thức $\\Delta = 36xy - 9$.\\n\\nc) Phân loại cực trị:\\n- Tại điểm dừng $M_1(0, 0)$: $\\Delta(0, 0) = -9 < 0 \\implies M_1(0, 0)$ là điểm yên ngựa (saddle point).\\n- Tại điểm dừng $M_2(1, 1)$: $\\Delta(1, 1) = 36(1)(1) - 9 = 27 > 0$. Vì $\\Delta > 0$ và $f\'\'_{xx}(1, 1) = 6 > 0$, hàm số đạt cực tiểu địa phương tại $M_2(1, 1)$.\\nGiá trị cực tiểu: $f_{\\min} = f(1, 1) = 1^3 + 1^3 - 3(1)(1) + 2 = 1$.'
+    h: 'Hướng dẫn giải chi tiết Sư phạm Toán:\\na) Tìm điểm dừng: Giải hệ: $\\begin{cases} f\'_x = 3x^2 - 3y = 0 \\\\ f\'_y = 3y^2 - 3x = 0 \\end{cases} \\iff \\begin{cases} y = x^2 \\\\ x(x - 1)(x^2 + x + 1) = 0 \\end{cases}$.\\nTa có 2 nghiệm thực: $M_1(0, 0)$ và $M_2(1, 1)$.\\n\\nb) Đạo hàm riêng cấp 2: $f\'\'_{xx} = 6x, f\'\'_{xy} = -3, f\'\'_{yy} = 6y$. Ma trận Hessian: $H(x, y) = \\begin{pmatrix} 6x & -3 \\\\ -3 & 6y \\end{pmatrix}$, định thức $\\Delta = 36xy - 9$.\\n\\nc) Phân loại cực trị:\\n- Tại điểm dừng $M_1(0, 0)$: $\\Delta(0, 0) = -9 < 0 \\implies M_1(0, 0)$ là điểm yên ngựa (saddle point).\\n- Tại điểm dừng $M_2(1, 1)$: $\\Delta(1, 1) = 36(1)(1) - 9 = 27 > 0$. Vì $\\Delta > 0$ và $f\'\'_{xx}(1, 1) = 6 > 0$, hàm số đạt cực tiểu địa phương tại $M_2(1, 1)$.\\nGiá trị cực tiểu: $f_{\\min} = f(1, 1) = 1^3 + 1^3 - 3(1)(1) + 2 = 1$.'
   },
   {
     id: 'es_gt2_2',
@@ -2908,7 +2908,7 @@ const DEFAULT_ESSAY = [
     difficulty: 'Vận dụng',
     q: 'Tính tích phân kép:\\n$$I = \\iint_D (x^2 + y^2) \\, dxdy$$\ntrong đó miền $D$ là hình tròn giới hạn bởi đường cong $x^2 + y^2 \\le 2x$.\\na) Vẽ phác thảo miền $D$ và chuyển tích phân sang tọa độ cực $(r, \\varphi)$.\\nb) Xác định miền biến thiên của các biến $r$ và $\varphi$.\\nc) Tính toán chính xác giá trị của tích phân $I$.',
     hint: 'Bước 1: Viết lại phương trình đường tròn: $(x - 1)^2 + y^2 \\le 1$ (tâm $(1, 0)$, bán kính $R = 1$).\\nBước 2: Đổi sang tọa độ cực: $x = r \\cos\\varphi, y = r \\sin\\varphi$, $x^2 + y^2 = r^2$, định thức Jacobi $J = r$.\\nBước 3: Do đường tròn nằm bên phải trục tung nên $-\\pi/2 \\le \\varphi \\le \\pi/2$ và $0 \\le r \\le 2\\cos\\varphi$.',
-    h: 'Hướng dẫn giải chi tiết Sư phạm Toán HPU2:\\na) & b) Phân tích miền và đổi biến tọa độ cực:\\nPhương trình biên: $x^2 + y^2 = 2x \\iff (x - 1)^2 + y^2 = 1$. Đây là hình tròn tâm $I(1, 0)$, bán kính $R = 1$.\\nĐặt $x = r \\cos\\varphi, y = r \\sin\\varphi$. Vi phân diện tích là $dxdy = r \\, dr d\\varphi$.\\nPhương trình biên trong tọa độ cực: $r^2 = 2r \\cos\\varphi \\implies r = 2\\cos\\varphi$.\\nDo $r \\ge 0 \\implies \\cos\\varphi \\ge 0 \\implies -\\frac{\\pi}{2} \\le \\varphi \\le \\frac{\\pi}{2}$.\\nCận lấy tích phân là: $-\\frac{\\pi}{2} \\le \\varphi \\le \\frac{\\pi}{2}, \\quad 0 \\le r \\le 2\\cos\\varphi$.\\n\\nc) Tính giá trị tích phân $I$:\\n$$I = \\int_{-\\pi/2}^{\\pi/2} d\\varphi \\int_0^{2\\cos\\varphi} r^2 \\cdot r \\, dr = \\int_{-\\pi/2}^{\\pi/2} \\left[ \\frac{r^4}{4} \\right]_0^{2\\cos\\varphi} d\\varphi = 4 \\int_{-\\pi/2}^{\\pi/2} \\cos^4\\varphi \\, d\\varphi = 8 \\int_0^{\\pi/2} \\cos^4\\varphi \\, d\\varphi$$\\nÁp dụng tích phân Wallis: $\\int_0^{\\pi/2} \\cos^4\\varphi \\, d\\varphi = \\frac{3}{4} \\cdot \\frac{1}{2} \\cdot \\frac{\\pi}{2} = \\frac{3\\pi}{16}$.\\nVậy: $I = 8 \\cdot \\frac{3\\pi}{16} = \\frac{3\\pi}{2}$.'
+    h: 'Hướng dẫn giải chi tiết Sư phạm Toán:\\na) & b) Phân tích miền và đổi biến tọa độ cực:\\nPhương trình biên: $x^2 + y^2 = 2x \\iff (x - 1)^2 + y^2 = 1$. Đây là hình tròn tâm $I(1, 0)$, bán kính $R = 1$.\\nĐặt $x = r \\cos\\varphi, y = r \\sin\\varphi$. Vi phân diện tích là $dxdy = r \\, dr d\\varphi$.\\nPhương trình biên trong tọa độ cực: $r^2 = 2r \\cos\\varphi \\implies r = 2\\cos\\varphi$.\\nDo $r \\ge 0 \\implies \\cos\\varphi \\ge 0 \\implies -\\frac{\\pi}{2} \\le \\varphi \\le \\frac{\\pi}{2}$.\\nCận lấy tích phân là: $-\\frac{\\pi}{2} \\le \\varphi \\le \\frac{\\pi}{2}, \\quad 0 \\le r \\le 2\\cos\\varphi$.\\n\\nc) Tính giá trị tích phân $I$:\\n$$I = \\int_{-\\pi/2}^{\\pi/2} d\\varphi \\int_0^{2\\cos\\varphi} r^2 \\cdot r \\, dr = \\int_{-\\pi/2}^{\\pi/2} \\left[ \\frac{r^4}{4} \\right]_0^{2\\cos\\varphi} d\\varphi = 4 \\int_{-\\pi/2}^{\\pi/2} \\cos^4\\varphi \\, d\\varphi = 8 \\int_0^{\\pi/2} \\cos^4\\varphi \\, d\\varphi$$\\nÁp dụng tích phân Wallis: $\\int_0^{\\pi/2} \\cos^4\\varphi \\, d\\varphi = \\frac{3}{4} \\cdot \\frac{1}{2} \\cdot \\frac{\\pi}{2} = \\frac{3\\pi}{16}$.\\nVậy: $I = 8 \\cdot \\frac{3\\pi}{16} = \\frac{3\\pi}{2}$.'
   },
   {
     id: 'es_gt2_3',
@@ -2917,7 +2917,7 @@ const DEFAULT_ESSAY = [
     difficulty: 'Vận dụng cao',
     q: 'a) Phát biểu định lý Green đối với miền phẳng đơn liên $D$ có biên $C^+$ trơn từng khúc định hướng dương.\\nb) Áp dụng định lý Green, hãy tính tích phân đường loại 2:\\n$$I = \\oint_{C^+} \\left[ (e^x - y^3) dx + (x^3 + \\sin y) dy \\right]$$\\ntrong đó $C^+$ là đường tròn $x^2 + y^2 = 4$ định hướng ngược chiều kim đồng hồ.',
     hint: 'Bước 1: Nhận dạng $P(x, y) = e^x - y^3$ và $Q(x, y) = x^3 + \\sin y$.\\nBước 2: Tính $\\frac{\\partial Q}{\\partial x} = 3x^2$ và $\\frac{\\partial P}{\\partial y} = -3y^2$, từ đó $\\frac{\\partial Q}{\\partial x} - \\frac{\\partial P}{\\partial y} = 3(x^2 + y^2)$.\\nBước 3: Chuyển sang tích phân kép trên hình tròn bán kính $R = 2$ và đổi sang tọa độ cực.',
-    h: 'Hướng dẫn giải chi tiết Sư phạm Toán HPU2:\\na) Định lý Green: Cho miền phẳng $D$ đóng và bị chặn, giới hạn bởi đường cong kín trơn từng khúc $C^+$ định hướng dương. Nếu các hàm $P(x, y), Q(x, y)$ và các đạo hàm riêng của chúng liên tục trên $D$, thì:\\n$$\\oint_{C^+} (P dx + Q dy) = \\iint_D \\left( \\frac{\\partial Q}{\\partial x} - \\frac{\\partial P}{\\partial y} \\right) dxdy$$\\n\\nb) Áp dụng định lý Green:\\n- Đặt $P = e^x - y^3 \\implies \\frac{\\partial P}{\\partial y} = -3y^2$.\\n- Đặt $Q = x^3 + \\sin y \\implies \\frac{\\partial Q}{\\partial x} = 3x^2$.\\nDo đó: $\\frac{\\partial Q}{\\partial x} - \\frac{\\partial P}{\\partial y} = 3(x^2 + y^2)$.\\nTheo công thức Green:\\n$$I = \\iint_D 3(x^2 + y^2) \\, dxdy$$\\nĐổi sang tọa độ cực trên hình tròn bán kính $R = 2$:\\n$$I = 3 \\int_0^{2\\pi} d\\varphi \\int_0^2 r^2 \\cdot r \\, dr = 3 \\cdot (2\\pi) \\cdot \\left[ \\frac{r^4}{4} \\right]_0^2 = 6\\pi \\cdot 4 = 24\\pi$$'
+    h: 'Hướng dẫn giải chi tiết Sư phạm Toán:\\na) Định lý Green: Cho miền phẳng $D$ đóng và bị chặn, giới hạn bởi đường cong kín trơn từng khúc $C^+$ định hướng dương. Nếu các hàm $P(x, y), Q(x, y)$ và các đạo hàm riêng của chúng liên tục trên $D$, thì:\\n$$\\oint_{C^+} (P dx + Q dy) = \\iint_D \\left( \\frac{\\partial Q}{\\partial x} - \\frac{\\partial P}{\\partial y} \\right) dxdy$$\\n\\nb) Áp dụng định lý Green:\\n- Đặt $P = e^x - y^3 \\implies \\frac{\\partial P}{\\partial y} = -3y^2$.\\n- Đặt $Q = x^3 + \\sin y \\implies \\frac{\\partial Q}{\\partial x} = 3x^2$.\\nDo đó: $\\frac{\\partial Q}{\\partial x} - \\frac{\\partial P}{\\partial y} = 3(x^2 + y^2)$.\\nTheo công thức Green:\\n$$I = \\iint_D 3(x^2 + y^2) \\, dxdy$$\\nĐổi sang tọa độ cực trên hình tròn bán kính $R = 2$:\\n$$I = 3 \\int_0^{2\\pi} d\\varphi \\int_0^2 r^2 \\cdot r \\, dr = 3 \\cdot (2\\pi) \\cdot \\left[ \\frac{r^4}{4} \\right]_0^2 = 6\\pi \\cdot 4 = 24\\pi$$'
   },
   {
     id: 'es_gt2_4',
@@ -2926,10 +2926,10 @@ const DEFAULT_ESSAY = [
     difficulty: 'Thông hiểu',
     q: 'Cho biểu thức vi phân: $\\omega = (2xy + 3x^2) dx + (x^2 - 4y) dy$.\\na) Chứng minh biểu thức $\\omega$ là một vi phân toàn phần của hàm thế vị $U(x, y)$ trên $\\mathbb{R}^2$.\\nb) Tìm hàm thế vị $U(x, y)$ thỏa mãn điều kiện $U(0, 0) = 0$.\\nc) Tính tích phân đường loại 2 $\\int_C \\omega$ từ điểm $A(1, 2)$ đến điểm $B(2, 4)$ dọc theo đường cong bất kỳ.',
     hint: 'Bước 1: Kiểm tra điều kiện cần và đủ trên miền đơn liên $\\mathbb{R}^2$: $\\frac{\\partial P}{\\partial y} = \\frac{\\partial Q}{\\partial x}$.\\nBước 2: Tìm $U(x, y) = \\int P dx + C(y)$ rồi đạo hàm theo $y$ để tìm $C(y)$.\\nBước 3: Tích phân độc lập với đường đi nên chỉ bằng hiệu thế vị: $U(B) - U(A)$.',
-    h: 'Hướng dẫn giải chi tiết Sư phạm Toán HPU2:\\na) Đặt $P = 2xy + 3x^2, Q = x^2 - 4y$. Ta có: $\\frac{\\partial P}{\\partial y} = 2x = \\frac{\\partial Q}{\\partial x}$ với mọi $(x, y) \\in \\mathbb{R}^2$. Vì $\\mathbb{R}^2$ là miền đơn liên, $\\omega$ là một vi phân toàn phần của hàm thế vị $U(x, y)$.\\n\\nb) Tìm hàm thế vị $U(x, y)$:\\n$$U(x, y) = \\int (2xy + 3x^2) dx = x^2 y + x^3 + C(y)$$\\nLấy đạo hàm theo $y$: $x^2 + C\'(y) = Q(x, y) = x^2 - 4y \\implies C\'(y) = -4y \\implies C(y) = -2y^2 + C_0$.\\nVới $U(0, 0) = 0 \\implies C_0 = 0$. Vậy: $U(x, y) = x^2 y + x^3 - 2y^2$.\\n\\nc) Tính tích phân đường từ $A(1, 2)$ đến $B(2, 4)$:\\n$$\\int_C \\omega = U(B) - U(A) = U(2, 4) - U(1, 2)$$\\n- $U(2, 4) = 2^2(4) + 2^3 - 2(4^2) = 16 + 8 - 32 = -8$.\\n- $U(1, 2) = 1^2(2) + 1^3 - 2(2^2) = 2 + 1 - 8 = -5$.\\nVậy $\\int_C \\omega = -8 - (-5) = -3$.'
+    h: 'Hướng dẫn giải chi tiết Sư phạm Toán:\\na) Đặt $P = 2xy + 3x^2, Q = x^2 - 4y$. Ta có: $\\frac{\\partial P}{\\partial y} = 2x = \\frac{\\partial Q}{\\partial x}$ với mọi $(x, y) \\in \\mathbb{R}^2$. Vì $\\mathbb{R}^2$ là miền đơn liên, $\\omega$ là một vi phân toàn phần của hàm thế vị $U(x, y)$.\\n\\nb) Tìm hàm thế vị $U(x, y)$:\\n$$U(x, y) = \\int (2xy + 3x^2) dx = x^2 y + x^3 + C(y)$$\\nLấy đạo hàm theo $y$: $x^2 + C\'(y) = Q(x, y) = x^2 - 4y \\implies C\'(y) = -4y \\implies C(y) = -2y^2 + C_0$.\\nVới $U(0, 0) = 0 \\implies C_0 = 0$. Vậy: $U(x, y) = x^2 y + x^3 - 2y^2$.\\n\\nc) Tính tích phân đường từ $A(1, 2)$ đến $B(2, 4)$:\\n$$\\int_C \\omega = U(B) - U(A) = U(2, 4) - U(1, 2)$$\\n- $U(2, 4) = 2^2(4) + 2^3 - 2(4^2) = 16 + 8 - 32 = -8$.\\n- $U(1, 2) = 1^2(2) + 1^3 - 2(2^2) = 2 + 1 - 8 = -5$.\\nVậy $\\int_C \\omega = -8 - (-5) = -3$.'
   },
 
-  /* ==================== 4. XÁC SUẤT THỐNG KÊ (HPU2) ==================== */
+  /* ==================== 4. XÁC SUẤT THỐNG KÊ ==================== */
   {
     id: 'es_xstk_1',
     subj: 'Xác suất thống kê',
@@ -2937,25 +2937,25 @@ const DEFAULT_ESSAY = [
     difficulty: 'Vận dụng',
     q: 'Một trường THPT tổ chức khảo sát chất lượng môn Toán. Học sinh toàn trường được phân thành 3 nhóm năng lực:\\n- Nhóm A (Giỏi): chiếm 20% học sinh, tỷ lệ đạt điểm xuất sắc ($\\ge 9.0$) là 75%.\\n- Nhóm B (Khá): chiếm 50% học sinh, tỷ lệ đạt điểm xuất sắc là 30%.\\n- Nhóm C (Trung bình): chiếm 30% học sinh, tỷ lệ đạt điểm xuất sắc là 5%.\\na) Chọn ngẫu nhiên một học sinh từ trường đó, tính xác suất để học sinh đó đạt điểm xuất sắc.\\nb) Giả sử học sinh được chọn đạt điểm xuất sắc, tính xác suất để học sinh đó thuộc Nhóm B (Khá).\\nc) Nêu ý nghĩa của công thức Bayes trong việc đánh giá và chẩn đoán năng lực học sinh trong nghiên cứu khoa học sư phạm.',
     hint: 'Bước 1: Gọi $H_1, H_2, H_3$ là các biến cố học sinh thuộc nhóm A, B, C. Đây là hệ đầy đủ các biến cố.\\nBước 2: Gọi $A$ là biến cố học sinh đạt điểm xuất sắc. Áp dụng công thức xác suất toàn phần: $P(A) = \\sum P(H_i) P(A|H_i)$.\\nBước 3: Áp dụng công thức Bayes: $P(H_2|A) = \\frac{P(H_2) P(A|H_2)}{P(A)}$.',
-    h: 'Hướng dẫn giải chi tiết Sư phạm Toán HPU2:\\na) Áp dụng công thức xác suất toàn phần:\\nGọi các biến cố: $H_1, H_2, H_3$ lần lượt là học sinh thuộc nhóm A, B, C ($P(H_1) = 0.2, P(H_2) = 0.5, P(H_3) = 0.3$). Đây là hệ biến cố đầy đủ.\\nGọi $A$ là biến cố học sinh đạt điểm xuất sắc. Ta có $P(A|H_1) = 0.75, P(A|H_2) = 0.30, P(A|H_3) = 0.05$.\\nTheo công thức xác suất toàn phần:\\n$$P(A) = 0.20 \\times 0.75 + 0.50 \\times 0.30 + 0.30 \\times 0.05 = 0.15 + 0.15 + 0.015 = 0.315 \\quad (31.5\\%)$$\\n\\nb) Áp dụng công thức Bayes:\\nBiết rằng học sinh đã đạt điểm xuất sắc, xác suất học sinh thuộc nhóm B là:\\n$$P(H_2|A) = \\frac{P(H_2)P(A|H_2)}{P(A)} = \\frac{0.50 \\times 0.30}{0.315} = \\frac{0.150}{0.315} = \\frac{10}{21} \\approx 0.4762 \\quad (47.62\\%)$$\\n\\nc) Ý nghĩa sư phạm:\\nCông thức Bayes cập nhật niềm tin: từ xác suất tiên nghiệm (trước kiểm tra, tỷ lệ nhóm B là 50%) sang xác suất hậu nghiệm (khi biết kết quả xuất sắc, xác suất là 47.62%). Giúp giáo viên đánh giá chẩn đoán khách quan năng lực học sinh.'
+    h: 'Hướng dẫn giải chi tiết Sư phạm Toán:\\na) Áp dụng công thức xác suất toàn phần:\\nGọi các biến cố: $H_1, H_2, H_3$ lần lượt là học sinh thuộc nhóm A, B, C ($P(H_1) = 0.2, P(H_2) = 0.5, P(H_3) = 0.3$). Đây là hệ biến cố đầy đủ.\\nGọi $A$ là biến cố học sinh đạt điểm xuất sắc. Ta có $P(A|H_1) = 0.75, P(A|H_2) = 0.30, P(A|H_3) = 0.05$.\\nTheo công thức xác suất toàn phần:\\n$$P(A) = 0.20 \\times 0.75 + 0.50 \\times 0.30 + 0.30 \\times 0.05 = 0.15 + 0.15 + 0.015 = 0.315 \\quad (31.5\\%)$$\\n\\nb) Áp dụng công thức Bayes:\\nBiết rằng học sinh đã đạt điểm xuất sắc, xác suất học sinh thuộc nhóm B là:\\n$$P(H_2|A) = \\frac{P(H_2)P(A|H_2)}{P(A)} = \\frac{0.50 \\times 0.30}{0.315} = \\frac{0.150}{0.315} = \\frac{10}{21} \\approx 0.4762 \\quad (47.62\\%)$$\\n\\nc) Ý nghĩa sư phạm:\\nCông thức Bayes cập nhật niềm tin: từ xác suất tiên nghiệm (trước kiểm tra, tỷ lệ nhóm B là 50%) sang xác suất hậu nghiệm (khi biết kết quả xuất sắc, xác suất là 47.62%). Giúp giáo viên đánh giá chẩn đoán khách quan năng lực học sinh.'
   },
   {
     id: 'es_xstk_2',
     subj: 'Xác suất thống kê',
     title: 'Phân phối chuẩn Gauss & Bài toán tuyển chọn học bổng',
     difficulty: 'Vận dụng',
-    q: 'Điểm thi kết thúc học phần môn Xác suất thống kê của sinh viên Khoa Toán HPU2 là biến ngẫu nhiên tuân theo quy luật phân phối chuẩn: $X \\sim \\mathcal{N}(\\mu = 7.5, \\sigma^2 = 1.44)$. Cho biết giá trị hàm Laplace: $\\Phi_0(1.25) = 0.3944, \\Phi_0(1.28) = 0.4000, \\Phi_0(2.0) = 0.4772$.\\na) Tính tỷ lệ sinh viên đạt điểm Giỏi từ 8.5 trở lên ($P(X \\ge 8.5)$).\\nb) Tính tỷ lệ sinh viên có điểm trong khoảng khá $[6.0; 9.0]$.\\nc) Nếu Khoa Toán muốn chọn ra đúng 10% sinh viên có điểm số cao nhất để trao học bổng tài năng, hãy xác định ngưỡng điểm chuẩn tối thiểu.',
+    q: 'Điểm thi kết thúc học phần môn Xác suất thống kê của sinh viên Khoa Toán Đại Học là biến ngẫu nhiên tuân theo quy luật phân phối chuẩn: $X \\sim \\mathcal{N}(\\mu = 7.5, \\sigma^2 = 1.44)$. Cho biết giá trị hàm Laplace: $\\Phi_0(1.25) = 0.3944, \\Phi_0(1.28) = 0.4000, \\Phi_0(2.0) = 0.4772$.\\na) Tính tỷ lệ sinh viên đạt điểm Giỏi từ 8.5 trở lên ($P(X \\ge 8.5)$).\\nb) Tính tỷ lệ sinh viên có điểm trong khoảng khá $[6.0; 9.0]$.\\nc) Nếu Khoa Toán muốn chọn ra đúng 10% sinh viên có điểm số cao nhất để trao học bổng tài năng, hãy xác định ngưỡng điểm chuẩn tối thiểu.',
     hint: 'Bước 1: Tính độ lệch chuẩn $\\sigma = \\sqrt{1.44} = 1.2$.\\nBước 2: Sử dụng phép chuẩn hóa $Z = \\frac{X - \\mu}{\\sigma} = \\frac{X - 7.5}{1.2}$ và tính xác suất qua hàm Laplace $\\Phi_0$.\\nBước 3: Với top 10%, tìm $z_0$ sao cho $\\Phi_0(z_0) = 0.4000$, rồi tìm điểm $x_0 = \\mu + z_0 \\sigma$.',
-    h: 'Hướng dẫn giải chi tiết Sư phạm Toán HPU2:\\nĐộ lệch chuẩn là $\\sigma = \\sqrt{1.44} = 1.2$. Chuẩn hóa: $Z = \\frac{X - 7.5}{1.2} \\sim \\mathcal{N}(0, 1)$.\\n\\na) Tỷ lệ sinh viên đạt điểm $\\ge 8.5$:\\n$$P(X \\ge 8.5) = P\\left( Z \\ge \\frac{8.5 - 7.5}{1.2} \\right) = P(Z \\ge 0.83) = 0.5 - \\Phi_0(0.83) \\approx 0.5 - 0.2967 = 0.2033 \\quad (20.33\\%)$$\\n\\nb) Tỷ lệ sinh viên có điểm trong khoảng $[6.0; 9.0]$:\\n$$P(6.0 \\le X \\le 9.0) = P(-1.25 \\le Z \\le 1.25) = 2 \\Phi_0(1.25) = 2 \\times 0.3944 = 0.7888 \\quad (78.88\\%)$$\\n\\nc) Xác định ngưỡng điểm nhận học bổng (Top 10%):\\nCần tìm $x_0$ sao cho $P(X \\ge x_0) = 0.10 \\iff \\Phi_0(z_0) = 0.4000 \\implies z_0 = 1.28$.\\nNgưỡng điểm chuẩn tối thiểu là:\\n$$x_0 = \\mu + z_0 \\cdot \\sigma = 7.5 + 1.28 \\times 1.2 = 7.5 + 1.536 = 9.036 \\approx 9.04 \\text{ điểm}$$'
+    h: 'Hướng dẫn giải chi tiết Sư phạm Toán:\\nĐộ lệch chuẩn là $\\sigma = \\sqrt{1.44} = 1.2$. Chuẩn hóa: $Z = \\frac{X - 7.5}{1.2} \\sim \\mathcal{N}(0, 1)$.\\n\\na) Tỷ lệ sinh viên đạt điểm $\\ge 8.5$:\\n$$P(X \\ge 8.5) = P\\left( Z \\ge \\frac{8.5 - 7.5}{1.2} \\right) = P(Z \\ge 0.83) = 0.5 - \\Phi_0(0.83) \\approx 0.5 - 0.2967 = 0.2033 \\quad (20.33\\%)$$\\n\\nb) Tỷ lệ sinh viên có điểm trong khoảng $[6.0; 9.0]$:\\n$$P(6.0 \\le X \\le 9.0) = P(-1.25 \\le Z \\le 1.25) = 2 \\Phi_0(1.25) = 2 \\times 0.3944 = 0.7888 \\quad (78.88\\%)$$\\n\\nc) Xác định ngưỡng điểm nhận học bổng (Top 10%):\\nCần tìm $x_0$ sao cho $P(X \\ge x_0) = 0.10 \\iff \\Phi_0(z_0) = 0.4000 \\implies z_0 = 1.28$.\\nNgưỡng điểm chuẩn tối thiểu là:\\n$$x_0 = \\mu + z_0 \\cdot \\sigma = 7.5 + 1.28 \\times 1.2 = 7.5 + 1.536 = 9.036 \\approx 9.04 \\text{ điểm}$$'
   },
   {
     id: 'es_xstk_3',
     subj: 'Xác suất thống kê',
     title: 'Ước lượng Khoảng tin cậy cho Kỳ vọng của Biến ngẫu nhiên',
     difficulty: 'Thông hiểu',
-    q: 'Để đánh giá thời gian tự học trung bình mỗi ngày (giờ/ngày) của sinh viên Sư phạm Toán HPU2, người ta khảo sát một mẫu ngẫu nhiên gồm $n = 64$ sinh viên và thu được kết quả: trung bình mẫu $\\bar{x} = 4.2$ giờ và độ lệch chuẩn mẫu hiệu chỉnh $s = 1.6$ giờ.\\na) Với độ tin cậy $95\\%$ ($z_{0.025} = 1.96$), hãy tìm khoảng tin cậy đối xứng cho thời gian tự học trung bình $\\mu$ của toàn thể sinh viên.\\nb) Nếu muốn độ chính xác của ước lượng đạt $\\varepsilon \\le 0.25$ giờ với cùng độ tin cậy $95\\%$, thì cỡ mẫu khảo sát tối thiểu cần là bao nhiêu?',
+    q: 'Để đánh giá thời gian tự học trung bình mỗi ngày (giờ/ngày) của sinh viên Sư phạm Toán, người ta khảo sát một mẫu ngẫu nhiên gồm $n = 64$ sinh viên và thu được kết quả: trung bình mẫu $\\bar{x} = 4.2$ giờ và độ lệch chuẩn mẫu hiệu chỉnh $s = 1.6$ giờ.\\na) Với độ tin cậy $95\\%$ ($z_{0.025} = 1.96$), hãy tìm khoảng tin cậy đối xứng cho thời gian tự học trung bình $\\mu$ của toàn thể sinh viên.\\nb) Nếu muốn độ chính xác của ước lượng đạt $\\varepsilon \\le 0.25$ giờ với cùng độ tin cậy $95\\%$, thì cỡ mẫu khảo sát tối thiểu cần là bao nhiêu?',
     hint: 'Bước 1: Tính độ chính xác của ước lượng: $\\varepsilon = z_{\\alpha/2} \\frac{s}{\\sqrt{n}}$.\\nBước 2: Khoảng tin cậy cho $\\mu$ là $[\\bar{x} - \\varepsilon; \\bar{x} + \\varepsilon]$.\\nBước 3: Giải bất phương trình $z_{\\alpha/2} \\frac{s}{\\sqrt{n}} \\le 0.25$ để tìm $n$.',
-    h: 'Hướng dẫn giải chi tiết Sư phạm Toán HPU2:\\na) Tìm khoảng tin cậy đối xứng 95%:\\nCỡ mẫu $n = 64 > 30$, áp dụng tiêu chuẩn kiểm định $Z$ với $z_{\\alpha/2} = 1.96$.\\nĐộ chính xác:\\n$$\\varepsilon = 1.96 \\cdot \\frac{1.6}{\\sqrt{64}} = 1.96 \\cdot 0.2 = 0.392 \\text{ giờ}$$\\nKhoảng tin cậy đối xứng:\\n$$[4.2 - 0.392; \\; 4.2 + 0.392] = [3.808; \\; 4.592] \\text{ giờ}$$\\nKết luận: Với độ tin cậy 95%, thời gian tự học trung bình hàng ngày của sinh viên nằm trong khoảng [3.81; 4.59] giờ.\\n\\nb) Cỡ mẫu tối thiểu để $\\varepsilon \\le 0.25$ giờ:\\n$$1.96 \\cdot \\frac{1.6}{\\sqrt{n}} \\le 0.25 \\iff \\sqrt{n} \\ge \\frac{3.136}{0.25} = 12.544 \\implies n \\ge 157.35$$\\nCần tối thiểu $n = 158$ sinh viên.'
+    h: 'Hướng dẫn giải chi tiết Sư phạm Toán:\\na) Tìm khoảng tin cậy đối xứng 95%:\\nCỡ mẫu $n = 64 > 30$, áp dụng tiêu chuẩn kiểm định $Z$ với $z_{\\alpha/2} = 1.96$.\\nĐộ chính xác:\\n$$\\varepsilon = 1.96 \\cdot \\frac{1.6}{\\sqrt{64}} = 1.96 \\cdot 0.2 = 0.392 \\text{ giờ}$$\\nKhoảng tin cậy đối xứng:\\n$$[4.2 - 0.392; \\; 4.2 + 0.392] = [3.808; \\; 4.592] \\text{ giờ}$$\\nKết luận: Với độ tin cậy 95%, thời gian tự học trung bình hàng ngày của sinh viên nằm trong khoảng [3.81; 4.59] giờ.\\n\\nb) Cỡ mẫu tối thiểu để $\\varepsilon \\le 0.25$ giờ:\\n$$1.96 \\cdot \\frac{1.6}{\\sqrt{n}} \\le 0.25 \\iff \\sqrt{n} \\ge \\frac{3.136}{0.25} = 12.544 \\implies n \\ge 157.35$$\\nCần tối thiểu $n = 158$ sinh viên.'
   },
   {
     id: 'es_xstk_4',
@@ -2964,10 +2964,10 @@ const DEFAULT_ESSAY = [
     difficulty: 'Vận dụng cao',
     q: 'Theo thống kê nhiều năm trước, điểm kiểm tra môn Toán đầu vào của sinh viên Khoa Toán có mức trung bình $\\mu_0 = 7.0$ điểm. Năm nay, sau khi áp dụng phương pháp dạy học phân hóa kết hợp nền tảng số, khảo sát ngẫu nhiên một lớp gồm $n = 36$ sinh viên cho thấy điểm trung bình đạt $\\bar{x} = 7.5$ điểm với độ lệch chuẩn $s = 1.2$ điểm.\\na) Đặt cặp giả thuyết thống kê để kiểm tra xem phương pháp giảng dạy mới có thực sự làm tăng điểm số trung bình của sinh viên hay không.\\nb) Với mức ý nghĩa $\\alpha = 0.05$ (cho biết $z_{0.05} = 1.645$), hãy tính giá trị quan sát $z_{qs}$ và đưa ra kết luận kiểm định.',
     hint: 'Bước 1: Giả thuyết $H_0: \\mu = 7.0$, đối thuyết một phía $H_1: \\mu > 7.0$.\\nBước 2: Tiêu chuẩn kiểm định: $Z = \\frac{\\bar{X} - \\mu_0}{s / \\sqrt{n}}$.\\nBước 3: Miền bác bỏ $W_\\alpha = (z_\\alpha; +\\infty)$. So sánh $z_{qs}$ với $z_\\alpha$.',
-    h: 'Hướng dẫn giải chi tiết Sư phạm Toán HPU2:\\na) Đặt cặp giả thuyết thống kê:\\n- $H_0: \\mu = 7.0$ (Phương pháp mới không làm thay đổi điểm trung bình).\\n- $H_1: \\mu > 7.0$ (Phương pháp mới làm tăng điểm số trung bình một cách có ý nghĩa).\\n\\nb) Thực hiện kiểm định:\\nCỡ mẫu $n = 36 \\ge 30$, tiêu chuẩn kiểm định: $Z = \\frac{\\bar{X} - \\mu_0}{s / \\sqrt{n}}$.\\nVới $\\alpha = 0.05$, miền bác bỏ $W_\\alpha = (1.645; +\\infty)$.\\nGiá trị quan sát:\\n$$z_{qs} = \\frac{7.5 - 7.0}{1.2 / \\sqrt{36}} = \\frac{0.5}{0.2} = 2.50$$\\nVì $z_{qs} = 2.50 > 1.645 \\implies z_{qs} \\in W_\\alpha$. Bác bỏ $H_0$, chấp nhận $H_1$.\\nKết luận: Có đầy đủ cơ sở thống kê ở mức ý nghĩa 5% để khẳng định phương pháp giảng dạy mới đã làm tăng đáng kể điểm số trung bình của sinh viên.'
+    h: 'Hướng dẫn giải chi tiết Sư phạm Toán:\\na) Đặt cặp giả thuyết thống kê:\\n- $H_0: \\mu = 7.0$ (Phương pháp mới không làm thay đổi điểm trung bình).\\n- $H_1: \\mu > 7.0$ (Phương pháp mới làm tăng điểm số trung bình một cách có ý nghĩa).\\n\\nb) Thực hiện kiểm định:\\nCỡ mẫu $n = 36 \\ge 30$, tiêu chuẩn kiểm định: $Z = \\frac{\\bar{X} - \\mu_0}{s / \\sqrt{n}}$.\\nVới $\\alpha = 0.05$, miền bác bỏ $W_\\alpha = (1.645; +\\infty)$.\\nGiá trị quan sát:\\n$$z_{qs} = \\frac{7.5 - 7.0}{1.2 / \\sqrt{36}} = \\frac{0.5}{0.2} = 2.50$$\\nVì $z_{qs} = 2.50 > 1.645 \\implies z_{qs} \\in W_\\alpha$. Bác bỏ $H_0$, chấp nhận $H_1$.\\nKết luận: Có đầy đủ cơ sở thống kê ở mức ý nghĩa 5% để khẳng định phương pháp giảng dạy mới đã làm tăng đáng kể điểm số trung bình của sinh viên.'
   },
 
-  /* ==================== 5. TOÁN RỜI RẠC (HPU2) ==================== */
+  /* ==================== 5. TOÁN RỜI RẠC ==================== */
   {
     id: 'es_trr_1',
     subj: 'Toán rời rạc',
@@ -2975,7 +2975,7 @@ const DEFAULT_ESSAY = [
     difficulty: 'Thông hiểu',
     q: 'Cho đồ thị vô hướng liên thông có trọng số $G = (V, E)$ gồm 6 đỉnh $V = \\{A, B, C, D, E, F\\}$ và tập các cạnh:\\n$(A, B): 4; \\; (A, C): 2; \\; (B, C): 1; \\; (B, D): 5; \\; (C, D): 8; \\; (C, E): 10; \\; (D, E): 2; \\; (D, F): 6; \\; (E, F): 3$.\\na) Trình bày các bước áp dụng thuật toán Kruskal để tìm cây khung có trọng số nhỏ nhất của đồ thị $G$.\\nb) Vẽ danh sách các cạnh được chọn và tính tổng trọng số của cây khung nhỏ nhất.\\nc) Giải thích vì sao cạnh $(A, B)$ có trọng số 4 lại bị thuật toán bỏ qua.',
     hint: 'Bước 1: Sắp xếp danh sách tất cả các cạnh theo trọng số tăng dần.\\nBước 2: Lần lượt xét từng cạnh: nếu thêm cạnh không tạo thành chu trình với các cạnh đã chọn thì kết nạp cạnh đó vào cây khung.\\nBước 3: Dừng lại khi đã chọn đủ $|V| - 1 = 5$ cạnh.',
-    h: 'Hướng dẫn giải chi tiết Sư phạm Toán HPU2:\\na) & b) Thực hiện thuật toán Kruskal:\\n- Sắp xếp các cạnh tăng dần: $(B, C): 1, (A, C): 2, (D, E): 2, (E, F): 3, (A, B): 4, (B, D): 5, (D, F): 6, (C, D): 8, (C, E): 10$.\\n- Quá trình chọn cạnh vào cây khung $T$ (cần chọn $|V| - 1 = 5$ cạnh):\\n1. Chọn $(B, C)$ trọng số 1.\\n2. Chọn $(A, C)$ trọng số 2.\\n3. Chọn $(D, E)$ trọng số 2.\\n4. Chọn $(E, F)$ trọng số 3.\\n5. Xét $(A, B)$ trọng số 4: Các đỉnh $A, B, C$ đã tạo thành đường đi $A - C - B$. Nếu thêm $(A, B)$ sẽ tạo chu trình $A - B - C - A$. Do đó LOẠI cạnh $(A, B)$.\\n6. Chọn $(B, D)$ trọng số 5: Không tạo chu trình.\\nĐã đủ 5 cạnh, thuật toán kết thúc.\\nCây khung nhỏ nhất gồm các cạnh: $\\{(B, C), (A, C), (D, E), (E, F), (B, D)\\}$.\\nTổng trọng số cây khung:\\n$$W(T) = 1 + 2 + 2 + 3 + 5 = 13$$\\n\\nc) Giải thích: Cạnh $(A, B)$ bị loại vì hai đỉnh $A$ và $B$ đã thuộc cùng một thành phần liên thông trong đồ thị con các cạnh đã chọn trước đó. Việc thêm cạnh $(A, B)$ sẽ tạo thành chu trình, vi phạm định nghĩa của cây.'
+    h: 'Hướng dẫn giải chi tiết Sư phạm Toán:\\na) & b) Thực hiện thuật toán Kruskal:\\n- Sắp xếp các cạnh tăng dần: $(B, C): 1, (A, C): 2, (D, E): 2, (E, F): 3, (A, B): 4, (B, D): 5, (D, F): 6, (C, D): 8, (C, E): 10$.\\n- Quá trình chọn cạnh vào cây khung $T$ (cần chọn $|V| - 1 = 5$ cạnh):\\n1. Chọn $(B, C)$ trọng số 1.\\n2. Chọn $(A, C)$ trọng số 2.\\n3. Chọn $(D, E)$ trọng số 2.\\n4. Chọn $(E, F)$ trọng số 3.\\n5. Xét $(A, B)$ trọng số 4: Các đỉnh $A, B, C$ đã tạo thành đường đi $A - C - B$. Nếu thêm $(A, B)$ sẽ tạo chu trình $A - B - C - A$. Do đó LOẠI cạnh $(A, B)$.\\n6. Chọn $(B, D)$ trọng số 5: Không tạo chu trình.\\nĐã đủ 5 cạnh, thuật toán kết thúc.\\nCây khung nhỏ nhất gồm các cạnh: $\\{(B, C), (A, C), (D, E), (E, F), (B, D)\\}$.\\nTổng trọng số cây khung:\\n$$W(T) = 1 + 2 + 2 + 3 + 5 = 13$$\\n\\nc) Giải thích: Cạnh $(A, B)$ bị loại vì hai đỉnh $A$ và $B$ đã thuộc cùng một thành phần liên thông trong đồ thị con các cạnh đã chọn trước đó. Việc thêm cạnh $(A, B)$ sẽ tạo thành chu trình, vi phạm định nghĩa của cây.'
   },
   {
     id: 'es_trr_2',
@@ -2984,7 +2984,7 @@ const DEFAULT_ESSAY = [
     difficulty: 'Vận dụng',
     q: 'Cho đồ thị có trọng số không âm gồm các đỉnh $\\{S, A, B, C, D, T\\}$ với $S$ là đỉnh xuất phát. Trọng số các cạnh như sau:\\n$(S, A): 4; \\; (S, B): 2; \\; (B, A): 1; \\; (A, C): 5; \\; (B, C): 8; \\; (B, D): 10; \\; (C, D): 2; \\; (C, T): 6; \\; (D, T): 3$.\\na) Lập bảng theo dõi từng bước lặp của thuật toán Dijkstra để tìm đường đi ngắn nhất từ đỉnh nguồn $S$ đến tất cả các đỉnh còn lại.\\nb) Xác định đường đi ngắn nhất từ $S$ đến đỉnh đích $T$ và tính tổng chiều dài của đường đi đó.',
     hint: 'Bước 1: Khởi tạo nhãn $d[S] = 0$, các đỉnh khác bằng $\\infty$. Tập đỉnh chưa cố định $Q = V$.\\nBước 2: Mỗi bước chọn đỉnh $u \\in Q$ có nhãn nhỏ nhất, cố định nhãn của $u$, cập nhật nhãn các đỉnh láng giềng $v$: $d[v] = \\min(d[v], d[u] + w(u, v))$.\\nBước 3: Lặp lại cho đến khi đến đích $T$.',
-    h: 'Hướng dẫn giải chi tiết Sư phạm Toán HPU2:\\na) Bảng thực thi thuật toán Dijkstra:\\n- Khởi tạo: $d[S] = 0; d[A] = \\infty; d[B] = \\infty; d[C] = \\infty; d[D] = \\infty; d[T] = \\infty$.\\n- Bước 1: Chọn $S$ (nhãn 0, cố định). Cập nhật: $d[A] = 4, d[B] = 2$.\\n- Bước 2: Chọn $B$ (nhãn 2 nhỏ nhất, cố định). Cập nhật qua $B$: $d[A] = \\min(4, 2+1) = 3$ (cập nhật!), $d[C] = 2+8 = 10, d[D] = 2+10 = 12$.\\n- Bước 3: Chọn $A$ (nhãn 3, cố định). Cập nhật qua $A$: $d[C] = \\min(10, 3+5) = 8$ (cập nhật!).\\n- Bước 4: Chọn $C$ (nhãn 8, cố định). Cập nhật qua $C$: $d[D] = \\min(12, 8+2) = 10$ (cập nhật!), $d[T] = 8+6 = 14$.\\n- Bước 5: Chọn $D$ (nhãn 10, cố định). Cập nhật qua $D$: $d[T] = \\min(14, 10+3) = 13$ (cập nhật!).\\n- Bước 6: Chọn $T$ (nhãn 13). Thuật toán hoàn thành.\\n\\nb) Đường đi ngắn nhất:\\nTruy vết từ đích $T$: $T \\leftarrow D \\leftarrow C \\leftarrow A \\leftarrow B \\leftarrow S$.\\nVậy đường đi ngắn nhất từ $S$ đến $T$ là: $S \\to B \\to A \\to C \\to D \\to T$.\\nTổng chiều dài đường đi ngắn nhất là: $2 + 1 + 5 + 2 + 3 = 13$.'
+    h: 'Hướng dẫn giải chi tiết Sư phạm Toán:\\na) Bảng thực thi thuật toán Dijkstra:\\n- Khởi tạo: $d[S] = 0; d[A] = \\infty; d[B] = \\infty; d[C] = \\infty; d[D] = \\infty; d[T] = \\infty$.\\n- Bước 1: Chọn $S$ (nhãn 0, cố định). Cập nhật: $d[A] = 4, d[B] = 2$.\\n- Bước 2: Chọn $B$ (nhãn 2 nhỏ nhất, cố định). Cập nhật qua $B$: $d[A] = \\min(4, 2+1) = 3$ (cập nhật!), $d[C] = 2+8 = 10, d[D] = 2+10 = 12$.\\n- Bước 3: Chọn $A$ (nhãn 3, cố định). Cập nhật qua $A$: $d[C] = \\min(10, 3+5) = 8$ (cập nhật!).\\n- Bước 4: Chọn $C$ (nhãn 8, cố định). Cập nhật qua $C$: $d[D] = \\min(12, 8+2) = 10$ (cập nhật!), $d[T] = 8+6 = 14$.\\n- Bước 5: Chọn $D$ (nhãn 10, cố định). Cập nhật qua $D$: $d[T] = \\min(14, 10+3) = 13$ (cập nhật!).\\n- Bước 6: Chọn $T$ (nhãn 13). Thuật toán hoàn thành.\\n\\nb) Đường đi ngắn nhất:\\nTruy vết từ đích $T$: $T \\leftarrow D \\leftarrow C \\leftarrow A \\leftarrow B \\leftarrow S$.\\nVậy đường đi ngắn nhất từ $S$ đến $T$ là: $S \\to B \\to A \\to C \\to D \\to T$.\\nTổng chiều dài đường đi ngắn nhất là: $2 + 1 + 5 + 2 + 3 = 13$.'
   },
   {
     id: 'es_trr_3',
@@ -2993,22 +2993,22 @@ const DEFAULT_ESSAY = [
     difficulty: 'Thông hiểu',
     q: 'a) Phát biểu định lý Euler về điều kiện cần và đủ để một đồ thị vô hướng liên thông có Chu trình Euler và Đường đi Euler.\\nb) Sử dụng lý thuyết đồ thị, hãy giải thích tại sao bài toán 7 cây cầu Königsberg của Euler năm 1736 không thể tìm được đường đi qua tất cả 7 cây cầu đúng một lần.\\nc) Cho đồ thị $G$ liên thông có 10 đỉnh, trong đó có đúng 2 đỉnh bậc 3 và 8 đỉnh bậc 4. Đồ thị $G$ có chu trình Euler không? Có đường đi Euler không? Tính tổng số cạnh của $G$.',
     hint: 'Bước 1: Chu trình Euler $\\iff$ mọi đỉnh bậc chẵn. Đường đi Euler $\\iff$ có đúng 2 đỉnh bậc lẻ.\\nBước 2: Mô hình hóa 4 vùng đất thành 4 đỉnh, 7 cây cầu thành 7 cạnh, tính bậc các đỉnh.\\nBước 3: Dùng Định lý Bắt tay: $\\sum \\text{deg}(v) = 2|E|$ để tính số cạnh.',
-    h: 'Hướng dẫn giải chi tiết Sư phạm Toán HPU2:\\na) Định lý Euler:\\n- Chu trình Euler: Đồ thị vô hướng liên thông $G$ có chu trình Euler $\\iff$ mọi đỉnh của $G$ đều có bậc chẵn ($\\deg(v) \\equiv 0 \\pmod 2, \\; \\forall v \\in V$).\\n- Đường đi Euler: Đồ thị vô hướng liên thông $G$ có đường đi Euler $\\iff G$ có đúng 2 đỉnh bậc lẻ. Đường đi sẽ bắt đầu tại 1 đỉnh bậc lẻ và kết thúc tại đỉnh bậc lẻ còn lại.\\n\\nb) Giải thích bài toán 7 cây cầu Königsberg:\\nEuler mô hình hóa 4 phần đất thành 4 đỉnh $A, B, C, D$ và 7 cây cầu thành 7 cạnh. Bậc của 4 đỉnh lần lượt là 3, 3, 3, 5. Cả 4 đỉnh đều có bậc lẻ (lớn hơn 2). Theo định lý Euler, đồ thị này không thể có đường đi Euler và cũng không thể có chu trình Euler. Không thể đi qua mỗi cây cầu đúng 1 lần.\\n\\nc) Xét đồ thị $G$ có 2 đỉnh bậc 3 và 8 đỉnh bậc 4:\\n- Vì có đỉnh bậc lẻ nên đồ thị KHÔNG có chu trình Euler.\\n- Vì có đúng 2 đỉnh bậc lẻ nên đồ thị CÓ đường đi Euler.\\n- Tổng số cạnh: Theo Định lý Bắt tay: $2|E| = \\sum \\deg(v) = 2 \\times 3 + 8 \\times 4 = 38 \\implies |E| = 19 \\text{ cạnh}$.'
+    h: 'Hướng dẫn giải chi tiết Sư phạm Toán:\\na) Định lý Euler:\\n- Chu trình Euler: Đồ thị vô hướng liên thông $G$ có chu trình Euler $\\iff$ mọi đỉnh của $G$ đều có bậc chẵn ($\\deg(v) \\equiv 0 \\pmod 2, \\; \\forall v \\in V$).\\n- Đường đi Euler: Đồ thị vô hướng liên thông $G$ có đường đi Euler $\\iff G$ có đúng 2 đỉnh bậc lẻ. Đường đi sẽ bắt đầu tại 1 đỉnh bậc lẻ và kết thúc tại đỉnh bậc lẻ còn lại.\\n\\nb) Giải thích bài toán 7 cây cầu Königsberg:\\nEuler mô hình hóa 4 phần đất thành 4 đỉnh $A, B, C, D$ và 7 cây cầu thành 7 cạnh. Bậc của 4 đỉnh lần lượt là 3, 3, 3, 5. Cả 4 đỉnh đều có bậc lẻ (lớn hơn 2). Theo định lý Euler, đồ thị này không thể có đường đi Euler và cũng không thể có chu trình Euler. Không thể đi qua mỗi cây cầu đúng 1 lần.\\n\\nc) Xét đồ thị $G$ có 2 đỉnh bậc 3 và 8 đỉnh bậc 4:\\n- Vì có đỉnh bậc lẻ nên đồ thị KHÔNG có chu trình Euler.\\n- Vì có đúng 2 đỉnh bậc lẻ nên đồ thị CÓ đường đi Euler.\\n- Tổng số cạnh: Theo Định lý Bắt tay: $2|E| = \\sum \\deg(v) = 2 \\times 3 + 8 \\times 4 = 38 \\implies |E| = 19 \\text{ cạnh}$.'
   },
   {
     id: 'es_trr_4',
     subj: 'Toán rời rạc',
     title: 'Nguyên lý Bù trừ (Inclusion - Exclusion) & Ứng dụng tổ hợp',
     difficulty: 'Vận dụng',
-    q: 'Trong một đợt kiểm tra đánh giá năng lực công nghệ sư phạm tại Khoa Toán HPU2:\\nKhảo sát một nhóm gồm 120 sinh viên cho thấy:\\n- 65 bạn thành thạo phần mềm GeoGebra.\\n- 50 bạn thành thạo soạn thảo LaTeX chuyên sâu.\\n- 45 bạn thành thạo lập trình Python giải toán.\\n- 30 bạn thành thạo cả GeoGebra và LaTeX.\\n- 25 bạn thành thạo cả GeoGebra và Python.\\n- 20 bạn thành thạo cả LaTeX và Python.\\n- 12 bạn thành thạo cả 3 công cụ trên.\\na) Có bao nhiêu sinh viên thành thạo ít nhất một trong ba công cụ trên?\\nb) Có bao nhiêu sinh viên không thành thạo bất kỳ công cụ nào trong 3 công cụ?\\nc) Có bao nhiêu sinh viên chỉ thành thạo duy nhất công cụ phần mềm GeoGebra?',
+    q: 'Trong một đợt kiểm tra đánh giá năng lực công nghệ sư phạm tại Khoa Toán Đại Học:\\nKhảo sát một nhóm gồm 120 sinh viên cho thấy:\\n- 65 bạn thành thạo phần mềm GeoGebra.\\n- 50 bạn thành thạo soạn thảo LaTeX chuyên sâu.\\n- 45 bạn thành thạo lập trình Python giải toán.\\n- 30 bạn thành thạo cả GeoGebra và LaTeX.\\n- 25 bạn thành thạo cả GeoGebra và Python.\\n- 20 bạn thành thạo cả LaTeX và Python.\\n- 12 bạn thành thạo cả 3 công cụ trên.\\na) Có bao nhiêu sinh viên thành thạo ít nhất một trong ba công cụ trên?\\nb) Có bao nhiêu sinh viên không thành thạo bất kỳ công cụ nào trong 3 công cụ?\\nc) Có bao nhiêu sinh viên chỉ thành thạo duy nhất công cụ phần mềm GeoGebra?',
     hint: 'Bước 1: Gọi $A, B, C$ là tập hợp sinh viên thành thạo GeoGebra, LaTeX, Python.\\nBước 2: Áp dụng công thức nguyên lý bù trừ cho 3 tập hợp:\\n$|A \\cup B \\cup C| = (|A|+|B|+|C|) - (|A \\cap B|+|A \\cap C|+|B \\cap C|) + |A \\cap B \\cap C|$.\\nBước 3: Số sinh viên chỉ thành thạo GeoGebra: $|A| - |A \\cap B| - |A \\cap C| + |A \\cap B \\cap C|$.',
-    h: 'Hướng dẫn giải chi tiết Sư phạm Toán HPU2:\\nGọi $A, B, C$ lần lượt là tập hợp các sinh viên thành thạo GeoGebra, LaTeX, Python ($|A|=65, |B|=50, |C|=45$, $|A \\cap B|=30, |A \\cap C|=25, |B \\cap C|=20, |A \\cap B \\cap C|=12$, tổng số $N = 120$).\\n\\na) Số sinh viên thành thạo ít nhất một trong ba công cụ ($|A \\cup B \\cup C|$):\\nTheo Nguyên lý Bù trừ:\\n$$|A \\cup B \\cup C| = (65 + 50 + 45) - (30 + 25 + 20) + 12 = 160 - 75 + 12 = 97 \\text{ sinh viên}$$\\n\\nb) Số sinh viên không thành thạo bất kỳ công cụ nào:\\n$$N_{\\text{không}} = 120 - 97 = 23 \\text{ sinh viên}$$\\n\\nc) Số sinh viên chỉ thành thạo duy nhất một công cụ GeoGebra:\\n$$N_{\\text{chỉ } A} = |A| - (|A \\cap B| + |A \\cap C| - |A \\cap B \\cap C|) = 65 - (30 + 25 - 12) = 65 - 43 = 22 \\text{ sinh viên}$$'
+    h: 'Hướng dẫn giải chi tiết Sư phạm Toán:\\nGọi $A, B, C$ lần lượt là tập hợp các sinh viên thành thạo GeoGebra, LaTeX, Python ($|A|=65, |B|=50, |C|=45$, $|A \\cap B|=30, |A \\cap C|=25, |B \\cap C|=20, |A \\cap B \\cap C|=12$, tổng số $N = 120$).\\n\\na) Số sinh viên thành thạo ít nhất một trong ba công cụ ($|A \\cup B \\cup C|$):\\nTheo Nguyên lý Bù trừ:\\n$$|A \\cup B \\cup C| = (65 + 50 + 45) - (30 + 25 + 20) + 12 = 160 - 75 + 12 = 97 \\text{ sinh viên}$$\\n\\nb) Số sinh viên không thành thạo bất kỳ công cụ nào:\\n$$N_{\\text{không}} = 120 - 97 = 23 \\text{ sinh viên}$$\\n\\nc) Số sinh viên chỉ thành thạo duy nhất một công cụ GeoGebra:\\n$$N_{\\text{chỉ } A} = |A| - (|A \\cap B| + |A \\cap C| - |A \\cap B \\cap C|) = 65 - (30 + 25 - 12) = 65 - 43 = 22 \\text{ sinh viên}$$'
   }
 ];
 
 const DEFAULT_ORAL = [
   {
-    q: 'Thầy/Cô chào em, sinh viên Sư phạm Toán HPU2! Trước hết, trong học phần Giải tích 1, em hãy phát biểu ý nghĩa hình học của đạo hàm và ứng dụng của nó trong việc viết phương trình tiếp tuyến đồ thị hàm số.',
+    q: 'Thầy/Cô chào em, sinh viên Sư phạm Toán! Trước hết, trong học phần Giải tích 1, em hãy phát biểu ý nghĩa hình học của đạo hàm và ứng dụng của nó trong việc viết phương trình tiếp tuyến đồ thị hàm số.',
     k: ['tiếp tuyến', 'hệ số góc', 'độ dốc', 'y - y0', 'f\'(x0)'],
     hint: 'Nêu bản chất hệ số góc k = f′(x₀) và dạng phương trình y = f′(x₀)(x - x₀) + f(x₀).'
   },
@@ -3037,10 +3037,10 @@ let CONTENT={
   KNOW:[...DEFAULT_KNOW]
 };
 
-const HPU2_VERSION = 'hpu2_v5.0';
+const ARENA_VERSION = 'arena_v5.0';
 try{
-  const curVer = localStorage.getItem('sa_hpu2_version');
-  if (curVer !== HPU2_VERSION) {
+  const curVer = localStorage.getItem('sa_arena_version');
+  if (curVer !== ARENA_VERSION) {
     CONTENT = {
       MCQ:[...DEFAULT_MCQ],
       ESSAY:[...DEFAULT_ESSAY],
@@ -3048,7 +3048,7 @@ try{
       TOPICS:[...DEFAULT_TOPICS],
       KNOW:[...DEFAULT_KNOW]
     };
-    localStorage.setItem('sa_hpu2_version', HPU2_VERSION);
+    localStorage.setItem('sa_arena_version', ARENA_VERSION);
     saveContent();
   } else {
     const savedC=JSON.parse(localStorage.getItem('sa_garden_content')||localStorage.getItem('sa_content')||'{}');
@@ -3069,8 +3069,8 @@ function saveContent(){
 
 /* ==================== 4.5. QUẢN LÝ PHÂN HỆ TỰ LUẬN THEO 5 MÔN HỌC ==================== */
 function getEssaySubject(e){
-  if(e && e.subj && HPU2_SUBJECTS.includes(e.subj)) return e.subj;
-  if(e && e.subject && HPU2_SUBJECTS.includes(e.subject)) return e.subject;
+  if(e && e.subj && CORE_SUBJECTS.includes(e.subj)) return e.subj;
+  if(e && e.subject && CORE_SUBJECTS.includes(e.subject)) return e.subject;
   const raw = ((e?.q || '') + ' ' + (e?.title || '') + ' ' + (e?.h || '')).toLowerCase();
   if(raw.includes('đại số') || raw.includes('tuyến tính') || raw.includes('ma trận') || raw.includes('vectơ') || raw.includes('vector') || raw.includes('định thức') || raw.includes('kronecker') || raw.includes('gauss') || raw.includes('dstt')) return 'Đại số tuyến tính';
   if(raw.includes('giải tích 1') || raw.includes('lagrange') || raw.includes('maclaurin') || raw.includes('taylor') || raw.includes('tích phân từng phần') || raw.includes('tích phân suy rộng') || raw.includes('khả vi') || raw.includes('gt1')) return 'Giải tích 1';
@@ -3083,32 +3083,32 @@ function getEssaySubject(e){
 const ESSAY_SUBJECT_INFO = {
   'all': {
     icon: '🌐',
-    title: 'Toàn Diện 5 Học Phần Toán Sư Phạm HPU2',
+    title: 'Toàn Diện 5 Học Phần Toán Sư Phạm',
     desc: 'Ngân hàng tổng hợp các bài toán tự luận, bài tập chuyên sâu từ Đại số tuyến tính, Giải tích 1, Giải tích 2, Xác suất thống kê đến Toán rời rạc.'
   },
   'Đại số tuyến tính': {
     icon: '📐',
-    title: 'Đại Số Tuyến Tính - Khoa Toán HPU2',
+    title: 'Đại Số Tuyến Tính - Khoa Toán Đại Học',
     desc: 'Rèn luyện kỹ năng biến đổi ma trận Gauss-Jordan, định thức, biện luận hệ phương trình (Kronecker-Capelli), không gian vector, cơ sở, số chiều, giá trị riêng và chéo hóa ma trận.'
   },
   'Giải tích 1': {
     icon: '📈',
-    title: 'Giải Tích 1 - Khoa Toán HPU2',
+    title: 'Giải Tích 1 - Khoa Toán Đại Học',
     desc: 'Lập luận định lý giá trị trung bình Lagrange, khai triển Maclaurin khử dạng vô định, kỹ thuật tích phân từng phần và khảo sát tích phân suy rộng loại 1 & 2.'
   },
   'Giải tích 2': {
     icon: '🌐',
-    title: 'Giải Tích 2 - Khoa Toán HPU2',
+    title: 'Giải Tích 2 - Khoa Toán Đại Học',
     desc: 'Phân loại cực trị hàm hai biến bằng ma trận Hessian, tính tích phân kép đổi biến tọa độ cực, áp dụng công thức Green trên mặt phẳng và tích phân đường tìm hàm thế vị.'
   },
   'Xác suất thống kê': {
     icon: '🎲',
-    title: 'Xác Suất Thống Kê - Khoa Toán HPU2',
+    title: 'Xác Suất Thống Kê - Khoa Toán Đại Học',
     desc: 'Ứng dụng công thức xác suất toàn phần và định lý Bayes, tính toán phân phối chuẩn Gauss, bài toán ước lượng khoảng tin cậy và kiểm định giả thuyết thống kê sư phạm.'
   },
   'Toán rời rạc': {
     icon: '🕸️',
-    title: 'Toán Rời Rạc - Khoa Toán HPU2',
+    title: 'Toán Rời Rạc - Khoa Toán Đại Học',
     desc: 'Tìm cây khung nhỏ nhất (Kruskal/Prim), tìm đường đi ngắn nhất (Dijkstra), điều kiện đồ thị Euler/Hamilton và bài toán đếm ứng dụng nguyên lý bù trừ.'
   }
 };
@@ -3117,10 +3117,10 @@ const ESSAY_SUBJECT_INFO = {
 const STORE_ADMIN_KNOWLEDGE_VAULT = 'sa_admin_knowledge_vault_v1';
 const DEFAULT_ADMIN_KNOWLEDGE_DOCS = [
   {
-    id: 'doc_dstt_hpu2_01',
-    title: 'Giáo trình & Ngân hàng Ma trận - Đại số tuyến tính HPU2',
+    id: 'doc_dstt_01',
+    title: 'Giáo trình & Ngân hàng Ma trận - Đại số tuyến tính Đại Học',
     subject: 'Đại số tuyến tính',
-    fileName: 'Giao_trinh_DSTT_HPU2.docx',
+    fileName: 'Giao_trinh_DSTT_Đại Học.docx',
     fileSize: '48 KB',
     uploadedAt: '28/10/2026',
     corePointsCount: 7,
@@ -3128,7 +3128,7 @@ const DEFAULT_ADMIN_KNOWLEDGE_DOCS = [
     status: 'Đã nạp vào ngân hàng chung'
   },
   {
-    id: 'doc_gt1_hpu2_01',
+    id: 'doc_gt1_01',
     title: 'Chuyên đề Định lý giá trị trung bình & Chuỗi số Giải tích 1',
     subject: 'Giải tích 1',
     fileName: 'Giai_Tich_1_Dinh_Ly_Chuoi.pdf',
@@ -3139,7 +3139,7 @@ const DEFAULT_ADMIN_KNOWLEDGE_DOCS = [
     status: 'Đã nạp vào ngân hàng chung'
   },
   {
-    id: 'doc_trr_hpu2_01',
+    id: 'doc_trr_01',
     title: 'Tài liệu Lý thuyết Đồ thị & Cây khung nhỏ nhất Toán rời rạc',
     subject: 'Toán rời rạc',
     fileName: 'Do_Thi_Cay_Khung_TRR.txt',
@@ -3176,11 +3176,11 @@ const DEFAULT_CLOUD_STORIES = [
   {
     id: 'story_xuanhoa_teacher',
     icon: '🕯️',
-    title: 'Người Thầy Thắp Lửa Tri Thức Xuân Hòa',
-    author: 'Ký sự Giảng đường Sư phạm HPU2',
-    category: 'Sư Phạm HPU2',
-    summary: 'Ánh đèn chưa bao giờ tắt trong đêm đông Xuân Hòa và bài học về sự nhẫn nại của người thầy Toán học.',
-    content: `Những đêm mùa đông Xuân Hòa gió bấc lạnh buốt luồn qua từng tán xà cừ cổ thụ, trong căn phòng nhỏ ở khu giảng đường A, ánh đèn của thầy chưa bao giờ tắt sớm. Với mỗi sinh viên năm nhất chân ướt chân ráo bước vào giảng đường, còn ngơ ngác trước các định lý $\\epsilon - \\delta$ hay ma trận Jordan phức tạp, thầy luôn kiên nhẫn nán lại sau giờ học. Thầy nắn nót viết từng dòng chứng minh trên bảng đen, chỉ ra từng lỗi tư duy logic mà sinh viên hay mắc phải.\n\nKhi được hỏi vì sao thầy không nghỉ ngơi sớm, thầy mỉm cười hiền từ: 'Làm người thầy dạy Toán không đơn thuần là dạy học trò tìm ra đáp số đúng của một phương trình, mà là dạy các em đối diện với khó khăn bằng sự điềm tĩnh và không bao giờ nản lòng.' Lời căn dặn ấy đã trở thành kim chỉ nam cho hàng ngàn thế hệ sinh viên Sư phạm Toán HPU2 vững bước trên bục giảng khắp mọi miền Tổ quốc.`,
+    title: 'Người Thầy Thắp Lửa Tri Thức Sư Phạm',
+    author: 'Ký sự Giảng đường Sư phạm chuẩn mực',
+    category: 'Sư Phạm Chuẩn',
+    summary: 'Ánh đèn chưa bao giờ tắt trong đêm đông Sư Phạm và bài học về sự nhẫn nại của người thầy Toán học.',
+    content: `Những đêm mùa đông Sư Phạm gió bấc lạnh buốt luồn qua từng tán xà cừ cổ thụ, trong căn phòng nhỏ ở khu giảng đường A, ánh đèn của thầy chưa bao giờ tắt sớm. Với mỗi sinh viên năm nhất chân ướt chân ráo bước vào giảng đường, còn ngơ ngác trước các định lý $\\epsilon - \\delta$ hay ma trận Jordan phức tạp, thầy luôn kiên nhẫn nán lại sau giờ học. Thầy nắn nót viết từng dòng chứng minh trên bảng đen, chỉ ra từng lỗi tư duy logic mà sinh viên hay mắc phải.\n\nKhi được hỏi vì sao thầy không nghỉ ngơi sớm, thầy mỉm cười hiền từ: 'Làm người thầy dạy Toán không đơn thuần là dạy học trò tìm ra đáp số đúng của một phương trình, mà là dạy các em đối diện với khó khăn bằng sự điềm tĩnh và không bao giờ nản lòng.' Lời căn dặn ấy đã trở thành kim chỉ nam cho hàng ngàn thế hệ sinh viên Sư phạm Toán vững bước trên bục giảng khắp mọi miền Tổ quốc.`,
     moral: 'Người thầy giỏi không chỉ truyền thụ tri thức mà còn thắp sáng ngọn lửa ý chí và lòng tự trọng nghề nghiệp trong tim học trò.',
     likes: 128
   },
@@ -3188,21 +3188,21 @@ const DEFAULT_CLOUD_STORIES = [
     id: 'story_persistence_theorem',
     icon: '💎',
     title: 'Định Lý Của Lòng Kiên Trì',
-    author: 'Thủ khoa Sư phạm Toán HPU2 K48',
+    author: 'Thủ khoa Sư phạm Toán K48',
     category: 'Ý Chí & Nghị Lực',
     summary: 'Hành trình vượt qua khủng hoảng điểm số môn Giải tích & Đại số để vươn lên giành học bổng xuất sắc.',
-    content: `Bước chân vào năm thứ nhất Đại học Sư phạm Hà Nội 2, Tuấn từng rơi vào khủng hoảng nặng nề. Từ một học sinh giỏi toán thời phổ thông, Tuấn hoàn toàn choáng ngợp trước tư duy trừu tượng của Không gian Vector $n$ chiều, ánh xạ tuyến tính và chuỗi hàm số Giải tích. Bài kiểm tra giữa kỳ đầu tiên chỉ suýt soát điểm trung bình. Cảm giác bất lực và hoài nghi bản thân bủa vây.\n\nThay vì gục ngã, Tuấn lập ra một lời hứa: 'Mỗi ngày giải bằng được 3 bài tập khó, nếu sai thì kiên nhẫn đọc lại định lý và giải lại từ dòng đầu tiên.' Những buổi trưa ở Thư viện HPU2, những cuốn vở nháp dày cộm kín đặc công thức. Sau 4 tháng bền bỉ không một ngày gián đoạn, Tuấn không chỉ đạt điểm A tuyệt đối ở cả 2 môn học mà còn trở thành trưởng nhóm học tập đôi bạn cùng tiến. Định lý quý giá nhất Tuấn đúc kết được: 'Lòng kiên trì nhân với thời gian chính là công thức vạn năng để hóa giải mọi nghịch cảnh.'`,
+    content: `Bước chân vào năm thứ nhất Đại Học Sư Phạm, Tuấn từng rơi vào khủng hoảng nặng nề. Từ một học sinh giỏi toán thời phổ thông, Tuấn hoàn toàn choáng ngợp trước tư duy trừu tượng của Không gian Vector $n$ chiều, ánh xạ tuyến tính và chuỗi hàm số Giải tích. Bài kiểm tra giữa kỳ đầu tiên chỉ suýt soát điểm trung bình. Cảm giác bất lực và hoài nghi bản thân bủa vây.\n\nThay vì gục ngã, Tuấn lập ra một lời hứa: 'Mỗi ngày giải bằng được 3 bài tập khó, nếu sai thì kiên nhẫn đọc lại định lý và giải lại từ dòng đầu tiên.' Những buổi trưa ở Thư viện Giáo Trình, những cuốn vở nháp dày cộm kín đặc công thức. Sau 4 tháng bền bỉ không một ngày gián đoạn, Tuấn không chỉ đạt điểm A tuyệt đối ở cả 2 môn học mà còn trở thành trưởng nhóm học tập đôi bạn cùng tiến. Định lý quý giá nhất Tuấn đúc kết được: 'Lòng kiên trì nhân với thời gian chính là công thức vạn năng để hóa giải mọi nghịch cảnh.'`,
     moral: 'Toán học không đòi hỏi bạn phải là thiên tài ngay từ đầu, chỉ cần bạn không bao giờ bỏ cuộc.',
     likes: 195
   },
   {
     id: 'story_xuanhoa_dream',
     icon: '🎓',
-    title: 'Ngọn Đèn Đêm Xuân Hòa & Giấc Mơ Bục Giảng',
-    author: 'Cựu sinh viên Sư phạm Toán HPU2',
-    category: 'Sư Phạm HPU2',
+    title: 'Ngọn Đèn Đêm Sư Phạm & Giấc Mơ Bục Giảng',
+    author: 'Cựu sinh viên Sư phạm Toán',
+    category: 'Sư Phạm Chuẩn',
     summary: 'Rời quê nghèo lên trường Sư phạm với chiếc ba lô sờn vai và ước mơ ươm mầm tương lai cho thế hệ mai sau.',
-    content: `Rời vùng quê trung du nghèo bước lên mảnh đất Xuân Hòa - Vĩnh Phúc, gia tài của Mai trong chiếc ba lô sờn rách chỉ có vài bộ quần áo cũ và một tình yêu bất tận với nghề giáo. Những ngày tháng sinh viên vừa đi làm thêm gia sư trang trải học phí, vừa thức trắng đêm soạn giáo án tập giảng.\n\nCó những đêm mệt mỏi rã rời muốn buông xuôi, Mai lại bước ra ban công ký túc xá ngắm nhìn bầu trời đêm Xuân Hòa. Nhìn về phía giảng đường lung linh ánh đèn, hình ảnh những đôi mắt ngây thơ của các em học sinh đang chờ đón người giáo viên tương lai lại thôi thúc Mai quay về bàn học. Giờ đây, khi đã trở thành giáo viên dạy giỏi cấp tỉnh, Mai vẫn luôn giữ trọn niềm tự hào: 'Xuân Hòa là nơi nuôi dưỡng đôi cánh, và Toán học là ngọn đuốc soi sáng đường đời.'`,
+    content: `Rời vùng quê trung du nghèo bước lên mảnh đất Sư Phạm - Vĩnh Phúc, gia tài của Mai trong chiếc ba lô sờn rách chỉ có vài bộ quần áo cũ và một tình yêu bất tận với nghề giáo. Những ngày tháng sinh viên vừa đi làm thêm gia sư trang trải học phí, vừa thức trắng đêm soạn giáo án tập giảng.\n\nCó những đêm mệt mỏi rã rời muốn buông xuôi, Mai lại bước ra ban công ký túc xá ngắm nhìn bầu trời đêm Sư Phạm. Nhìn về phía giảng đường lung linh ánh đèn, hình ảnh những đôi mắt ngây thơ của các em học sinh đang chờ đón người giáo viên tương lai lại thôi thúc Mai quay về bàn học. Giờ đây, khi đã trở thành giáo viên dạy giỏi cấp tỉnh, Mai vẫn luôn giữ trọn niềm tự hào: 'Sư Phạm là nơi nuôi dưỡng đôi cánh, và Toán học là ngọn đuốc soi sáng đường đời.'`,
     moral: 'Ước mơ chân chính luôn đủ sức mạnh giúp ta vượt qua mọi chông gai của cuộc đời.',
     likes: 142
   },
@@ -3210,10 +3210,10 @@ const DEFAULT_CLOUD_STORIES = [
     id: 'story_sunflower_sharing',
     icon: '🌻',
     title: 'Bông Hoa Hướng Dương Trên Giảng Đường',
-    author: 'CLB Học Thuật Toán - HPU2',
+    author: 'CLB Học Thuật Toán',
     category: 'Tương Thân Tương Ái',
-    summary: 'Câu lạc bộ hỗ trợ học tập tại ký túc xá HPU2: Nơi kiến thức cho đi là kiến thức nhân đôi.',
-    content: `Tại ký túc xá K1 ĐH Sư phạm Hà Nội 2, có một nhóm học tập đặc biệt mang tên 'Hoa Hướng Dương'. Nhóm do các bạn sinh viên năm 3 thành lập nhằm mục đích phụ đạo miễn phí cho các bạn khóa dưới đang gặp khó khăn với môn Toán Rời Rạc và Xác Suất Thống Kê.\n\nCứ 8 giờ tối mỗi thứ Năm và thứ Bảy, căn phòng sinh hoạt chung lại rộn rã tiếng thảo luận về đồ thị Euler, thuật toán Dijkstra hay các bài toán phân phối xác suất. Không có sự giấu nghề, không có khoảng cách. Các bạn giải thích cho nhau bằng ngôn ngữ mộc mạc, gần gũi nhất. Thật kỳ diệu, khi giảng bài cho người khác, chính các bạn sinh viên năm 3 lại hiểu sâu sắc bản chất toán học hơn bao giờ hết. Cả nhóm cùng nhau tiến bộ và 100% thành viên đều đạt kết quả xuất sắc trong kỳ thi.`,
+    summary: 'Câu lạc bộ hỗ trợ học tập tại ký túc xá đại học: Nơi kiến thức cho đi là kiến thức nhân đôi.',
+    content: `Tại ký túc xá K1 Đại Học Sư Phạm, có một nhóm học tập đặc biệt mang tên 'Hoa Hướng Dương'. Nhóm do các bạn sinh viên năm 3 thành lập nhằm mục đích phụ đạo miễn phí cho các bạn khóa dưới đang gặp khó khăn với môn Toán Rời Rạc và Xác Suất Thống Kê.\n\nCứ 8 giờ tối mỗi thứ Năm và thứ Bảy, căn phòng sinh hoạt chung lại rộn rã tiếng thảo luận về đồ thị Euler, thuật toán Dijkstra hay các bài toán phân phối xác suất. Không có sự giấu nghề, không có khoảng cách. Các bạn giải thích cho nhau bằng ngôn ngữ mộc mạc, gần gũi nhất. Thật kỳ diệu, khi giảng bài cho người khác, chính các bạn sinh viên năm 3 lại hiểu sâu sắc bản chất toán học hơn bao giờ hết. Cả nhóm cùng nhau tiến bộ và 100% thành viên đều đạt kết quả xuất sắc trong kỳ thi.`,
     moral: 'Tri thức khi sẻ chia sẽ nhân lên gấp bội. Tình đồng môn là món quà vô giá của thời sinh viên.',
     likes: 167
   },
@@ -3249,7 +3249,7 @@ const DEFAULT_CLOUD_QUOTES = [
     id: 'quote_3',
     text: 'Một người thầy mẫu mực giống như ngọn nến sáng — tự tiêu hao chính mình để soi đường cho thế hệ tương lai.',
     author: 'Danh ngôn Sư phạm',
-    category: 'Sư Phạm HPU2',
+    category: 'Sư Phạm Chuẩn',
     likes: 112
   },
   {
@@ -3262,21 +3262,21 @@ const DEFAULT_CLOUD_QUOTES = [
   {
     id: 'quote_5',
     text: 'Không có bài toán nào là ngõ cụt tuyệt đối. Chỉ có những góc nhìn và con đường mà ta chưa từng dám dấn thân.',
-    author: 'Khoa Toán - ĐH Sư Phạm Hà Nội 2',
-    category: 'Sư Phạm HPU2',
+    author: 'Khoa Toán - Đại Học Sư Phạm',
+    category: 'Sư Phạm Chuẩn',
     likes: 130
   },
   {
     id: 'quote_6',
     text: 'Mỗi giờ miệt mài bên trang sách hôm nay là một nấc thang vững chắc đưa bạn tự tin bước lên bục giảng mai sau.',
-    author: 'Truyền thống Sư phạm HPU2',
-    category: 'Sư Phạm HPU2',
+    author: 'Truyền thống Sư phạm chuẩn mực',
+    category: 'Sư Phạm Chuẩn',
     likes: 145
   },
   {
     id: 'quote_7',
     text: 'Người kiên nhẫn vượt qua Đại số tuyến tính và Không gian vector sẽ nắm trong tay chiếc chìa khóa tư duy đa chiều của cuộc đời.',
-    author: 'Lời khuyên Sinh viên K49 HPU2',
+    author: 'Lời khuyên Sinh viên K49 Đại Học',
     category: 'Toán Học',
     likes: 99
   },
@@ -3292,10 +3292,10 @@ const DEFAULT_CLOUD_QUOTES = [
 const DEFAULT_CLOUD_MASCOTS = [
   {
     id: 'c_owl',
-    name: 'Cú Mèo Tri Thức HPU2',
+    name: 'Cú Mèo Tri Thức',
     icon: '🦉',
     role: 'Sứ Giả Trí Tuệ Sư Phạm',
-    quote: 'Chào mừng bạn đến với Khu Vườn Mây HPU2! Hãy tin vào hành trình của mình và chăm chỉ mỗi ngày nhé! ✨',
+    quote: 'Chào mừng bạn đến với Khu Vườn Mây Tri Thức! Hãy tin vào hành trình của mình và chăm chỉ mỗi ngày nhé! ✨',
     active: true
   },
   {
@@ -3436,7 +3436,7 @@ function interactWithCloudMascot(id){
 }
 
 function resetCloudGardenToDefault(){
-  if(confirm('Bạn có chắc muốn khôi phục toàn bộ danh ngôn, câu chuyện và linh vật Vườn Mây về mặc định của HPU2?')){
+  if(confirm('Bạn có chắc muốn khôi phục toàn bộ danh ngôn, câu chuyện và linh vật Vườn Mây về mặc định của Đại Học?')){
     CLOUD_GARDEN_DATA = {
       stories: JSON.parse(JSON.stringify(DEFAULT_CLOUD_STORIES)),
       quotes: JSON.parse(JSON.stringify(DEFAULT_CLOUD_QUOTES)),
@@ -3477,7 +3477,7 @@ let S={
   cfg:{...DEFAULT_CFG},
   flame:60,
   inventory:{
-    pets:['hpu2_owl','mochi'],
+    pets:['mascot_owl','mochi'],
     accessories:[],
     seeds:{ seed_succulent: 2, seed_sunflower: 1 },
     equipped:{ hat:'', glasses:'', badge:'', decor:'' },
@@ -3511,7 +3511,10 @@ if(S.streak===undefined||isNaN(S.streak)) S.streak=1;
 if(S.flame===undefined||isNaN(S.flame)) S.flame=60;
 if(!S.completedSubStages||typeof S.completedSubStages!=='object') S.completedSubStages={};
 if(!S.inventory||typeof S.inventory!=='object') S.inventory={};
-if(!Array.isArray(S.inventory.pets)) S.inventory.pets=['hpu2_owl','mochi'];
+if(!Array.isArray(S.inventory.pets)) S.inventory.pets=['mascot_owl','mochi'];
+  if(S.cfg && (!S.cfg.petId || S.cfg.petId.indexOf('owl') >= 0)) S.cfg.petId='mascot_owl';
+  if(S.cfg && S.cfg.bgTheme && S.cfg.bgTheme.indexOf('emerald') >= 0) S.cfg.bgTheme='theme_emerald';
+  if(S.cfg && S.cfg.bgTheme && S.cfg.bgTheme.indexOf('chalk') >= 0) S.cfg.bgTheme='theme_chalk';
 if(!Array.isArray(S.inventory.accessories)) S.inventory.accessories=[];
 if(!S.inventory.seeds||typeof S.inventory.seeds!=='object') S.inventory.seeds={ seed_succulent: 2, seed_sunflower: 1 };
 if(!S.inventory.equipped||typeof S.inventory.equipped!=='object') S.inventory.equipped={ hat:'', glasses:'', badge:'', decor:'' };
@@ -3527,25 +3530,25 @@ if(S.minigameBest===undefined||isNaN(S.minigameBest)) S.minigameBest=0;
 try{ loadCurrentPersonalFarm(); }catch(e){}
 if(!S.focus||!Array.isArray(S.focus)||!S.focus.length) S.focus=[...CONTENT.KNOW];
 
-// Khối lớp hợp lệ (ĐÃ LOẠI BỎ TOÀN BỘ CÁC LỚP PHỔ THÔNG. CHỈ CÒN DUY NHẤT 4 NĂM ĐẠI HỌC HPU2)
+// Khối lớp hợp lệ (ĐÃ LOẠI BỎ TOÀN BỘ CÁC LỚP PHỔ THÔNG. CHỈ CÒN DUY NHẤT 4 NĂM ĐẠI HỌC Đại Học)
 const VALID_GRADES = ['Năm 1', 'Năm 2', 'Năm 3', 'Năm 4'];
 if (!S.grade || !VALID_GRADES.includes(S.grade)) {
   S.grade = 'Năm 1';
 }
-// Xác thực môn học thuộc 5 học phần cốt lõi HPU2
-if (!S.subject || !HPU2_SUBJECTS.includes(S.subject)) {
+// Xác thực môn học thuộc 5 học phần cốt lõi Đại Học
+if (!S.subject || !CORE_SUBJECTS.includes(S.subject)) {
   S.subject = 'Đại số tuyến tính';
 }
 
-// Cập nhật thương hiệu HPU2 nếu đang dùng cấu hình mặc định cũ
+// Cập nhật thương hiệu Đại Học nếu đang dùng cấu hình mặc định cũ
 if (!S.cfg || S.cfg.siteName === 'Study Arena' || !S.cfg.siteTag || S.cfg.siteTag === 'Vườn Tri Thức') {
   S.cfg = Object.assign(S.cfg || {}, {
-    siteName: 'HPU2 Study Arena',
-    siteTag: 'ĐH Sư Phạm Hà Nội 2',
-    siteSub: 'Đấu trường tri thức & nghiệp vụ Sư phạm Toán - HPU2',
-    petId: S.cfg?.petId || 'hpu2_owl',
-    petName: S.cfg?.petName || 'Cú Mèo HPU2',
-    bgTheme: S.cfg?.bgTheme || 'hpu2_emerald',
+    siteName: 'Study Arena',
+    siteTag: 'Đại Học Sư Phạm',
+    siteSub: 'Đấu trường tri thức & nghiệp vụ Sư phạm Toán học',
+    petId: S.cfg?.petId || 'mascot_owl',
+    petName: S.cfg?.petName || 'Cú Mèo Tri Thức',
+    bgTheme: S.cfg?.bgTheme || 'theme_emerald',
     logoIcon: S.cfg?.logoIcon || '🏛️'
   });
 }
@@ -3565,7 +3568,7 @@ if (!S.aiChatHistory || !Array.isArray(S.aiChatHistory) || !S.aiChatHistory.leng
   S.aiChatHistory = [
     {
       role: 'assistant',
-      text: 'Xin chào bạn! Mình là **Trợ Lý AI Tra Cứu & Hỏi Đáp Toán học (HPU2)** 🏛️✨.\n\nBạn có thể hỏi mình bất kỳ câu hỏi nào về bài tập, công thức hay bản chất lý thuyết các học phần: **Đại số tuyến tính, Giải tích 1 & 2, Xác suất thống kê, Toán rời rạc**.\n\nHãy nhập câu hỏi bên dưới hoặc chọn câu hỏi gợi ý để bắt đầu nhé!',
+      text: 'Xin chào bạn! Mình là **Trợ Lý AI Tra Cứu & Hỏi Đáp Toán học** 🏛️✨.\n\nBạn có thể hỏi mình bất kỳ câu hỏi nào về bài tập, công thức hay bản chất lý thuyết các học phần: **Đại số tuyến tính, Giải tích 1 & 2, Xác suất thống kê, Toán rời rạc**.\n\nHãy nhập câu hỏi bên dưới hoặc chọn câu hỏi gợi ý để bắt đầu nhé!',
       time: '08:00'
     }
   ];
@@ -3713,7 +3716,7 @@ function head(){
   if(chipEl){
     if(!isAuth){
       chipEl.innerHTML=`
-        <span class="inline-flex items-center gap-1 font-bold text-teal-800">☁️ Khu Vườn Mây HPU2</span>
+        <span class="inline-flex items-center gap-1 font-bold text-teal-800">☁️ Khu Vườn Mây Tri Thức</span>
         <span class="text-emerald-300">|</span>
         <span class="inline-flex items-center gap-1 text-emerald-700 text-xs font-semibold">🌸 Chào Mừng Bạn</span>
         <span class="text-emerald-300">|</span>
@@ -3841,7 +3844,7 @@ function loginWithModalName(){
   save();
   closeLoginModal();
   closeAuthDropdown();
-  toast('🎉 Chào mừng ' + name + ' đến với HPU2 Study Arena! Tất cả tính năng đã sẵn sàng.');
+  toast('🎉 Chào mừng ' + name + ' đến với Study Arena! Tất cả tính năng đã sẵn sàng.');
   head();
   render();
 }
@@ -3965,7 +3968,7 @@ function quickLogin(p){
   save();
   closeLoginModal();
   closeAuthDropdown();
-  toast('🎉 Đăng nhập thành công! Chào mừng ' + S.user.name + ' đến với HPU2 Study Arena!');
+  toast('🎉 Đăng nhập thành công! Chào mừng ' + S.user.name + ' đến với Study Arena!');
   head();render();
 }
 
@@ -3980,7 +3983,7 @@ function loginWithName(){
   save();
   closeLoginModal();
   closeAuthDropdown();
-  toast('🎉 Chào mừng ' + name + ' đến với HPU2 Study Arena! Tất cả tính năng đã sẵn sàng.');
+  toast('🎉 Chào mừng ' + name + ' đến với Study Arena! Tất cả tính năng đã sẵn sàng.');
   head();render();
 }
 
@@ -4004,7 +4007,7 @@ function logout(){
   save();
   closeLoginModal();
   closeAuthDropdown();
-  toast('👋 Đã đăng xuất khỏi tài khoản. Hẹn gặp lại bạn tại Khu Vườn Mây HPU2!');
+  toast('👋 Đã đăng xuất khỏi tài khoản. Hẹn gặp lại bạn tại Khu Vườn Mây Tri Thức!');
   head();render();
 }
 
@@ -4175,15 +4178,15 @@ function vAdminTheme(){
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <div>
           <label class="text-xs font-bold text-emerald-900 block mb-1">Tên Website / Ứng Dụng:</label>
-          <input id="cfg_siteName" value="${cfg.siteName||''}" placeholder="Ví dụ: HPU2 Study Arena" class="font-bold">
+          <input id="cfg_siteName" value="${cfg.siteName||''}" placeholder="Ví dụ: Study Arena" class="font-bold">
         </div>
         <div>
           <label class="text-xs font-bold text-emerald-900 block mb-1">Thẻ Phụ / Huy Hiệu Thương Hiệu:</label>
-          <input id="cfg_siteTag" value="${cfg.siteTag||''}" placeholder="Ví dụ: ĐH Sư Phạm Hà Nội 2">
+          <input id="cfg_siteTag" value="${cfg.siteTag||''}" placeholder="Ví dụ: Đại Học Sư Phạm">
         </div>
         <div class="sm:col-span-2">
           <label class="text-xs font-bold text-emerald-900 block mb-1">Khẩu Hiệu / Mô Tả Mặc Định:</label>
-          <input id="cfg_siteSub" value="${cfg.siteSub||''}" placeholder="Ví dụ: Đấu trường tri thức & nghiệp vụ Sư phạm Toán - HPU2">
+          <input id="cfg_siteSub" value="${cfg.siteSub||''}" placeholder="Ví dụ: Đấu trường tri thức & nghiệp vụ Sư phạm Toán học">
         </div>
         <div>
           <label class="text-xs font-bold text-emerald-900 block mb-1">Icon Logo (Emoji hoặc Ký tự):</label>
@@ -4243,9 +4246,9 @@ function vAdminTheme(){
 function saveAdminTheme(){
   if(!checkAdminAuth()) return;
   S.cfg=S.cfg||{};
-  S.cfg.siteName=$('#cfg_siteName').value.trim()||'HPU2 Study Arena';
-  S.cfg.siteTag=$('#cfg_siteTag').value.trim()||'ĐH Sư Phạm Hà Nội 2';
-  S.cfg.siteSub=$('#cfg_siteSub').value.trim()||'Đấu trường tri thức & nghiệp vụ Sư phạm Toán - HPU2';
+  S.cfg.siteName=$('#cfg_siteName').value.trim()||'Study Arena';
+  S.cfg.siteTag=$('#cfg_siteTag').value.trim()||'Đại Học Sư Phạm';
+  S.cfg.siteSub=$('#cfg_siteSub').value.trim()||'Đấu trường tri thức & nghiệp vụ Sư phạm Toán học';
   S.cfg.logoIcon=$('#cfg_logoIcon').value.trim()||'🏛️';
   S.cfg.customLogoUrl=$('#cfg_customLogoUrl').value.trim();
   S.cfg.showFloatingAi=$('#cfg_showFloatingAi')?.checked ?? true;
@@ -4557,7 +4560,7 @@ function adminDeleteShopItem(category, itemId){
 
 function adminResetShopDefault(){
   if(!checkAdminAuth()) return;
-  if(!confirm('Khôi phục lại danh mục Cửa Hàng & Nông Trại mặc định chuẩn HPU2?')) return;
+  if(!confirm('Khôi phục lại danh mục Cửa Hàng & Nông Trại mặc định chuẩn sư phạm?')) return;
   SHOP_ITEMS = JSON.parse(JSON.stringify(DEFAULT_SHOP_ITEMS));
   saveShopCatalog();
   toast('Đã khôi phục danh mục Cửa Hàng mặc định!');
@@ -5131,7 +5134,7 @@ function vAdminEssay(){
     <div class="flex items-center justify-between flex-wrap gap-2 mb-3">
       <div>
         <h4 class="font-extrabold text-sm text-emerald-950 uppercase tracking-wider">Ngân Hàng Bài Tự Luận (${allList.length} bài)</h4>
-        <p class="text-[11px] text-slate-500">Phân loại theo 5 phân môn cốt lõi Sư Phạm Toán HPU2</p>
+        <p class="text-[11px] text-slate-500">Phân loại theo 5 phân môn cốt lõi Sư Phạm Toán</p>
       </div>
       <button class="btn g sm" onclick="showAddEssayForm()">+ Thêm Bài Mới</button>
     </div>
@@ -5141,7 +5144,7 @@ function vAdminEssay(){
       <button class="px-2.5 py-1 text-xs font-bold rounded-lg border transition ${curSubj==='all' ? 'bg-emerald-600 text-white border-emerald-700' : 'bg-white text-slate-700 border-slate-200 hover:bg-emerald-50'}" onclick="window.ADMIN_ESSAY_SUBJ='all';render()">
         Tất cả (${allList.length})
       </button>
-      ${HPU2_SUBJECTS.map(s => {
+      ${CORE_SUBJECTS.map(s => {
         const cnt = allList.filter(e => getEssaySubject(e) === s).length;
         const isActive = curSubj === s;
         return `
@@ -5160,7 +5163,7 @@ function vAdminEssay(){
         <div>
           <label class="text-[11px] font-bold text-emerald-900 block mb-1">Môn học:</label>
           <select id="newEs_subj" class="w-full text-xs font-bold p-2 rounded-xl border border-emerald-300 bg-white">
-            ${HPU2_SUBJECTS.map(s => `<option value="${s}" ${curSubj===s?'selected':''}>${s}</option>`).join('')}
+            ${CORE_SUBJECTS.map(s => `<option value="${s}" ${curSubj===s?'selected':''}>${s}</option>`).join('')}
           </select>
         </div>
         <div>
@@ -5430,7 +5433,7 @@ function adminResetStageSubStages(lvlNum) {
   if (def && Array.isArray(def.subStages)) {
     adminEditingSubStages = JSON.parse(JSON.stringify(def.subStages));
     render();
-    toast(`↺ Đã khôi phục các giai đoạn mặc định chuẩn HPU2 của Cấp ${lvlNum}!`);
+    toast(`↺ Đã khôi phục các giai đoạn mặc định chuẩn sư phạm của Cấp ${lvlNum}!`);
   }
 }
 
@@ -5535,8 +5538,8 @@ function vAdminLevelsMgmt(){
         <button class="btn sm g shadow-sm" onclick="adminEditingStageIdx=-1;adminEditingSubStages=[];adminShowStageForm=!adminShowStageForm;render()">
           <span>${adminShowStageForm && !isEditing ? '✕ Đóng Form' : '➕ Thêm Cấp Bậc Mới'}</span>
         </button>
-        <button class="btn sm outline" onclick="resetAscensionStagesToDefault()" title="Khôi phục về 10 cấp bậc chuẩn ĐH Sư Phạm Hà Nội 2">
-          <span>↺ Khôi Phục 10 Cấp Chuẩn HPU2</span>
+        <button class="btn sm outline" onclick="resetAscensionStagesToDefault()" title="Khôi phục về 10 cấp bậc chuẩn Đại Học Sư Phạm">
+          <span>↺ Khôi Phục 10 Cấp Chuẩn Đại Học</span>
         </button>
       </div>
     </div>
@@ -5566,7 +5569,7 @@ function vAdminLevelsMgmt(){
               <input id="ad_stage_realm" 
                      type="text" 
                      value="${target.realm || ''}" 
-                     placeholder="Ví dụ: Tân Sinh Viên HPU2, Năm 1 - Nhập Môn..." 
+                     placeholder="Ví dụ: Tân Sinh Viên Sư Phạm, Năm 1 - Nhập Môn..." 
                      class="font-bold text-xs">
               <span class="text-[10px] text-slate-500">Tên danh hiệu hiển thị trên huy hiệu &amp; thanh trạng thái</span>
             </div>
@@ -5576,7 +5579,7 @@ function vAdminLevelsMgmt(){
               <input id="ad_stage_name" 
                      type="text" 
                      value="${target.name || ''}" 
-                     placeholder="Ví dụ: Gieo Mầm Tri Thức Xuân Hòa, Chinh Phục Giải Tích..." 
+                     placeholder="Ví dụ: Gieo Mầm Tri Thức Sư Phạm, Chinh Phục Giải Tích..." 
                      class="font-semibold text-xs">
               <span class="text-[10px] text-slate-500">Tiêu đề học phần hoặc khóa tu luyện tri thức</span>
             </div>
@@ -6015,7 +6018,7 @@ function moveAscensionStage(idx, dir){
 
 function resetAscensionStagesToDefault(){
   if (!checkAdminAuth()) return;
-  if (!confirm('Bạn có chắc muốn khôi phục lại 10 Cấp Bậc Thăng Tiến chuẩn của ĐH Sư Phạm Hà Nội 2? Mọi chỉnh sửa tùy biến sẽ trở về mặc định ban đầu.')) {
+  if (!confirm('Bạn có chắc muốn khôi phục lại 10 Cấp Bậc Thăng Tiến chuẩn của Đại Học Sư Phạm? Mọi chỉnh sửa tùy biến sẽ trở về mặc định ban đầu.')) {
     return;
   }
   ASCENSION_STAGES = JSON.parse(JSON.stringify(DEFAULT_ASCENSION_STAGES));
@@ -6023,7 +6026,7 @@ function resetAscensionStagesToDefault(){
   adminEditingStageIdx = -1;
   adminShowStageForm = false;
   adminEditingSubStages = [];
-  toast('↺ Đã khôi phục 10 cấp bậc thăng tiến chuẩn HPU2!');
+  toast('↺ Đã khôi phục 10 cấp bậc thăng tiến chuẩn sư phạm!');
   head();
   render();
 }
@@ -6056,7 +6059,7 @@ function vAdminCloudGardenMgmt(){
       </div>
 
       <button class="btn sm rose" onclick="resetCloudGardenToDefault()">
-        <span>🔄</span> <span>Khôi Phục Gốc HPU2</span>
+        <span>🔄</span> <span>Khôi Phục Gốc Mặc Định</span>
       </button>
     </div>
 
@@ -6111,12 +6114,12 @@ function renderAdminQuotesTab(quotes){
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
           <div>
             <label class="text-xs font-bold text-slate-800 block mb-1">Tác giả / Nguồn:</label>
-            <input id="ad_quote_author" type="text" value="${curQ ? curQ.author : ''}" placeholder="Ví dụ: Socrates, Roger Bacon, HPU2..." class="w-full text-xs font-semibold py-2 px-3 border border-slate-300 rounded-xl">
+            <input id="ad_quote_author" type="text" value="${curQ ? curQ.author : ''}" placeholder="Ví dụ: Socrates, Roger Bacon, Đại Học..." class="w-full text-xs font-semibold py-2 px-3 border border-slate-300 rounded-xl">
           </div>
           <div>
             <label class="text-xs font-bold text-slate-800 block mb-1">Chủ đề / Phân loại:</label>
             <select id="ad_quote_cat" class="w-full text-xs font-semibold py-2 px-3 border border-slate-300 rounded-xl">
-              <option value="Sư Phạm HPU2" ${(curQ && curQ.category === 'Sư Phạm HPU2') ? 'selected' : ''}>🎓 Sư Phạm HPU2</option>
+              <option value="Sư Phạm Chuẩn" ${(curQ && curQ.category === 'Sư Phạm Chuẩn') ? 'selected' : ''}>🎓 Sư Phạm Chuẩn</option>
               <option value="Toán Học" ${(curQ && curQ.category === 'Toán Học') ? 'selected' : ''}>📐 Toán Học</option>
               <option value="Ý Chí & Nghị Lực" ${(curQ && curQ.category === 'Ý Chí & Nghị Lực') ? 'selected' : ''}>🔥 Ý Chí & Nghị Lực</option>
               <option value="Phương Pháp Học" ${(curQ && curQ.category === 'Phương Pháp Học') ? 'selected' : ''}>🚀 Phương Pháp Học</option>
@@ -6196,7 +6199,7 @@ function renderAdminStoriesTab(stories){
         <div class="grid grid-cols-1 sm:grid-cols-4 gap-3">
           <div class="sm:col-span-2">
             <label class="text-xs font-bold text-slate-800 block mb-1">Tiêu đề câu chuyện:</label>
-            <input id="ad_story_title" type="text" value="${curS ? curS.title : ''}" placeholder="Ví dụ: Người Thầy Thắp Lửa Tri Thức Xuân Hòa" class="w-full text-xs font-bold py-2 px-3 border border-slate-300 rounded-xl">
+            <input id="ad_story_title" type="text" value="${curS ? curS.title : ''}" placeholder="Ví dụ: Người Thầy Thắp Lửa Tri Thức Sư Phạm" class="w-full text-xs font-bold py-2 px-3 border border-slate-300 rounded-xl">
           </div>
           <div>
             <label class="text-xs font-bold text-slate-800 block mb-1">Biểu tượng Icon (Emoji):</label>
@@ -6204,14 +6207,14 @@ function renderAdminStoriesTab(stories){
           </div>
           <div>
             <label class="text-xs font-bold text-slate-800 block mb-1">Tác giả / Nguồn:</label>
-            <input id="ad_story_author" type="text" value="${curS ? curS.author : ''}" placeholder="Ví dụ: CLB Sư Phạm HPU2" class="w-full text-xs font-semibold py-2 px-3 border border-slate-300 rounded-xl">
+            <input id="ad_story_author" type="text" value="${curS ? curS.author : ''}" placeholder="Ví dụ: CLB Sư Phạm Chuẩn" class="w-full text-xs font-semibold py-2 px-3 border border-slate-300 rounded-xl">
           </div>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
           <div>
             <label class="text-xs font-bold text-slate-800 block mb-1">Chủ đề / Phân loại:</label>
-            <input id="ad_story_cat" type="text" value="${curS ? curS.category : 'Sư Phạm HPU2'}" placeholder="Sư Phạm HPU2, Ý Chí..." class="w-full text-xs font-semibold py-2 px-3 border border-slate-300 rounded-xl">
+            <input id="ad_story_cat" type="text" value="${curS ? curS.category : 'Sư Phạm Chuẩn'}" placeholder="Sư Phạm Chuẩn, Ý Chí..." class="w-full text-xs font-semibold py-2 px-3 border border-slate-300 rounded-xl">
           </div>
           <div class="sm:col-span-2">
             <label class="text-xs font-bold text-slate-800 block mb-1">Tóm tắt ngắn (hiển thị trên thẻ):</label>
@@ -6312,7 +6315,7 @@ function renderAdminMascotsTab(mascots){
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
           <div>
             <label class="text-xs font-bold text-slate-800 block mb-1">Tên linh vật:</label>
-            <input id="ad_mascot_name" type="text" value="${curM ? curM.name : ''}" placeholder="Ví dụ: Cú Mèo HPU2" class="w-full text-xs font-bold py-2 px-3 border border-slate-300 rounded-xl">
+            <input id="ad_mascot_name" type="text" value="${curM ? curM.name : ''}" placeholder="Ví dụ: Cú Mèo Tri Thức" class="w-full text-xs font-bold py-2 px-3 border border-slate-300 rounded-xl">
           </div>
           <div>
             <label class="text-xs font-bold text-slate-800 block mb-1">Biểu tượng Emoji / Icon:</label>
@@ -6347,7 +6350,7 @@ function renderAdminMascotsTab(mascots){
                 <span class="text-2xl">${m.icon || '🌱'}</span>
                 <div>
                   <div class="font-extrabold text-sm text-slate-900">${m.name}</div>
-                  <div class="text-[10px] text-teal-700 font-semibold">${m.role || 'Linh vật HPU2'}</div>
+                  <div class="text-[10px] text-teal-700 font-semibold">${m.role || 'Linh vật Học Tập'}</div>
                 </div>
               </div>
               <span class="px-2 py-0.5 rounded-full text-[10px] font-extrabold ${m.active !== false ? 'bg-emerald-100 text-emerald-800 border border-emerald-300' : 'bg-slate-100 text-slate-600 border border-slate-300'}">
@@ -6377,8 +6380,8 @@ function renderAdminMascotsTab(mascots){
 function saveAdminQuoteForm(idx){
   if (!checkAdminAuth()) return;
   const text = ($('#ad_quote_text')?.value || '').trim();
-  const author = ($('#ad_quote_author')?.value || '').trim() || 'HPU2';
-  const category = ($('#ad_quote_cat')?.value || '').trim() || 'Sư Phạm HPU2';
+  const author = ($('#ad_quote_author')?.value || '').trim() || 'Đại Học';
+  const category = ($('#ad_quote_cat')?.value || '').trim() || 'Sư Phạm Chuẩn';
   const likes = parseInt($('#ad_quote_likes')?.value || '0', 10) || 0;
 
   if (!text) {
@@ -6424,8 +6427,8 @@ function saveAdminStoryForm(idx){
   if (!checkAdminAuth()) return;
   const title = ($('#ad_story_title')?.value || '').trim();
   const icon = ($('#ad_story_icon')?.value || '').trim() || '📖';
-  const author = ($('#ad_story_author')?.value || '').trim() || 'HPU2';
-  const category = ($('#ad_story_cat')?.value || '').trim() || 'Sư Phạm HPU2';
+  const author = ($('#ad_story_author')?.value || '').trim() || 'Đại Học';
+  const category = ($('#ad_story_cat')?.value || '').trim() || 'Sư Phạm Chuẩn';
   const summary = ($('#ad_story_summary')?.value || '').trim();
   const content = ($('#ad_story_content')?.value || '').trim();
   const moral = ($('#ad_story_moral')?.value || '').trim();
@@ -6515,7 +6518,7 @@ function saveAdminMascotForm(idx){
   } else if (idx === -1) {
     const newMascot = {
       id: 'mascot_' + Date.now(),
-      name, icon, role: role || 'Linh vật HPU2',
+      name, icon, role: role || 'Linh vật Học Tập',
       quote: quote || 'Chào mừng bạn đến với Khu Vườn Mây! ✨',
       active: true
     };
@@ -6633,7 +6636,7 @@ function vAdminAiConfig(){
         <h4 class="font-extrabold text-sm text-emerald-950 flex items-center gap-2">
           <span>🤖</span> <span>Cấu Hình Tích Hợp AI (Gemini 2.5 Flash & Proxy Server)</span>
         </h4>
-        <p class="text-xs text-emerald-700 mt-0.5">Quản lý kết nối AI để đọc tài liệu (.pdf, .docx, .txt) và hỗ trợ sinh viên HPU2 tra cứu toán học</p>
+        <p class="text-xs text-emerald-700 mt-0.5">Quản lý kết nối AI để đọc tài liệu (.pdf, .docx, .txt) và hỗ trợ sinh viên đại học tra cứu toán học</p>
       </div>
       <a href="ai-doc-analyzer.html" target="_blank" class="btn sm g gap-1 text-xs">
         <span>⚡ Mở Trang Phân Tích Độc Lập</span> <span>↗</span>
@@ -6746,7 +6749,7 @@ function vAdminAiKnowledgeCenter(){
         </div>
         <h3 class="text-xl sm:text-2xl font-black font-fun mb-1.5 text-white">Trung Tâm Quản Trị Tri Thức &amp; Giáo Trình AI</h3>
         <p class="text-emerald-100 text-xs sm:text-sm leading-relaxed mb-3">
-          Tải lên các tài liệu chuyên môn (file Word .docx, PDF, Text hoặc dán đề cương) và <b>phân loại theo đúng 5 môn học Sư phạm Toán HPU2</b>. Hệ thống AI sẽ tự động phân tích, trích xuất định lý, kiến thức cốt lõi và sinh câu hỏi trắc nghiệm nạp vào ngân hàng dữ liệu chung cho toàn bộ học viên!
+          Tải lên các tài liệu chuyên môn (file Word .docx, PDF, Text hoặc dán đề cương) và <b>phân loại theo đúng 5 môn học Sư phạm Toán</b>. Hệ thống AI sẽ tự động phân tích, trích xuất định lý, kiến thức cốt lõi và sinh câu hỏi trắc nghiệm nạp vào ngân hàng dữ liệu chung cho toàn bộ học viên!
         </p>
       </div>
       <div class="absolute -right-4 -bottom-6 opacity-20 text-8xl select-none pointer-events-none">📚</div>
@@ -6770,10 +6773,10 @@ function vAdminAiKnowledgeCenter(){
         <!-- 1. CHỌN MÔN HỌC BẮT BUỘC -->
         <div>
           <label class="text-xs font-bold text-emerald-900 block mb-1">
-            1. Phân loại theo đúng môn học HPU2 (* Bắt buộc):
+            1. Phân loại theo đúng môn học Đại Học (* Bắt buộc):
           </label>
           <select id="adKcSubjectSelect" class="w-full text-xs sm:text-sm font-extrabold p-2.5 rounded-xl border-2 border-emerald-300 bg-emerald-50/50 text-emerald-950 focus:ring-2 focus:ring-emerald-500">
-            ${HPU2_SUBJECTS.map(subj => `
+            ${CORE_SUBJECTS.map(subj => `
               <option value="${subj}" ${S.subject === subj ? 'selected' : ''}>📘 ${subj}</option>
             `).join('')}
           </select>
@@ -6788,7 +6791,7 @@ function vAdminAiKnowledgeCenter(){
           <input id="adKcDocTitleInput" 
                  type="text" 
                  value="${window.ADMIN_KC_STAGED_NAME || ''}" 
-                 placeholder="Ví dụ: Giáo trình Đại số tuyến tính nâng cao - HPU2" 
+                 placeholder="Ví dụ: Giáo trình Đại số tuyến tính nâng cao" 
                  class="w-full text-xs sm:text-sm font-bold p-2.5 rounded-xl border border-emerald-300 bg-white">
           <p class="text-[11px] text-slate-500 mt-1">Đặt tên gợi nhớ để dễ dàng quản lý trong kho tài liệu.</p>
         </div>
@@ -6914,7 +6917,7 @@ function vAdminAiKnowledgeCenter(){
           <p class="text-xs text-slate-500">Toàn bộ kiến thức từ các tài liệu này đã được đồng bộ vào ngân hàng học tập của hệ thống</p>
         </div>
         <button class="btn sm outline !py-1 text-xs" onclick="adminResetDefaultKnowledgeDocs()">
-          🔄 Khôi Phục Giáo Trình Mẫu HPU2
+          🔄 Khôi Phục Giáo Trình Mẫu
         </button>
       </div>
 
@@ -7021,7 +7024,7 @@ function adminHandleKcFileSelect(files){
     const reader = new FileReader();
     reader.onload = function(e){
       const raw = e.target.result || '';
-      window.ADMIN_KC_STAGED_TEXT = raw.length > 50 ? raw : `[Tài liệu PDF: ${file.name}] Đã nạp thành công cấu trúc kiến thức chuyên môn HPU2.`;
+      window.ADMIN_KC_STAGED_TEXT = raw.length > 50 ? raw : `[Tài liệu PDF: ${file.name}] Đã nạp thành công cấu trúc kiến thức chuyên môn đại học.`;
       const ta = $('#adKcTextContentInput');
       if(ta) ta.value = window.ADMIN_KC_STAGED_TEXT;
       toast('✅ Đã nhận diện tệp PDF thành công!');
@@ -7057,7 +7060,7 @@ function adminExecuteKnowledgeExtraction(){
     ];
 
     // 2. Phân tích và sinh Chủ đề mới
-    const newTopic = `HPU2 - ${subject}: Chuyên đề nâng cao từ tài liệu "${title}"`;
+    const newTopic = `Chuyên đề - ${subject}: Chuyên đề nâng cao từ tài liệu "${title}"`;
 
     // 3. Phân tích và sinh các câu hỏi trắc nghiệm thông minh đa mức độ
     const newMcqs = [
@@ -7066,7 +7069,7 @@ function adminExecuteKnowledgeExtraction(){
         subject: subject,
         topic: `Trọng tâm ${subject}`,
         level: 'Dễ',
-        q: `[${subject} - HPU2 AI Trích Xuất] Khẳng định nào sau đây là ĐÚNG về định lý cơ sở được trình bày trong giáo trình "${title}"?`,
+        q: `[${subject} - AI Trích Xuất] Khẳng định nào sau đây là ĐÚNG về định lý cơ sở được trình bày trong giáo trình "${title}"?`,
         o: [
           'Điều kiện cần luôn đồng thời là điều kiện đủ',
           'Định lý áp dụng cho mọi cấu trúc thỏa mãn điều kiện độc lập và chuẩn mực',
@@ -7081,7 +7084,7 @@ function adminExecuteKnowledgeExtraction(){
         subject: subject,
         topic: `Phương pháp tính toán ${subject}`,
         level: 'Trung bình',
-        q: `[${subject} - HPU2 AI Trích Xuất] Trong bài toán biến đổi và tính toán trọng tâm của học phần ${subject}, thuật toán tối ưu nhất là:`,
+        q: `[${subject} - AI Trích Xuất] Trong bài toán biến đổi và tính toán trọng tâm của học phần ${subject}, thuật toán tối ưu nhất là:`,
         o: [
           'Sử dụng phép biến đổi tương đương khử ẩn liên tiếp có kiểm soát điều kiện',
           'Thử ngẫu nhiên từng giá trị số nguyên',
@@ -7096,7 +7099,7 @@ function adminExecuteKnowledgeExtraction(){
         subject: subject,
         topic: `Ứng dụng sư phạm ${subject}`,
         level: 'Khó',
-        q: `[${subject} - HPU2 AI Trích Xuất] Khi xây dựng kế hoạch bài dạy học phần ${subject}, giáo viên cần đặc biệt lưu ý bẫy nhận thức nào của sinh viên?`,
+        q: `[${subject} - AI Trích Xuất] Khi xây dựng kế hoạch bài dạy học phần ${subject}, giáo viên cần đặc biệt lưu ý bẫy nhận thức nào của sinh viên?`,
         o: [
           'Nhầm lẫn giữa điều kiện cần và điều kiện đủ khi áp dụng định lý đảo',
           'Quên ghi tên học phần trên đầu trang',
@@ -7108,12 +7111,12 @@ function adminExecuteKnowledgeExtraction(){
       }
     ];
 
-    // Cập nhật vào HPU2_CURRICULUM
-    if(HPU2_CURRICULUM[subject]){
-      if(!Array.isArray(HPU2_CURRICULUM[subject].know)) HPU2_CURRICULUM[subject].know = [];
-      HPU2_CURRICULUM[subject].know.push(...generatedPoints);
-      if(!Array.isArray(HPU2_CURRICULUM[subject].topics)) HPU2_CURRICULUM[subject].topics = [];
-      HPU2_CURRICULUM[subject].topics.push(newTopic);
+    // Cập nhật vào CORE_CURRICULUM
+    if(CORE_CURRICULUM[subject]){
+      if(!Array.isArray(CORE_CURRICULUM[subject].know)) CORE_CURRICULUM[subject].know = [];
+      CORE_CURRICULUM[subject].know.push(...generatedPoints);
+      if(!Array.isArray(CORE_CURRICULUM[subject].topics)) CORE_CURRICULUM[subject].topics = [];
+      CORE_CURRICULUM[subject].topics.push(newTopic);
     }
 
     // Cập nhật vào CONTENT toàn cục
@@ -7174,9 +7177,9 @@ function adminDeleteKnowledgeDoc(docId){
 
 function adminResetDefaultKnowledgeDocs(){
   if(!checkAdminAuth()) return;
-  if(!confirm('Khôi phục danh sách giáo trình mẫu HPU2 ban đầu?')) return;
+  if(!confirm('Khôi phục danh sách giáo trình mẫu Đại Học ban đầu?')) return;
   saveAdminKnowledgeVault(DEFAULT_ADMIN_KNOWLEDGE_DOCS);
-  toast('Đã khôi phục kho tài liệu mẫu HPU2!');
+  toast('Đã khôi phục kho tài liệu mẫu Đại Học!');
   render();
 }
 
@@ -7208,7 +7211,7 @@ function generateRoadmapForTarget(autoToast = false){
   const subject = S.subject || 'Đại số tuyến tính';
   const grade = S.grade || 'Năm 1';
   const mode = S.mode || 'week4';
-  const cur = HPU2_CURRICULUM[subject] || HPU2_CURRICULUM['Đại số tuyến tính'];
+  const cur = CORE_CURRICULUM[subject] || CORE_CURRICULUM['Đại số tuyến tính'];
   
   const rawTopics = (cur && cur.topics && cur.topics.length) ? cur.topics : DEFAULT_TOPICS;
   const rawKnow = (cur && cur.know && cur.know.length) ? cur.know : DEFAULT_KNOW;
@@ -7245,7 +7248,7 @@ function generateRoadmapForTarget(autoToast = false){
       'Tuần 1: Chuyên đề Cơ sở & Các tiên đề, định lý nền tảng',
       'Tuần 2: Chuyên đề Trọng tâm & Phương pháp tính toán chuyên sâu',
       'Tuần 3: Chuyên đề Nâng cao & Ứng dụng liên môn trong sư phạm Toán',
-      'Tuần 4: Tổng ôn toàn diện, Luyện giải bộ đề thi HPU2 & Đánh giá năng lực'
+      'Tuần 4: Tổng ôn toàn diện, Luyện giải bộ đề thi chuẩn đại học & Đánh giá năng lực'
     ];
     newPlan = Array.from({ length: 4 }, (_, i) => {
       const a = Math.floor(i * rawTopics.length / 4);
@@ -7254,7 +7257,7 @@ function generateRoadmapForTarget(autoToast = false){
       const topicStr = sliceTopics.length ? sliceTopics.join(' • ') : rawTopics[i % rawTopics.length];
       const kItem = rawKnow[i % rawKnow.length] || '';
       return {
-        t: `<b>${weeksTitle[i]}</b><br><span class="text-teal-900 font-normal">Chủ đề: ${topicStr}</span><br><span class="text-[11px] text-emerald-700 italic">Trọng tâm HPU2: ${kItem}</span>`,
+        t: `<b>${weeksTitle[i]}</b><br><span class="text-teal-900 font-normal">Chủ đề: ${topicStr}</span><br><span class="text-[11px] text-emerald-700 italic">Trọng tâm kiến thức: ${kItem}</span>`,
         d: false,
         rawTopic: topicStr,
         subject: subject,
@@ -7293,7 +7296,7 @@ function onTargetGoalChange(key, val){
   }
   S[key] = val;
   if (key === 'subject') {
-    const cur = HPU2_CURRICULUM[val];
+    const cur = CORE_CURRICULUM[val];
     if (cur && cur.know) {
       if (!S.docAnalysis) {
         S.focus = [...cur.know];
@@ -7341,10 +7344,10 @@ function vCloudGardenView(){
   const stories = CLOUD_GARDEN_DATA.stories || [];
   const selectedStory = stories.find(s => s.id === activeStoryModalId);
 
-  const categories = ['all', 'Sư Phạm HPU2', 'Toán Học', 'Ý Chí & Nghị Lực', 'Phương Pháp Học'];
+  const categories = ['all', 'Sư Phạm Chuẩn', 'Toán Học', 'Ý Chí & Nghị Lực', 'Phương Pháp Học'];
   const catLabels = {
     'all': '🌟 Tất Cả Danh Ngôn',
-    'Sư Phạm HPU2': '🎓 Sư Phạm HPU2',
+    'Sư Phạm Chuẩn': '🎓 Sư Phạm Chuẩn',
     'Toán Học': '📐 Toán Học & Logic',
     'Ý Chí & Nghị Lực': '🔥 Ý Chí & Nghị Lực',
     'Phương Pháp Học': '🚀 Phương Pháp Học'
@@ -7361,10 +7364,10 @@ function vCloudGardenView(){
 
       <div class="relative z-10 max-w-3xl">
         <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/90 border border-sky-300 text-sky-900 font-extrabold text-xs mb-3.5 shadow-2xs">
-          <span>🌸</span> <span>Không Gian Chào Mừng • Trường ĐH Sư Phạm Hà Nội 2</span>
+          <span>🌸</span> <span>Không Gian Chào Mừng • Trường Đại Học Sư Phạm</span>
         </div>
         <h1 class="text-2xl sm:text-4xl font-extrabold text-slate-900 leading-tight font-fun mb-2.5">
-          ☁️ Khu Vườn Mây Tri Thức HPU2
+          ☁️ Khu Vườn Mây Tri Thức
         </h1>
         <p class="text-sm sm:text-base text-slate-700 leading-relaxed mb-5 font-medium">
           Chốn dừng chân nhẹ nhàng nuôi dưỡng tâm hồn, thắp sáng ngọn lửa sư phạm & lòng yêu Toán học. Nơi mỗi câu chuyện là một nguồn cảm hứng, mỗi định lý là một bước đệm dẫn tới bục giảng tương lai! ✨
@@ -7404,7 +7407,7 @@ function vCloudGardenView(){
         <div class="flex items-center gap-2">
           <span class="text-2xl">🐾</span>
           <div>
-            <h3 class="text-base sm:text-lg font-extrabold text-emerald-950 font-fun">Sứ Giả Linh Vật Vườn Mây HPU2</h3>
+            <h3 class="text-base sm:text-lg font-extrabold text-emerald-950 font-fun">Sứ Giả Linh Vật Vườn Mây</h3>
             <p class="text-xs text-slate-500">Nhấp vào từng linh vật để lắng nghe lời chúc và năng lượng tích cực hôm nay!</p>
           </div>
         </div>
@@ -7422,7 +7425,7 @@ function vCloudGardenView(){
               </div>
               <div class="min-w-0 flex-1">
                 <div class="font-bold text-xs sm:text-sm text-slate-900 truncate">${m.name}</div>
-                <div class="text-[10px] text-teal-700 font-semibold truncate">${m.role || 'Linh vật HPU2'}</div>
+                <div class="text-[10px] text-teal-700 font-semibold truncate">${m.role || 'Linh vật Học Tập'}</div>
               </div>
             </div>
             <div class="relative p-2.5 rounded-xl bg-sky-50/80 border border-sky-100 text-[11px] text-slate-700 italic leading-snug">
@@ -7492,17 +7495,17 @@ function vCloudGardenView(){
       </div>
     </div>
 
-    <!-- 4. GÓC CÂU CHUYỆN TRUYỀN CẢM HỨNG GIẢNG ĐƯỜNG HPU2 -->
+    <!-- 4. GÓC CÂU CHUYỆN TRUYỀN CẢM HỨNG GIẢNG ĐƯỜNG ĐẠI HỌC -->
     <div class="space-y-4" id="cloudStoriesSection">
       <div class="flex items-center justify-between flex-wrap gap-2 pb-2 border-b border-emerald-200">
         <div class="flex items-center gap-2.5">
           <span class="text-2xl">📚</span>
           <div>
             <h3 class="text-lg sm:text-xl font-extrabold text-slate-900 font-fun">
-              Những Câu Chuyện Thắp Lửa Giảng Đường HPU2
+              Những Câu Chuyện Thắp Lửa Giảng Đường Đại Học
             </h3>
             <p class="text-xs text-slate-600">
-              Góc tự sự, hành trình vượt khó và tinh thần người thầy Toán học của các thế hệ sinh viên Xuân Hòa
+              Góc tự sự, hành trình vượt khó và tinh thần người thầy Toán học của các thế hệ sinh viên Sư Phạm
             </p>
           </div>
         </div>
@@ -7567,7 +7570,7 @@ function vCloudGardenView(){
             Đăng Nhập Để Mở Khóa Trọn Vẹn Hệ Thống
           </h2>
           <p class="text-xs sm:text-sm text-emerald-800 leading-relaxed font-medium">
-            Bạn đang xem ở chế độ Khách Tham Quan Vườn Mây. Hãy đăng nhập tài khoản ngay hôm nay để kích hoạt toàn bộ phân hệ học tập &amp; rèn luyện nghiệp vụ Sư phạm Toán HPU2:
+            Bạn đang xem ở chế độ Khách Tham Quan Vườn Mây. Hãy đăng nhập tài khoản ngay hôm nay để kích hoạt toàn bộ phân hệ học tập &amp; rèn luyện nghiệp vụ Sư phạm Toán:
           </p>
         </div>
 
@@ -7632,7 +7635,7 @@ function vCloudGardenView(){
               <span class="text-3xl">${selectedStory.icon || '📖'}</span>
               <div>
                 <span class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-sky-100 text-sky-900 border border-sky-200">
-                  ${selectedStory.category || 'Sư Phạm HPU2'}
+                  ${selectedStory.category || 'Sư Phạm Chuẩn'}
                 </span>
                 <h3 class="text-lg sm:text-xl font-extrabold text-slate-900 mt-1 font-fun leading-snug">
                   ${selectedStory.title}
@@ -7679,7 +7682,7 @@ function vCloudGardenView(){
 
 function vLearn(){
   ensurePlan();
-  const knowList = (S.focus && S.focus.length) ? S.focus : (HPU2_CURRICULUM[S.subject]?.know || CONTENT.KNOW);
+  const knowList = (S.focus && S.focus.length) ? S.focus : (CORE_CURRICULUM[S.subject]?.know || CONTENT.KNOW);
   const isAuth = isUserLoggedIn();
   const doc = S.docAnalysis;
   return `
@@ -7725,14 +7728,14 @@ function vLearn(){
           </div>
         ` : ''}
 
-        <label class="text-xs font-bold text-emerald-800 uppercase tracking-wider">Năm Học (ĐH Sư Phạm Hà Nội 2)</label>
+        <label class="text-xs font-bold text-emerald-800 uppercase tracking-wider">Năm Học (Đại Học Sư Phạm)</label>
         <select ${!isAuth ? 'disabled' : ''} onchange="onTargetGoalChange('grade', this.value)" class="mt-1 font-semibold text-emerald-950 w-full ${!isAuth ? 'bg-slate-50 cursor-not-allowed opacity-75' : ''}">
           ${['Năm 1','Năm 2','Năm 3','Năm 4'].map(g=>`<option ${g===S.grade?'selected':''}>${g}</option>`).join('')}
         </select>
 
-        <label class="text-xs font-bold text-emerald-800 uppercase tracking-wider mt-3 block">Học Phần Đào Tạo (HPU2)</label>
+        <label class="text-xs font-bold text-emerald-800 uppercase tracking-wider mt-3 block">Học Phần Đào Tạo Đại Học</label>
         <select ${!isAuth ? 'disabled' : ''} onchange="onTargetGoalChange('subject', this.value)" class="mt-1 font-semibold text-emerald-950 w-full ${!isAuth ? 'bg-slate-50 cursor-not-allowed opacity-75' : ''}">
-          ${HPU2_SUBJECTS.map(s=>`<option ${s===S.subject?'selected':''}>${s}</option>`).join('')}
+          ${CORE_SUBJECTS.map(s=>`<option ${s===S.subject?'selected':''}>${s}</option>`).join('')}
         </select>
 
         <label class="text-xs font-bold text-emerald-800 uppercase tracking-wider mt-3 block">
@@ -7786,7 +7789,7 @@ function vLearn(){
       <div class="mt-4">
         <div class="text-xs font-bold uppercase tracking-wider text-emerald-900 flex items-center justify-between mb-1.5">
           <span>${doc ? 'Kiến thức rút trích từ tệp:' : `Kiến thức cốt lõi ${S.subject} (${knowList.length}):`}</span>
-          <span class="text-teal-600 font-extrabold">${doc ? 'AI Analyzed' : 'HPU2 Curriculum'}</span>
+          <span class="text-teal-600 font-extrabold">${doc ? 'AI Analyzed' : 'University Curriculum'}</span>
         </div>
         <ul class="text-xs space-y-1.5 max-h-48 overflow-y-auto pr-1">
           ${(doc && doc.coreKnowledge && doc.coreKnowledge.length ? doc.coreKnowledge.map(k => `
@@ -7813,7 +7816,7 @@ function vLearn(){
             <h3 class="font-extrabold text-xs text-emerald-950 uppercase tracking-wider">Hỏi Đáp &amp; Tra Cứu AI</h3>
           </div>
           <div class="flex items-center gap-1">
-            <span class="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-teal-100 text-teal-800 border border-teal-200">HPU2 Math</span>
+            <span class="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-teal-100 text-teal-800 border border-teal-200">Advanced Math</span>
             <button class="text-xs text-slate-400 hover:text-slate-700 p-1" onclick="clearAiChat()" title="Xóa lịch sử đoạn chat">🗑️</button>
             <button class="text-xs text-emerald-600 hover:text-emerald-800 p-1 font-bold" onclick="toggleFloatingAiChat(true)" title="Phóng to khung chat nổi">⛶</button>
           </div>
@@ -7975,7 +7978,7 @@ function setDocAnalysisTab(t){
 function saveDocAnalysisSet(){
   if(!S.docAnalysis) return;
   const list = getSavedDocAnalyses();
-  const title = S.docAnalysis.title || S.docAnalysis.docName || "Bộ ôn tập HPU2";
+  const title = S.docAnalysis.title || S.docAnalysis.docName || "Bộ ôn tập Đại Học";
   list.unshift({
     id: Date.now(),
     name: title,
@@ -8074,7 +8077,7 @@ function renderDocAnalysisSection(doc){
           <p class="text-xs text-emerald-800 flex items-center gap-1.5 flex-wrap mt-0.5">
             <span>📁 Tệp: <b>${doc.docName || doc.title}</b> (${doc.docSize||'Đã quét'})</span>
             <span class="text-emerald-400">•</span>
-            <span>Học phần: <b>${doc.subject || S.subject || 'Toán HPU2'}</b></span>
+            <span>Học phần: <b>${doc.subject || S.subject || 'Toán Đại Học'}</b></span>
             <span class="text-emerald-400">•</span>
             <span class="text-slate-500">${doc.timestamp || 'Vừa xong'}</span>
           </p>
@@ -8278,7 +8281,7 @@ function renderDocAnalysisSection(doc){
           <div>
             <h3 class="font-extrabold text-sm text-teal-950 flex items-center gap-2">
               <span class="text-lg">📝</span>
-              <span>Câu Hỏi Tự Luận & Vấn Đáp Sư Phạm HPU2</span>
+              <span>Câu Hỏi Tự Luận & Vấn Đáp Sư Phạm Chuẩn</span>
             </h3>
             <p class="text-xs text-teal-700 mt-0.5">Rèn luyện khả năng giải thích bản chất toán học và kỹ năng thuyết trình sư phạm</p>
           </div>
@@ -8328,7 +8331,7 @@ function renderDocAnalysisSection(doc){
               <span class="text-lg">🗺️</span>
               <span>Gợi Ý Hướng Ôn Tập & Phân Loại Mức Độ Ưu Tiên</span>
             </h3>
-            <p class="text-xs text-teal-700 mt-0.5">Được AI tính toán dựa trên mức độ quan trọng và độ khó trong cấu trúc đề thi HPU2</p>
+            <p class="text-xs text-teal-700 mt-0.5">Được AI tính toán dựa trên mức độ quan trọng và độ khó trong cấu trúc đề thi đại học</p>
           </div>
           <button class="btn sm g text-xs" onclick="applyDocPlanToRoadmap()">
             <span>⚡</span> <span>Áp Dụng Vào Lộ Trình Học</span>
@@ -8618,7 +8621,7 @@ function generateAIAnalysis(fileName, file){
   }
   // 2. Nhận diện tài liệu Đại số tuyến tính
   else if(isDSTT || (!isRoiRac && !isXSTK && !isGT2 && !isGT1 && activeSubj === 'Đại số tuyến tính')){
-    detectedSubj = 'Đại số tuyến tính (HPU2)';
+    detectedSubj = 'Đại số tuyến tính';
     coreKnowledge = [
       {
         title: 'Định thức & Ma trận nghịch đảo',
@@ -8684,7 +8687,7 @@ function generateAIAnalysis(fileName, file){
   }
   // 3. Nhận diện tài liệu Giải tích 1
   else if(isGT1 || (!isRoiRac && !isXSTK && !isGT2 && !isDSTT && activeSubj === 'Giải tích 1')){
-    detectedSubj = 'Giải tích 1 (HPU2)';
+    detectedSubj = 'Giải tích 1';
     coreKnowledge = [
       {
         title: 'Định lý Giá trị Trung bình Lagrange',
@@ -8750,7 +8753,7 @@ function generateAIAnalysis(fileName, file){
   }
   // 4. Nhận diện tài liệu Giải tích 2
   else if(isGT2 || (!isRoiRac && !isXSTK && !isGT1 && !isDSTT && activeSubj === 'Giải tích 2')){
-    detectedSubj = 'Giải tích 2 (HPU2)';
+    detectedSubj = 'Giải tích 2';
     coreKnowledge = [
       {
         title: 'Cực trị Hàm nhiều biến & Ma trận Hessian',
@@ -8821,7 +8824,7 @@ function generateAIAnalysis(fileName, file){
   }
   // 5. Nhận diện tài liệu Xác suất thống kê
   else if(isXSTK || (!isRoiRac && !isGT2 && !isGT1 && !isDSTT && activeSubj === 'Xác suất thống kê')){
-    detectedSubj = 'Xác suất thống kê (HPU2)';
+    detectedSubj = 'Xác suất thống kê';
     coreKnowledge = [
       {
         title: 'Công thức Xác suất Toàn phần & Bayes',
@@ -8887,7 +8890,7 @@ function generateAIAnalysis(fileName, file){
   }
   // 6. Nhận diện tài liệu Toán rời rạc
   else if(isRoiRac || (!isXSTK && !isGT2 && !isGT1 && !isDSTT && activeSubj === 'Toán rời rạc')){
-    detectedSubj = 'Toán rời rạc (HPU2)';
+    detectedSubj = 'Toán rời rạc';
     coreKnowledge = [
       {
         title: 'Định lý Bắt tay (Handshaking Lemma)',
@@ -8963,12 +8966,12 @@ function generateAIAnalysis(fileName, file){
   }
   // 7. Tổng quát theo môn học đang chọn
   else {
-    detectedSubj = activeSubj + ' (HPU2)';
+    detectedSubj = activeSubj + '';
     coreKnowledge = [
       {
         title: 'Khái niệm & Định lý trọng tâm bài giảng',
         type: 'Khái niệm then chốt',
-        content: `Tài liệu ${fileName} cung cấp hệ thống lý thuyết then chốt về ${activeSubj}, tập trung vào các tiên đề và cấu trúc toán học cơ bản phục vụ giảng dạy tại Trường ĐH Sư phạm Hà Nội 2.`,
+        content: `Tài liệu ${fileName} cung cấp hệ thống lý thuyết then chốt về ${activeSubj}, tập trung vào các tiên đề và cấu trúc toán học cơ bản phục vụ giảng dạy tại Trường Đại Học Sư Phạm.`,
         formula: '\\text{Mô hình hóa toán học} \\iff \\text{Giải pháp giải tích / đại số}'
       },
       {
@@ -8991,7 +8994,7 @@ function generateAIAnalysis(fileName, file){
         question: `Nội dung cốt lõi của tài liệu vừa tiếp nhận thuộc phân hệ học phần nào?`,
         options: [activeSubj, 'Kỹ năng giao tiếp sư phạm', 'Lịch sử giáo dục', 'Tâm lý học đại cương'],
         answer: 0,
-        explanation: `Tài liệu đã được AI phân loại chính xác vào học phần ${activeSubj} theo chương trình đào tạo của HPU2.`
+        explanation: `Tài liệu đã được AI phân loại chính xác vào học phần ${activeSubj} theo chương trình đào tạo đại học.`
       },
       {
         type: 'essay',
@@ -9011,7 +9014,7 @@ function generateAIAnalysis(fileName, file){
   const essays = reviewQuestions.filter(q => q.type === 'essay').map(q => ({
     question: q.question,
     suggested_answer: q.sampleAnswer,
-    keywords: q.keywords || ['HPU2']
+    keywords: q.keywords || ['Đại Học']
   }));
   const formulas = coreKnowledge.filter(k => k.formula).map(k => ({
     name: k.title,
@@ -9033,7 +9036,7 @@ function generateAIAnalysis(fileName, file){
     difficulty: 'Trung bình',
     timestamp: new Date().toLocaleTimeString('vi-VN', {hour:'2-digit', minute:'2-digit'}) + ' - ' + new Date().toLocaleDateString('vi-VN'),
     summary: {
-      overview: `Tài liệu môn ${detectedSubj} theo chuẩn chương trình đào tạo của Trường Đại học Sư phạm Hà Nội 2. Bao gồm các định lý cốt lõi, công thức then chốt và hệ thống câu hỏi rèn luyện phản xạ.`,
+      overview: `Tài liệu môn ${detectedSubj} theo chuẩn chương trình đào tạo của Trường Đại Học Sư Phạm. Bao gồm các định lý cốt lõi, công thức then chốt và hệ thống câu hỏi rèn luyện phản xạ.`,
       key_points: coreKnowledge.map(k => ({ title: k.title, detail: k.content, type: k.type, formula: k.formula })),
       formulas: formulas
     },
@@ -9085,7 +9088,7 @@ const GEMINI_DOC_SCHEMA = {
   }
 };
 
-const GEMINI_DOC_PROMPT = `Bạn là trợ lý học tập cho sinh viên Trường Đại học Sư phạm Hà Nội 2 (HPU2). Đọc kỹ tài liệu được cung cấp và trả về JSON theo schema, viết bằng tiếng Việt.
+const GEMINI_DOC_PROMPT = `Bạn là trợ lý học tập cho sinh viên Trường Đại Học Sư Phạm. Đọc kỹ tài liệu được cung cấp và trả về JSON theo schema, viết bằng tiếng Việt.
 Quy tắc:
 - Chỉ dùng thông tin có trong tài liệu, không bịa thêm.
 - summary: overview 2-3 câu; key_points 5-10 ý chính (định lý, định nghĩa, kết luận quan trọng); formulas là các công thức/định lý có trong tài liệu (mảng rỗng nếu không có).
@@ -9160,7 +9163,7 @@ function normalizeGeminiDocResult(res, fileName, file){
       type: 'essay',
       question: e.question,
       sampleAnswer: e.suggested_answer,
-      keywords: ['HPU2', 'Sư phạm', 'Phương pháp']
+      keywords: ['Đại Học', 'Sư phạm', 'Phương pháp']
     });
   });
 
@@ -9168,7 +9171,7 @@ function normalizeGeminiDocResult(res, fileName, file){
     title: res.title || fileName,
     docName: fileName,
     docSize: file ? formatFileSize(file.size) : 'Đã quét AI',
-    subject: S.subject || 'Học phần HPU2',
+    subject: S.subject || 'Học phần đại học',
     difficulty: res.difficulty || 'Trung bình',
     timestamp: new Date().toLocaleTimeString('vi-VN', {hour:'2-digit', minute:'2-digit'}) + ' - ' + new Date().toLocaleDateString('vi-VN'),
     summary: {
@@ -9230,7 +9233,7 @@ async function upload(f){
         return;
       }
     } catch(geminiErr){
-      console.warn('Lỗi gọi Gemini API trực tiếp, tự động chuyển sang bộ phân tích nội bộ HPU2:', geminiErr);
+      console.warn('Lỗi gọi Gemini API trực tiếp, tự động chuyển sang bộ phân tích nội bộ chuyên sâu:', geminiErr);
       toast('⚠️ Lỗi Gemini: ' + (geminiErr.message || '') + '. Đang dùng bộ phân tích dự phòng...');
     }
   }
@@ -9278,7 +9281,7 @@ function suggest(userTriggered = false){
   save();
   if (userTriggered) {
     Sound.correct && Sound.correct();
-    toast(`✨ Đã tạo mới lộ trình học tập chuẩn HPU2 cho môn ${S.subject}!`);
+    toast(`✨ Đã tạo mới lộ trình học tập chuẩn sư phạm cho môn ${S.subject}!`);
   }
   render();
 }
@@ -9324,7 +9327,7 @@ function miniTest(i){
   go('exam');
 }
 
-/* ==================== 11.3 TÍNH NĂNG MỚI: HỎI ĐÁP & TRA CỨU BẰNG AI (HPU2 MATH AI ASSISTANT) ==================== */
+/* ==================== 11.3 TÍNH NĂNG MỚI: HỎI ĐÁP & TRA CỨU BẰNG AI (MATH AI ASSISTANT) ==================== */
 function renderAiChatMessage(text){
   if(!text) return '';
   let s = String(text);
@@ -9354,7 +9357,7 @@ function renderAiChatMessagesHtml(isFloating = false){
         }">
           <div class="flex items-center justify-between gap-2 mb-1 pb-1 border-b ${isUser ? 'border-emerald-500/50' : 'border-emerald-100/80'}">
             <span class="font-extrabold text-[10px] uppercase tracking-wider flex items-center gap-1 ${isUser ? 'text-emerald-100' : 'text-teal-700'}">
-              <span>${isUser ? '🎓 Bạn' : '🏛️ AI Trợ Giảng HPU2'}</span>
+              <span>${isUser ? '🎓 Bạn' : '🏛️ AI Trợ Giảng Toán Học'}</span>
             </span>
             <span class="text-[9px] ${isUser ? 'text-emerald-200' : 'text-slate-400'}">${m.time || ''}</span>
           </div>
@@ -9425,7 +9428,7 @@ function clearAiChat(){
     S.aiChatHistory = [
       {
         role: 'assistant',
-        text: 'Lịch sử đoạn chat đã được làm mới. Em hãy nhập câu hỏi về bài tập hoặc lý thuyết các môn Toán HPU2 bất cứ lúc nào nhé!',
+        text: 'Lịch sử đoạn chat đã được làm mới. Em hãy nhập câu hỏi về bài tập hoặc lý thuyết các môn Toán Đại Học bất cứ lúc nào nhé!',
         time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       }
     ];
@@ -9461,7 +9464,7 @@ function submitAiChat(source){
   save();
   updateAiChatUI();
 
-  // Tạo phản hồi chuyên sâu từ AI Trợ Giảng Toán HPU2
+  // Tạo phản hồi chuyên sâu từ AI Trợ Giảng Toán Học
   setTimeout(() => {
     const replyText = generateAiResponse(q);
     const replyTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
@@ -9502,7 +9505,7 @@ $$\\sum_{v \\in V} \\text{deg}(v) = 2|E|$$
 - *Lời giải:* Theo định lý bắt tay:
   $$2|E| = \\sum_{v \\in V} \\text{deg}(v) = 10 \\times 3 = 30 \\implies |E| = 15 \\text{ cạnh}.$$
 
-**5. Góc nhìn Sư phạm HPU2:**
+**5. Góc nhìn Sư phạm chuẩn mực:**
 Khi dạy học sinh, giáo viên nên dùng hình ảnh ẩn dụ: "Trong một buổi họp, nếu 2 người bắt tay nhau thì có 1 cái bắt tay xảy ra, nhưng có 2 lượt chìa tay được tính". Đây là ví dụ trực quan tuyệt vời để học sinh ghi nhớ bản chất của định lý.`;
   }
 
@@ -9618,7 +9621,7 @@ $$\\text{rank}(A) = \\text{rank}(\\bar{A}) \\quad \\text{với } \\bar{A} = [A \
 - **Nghiệm duy nhất:** Khi $\\text{rank}(A) = \\text{rank}(\\bar{A}) = n$.
 - **Vô số nghiệm:** Khi $\\text{rank}(A) = \\text{rank}(\\bar{A}) = r < n$. Khi đó nghiệm phụ thuộc vào $n - r$ tham số tự do.
 
-**3. Quy trình giải hệ theo chuẩn HPU2:**
+**3. Quy trình giải hệ theo chuẩn sư phạm:**
 1. Lập ma trận mở rộng $\\bar{A} = [A \\mid b]$.
 2. Dùng phép biến đổi hàng đưa $\\bar{A}$ về dạng bậc thang.
 3. Đếm số dòng khác 0 để xác định hạng và kết luận nghiệm.`;
@@ -9787,9 +9790,9 @@ CLT là chiếc chìa khóa vạn năng của thống kê: **Bất kể phân ph
 DDR truyền dữ liệu ở cả 2 sườn của xung nhịp (sườn lên Rising edge và sườn xuống Falling edge), giúp nhân đôi băng thông truyền tải mà không cần tăng tần số xung clock cơ sở.`;
   }
 
-  // 18. Lời khuyên học tập sư phạm HPU2
-  if(q.includes('học tập') || q.includes('phương pháp') || q.includes('hpu2') || q.includes('sư phạm') || q.includes('giảng viên')){
-    return `### Lời Khuyên Phương Pháp Học Tập Dành Cho Sinh Viên Toán HPU2
+  // 18. Lời khuyên học tập sư phạm Đại Học
+  if(q.includes('học tập') || q.includes('phương pháp') || q.includes('đại học') || q.includes('sư phạm') || q.includes('giảng viên')){
+    return `### Lời Khuyên Phương Pháp Học Tập Dành Cho Sinh Viên Toán Đại Học
 
 **1. Nắm chắc bản chất định lý trước khi làm bài tập:**
 Đừng chỉ học thuộc vẹt công thức. Hãy tự đặt câu hỏi: "Tại sao định lý này cần điều kiện này?", "Nếu bỏ điều kiện đó thì phản ví dụ là gì?". Ví dụ: Định lý Lagrange nếu bỏ tính khả vi thì tiếp tuyến có còn tồn tại không?
@@ -9799,15 +9802,15 @@ Là sinh viên Sư phạm Toán, chữ viết bảng và lập luận sư phạm
 
 **3. Vận dụng tính năng của Study Arena:**
 - **Vườn Học Tập:** Tải giáo trình lên để AI phân tích kiến thức cốt lõi và tra cứu nhanh bài tập qua khung chat AI.
-- **Đấu Trường Thi:** Làm trắc nghiệm phản xạ, luyện tự luận và vấn đáp cùng Giảng viên ảo HPU2.
+- **Đấu Trường Thi:** Làm trắc nghiệm phản xạ, luyện tự luận và vấn đáp cùng Giảng viên ảo Đại Học.
 - **Nhà Cây Linh Vật:** Chăm chỉ làm bài mỗi ngày để tích lũy XP giúp linh vật độ kiếp lên Cảnh giới cao nhất!`;
   }
 
   // 19. Fallback trả lời tổng quát
-  return `### Phản hồi Phân Tích từ AI Trợ Giảng Toán HPU2
+  return `### Phản hồi Phân Tích từ AI Trợ Giảng Toán Học
 
 **Câu hỏi của bạn:** *"{{q}}"*
-**Học phần liên quan:** **{{subj}} (HPU2)**
+**Học phần liên quan:** **{{subj}}**
 
 **1. Bản chất & Định hướng giải quyết:**
 Vấn đề bạn đang hỏi thuộc khối kiến thức trọng tâm của học phần **{{subj}}**. Để giải quyết bài toán dạng này một cách bài bản theo chuẩn mực Sư phạm Toán, em cần tuân thủ 3 bước logic:
@@ -9845,9 +9848,9 @@ let QUIZ_SESSION = {
 
 function vExam(){
   const t=[
-    ['mcq','🎯 Trắc Nghiệm Thông Minh HPU2'],
-    ['essay','✍️ Tự Luận 5 Môn Cốt Lõi HPU2'],
-    ['oral','🦉 Vấn Đáp Nghiệp Vụ Giảng Viên HPU2']
+    ['mcq','🎯 Trắc Nghiệm Thông Minh'],
+    ['essay','✍️ Tự Luận 5 Môn Cốt Lõi'],
+    ['oral','🦉 Vấn Đáp Nghiệp Vụ Giảng Viên']
   ];
   return `
   <div>
@@ -10085,7 +10088,7 @@ function vCustomQuizSetup(){
     <div class="p-5 rounded-2xl bg-gradient-to-r from-emerald-700 via-teal-700 to-emerald-800 text-white shadow-md flex items-center justify-between flex-wrap gap-4 relative overflow-hidden">
       <div class="relative z-10 max-w-xl">
         <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 backdrop-blur-sm text-xs font-bold mb-2">
-          <span>🎯</span> <span>Đấu Trường Luyện Tập Trắc Nghiệm Thông Minh HPU2</span>
+          <span>🎯</span> <span>Đấu Trường Luyện Tập Trắc Nghiệm Thông Minh</span>
         </div>
         <h3 class="text-xl sm:text-2xl font-extrabold font-fun mb-1.5 text-white">Tùy Biến Bài Thi &amp; Phân Tích Năng Lực AI</h3>
         <p class="text-emerald-100 text-xs sm:text-sm leading-relaxed">
@@ -10114,8 +10117,8 @@ function vCustomQuizSetup(){
             1. Chọn Học Phần / Môn Học:
           </label>
           <select id="qzSubjectSelect" class="w-full text-xs sm:text-sm font-bold p-2.5 rounded-xl border border-emerald-300 bg-emerald-50/50 text-emerald-950" onchange="CUSTOM_QUIZ_CONFIG.subject=this.value">
-            <option value="all" ${cfg.subject==='all'?'selected':''}>🌐 Tất Cả 5 Học Phần HPU2 (Tổng Hợp)</option>
-            ${HPU2_SUBJECTS.map(s => `
+            <option value="all" ${cfg.subject==='all'?'selected':''}>🌐 Tất Cả 5 Học Phần Cốt Lõi (Tổng Hợp)</option>
+            ${CORE_SUBJECTS.map(s => `
               <option value="${s}" ${cfg.subject===s?'selected':''}>📘 ${s}</option>
             `).join('')}
           </select>
@@ -10488,7 +10491,7 @@ function vQuizResult(){
   `;
 }
 
-/* ==================== 12. PHÂN HỆ LUYỆN THI TỰ LUẬN 5 HỌC PHẦN HPU2 ==================== */
+/* ==================== 12. PHÂN HỆ LUYỆN THI TỰ LUẬN 5 HỌC PHẦN Đại Học ==================== */
 if(!window.ESSAY_CURRENT_SUBJ) window.ESSAY_CURRENT_SUBJ = 'all';
 if(!window.ESSAY_RANDOM_MODE) window.ESSAY_RANDOM_MODE = false;
 if(typeof window.ESSAY_RANDOM_INDEX !== 'number') window.ESSAY_RANDOM_INDEX = 0;
@@ -10548,7 +10551,7 @@ function vEssay(){
     <div class="card bg-gradient-to-r from-emerald-700 via-teal-700 to-emerald-800 text-white p-5 sm:p-6 shadow-md border-0 relative overflow-hidden rounded-3xl">
       <div class="relative z-10 max-w-2xl">
         <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 backdrop-blur-sm text-xs font-bold mb-3">
-          <span>✍️</span> <span>Đấu Trường Tự Luận Chuyên Sâu Sư Phạm Toán HPU2</span>
+          <span>✍️</span> <span>Đấu Trường Tự Luận Chuyên Sâu Sư Phạm Toán</span>
         </div>
         <h2 class="text-xl sm:text-2xl lg:text-3xl font-extrabold font-fun mb-2 text-white">Luyện Thi Tự Luận 5 Học Phần Cốt Lõi</h2>
         <p class="text-emerald-100 text-xs sm:text-sm leading-relaxed mb-4">
@@ -10583,7 +10586,7 @@ function vEssay(){
           <span class="text-[10px] px-1.5 py-0.2 rounded-full font-bold ${curSubj==='all' ? 'bg-white/20 text-white' : 'bg-slate-200 text-slate-700'}">${allEssays.length}</span>
         </button>
 
-        ${HPU2_SUBJECTS.map(subj => {
+        ${CORE_SUBJECTS.map(subj => {
           const count = allEssays.filter(e => getEssaySubject(e) === subj).length;
           const info = ESSAY_SUBJECT_INFO[subj] || { icon: '📘' };
           const isActive = curSubj === subj;
@@ -10723,7 +10726,7 @@ function revealEssayHint(i){
     <div class="p-4 bg-amber-50/90 border border-amber-300 rounded-2xl text-xs sm:text-sm text-amber-950 leading-relaxed shadow-2xs transition">
       <div class="flex items-center justify-between gap-2 font-bold text-amber-900 text-sm mb-2 pb-1.5 border-b border-amber-200/80">
         <div class="flex items-center gap-2">
-          <span>💡</span> <span>Gợi Ý Định Hướng Lời Giải (Sư Phạm HPU2):</span>
+          <span>💡</span> <span>Gợi Ý Định Hướng Lời Giải (Sư Phạm Chuẩn):</span>
         </div>
         <button class="text-[11px] text-amber-800 hover:underline font-semibold" onclick="$('#eh_${i}').innerHTML=''">Đóng ▲</button>
       </div>
@@ -10753,7 +10756,7 @@ function revealEssaySolution(i){
     <div class="p-4 bg-teal-50/90 border-2 border-teal-300 rounded-2xl text-xs sm:text-sm text-teal-950 leading-relaxed shadow-2xs transition">
       <div class="flex items-center justify-between gap-2 font-bold text-teal-950 text-sm mb-2.5 pb-1.5 border-b border-teal-200/80">
         <div class="flex items-center gap-2 font-extrabold">
-          <span>📖</span> <span>Lời Giải Chi Tiết Chuẩn Sư Phạm Toán HPU2:</span>
+          <span>📖</span> <span>Lời Giải Chi Tiết Chuẩn Sư Phạm Toán:</span>
         </div>
         <button class="text-[11px] text-teal-700 hover:underline font-semibold" onclick="$('#eh_${i}').innerHTML=''">Đóng ▲</button>
       </div>
@@ -10810,7 +10813,7 @@ function submitEssay(i){
       </div>
 
       <div class="p-3 bg-white/80 rounded-xl border border-emerald-200 text-emerald-900 text-xs sm:text-sm leading-relaxed">
-        <b>🧑‍🏫 Giảng Viên AI Sư Phạm Toán HPU2 Nhận Xét:</b><br/>
+        <b>🧑‍🏫 Giảng Viên AI Sư Phạm Toán Nhận Xét:</b><br/>
         Em đã hoàn thành bài làm với lập luận rõ ràng, thể hiện tư duy sư phạm khoa học. Hãy đối chiếu các bước giải của em với lời giải chuẩn bên dưới để rèn giũa kỹ năng trình bày bảng và bài thi tự luận xuất sắc nhé!
       </div>
 
@@ -10839,7 +10842,7 @@ function vOral(){
   const list=CONTENT.ORAL||[];
   if(!list.length)return `<p class="text-center py-6 text-slate-500">Chưa có câu hỏi vấn đáp nào.</p>`;
   if(!O.log.length&&!O.over){
-    O.log.push({r:'ai',t:'Chào em, sinh viên Sư phạm Toán HPU2! Thầy/Cô sẽ tiến hành vấn đáp kiểm tra kiến thức và năng lực nghiệp vụ sư phạm của em. ' + list[0].q});
+    O.log.push({r:'ai',t:'Chào em, sinh viên Sư phạm Toán! Thầy/Cô sẽ tiến hành vấn đáp kiểm tra kiến thức và năng lực nghiệp vụ sư phạm của em. ' + list[0].q});
   }
   return `
   <div class="flex flex-col h-[520px]">
@@ -10847,18 +10850,18 @@ function vOral(){
       <div class="flex items-center gap-2">
         <span class="text-2xl">🏛️</span>
         <div>
-          <span class="font-bold text-sm text-emerald-950">Phòng Vấn Đáp Nghiệp Vụ Sư Phạm HPU2</span>
-          <span class="text-[11px] text-emerald-700 block">Giảng viên Sư phạm Hà Nội 2 đánh giá kiến thức toán & năng lực sư phạm</span>
+          <span class="font-bold text-sm text-emerald-950">Phòng Vấn Đáp Nghiệp Vụ Sư Phạm Chuẩn</span>
+          <span class="text-[11px] text-emerald-700 block">Giảng viên Đại Học Sư Phạm đánh giá kiến thức toán & năng lực sư phạm</span>
         </div>
       </div>
-      <button class="btn sm outline" onclick="speakLastAI()" title="Nghe Thầy/Cô HPU2 đọc câu hỏi">🔊 Nghe Giảng Viên Đọc</button>
+      <button class="btn sm outline" onclick="speakLastAI()" title="Nghe Thầy/Cô Giảng Viên đọc câu hỏi">🔊 Nghe Giảng Viên Đọc</button>
     </div>
 
     <div class="flex-1 overflow-y-auto space-y-3 p-2 pr-1" id="chatBox">
       ${O.log.map(m=>`
         <div class="flex ${m.r==='ai'?'justify-start':'justify-end'}">
           <div class="max-w-[85%] rounded-2xl p-3.5 text-xs sm:text-sm font-medium shadow-sm ${m.r==='ai'?'bg-emerald-50 text-emerald-950 border border-emerald-200':'bg-amber-100 text-amber-950 border border-amber-200'}">
-            <b class="block mb-1 text-[11px] uppercase tracking-wider ${m.r==='ai'?'text-emerald-800':'text-amber-800'}">${m.r==='ai'?'🏛️ Giảng Viên HPU2:':'🎓 Sinh Viên:'}</b>
+            <b class="block mb-1 text-[11px] uppercase tracking-wider ${m.r==='ai'?'text-emerald-800':'text-amber-800'}">${m.r==='ai'?'🏛️ Giảng Viên Đại Học:':'🎓 Sinh Viên:'}</b>
             ${formatMathText(m.t)}
           </div>
         </div>
@@ -10868,7 +10871,7 @@ function vOral(){
     <div class="pt-3 border-t border-emerald-100">
       ${O.over?`
         <div class="text-center">
-          <p class="text-xs font-bold text-emerald-800 mb-2">🎉 Em đã hoàn thành xuất sắc buổi vấn đáp với Giảng viên HPU2!</p>
+          <p class="text-xs font-bold text-emerald-800 mb-2">🎉 Em đã hoàn thành xuất sắc buổi vấn đáp với Giảng viên Đại học!</p>
           <button class="btn g sm" onclick="O={i:0,log:[],tries:0,over:false};render()">Vấn Đáp Lại</button>
         </div>
       `:`
@@ -10922,7 +10925,7 @@ function ansOral(){
 
   if(hit||O.tries>=1){
     const reply=(hit?'Rất tốt! Tư duy và lập luận của em rất chuẩn xác. ':'Không sao, thầy/cô định hướng nhanh cho em: '+(q.hint||'')+' ')+
-      (O.i+1<list.length?'Chúng ta đi sâu vào câu tiếp theo nhé: '+list[O.i+1].q:'Đó là câu hỏi cuối cùng. Chúc mừng em đã hoàn thành xuất sắc buổi vấn đáp nghiệp vụ HPU2!');
+      (O.i+1<list.length?'Chúng ta đi sâu vào câu tiếp theo nhé: '+list[O.i+1].q:'Đó là câu hỏi cuối cùng. Chúc mừng em đã hoàn thành xuất sắc buổi vấn đáp nghiệp vụ sư phạm!');
     O.log.push({r:'ai',t:reply});
     if(hit){gain(15,'vd',10);Sound.correct()}else{gain(5,'vd',4)}
     O.i++;O.tries=0;
@@ -11472,7 +11475,7 @@ function vAscensionMap(){
     <div class="text-center max-w-xl mx-auto mb-6">
       <span class="text-3xl">🌸</span>
       <h2 class="text-2xl font-extrabold text-emerald-950 font-fun mt-1">Lộ Trình Thăng Tiến Tri Thức &amp; Chăm Chỉ</h2>
-      <p class="text-xs text-emerald-700 mt-1">Hệ thống 10 cấp bậc thăng tiến gắn liền 3 giai đoạn nhỏ (Khởi động, Luyện tập, Thử thách) chuẩn Sư phạm Toán HPU2</p>
+      <p class="text-xs text-emerald-700 mt-1">Hệ thống 10 cấp bậc thăng tiến gắn liền 3 giai đoạn nhỏ (Khởi động, Luyện tập, Thử thách) chuẩn Sư phạm Toán</p>
       ${ADM ? `
         <div class="mt-2.5">
           <button class="btn sm outline !py-1 text-xs" onclick="ADM_TAB='levels_mgmt';go('admin')">
@@ -11684,7 +11687,7 @@ function vDigitalGardenView(){
         <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 backdrop-blur-sm text-xs font-bold mb-3">
           <span>🌱</span> <span>Nông Trại & Khu Vườn Riêng của ${userName}</span>
         </div>
-        <h2 class="text-2xl lg:text-3xl font-extrabold font-fun mb-2 text-white">Nông Trại Sinh Tồn Tri Thức Sư Phạm HPU2</h2>
+        <h2 class="text-2xl lg:text-3xl font-extrabold font-fun mb-2 text-white">Nông Trại Sinh Tồn Tri Thức Sư Phạm Chuẩn</h2>
         <p class="text-emerald-100 text-xs sm:text-sm leading-relaxed mb-4">
           Không gian nông trại cá nhân lưu trữ biệt lập theo tài khoản của bạn. Hãy tích lũy điểm Lửa 🔥 từ việc học tập, giải đề và hỏi đáp AI để mua hạt giống, khai hoang mở rộng ô đất và chăm sóc cây cối tươi tốt!
         </p>
@@ -11997,7 +12000,7 @@ function petMascotFarmCheer(){
     '“Mỗi bài toán giải đúng là một giọt sương mát lành nuôi dưỡng khu vườn!” 🌱',
     '“Bé cảm nhận được sự chăm chỉ tuyệt vời của em hôm nay rồi đó!” ✨',
     '“Đừng quên tưới nước đều đặn để cây nở hoa rực rỡ và thu hoạch Lửa nhé!” 💧',
-    '“Học viện Sư Phạm Toán HPU2 tự hào về em!” 🦉',
+    '“Học viện Sư Phạm Toán tự hào về em!” 🦉',
     '“Mảnh đất canh tác của em đang tràn ngập sinh khí tích cực!” 🌾'
   ];
   const q = quotes[Math.floor(Math.random() * quotes.length)];
@@ -12225,7 +12228,7 @@ function vGamificationShopView(){
   if(!window.SHOP_ACTIVE_FILTER) window.SHOP_ACTIVE_FILTER = 'all';
   const curFilter = window.SHOP_ACTIVE_FILTER;
 
-  const myPets = S.inventory?.pets || ['hpu2_owl','mochi'];
+  const myPets = S.inventory?.pets || ['mascot_owl','mochi'];
   const myAccs = S.inventory?.accessories || [];
   const mySeeds = S.inventory?.seeds || {};
   const equipped = S.inventory?.equipped || { hat:'', glasses:'', badge:'', decor:'' };
@@ -12245,7 +12248,7 @@ function vGamificationShopView(){
     <div class="card bg-gradient-to-r from-amber-500 via-orange-600 to-rose-600 text-white p-6 shadow-md border-0 relative overflow-hidden">
       <div class="relative z-10 max-w-2xl">
         <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 backdrop-blur-sm text-xs font-bold mb-3">
-          <span>🛍️</span> <span>Cửa Hàng Nông Trại & Linh Vật Sư Phạm HPU2</span>
+          <span>🛍️</span> <span>Cửa Hàng Nông Trại & Linh Vật Sư Phạm Chuẩn</span>
         </div>
         <h2 class="text-2xl lg:text-3xl font-extrabold font-fun mb-2 text-white">Chợ Đổi Thưởng & Nông Cụ Tri Thức</h2>
         <p class="text-amber-100 text-xs sm:text-sm leading-relaxed mb-4">
@@ -12648,7 +12651,7 @@ function vSpeedMathGameView(){
         </div>
         <h2 class="text-2xl lg:text-3xl font-extrabold font-fun mb-2 text-white">Thử Thách Toán Tốc Độ 60s</h2>
         <p class="text-purple-100 text-xs sm:text-sm leading-relaxed mb-4">
-          Thử tài phản xạ chớp nhoáng với 5 phân môn Toán Sư Phạm HPU2. Trả lời đúng liên hoàn để nhân cấp số điểm, nhận mưa Lửa 🔥 đổi quà trong Cửa Hàng và nâng cấp linh vật!
+          Thử tài phản xạ chớp nhoáng với 5 phân môn Toán Sư Phạm. Trả lời đúng liên hoàn để nhân cấp số điểm, nhận mưa Lửa 🔥 đổi quà trong Cửa Hàng và nâng cấp linh vật!
         </p>
         <div class="flex items-center gap-3 flex-wrap">
           <div class="px-3.5 py-1.5 rounded-xl bg-black/25 backdrop-blur-sm border border-white/25 font-bold text-xs flex items-center gap-2">
