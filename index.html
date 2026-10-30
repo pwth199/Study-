@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="vi">
 <head>
 <meta charset="utf-8">
@@ -1911,6 +1911,24 @@ const DEFAULT_CFG={
   customPetUrl:''
 };
 
+const STORE_SITE_CONFIG = 'sa_site_config_v1';
+let SITE_CONFIG = { ...DEFAULT_CFG };
+try {
+  const savedCfg = JSON.parse(localStorage.getItem(STORE_SITE_CONFIG) || localStorage.getItem('sa_site_config') || '{}');
+  if (savedCfg && typeof savedCfg === 'object') {
+    Object.assign(SITE_CONFIG, savedCfg);
+  }
+} catch(e){}
+
+function saveSiteConfig(){
+  try {
+    localStorage.setItem(STORE_SITE_CONFIG, JSON.stringify(SITE_CONFIG));
+    localStorage.setItem('sa_site_config', JSON.stringify(SITE_CONFIG));
+  } catch(e){}
+}
+
+
+
 /* ==================== 3. ÂM THANH WEBAUDIO (OFFLINE) ==================== */
 const Sound={
   ctx:null,
@@ -3498,8 +3516,8 @@ try{
 
 if(!S.st||typeof S.st!=='object') S.st={...defaultSt};
 else S.st=Object.assign({...defaultSt},S.st);
-if(!S.cfg||typeof S.cfg!=='object') S.cfg={...DEFAULT_CFG};
-else S.cfg=Object.assign({...DEFAULT_CFG},S.cfg);
+if(!S.cfg||typeof S.cfg!=='object') S.cfg={...DEFAULT_CFG, ...SITE_CONFIG};
+else S.cfg=Object.assign({...DEFAULT_CFG}, SITE_CONFIG, S.cfg);
 if(!S.mode) S.mode='week4';
 if(!S.hrs) S.hrs=2;
 if(!S.tab) S.tab='learn';
@@ -3541,17 +3559,7 @@ if (!S.subject || !CORE_SUBJECTS.includes(S.subject)) {
 }
 
 // Cập nhật thương hiệu Đại Học nếu đang dùng cấu hình mặc định cũ
-if (!S.cfg || S.cfg.siteName === 'Study Arena' || !S.cfg.siteTag || S.cfg.siteTag === 'Vườn Tri Thức') {
-  S.cfg = Object.assign(S.cfg || {}, {
-    siteName: 'Study Arena',
-    siteTag: 'Đại Học Sư Phạm',
-    siteSub: 'Đấu trường tri thức & nghiệp vụ Sư phạm Toán học',
-    petId: S.cfg?.petId || 'mascot_owl',
-    petName: S.cfg?.petName || 'Cú Mèo Tri Thức',
-    bgTheme: S.cfg?.bgTheme || 'theme_emerald',
-    logoIcon: S.cfg?.logoIcon || '🏛️'
-  });
-}
+Object.assign(S.cfg, SITE_CONFIG);
 
 // Khởi tạo và kiểm tra tính hợp lệ của Giao diện & Linh vật người dùng
 if (!S.cfg.bgTheme || !THEMES_CATALOG.some(t => t.id === S.cfg.bgTheme)) {
@@ -3635,45 +3643,47 @@ let O={i:0,log:[],tries:0,over:false};
 
 /* ==================== 6. ÁP DỤNG THEME & HÌNH ẢNH GIAO DIỆN ==================== */
 function applyGardenTheme(){
-  const cfg=S.cfg||DEFAULT_CFG;
+  const cfg = Object.assign({}, DEFAULT_CFG, SITE_CONFIG, S.cfg || {});
   const curP = PETS_CATALOG.find(p=>p.id===(cfg.petId||'mochi')) || PETS_CATALOG[0] || {name:'Mochi',icon:'🌱'};
   const petNick = cfg.petName || curP.name;
   
   const st=$('#siteTitle'),sg=$('#siteTag'),sb=$('#siteSub');
-  if(st) st.textContent=cfg.siteName||'Study Arena';
-  if(sg) sg.textContent=cfg.siteTag||'Vườn Tri Thức';
-  if(sb) sb.textContent=cfg.siteSub||`Nuôi dưỡng linh vật ${petNick} qua từng bài học`;
+  if(st) st.textContent = cfg.siteName || 'Study Arena';
+  if(sg) {
+    if(cfg.siteTag && cfg.siteTag.trim()){
+      sg.textContent = cfg.siteTag.trim();
+      sg.style.display = '';
+    } else {
+      sg.textContent = '';
+      sg.style.display = 'none';
+    }
+  }
+  if(sb) sb.textContent = cfg.siteSub || `Đấu trường tri thức & nghiệp vụ Sư phạm Toán học`;
 
-  const lw=$('#siteLogoWrap'),li=$('#siteLogoIcon');
-  if(lw&&li){
+  const lw=$('#siteLogoWrap');
+  if(lw){
     if(cfg.customLogoUrl){
       lw.innerHTML=`<img src="${cfg.customLogoUrl}" class="w-full h-full object-cover">`;
     }else{
-      lw.innerHTML=`<span id="siteLogoIcon">${cfg.logoIcon||'🌿'}</span>`;
+      lw.innerHTML=`<span id="siteLogoIcon">${cfg.logoIcon||'🏛️'}</span>`;
     }
   }
 
-  // Áp dụng hình nền: ưu tiên hình nền cá nhân của người dùng, nếu không tra cứu từ THEMES_CATALOG
-  if(cfg.customBgUrl){
-    document.body.style.background=`url('${cfg.customBgUrl}') center/cover fixed no-repeat`;
-  } else {
-    const curTheme = THEMES_CATALOG.find(t=>t.id===cfg.bgTheme) || THEMES_CATALOG[0];
-    if(curTheme){
-      if(curTheme.bgUrl){
-        document.body.style.background=`url('${curTheme.bgUrl}') center/cover fixed no-repeat`;
-      } else if(curTheme.style){
-        document.body.style.background=curTheme.style;
-      } else {
-        document.body.style.background='linear-gradient(135deg, #e8f5e9 0%, #f1faee 50%, #e0f2fe 100%)';
-      }
-    } else {
-      document.body.style.background='linear-gradient(135deg, #e8f5e9 0%, #f1faee 50%, #e0f2fe 100%)';
-    }
+  // Cập nhật tiêu đề tab trình duyệt đồng bộ theo tên Admin đặt
+  try {
+    const parts = [cfg.siteName || 'Study Arena'];
+    if(cfg.siteTag && cfg.siteTag.trim()) parts.push(cfg.siteTag.trim());
+    document.title = parts.join(' – ');
+  } catch(e){}
+
+  // Cập nhật background và style giao diện
+  const theme = THEMES_CATALOG.find(t=>t.id===(cfg.bgTheme||'morning')) || THEMES_CATALOG[0];
+  if(theme){
+    document.body.style.background = cfg.customBgUrl ? `url('${cfg.customBgUrl}') center/cover fixed no-repeat` : theme.bg;
   }
 }
 
-/* ==================== 7. ĐIỀU HƯỚNG & HEADER ==================== */
-/* ==================== 7. ĐIỀU HƯỚNG & HEADER ==================== */
+
 /* ==================== 7. ĐIỀU HƯỚNG & HEADER ==================== */
 function head(){
   applyGardenTheme();
@@ -3740,9 +3750,10 @@ function head(){
   // Nút đăng nhập trực tiếp tại header
   const authEl=$('#auth');
   if(authEl){
+    const displayName = (S.user && S.user.name) ? S.user.name : (ADM ? 'Quản Trị Viên' : 'Học viên');
     authEl.innerHTML=isAuth?`
-      <button class="btn sm outline max-w-[160px] sm:max-w-xs" onclick="toggleAuthDropdown(event)" title="Tài khoản: ${S.user.name}">
-        <span class="truncate">👤 ${S.user.name}</span> <span class="text-[10px] shrink-0">▼</span>
+      <button class="btn sm outline max-w-[160px] sm:max-w-xs" onclick="toggleAuthDropdown(event)" title="Tài khoản: ${displayName}">
+        <span class="truncate">👤 ${displayName}</span> <span class="text-[10px] shrink-0">▼</span>
       </button>
     `:`
       <button class="btn sm g shadow-sm" onclick="openLoginModal(event)" title="Đăng nhập ngay để mở khóa toàn bộ tính năng">
@@ -3852,15 +3863,16 @@ function loginWithModalName(){
 function renderAuthDropdownContent(){
   const d=$('#authDropdown');if(!d)return;
   if(isUserLoggedIn()){
+    const userDisplayName = (S.user && S.user.name) ? S.user.name : (ADM ? 'Quản Trị Viên' : 'Học viên');
     // Khi đã đăng nhập: hiển thị bảng thông tin học viên & nút đăng xuất
     d.innerHTML=`
       <div class="flex items-center justify-between mb-2.5 pb-2 border-b border-emerald-100">
         <span class="font-bold text-xs text-emerald-950 uppercase tracking-wider flex items-center gap-1.5">
-          <span>👤</span> <span>Tài Khoản Học Viên</span>
+          <span>👤</span> <span>${ADM ? 'Tài Khoản Quản Trị Viên' : 'Tài Khoản Học Viên'}</span>
         </span>
         <button class="text-slate-400 hover:text-slate-700 font-bold text-base p-1 leading-none rounded-lg hover:bg-slate-100" onclick="closeAuthDropdown()" title="Đóng">✕</button>
       </div>
-      <p class="text-xs font-bold text-emerald-900 mb-2.5">Xin chào: <span class="text-teal-700 font-extrabold">${S.user.name}</span></p>
+      <p class="text-xs font-bold text-emerald-900 mb-2.5">Xin chào: <span class="text-teal-700 font-extrabold">${userDisplayName}</span></p>
       <div class="space-y-3">
         <div>
           <label class="text-[11px] font-bold text-emerald-800 block mb-1">Đổi tên hiển thị:</label>
@@ -3871,7 +3883,7 @@ function renderAuthDropdownContent(){
                    autocorrect="off" 
                    autocapitalize="off" 
                    spellcheck="false" 
-                   value="${S.user.name}" 
+                   value="${userDisplayName}" 
                    class="text-xs font-semibold py-2 px-3 border border-emerald-300 rounded-xl flex-1 focus:outline-none focus:ring-2 focus:ring-emerald-400" 
                    onkeydown="if(event.key==='Enter')renameUser()">
             <button class="btn sm g !py-2 !px-4 shrink-0" onclick="renameUser()">Lưu</button>
@@ -4178,15 +4190,15 @@ function vAdminTheme(){
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <div>
           <label class="text-xs font-bold text-emerald-900 block mb-1">Tên Website / Ứng Dụng:</label>
-          <input id="cfg_siteName" value="${cfg.siteName||''}" placeholder="Ví dụ: Study Arena" class="font-bold">
+          <input id="cfg_siteName" value="${SITE_CONFIG.siteName || cfg.siteName || ''}" placeholder="Ví dụ: Study Arena" class="font-bold">
         </div>
         <div>
           <label class="text-xs font-bold text-emerald-900 block mb-1">Thẻ Phụ / Huy Hiệu Thương Hiệu:</label>
-          <input id="cfg_siteTag" value="${cfg.siteTag||''}" placeholder="Ví dụ: Đại Học Sư Phạm">
+          <input id="cfg_siteTag" value="${SITE_CONFIG.siteTag !== undefined ? SITE_CONFIG.siteTag : (cfg.siteTag || '')}" data-empty="1" placeholder="Ví dụ: Đại Học Sư Phạm">
         </div>
         <div class="sm:col-span-2">
           <label class="text-xs font-bold text-emerald-900 block mb-1">Khẩu Hiệu / Mô Tả Mặc Định:</label>
-          <input id="cfg_siteSub" value="${cfg.siteSub||''}" placeholder="Ví dụ: Đấu trường tri thức & nghiệp vụ Sư phạm Toán học">
+          <input id="cfg_siteSub" value="${SITE_CONFIG.siteSub !== undefined ? SITE_CONFIG.siteSub : (cfg.siteSub || '')}" data-empty="1" placeholder="Ví dụ: Đấu trường tri thức & nghiệp vụ Sư phạm Toán học">
         </div>
         <div>
           <label class="text-xs font-bold text-emerald-900 block mb-1">Icon Logo (Emoji hoặc Ký tự):</label>
@@ -4245,21 +4257,35 @@ function vAdminTheme(){
 
 function saveAdminTheme(){
   if(!checkAdminAuth()) return;
-  S.cfg=S.cfg||{};
-  S.cfg.siteName=$('#cfg_siteName').value.trim()||'Study Arena';
-  S.cfg.siteTag=$('#cfg_siteTag').value.trim()||'Đại Học Sư Phạm';
-  S.cfg.siteSub=$('#cfg_siteSub').value.trim()||'Đấu trường tri thức & nghiệp vụ Sư phạm Toán học';
-  S.cfg.logoIcon=$('#cfg_logoIcon').value.trim()||'🏛️';
-  S.cfg.customLogoUrl=$('#cfg_customLogoUrl').value.trim();
-  S.cfg.showFloatingAi=$('#cfg_showFloatingAi')?.checked ?? true;
-  S.cfg.showLeafCanvas=$('#cfg_showLeafCanvas')?.checked ?? true;
-  S.cfg.soundEnabled=$('#cfg_soundEnabled')?.checked ?? true;
+  const inName = $('#cfg_siteName')?.value.trim();
+  const inTag = $('#cfg_siteTag')?.value.trim();
+  const inSub = $('#cfg_siteSub')?.value.trim();
+  const inLogo = $('#cfg_logoIcon')?.value.trim();
+  const inLogoUrl = $('#cfg_customLogoUrl')?.value.trim();
+  const showAi = $('#cfg_showFloatingAi')?.checked ?? true;
+  const showLeaf = $('#cfg_showLeafCanvas')?.checked ?? true;
+  const soundOn = $('#cfg_soundEnabled')?.checked ?? true;
 
+  SITE_CONFIG.siteName = inName || 'Study Arena';
+  SITE_CONFIG.siteTag = (inTag !== undefined) ? inTag : 'Đại Học Sư Phạm';
+  SITE_CONFIG.siteSub = (inSub !== undefined) ? inSub : 'Đấu trường tri thức & nghiệp vụ Sư phạm Toán học';
+  SITE_CONFIG.logoIcon = inLogo || '🏛️';
+  SITE_CONFIG.customLogoUrl = inLogoUrl || '';
+  SITE_CONFIG.showFloatingAi = showAi;
+  SITE_CONFIG.showLeafCanvas = showLeaf;
+  SITE_CONFIG.soundEnabled = soundOn;
+
+  saveSiteConfig();
+
+  S.cfg = S.cfg || {};
+  Object.assign(S.cfg, SITE_CONFIG);
   save();
+
   applyGardenTheme();
-  toast('Đã cập nhật thương hiệu & bố cục website thành công!');
+  toast('🎉 Đã cập nhật thương hiệu & tên website mới thành công!');
   render();
 }
+
 
 /* --- TAB MỚI: QUẢN LÝ CỬA HÀNG & NÔNG TRẠI HỆ THỐNG (ADMIN) --- */
 window.ADMIN_SHOP_TAB = 'seeds';
@@ -7385,7 +7411,7 @@ function vCloudGardenView(){
           ` : `
             <div class="inline-flex items-center gap-2 p-2 bg-emerald-100/90 rounded-2xl border border-emerald-300">
               <span class="text-lg">👋</span>
-              <span class="text-xs font-bold text-emerald-950">Chào mừng bạn, <b class="text-teal-800">${S.user.name}</b>!</span>
+              <span class="text-xs font-bold text-emerald-950">Chào mừng bạn, <b class="text-teal-800">${(S.user && S.user.name) ? S.user.name : (ADM ? 'Quản Trị Viên' : 'Học viên')}</b>!</span>
             </div>
             <button class="btn g !py-2.5 !px-5 text-xs font-bold" onclick="go('learn')">
               <span>🌱</span> <span>Vào Vườn Học Tập Ngay</span>
